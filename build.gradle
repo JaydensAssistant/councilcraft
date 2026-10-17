@@ -1,0 +1,71 @@
+plugins {
+    id "fabric-loom" version "1.8.13"
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+repositories {
+    // Every third-party mod below is the exact pack build from the Stage 1 appendix.
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // Compile and dev-runtime only. Loom does not nest these into our jar.
+    // Horseshoes 1.0.3 (Modrinth tyg1IZwj / 2C5267EF).
+    modImplementation "maven.modrinth:horseshoes:1.0.3"
+    // Mutant Monsters v8.0.8-1.20.1-Fabric (derP0ten / W1xZlM32).
+    modImplementation "maven.modrinth:mutant-monsters:v8.0.8-1.20.1-Fabric"
+    // Paragliders 20.1.4 (esqWA0aQ / 6qmc3Nyl). Mod id is "paraglider".
+    modImplementation "maven.modrinth:paragliders:20.1.4"
+    // Supplementaries 1.20-3.1.44-fabric (fFEIiSDQ / hsHs7Gle).
+    modImplementation "maven.modrinth:supplementaries:1.20-3.1.44-fabric"
+
+    // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
+    // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
+    // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).
+    modRuntimeOnly "maven.modrinth:puzzles-lib:v8.1.36-1.20.1-Fabric"
+    modRuntimeOnly "maven.modrinth:forge-config-api-port:v8.0.3-1.20.1-Fabric"
+    modRuntimeOnly "maven.modrinth:moonlight:1.20-2.16.37-fabric"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // The pack runs Java 17. JDK 21 may run Gradle, but the class files must be 17.
+    it.options.release = 17
+    it.options.encoding = "UTF-8"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+test {
+    useJUnitPlatform()
+}
