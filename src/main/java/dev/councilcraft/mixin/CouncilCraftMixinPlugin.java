@@ -25,7 +25,8 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"mutantmonsters", "mutant creeper / minion no block damage (S224)"},
         {"paraglider", "paraglider repair with phantom membrane (S244)"},
         {"supplementaries", "sacks barred from bundles and toolboxes (S236)"},
-        {"create", "toolbox whitelist (S234)"}
+        {"create", "toolbox whitelist (S234)"},
+        {"numismatics", "coin values (S123)"}
     };
 
     @Override
@@ -46,19 +47,10 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
                 throw new IllegalStateException(message);
             }
         }
-        // ToolboxInsertMixin is @Pseudo, because Create's toolbox class cannot be
-        // loaded by the compiler. @Pseudo would skip a renamed class. This does not.
-        if (loader.isModLoaded("create")) {
-            try {
-                Class.forName("com.simibubi.create.content.equipment.toolbox.ToolboxInventory");
-            } catch (ClassNotFoundException e) {
-                String message = "CouncilCraft hook failed: toolbox whitelist (S234). "
-                    + "com.simibubi.create.content.equipment.toolbox.ToolboxInventory is missing or was renamed.";
-                LOGGER.error(message);
-                throw new IllegalStateException(message, e);
-            }
-        }
-        LOGGER.info("CouncilCraft mixin targets present for {} hooked mod(s).", REQUIRED_MODS.length);
+        // Class names are checked later, from CouncilCraft.onInitialize.
+        // Doing it here would load the class before this config's mixins are
+        // registered, and a @Pseudo mixin would then miss its target quietly.
+        LOGGER.info("CouncilCraft required mods present ({}).", REQUIRED_MODS.length);
     }
 
     @Override

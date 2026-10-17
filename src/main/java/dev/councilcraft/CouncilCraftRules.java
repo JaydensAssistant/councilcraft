@@ -86,6 +86,23 @@ public final class CouncilCraftRules {
     /** S234. Datapack tag. A datapack can add or remove items without a code change. */
     public static final String TOOLBOX_TAG_PATH = "toolbox_contents";
 
+    /**
+     * S123. Numismatics 1.1.0 ships SPUR 1, BEVEL 8, SPROCKET 16, COG 64, CROWN 512, SUN 4096.
+     * One unit is one diamond. Names are the enum constants.
+     */
+    public static final int SPUR_VALUE = 1;
+    public static final int BEVEL_VALUE = 5;
+    public static final int SPROCKET_VALUE = 10;
+    public static final int COG_VALUE = 20;
+    public static final int CROWN_VALUE = 50;
+    public static final int SUN_VALUE = 100;
+
+    /**
+     * S121. One patrol in four gets an evoker. {@code nextInt(4) == 0} is exactly 25%.
+     * Rolled once, when the captain spawns, not once per member.
+     */
+    public static final int PATROL_EVOKER_SIDES = 4;
+
     private CouncilCraftRules() {
     }
 }

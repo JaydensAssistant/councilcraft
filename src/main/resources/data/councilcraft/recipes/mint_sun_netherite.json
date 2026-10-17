@@ -1,0 +1,32 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "minecraft:netherite_ingot"
+    },
+    {
+      "item": "councilcraft:sun_mold"
+    }
+  ],
+  "results": [
+    {
+      "item": "numismatics:sun",
+      "count": 100
+    },
+    {
+      "item": "councilcraft:sun_mold"
+    }
+  ]
+}
