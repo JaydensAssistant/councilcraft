@@ -6,7 +6,9 @@
   "plugin": "dev.councilcraft.mixin.CouncilCraftMixinPlugin",
   "mixins": [
     "AbstractHorseSpeedCapMixin",
+    "AnvilPrintedCopyMixin",
     "BasinMintMixin",
+    "BlazeForgerClampMixin",
     "CamelSpeedCapMixin",
     "CoinValueMixin",
     "CreeperMinionGriefMixin",
@@ -23,7 +25,11 @@
     "ParagliderRepairMixin",
     "PatrolEntityAccess",
     "PatrolEvokerMixin",
+    "PlayerRebornDataMixin",
+    "PrinterBehaviourMixin",
+    "PrinterCopyMixin",
     "SackNestingMixin",
+    "SmithingPrintedCopyMixin",
     "ToolboxInsertMixin",
     "TridentRiptideMixin"
   ],

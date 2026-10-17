@@ -5,5 +5,11 @@
   "item.councilcraft.sprocket_mold": "10 Dia Mold",
   "item.councilcraft.cog_mold": "20 Dia Mold",
   "item.councilcraft.crown_mold": "50 Dia Mold",
-  "item.councilcraft.sun_mold": "100 Dia Mold"
+  "item.councilcraft.sun_mold": "100 Dia Mold",
+  "effect.councilcraft.reborn": "Reborn",
+  "effect.councilcraft.reborn.line1": "Incrementally return to adult stats over one real life day, on or offline.",
+  "effect.councilcraft.reborn.line2": "%s%% size, %s%% speed, %s%% strength, %s%% HP",
+  "effect.councilcraft.reborn.now": "Now: %s%% size, %s%% speed, %s%% strength, %s%% HP",
+  "command.councilcraft.reborn.cleared": "Cleared Reborn for %s",
+  "command.councilcraft.reborn.absent": "%s is not Reborn"
 }

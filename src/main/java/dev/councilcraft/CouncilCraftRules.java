@@ -113,6 +113,54 @@ public final class CouncilCraftRules {
      */
     public static final int PATROL_EVOKER_SIDES = 4;
 
+    /**
+     * S80 / S84 / S169. Real-time penalty after death, shown as the Reborn
+     * status effect. Size is Pehkui's base scale only. Hearts step up by one
+     * every six hours. Speed and strength ease in a straight line back to
+     * normal. Dying again starts the 24 hours over.
+     *
+     * <p>The inventory tooltip's second line is these four numbers as percents.
+     * Hit points are {@code REBORN_HEARTS / VANILLA_HEARTS}, so 6 of 10 hearts
+     * is 60% HP. The live "Now" line uses the same four, from {@code RebornStats}.
+     */
+    public static final long REBORN_MILLIS = 24L * 60L * 60L * 1000L;
+    public static final long REBORN_HEART_MILLIS = 6L * 60L * 60L * 1000L;
+    /** How often the effect's modifiers and the client clock packet are refreshed. */
+    public static final long REBORN_REFRESH_MILLIS = 60_000L;
+    public static final float REBORN_SCALE = 0.6f;
+    public static final int REBORN_HEARTS = 6;
+    public static final int VANILLA_HEARTS = 10;
+    public static final float REBORN_SPEED = 0.85f;
+    public static final float REBORN_MELEE = 0.70f;
+    public static final String REBORN_NBT = "councilcraft:reborn_until";
+    /** S2C channel. The payload is the expiry timestamp and the server's clock. */
+    public static final String REBORN_CHANNEL = "reborn_until";
+
+    public static final UUID REBORN_HEALTH_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a003");
+    public static final UUID REBORN_SPEED_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a004");
+    public static final UUID REBORN_MELEE_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a005");
+
+    /**
+     * S177. Vanilla max, from {@code Enchantment.getMaxLevel}. Only these four
+     * may sit one level above that, and only when a book already had that level.
+     * Two books at the vanilla max do not combine into the next level.
+     */
+    public static final String SHARPNESS_ID = "minecraft:sharpness";
+    public static final String POWER_ID = "minecraft:power";
+    public static final String BLAST_PROTECTION_ID = "minecraft:blast_protection";
+    public static final String PROTECTION_ID = "minecraft:protection";
+
+    /**
+     * S207 / S242. NBT boolean on the stack, not an item tag. An item tag would
+     * mark every enchanted book. The grey lore line is the in-game label.
+     * The CIT look for copies is POST-MVP and is not in this mod.
+     */
+    public static final String PRINTED_NBT = "councilcraft:printed";
+    public static final String PRINTED_LORE = "Printed Copy";
+
     private CouncilCraftRules() {
     }
 }

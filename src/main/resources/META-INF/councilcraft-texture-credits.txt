@@ -49,3 +49,11 @@ lightest, onto copper, brass and blue steel.
 cog_mold, crown_mold and sun_mold keep the sprocket mold's outline and shading
 shape, which makes them a derivative of that LGPL texture. The metal colour
 and the mark in the middle (cog, crown, sun) are new pixels drawn by hand.
+
+Reborn effect icon
+
+assets/councilcraft/textures/mob_effect/reborn.png is a placeholder, not a
+recolor. Minecraft's status-effect icons cannot be redistributed, and no pack
+mod with a compatible licence includes an effect icon to edit. The pixels were
+placed by hand. The top-left pixel is magenta (#FF00FF) to mark it as a
+placeholder. No AI-generated art.
