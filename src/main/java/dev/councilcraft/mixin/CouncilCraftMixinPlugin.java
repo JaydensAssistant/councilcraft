@@ -24,7 +24,8 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"horseshoes", "gold horseshoe loot block (S245)"},
         {"mutantmonsters", "mutant creeper / minion no block damage (S224)"},
         {"paraglider", "paraglider repair with phantom membrane (S244)"},
-        {"supplementaries", "sacks barred from bundles and toolboxes (S236)"}
+        {"supplementaries", "sacks barred from bundles and toolboxes (S236)"},
+        {"create", "toolbox whitelist (S234)"}
     };
 
     @Override
@@ -43,6 +44,18 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
                     + ". Mod '" + required[0] + "' is not loaded. Refusing to continue with the hook silently skipped.";
                 LOGGER.error(message);
                 throw new IllegalStateException(message);
+            }
+        }
+        // ToolboxInsertMixin is @Pseudo, because Create's toolbox class cannot be
+        // loaded by the compiler. @Pseudo would skip a renamed class. This does not.
+        if (loader.isModLoaded("create")) {
+            try {
+                Class.forName("com.simibubi.create.content.equipment.toolbox.ToolboxInventory");
+            } catch (ClassNotFoundException e) {
+                String message = "CouncilCraft hook failed: toolbox whitelist (S234). "
+                    + "com.simibubi.create.content.equipment.toolbox.ToolboxInventory is missing or was renamed.";
+                LOGGER.error(message);
+                throw new IllegalStateException(message, e);
             }
         }
         LOGGER.info("CouncilCraft mixin targets present for {} hooked mod(s).", REQUIRED_MODS.length);

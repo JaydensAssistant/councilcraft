@@ -1,6 +1,7 @@
 package dev.councilcraft;
 
 import dev.councilcraft.handshake.LoginHandshake;
+import dev.councilcraft.item.NetheriteHorseshoes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ public final class CouncilCraft implements ModInitializer {
     @Override
     public void onInitialize() {
         LoginHandshake.registerServer();
+        NetheriteHorseshoes.register();
         // Mutant Monsters' explosion class keeps its own name (it is not a Minecraft
         // class, so Yarn vs intermediary does not matter). Touching it here means a
         // renamed package fails at startup, in the log, instead of the first time a
