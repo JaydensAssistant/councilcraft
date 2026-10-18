@@ -71,6 +71,14 @@ class HookRulesTest {
         assertFalse(HandshakeRule.versionsMatch("0.1.0", "0.2.0"));
         assertFalse(HandshakeRule.versionsMatch("0.1.0", null));
         assertFalse(HandshakeRule.versionsMatch(null, "0.1.0"));
+        assertEquals(
+            "This server requires the CouncilCraft mod. Install the CouncilCraft modpack.",
+            HandshakeRule.MISSING_MOD
+        );
+        assertEquals(
+            "CouncilCraft version mismatch. Server has 0.1.0, client has 0.2.0.",
+            HandshakeRule.versionMismatch("0.1.0", "0.2.0")
+        );
     }
 
     @Test
