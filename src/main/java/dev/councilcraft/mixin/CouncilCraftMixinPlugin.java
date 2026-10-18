@@ -25,7 +25,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"mutantmonsters", "mutant creeper / minion no block damage (S224)"},
         {"paraglider", "paraglider repair with phantom membrane (S244)"},
         {"supplementaries", "sacks barred from bundles and toolboxes (S236)"},
-        {"create", "toolbox whitelist (S234)"},
+        {"create", "toolbox whitelist (S234) and basin minting"},
         {"numismatics", "coin values (S123)"}
     };
 

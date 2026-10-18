@@ -31,6 +31,10 @@ public final class CouncilCraft implements ModInitializer {
             "toolbox whitelist (S234)"
         );
         requireClass(
+            "com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity",
+            "sprocket and cog minting over diamond blocks"
+        );
+        requireClass(
             "dev.ithundxr.createnumismatics.content.backend.Coin",
             "coin values (S123)"
         );

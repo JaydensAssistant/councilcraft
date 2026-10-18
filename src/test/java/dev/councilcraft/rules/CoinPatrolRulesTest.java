@@ -58,6 +58,27 @@ class CoinPatrolRulesTest {
     }
 
     @Test
+    void sprocketAndCogBeatADiamondBlockWhileThoseMoldsArePresent() {
+        assertTrue(MintPriority.competesWithDiamondBlock("councilcraft:sprocket_mold"));
+        assertTrue(MintPriority.competesWithDiamondBlock("councilcraft:cog_mold"));
+        assertFalse(MintPriority.competesWithDiamondBlock("councilcraft:spur_mold"));
+        assertFalse(MintPriority.competesWithDiamondBlock("councilcraft:bevel_mold"));
+        assertFalse(MintPriority.competesWithDiamondBlock("councilcraft:crown_mold"));
+        assertFalse(MintPriority.competesWithDiamondBlock("councilcraft:sun_mold"));
+        assertFalse(MintPriority.competesWithDiamondBlock("minecraft:diamond"));
+
+        assertTrue(MintPriority.competingMold(java.util.List.of("minecraft:diamond", "councilcraft:sprocket_mold")));
+        assertTrue(MintPriority.competingMold(java.util.List.of("councilcraft:cog_mold", "minecraft:diamond")));
+        assertFalse(MintPriority.competingMold(java.util.List.of("minecraft:diamond", "councilcraft:spur_mold")));
+
+        assertTrue(MintPriority.suppressDiamondBlock(true, "minecraft:diamond_block"));
+        assertFalse(MintPriority.suppressDiamondBlock(false, "minecraft:diamond_block"));
+        assertFalse(MintPriority.suppressDiamondBlock(true, "numismatics:sprocket"));
+        assertFalse(MintPriority.suppressDiamondBlock(true, "numismatics:cog"));
+        assertFalse(MintPriority.suppressDiamondBlock(true, null));
+    }
+
+    @Test
     void mintingRecipesReturnTheMoldAndSpendTheLockedInputs() throws Exception {
         expect("mint_spur", join(repeat("minecraft:diamond", 1), repeat("councilcraft:spur_mold", 1)), "numismatics:spur", 1, "councilcraft:spur_mold");
         expect("mint_bevel", join(repeat("minecraft:diamond", 5), repeat("councilcraft:bevel_mold", 1)), "numismatics:bevel", 5, "councilcraft:bevel_mold");

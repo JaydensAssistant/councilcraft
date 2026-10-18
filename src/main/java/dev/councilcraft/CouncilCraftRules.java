@@ -98,6 +98,16 @@ public final class CouncilCraftRules {
     public static final int SUN_VALUE = 100;
 
     /**
+     * Sprocket (10 diamonds) and cog (20 diamonds) are the only mint recipes with
+     * nine or more loose diamonds. The press also accepts the vanilla 3x3 diamond
+     * block recipe, and extra items do not stop that recipe matching. These two
+     * molds must beat it no matter which item was inserted first.
+     */
+    public static final String DIAMOND_BLOCK_ID = "minecraft:diamond_block";
+    public static final String SPROCKET_MOLD_ID = "councilcraft:sprocket_mold";
+    public static final String COG_MOLD_ID = "councilcraft:cog_mold";
+
+    /**
      * S121. One patrol in four gets an evoker. {@code nextInt(4) == 0} is exactly 25%.
      * Rolled once, when the captain spawns, not once per member.
      */

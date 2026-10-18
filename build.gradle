@@ -36,10 +36,13 @@ dependencies {
     modImplementation "maven.modrinth:paragliders:20.1.4"
     // Supplementaries 1.20-3.1.44-fabric (fFEIiSDQ / hsHs7Gle).
     modImplementation "maven.modrinth:supplementaries:1.20-3.1.44-fabric"
-    // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1) is the toolbox target.
-    // It is not a compile dependency. ToolboxInventory extends a Porting Lib class that
-    // Create nests inside its own jar, and the annotation processor cannot load that
-    // superclass. ToolboxInsertMixin is checked when the game starts. See that class.
+    // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1) is the toolbox
+    // and basin target. It is not a compile dependency. ToolboxInventory extends a
+    // Porting Lib class that Create nests inside its own jar, and the annotation
+    // processor cannot load that superclass. ToolboxInsertMixin and BasinMintMixin
+    // are checked when the game starts. See those classes. src/stubs/java has the
+    // two Create types BasinMintMixin calls, so the invoke descriptors match Create
+    // 6.0.8.1. Those stubs are not packed into the jar.
     //
     // Numismatics 1.1.0+fabric-mc1.20.1 (Jdbbtt0i / X08Z2kZi) is the coin target.
     // Coin implements a Create interface, so it has the same nested-jar problem.
@@ -67,6 +70,23 @@ tasks.withType(JavaCompile).configureEach {
     // The pack runs Java 17. JDK 21 may run Gradle, but the class files must be 17.
     it.options.release = 17
     it.options.encoding = "UTF-8"
+}
+
+sourceSets {
+    stubs {
+        java.srcDir "src/stubs/java"
+    }
+}
+
+// Stubs need Minecraft types, but they must not depend on main's output.
+// main compiles against the stub classes and does not package them.
+tasks.named("compileStubsJava") {
+    classpath = sourceSets.main.compileClasspath
+}
+
+tasks.named("compileJava") {
+    dependsOn "compileStubsJava"
+    classpath += sourceSets.stubs.output
 }
 
 java {
