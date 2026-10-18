@@ -3,6 +3,7 @@ package dev.councilcraft.mixin;
 import com.mojang.serialization.DataResult;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import dev.councilcraft.enchant.PrintedCopies;
+import dev.councilcraft.enchant.PrinterGate;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -42,19 +43,13 @@ public class PrinterCopyMixin {
         method = "startProcessing",
         at = @At(
             value = "INVOKE",
-            target = "Lplus/dragons/createenchantmentindustry/common/fluids/printer/behaviour/PrintingBehaviour;getResult(Lnet/minecraft/class_1937;Lnet/minecraft/class_1799;Lio/github/fabricators_of_create/porting_lib/fluids/FluidStack;)Lnet/minecraft/class_1799"
+            target = "Lplus/dragons/createenchantmentindustry/common/fluids/printer/behaviour/PrintingBehaviour;getResult(Lnet/minecraft/class_1937;Lnet/minecraft/class_1799;Lio/github/fabricators_of_create/porting_lib/fluids/FluidStack;)Lnet/minecraft/class_1799;"
         ),
-        remap = false
+        remap = false,
+        require = 1
     )
     private ItemStack councilcraft$markCopy(PrintingBehaviour behaviour, World world, ItemStack stack, FluidStack fluid) {
-        if (PrintedCopies.isPrinted(this.printer.getFilter())) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack result = behaviour.getResult(world, stack, fluid);
-        if (result != null && !result.isEmpty()) {
-            PrintedCopies.mark(result);
-        }
-        return result == null ? ItemStack.EMPTY : result;
+        return PrinterGate.markCopy(behaviour, world, stack, fluid, this.printer.getFilter());
     }
 
     @Redirect(
@@ -69,13 +64,6 @@ public class PrinterCopyMixin {
         SmartFluidTankBehaviour tank,
         ItemStack template
     ) {
-        return open(world, tank, template);
-    }
-
-    static DataResult<PrintingBehaviour> open(World world, SmartFluidTankBehaviour tank, ItemStack template) {
-        if (PrintedCopies.isPrinted(template)) {
-            return DataResult.error(() -> "CouncilCraft refuses a printed template");
-        }
-        return PrintingBehaviour.create(world, tank, template);
+        return PrinterGate.open(world, tank, template);
     }
 }

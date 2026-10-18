@@ -1,23 +1,26 @@
 package dev.councilcraft.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.councilcraft.enchant.ForgerLevels;
 import dev.councilcraft.enchant.PrintedCopies;
-import java.util.Map;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * S177 / S207. After the Blaze Forger has chosen a level, clamp it.
- * Two inputs that are both at or under the vanilla max cannot produce a
+ * S177 / S207. Clamp the merged level at every store, before Create
+ * Enchantment Industry compares it with the level already on the item.
+ * A result that clamps back to that level fails the "would not improve"
+ * check, so the second item and the XP are not consumed.
+ *
+ * <p>Two inputs that are both at or under the vanilla max cannot produce a
  * level above that max. Only Sharpness, Power, Blast Protection and Protection
  * may sit one above the max, and only when an input was already above it.
  *
@@ -27,66 +30,24 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Pseudo
 @Mixin(targets = "plus.dragons.createenchantmentindustry.common.processing.forger.BlazeForgerInventory")
 public abstract class BlazeForgerClampMixin {
-    private static final ThreadLocal<Map<Enchantment, Integer>> BASE = new ThreadLocal<>();
-    private static final ThreadLocal<Map<Enchantment, Integer>> ADDITION = new ThreadLocal<>();
-
-    @Shadow
-    private static void setEnchantments(ItemStack stack, Map<Enchantment, Integer> enchantments) {
-        throw new AssertionError();
-    }
-
-    @Inject(method = "applyEnchantments", at = @At("HEAD"))
-    private void councilcraft$capture(
-        ItemStack base,
-        Map<Enchantment, Integer> baseEnchantments,
-        Map<Enchantment, Integer> additionEnchantments,
-        CallbackInfoReturnable<?> cir
+    @ModifyVariable(method = "applyEnchantments", name = "resultLevel", at = @At("STORE"))
+    private int councilcraft$clampResult(
+        int resultLevel,
+        @Local(name = "baseLevel") int baseLevel,
+        @Local(name = "additionLevel") int additionLevel,
+        @Local(name = "enchantment") Enchantment enchantment
     ) {
-        BASE.set(baseEnchantments);
-        ADDITION.set(additionEnchantments);
-    }
-
-    @Inject(method = "applyEnchantments", at = @At("RETURN"))
-    private void councilcraft$clear(
-        ItemStack base,
-        Map<Enchantment, Integer> baseEnchantments,
-        Map<Enchantment, Integer> additionEnchantments,
-        CallbackInfoReturnable<?> cir
-    ) {
-        BASE.remove();
-        ADDITION.remove();
-    }
-
-    @Redirect(
-        method = "applyEnchantments",
-        at = @At(
-            value = "INVOKE",
-            target = "Lplus/dragons/createenchantmentindustry/common/processing/forger/BlazeForgerInventory;setEnchantments(Lnet/minecraft/item/ItemStack;Ljava/util/Map;)V"
-        )
-    )
-    private void councilcraft$clamp(ItemStack stack, Map<Enchantment, Integer> result) {
-        Map<Enchantment, Integer> base = BASE.get();
-        Map<Enchantment, Integer> addition = ADDITION.get();
-        if (base != null && addition != null) {
-            for (Enchantment enchantment : new java.util.ArrayList<>(result.keySet())) {
-                Identifier id = Registries.ENCHANTMENT.getId(enchantment);
-                if (id == null) {
-                    continue;
-                }
-                int level = result.getOrDefault(enchantment, 0);
-                int clamped = ForgerLevels.clamp(
-                    ForgerLevels.mayExceedVanillaMax(id.toString()),
-                    enchantment.getMaxLevel(),
-                    base.getOrDefault(enchantment, 0),
-                    addition.getOrDefault(enchantment, 0),
-                    level
-                );
-                if (clamped != level) {
-                    result.put(enchantment, clamped);
-                }
-            }
+        Identifier id = Registries.ENCHANTMENT.getId(enchantment);
+        if (id == null) {
+            return resultLevel;
         }
-        setEnchantments(stack, result);
+        return ForgerLevels.clamp(
+            ForgerLevels.mayExceedVanillaMax(id.toString()),
+            enchantment.getMaxLevel(),
+            baseLevel,
+            additionLevel,
+            resultLevel
+        );
     }
 
     @Inject(method = "calculateExtract", at = @At("RETURN"))

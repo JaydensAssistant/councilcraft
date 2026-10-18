@@ -18,7 +18,8 @@ import net.minecraft.text.Text;
 /**
  * S80 / S169. After a death, the new body is small and weak for 24 real hours.
  * The deadline is an absolute clock time, saved on the player, so logging out
- * does not pause it. The player sees it as the Reborn status effect.
+ * does not pause it. The 24 hours start when the player respawns, not at the
+ * moment of death. The player sees it as the Reborn status effect.
  * There is no boss bar and no chat message.
  *
  * <p>Milk, a totem, a beacon and {@code /effect clear} take the icon off.

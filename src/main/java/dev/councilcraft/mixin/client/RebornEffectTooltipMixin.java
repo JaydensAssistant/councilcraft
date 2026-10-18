@@ -1,81 +1,63 @@
 package dev.councilcraft.mixin.client;
 
-import dev.councilcraft.respawn.RebornClient;
-import dev.councilcraft.respawn.RebornStatusEffect;
-import dev.councilcraft.respawn.RebornText;
-import java.util.ArrayList;
-import java.util.Collection;
+import dev.councilcraft.respawn.RebornTooltip;
 import java.util.List;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
-import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Client only. Owner review: hover text for the Reborn effect.
+ * Client only. Jayden: this file and {@code RebornTooltip} are the tooltip
+ * surface. EMI's default puts effects along the top, so a hit box that assumes
+ * the vanilla list on the right never sees them. These hooks edit the tooltip
+ * the effect list already draws, wherever that list is.
  *
- * <p>Survival and creative inventories both draw their effect list here.
- * The hit box matches {@code AbstractInventoryScreen.drawStatusEffects} in
- * 1.20.1: a 120px row when the window has room, otherwise the 32px icon.
- * The tooltip is the owner's two lines, then the live "Now" line.
+ * <p>The EMI method is added by EMI's own mixin. {@code require = 0} so a
+ * pack without EMI still boots. This mixin applies after EMI (lower priority)
+ * so that method exists. It does not shadow inventory coordinates.
  */
-@Mixin(AbstractInventoryScreen.class)
+@Mixin(value = AbstractInventoryScreen.class, priority = 500)
 public abstract class RebornEffectTooltipMixin {
-    @Shadow
-    protected int x;
-    @Shadow
-    protected int y;
-    @Shadow
-    protected int backgroundWidth;
-    @Shadow
-    public int width;
-    @Shadow
-    protected TextRenderer textRenderer;
-    @Shadow
-    protected MinecraftClient client;
+    @ModifyArg(
+        method = "drawStatusEffects",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/DrawContext;drawTooltip(Lnet/minecraft/client/font/TextRenderer;Ljava/util/List;Ljava/util/Optional;II)V"
+        ),
+        index = 1,
+        require = 1
+    )
+    private List<Text> councilcraft$vanillaRebornTooltip(List<Text> lines) {
+        return RebornTooltip.linesFor(lines);
+    }
 
-    @Inject(method = "drawStatusEffects", at = @At("TAIL"))
-    private void councilcraft$rebornTooltip(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
-        if (this.client.player == null) {
-            return;
-        }
-        int left = this.x + this.backgroundWidth + 2;
-        int space = this.width - left;
-        Collection<StatusEffectInstance> effects = this.client.player.getStatusEffects();
-        if (effects.isEmpty() || space < 32) {
-            return;
-        }
-        boolean wide = space >= 120;
-        int rowHeight = effects.size() > 5 ? 132 / (effects.size() - 1) : 33;
-        int boxWidth = wide ? 120 : 32;
-        if (mouseX < left || mouseX > left + boxWidth) {
-            return;
-        }
-        List<StatusEffectInstance> sorted = new ArrayList<>(effects);
-        sorted.sort(null);
-        int rowTop = this.y;
-        StatusEffectInstance hovered = null;
-        for (StatusEffectInstance effect : sorted) {
-            if (mouseY >= rowTop && mouseY <= rowTop + rowHeight) {
-                hovered = effect;
-            }
-            rowTop += rowHeight;
-        }
-        if (hovered == null || hovered.getEffectType() != RebornStatusEffect.EFFECT) {
-            return;
-        }
-        List<Text> lines = List.of(
-            RebornText.line1(),
-            RebornText.line2(),
-            RebornText.now(RebornClient.stats(hovered.getDuration()))
-        );
-        context.drawTooltip(this.textRenderer, lines, mouseX, mouseY);
+    @ModifyArg(
+        method = "emi$drawCenteredEffects(Lnet/minecraft/class_332;II)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/class_332;method_51437(Lnet/minecraft/class_327;Ljava/util/List;Ljava/util/Optional;II)V"
+        ),
+        index = 1,
+        require = 0,
+        remap = false
+    )
+    private List<Text> councilcraft$emiRebornTooltip(List<Text> lines) {
+        return RebornTooltip.linesFor(lines);
+    }
+
+    @Inject(
+        method = "emi$drawCenteredEffects(Lnet/minecraft/class_332;II)V",
+        at = @At("RETURN"),
+        require = 0,
+        remap = false
+    )
+    private void councilcraft$emiSingleRebornHover(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+        RebornTooltip.hoverSingle(context, (HandledScreen<?>) (Object) this, mouseX, mouseY);
     }
 }

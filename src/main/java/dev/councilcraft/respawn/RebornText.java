@@ -1,20 +1,20 @@
 package dev.councilcraft.respawn;
 
 import dev.councilcraft.CouncilCraftRules;
+import java.util.List;
 import net.minecraft.text.Text;
 
 /**
- * S80. The two description lines and the live "Now" line.
- * Percents come from {@link CouncilCraftRules} and {@link RebornStats}.
- * The language file only has the sentence around them.
+ * The Reborn hover is two lines. The first is a fixed sentence. The second is
+ * the live size, speed, strength and HP. There is no floor-stats line.
  *
  * <p>Order is size, speed, strength, HP. Strength is the melee multiplier.
  * HP is hearts divided by the vanilla ten, so six hearts is 60% HP.
  */
 public final class RebornText {
     public static final String LINE1 = "effect.councilcraft.reborn.line1";
-    public static final String LINE2 = "effect.councilcraft.reborn.line2";
     public static final String NOW = "effect.councilcraft.reborn.now";
+    public static final String NAME = "effect.councilcraft.reborn";
 
     private RebornText() {
     }
@@ -28,7 +28,7 @@ public final class RebornText {
         return hearts * 100 / CouncilCraftRules.VANILLA_HEARTS;
     }
 
-    /** Size, speed, strength, HP at the start of the penalty. */
+    /** Size, speed, strength, HP at the start of the penalty. Not a hover line. */
     public static int[] startingPercents() {
         return new int[] {
             percent(CouncilCraftRules.REBORN_SCALE),
@@ -52,15 +52,17 @@ public final class RebornText {
         return Text.translatable(LINE1);
     }
 
-    public static Text line2() {
-        return line(LINE2, startingPercents());
-    }
-
     public static Text now(RebornStats stats) {
-        return line(NOW, nowPercents(stats));
+        int[] percents = nowPercents(stats);
+        return Text.translatable(NOW, percents[0], percents[1], percents[2], percents[3]);
     }
 
-    private static Text line(String key, int[] percents) {
-        return Text.translatable(key, percents[0], percents[1], percents[2], percents[3]);
+    public static List<Text> hover(RebornStats stats) {
+        return List.of(line1(), now(stats));
+    }
+
+    /** True when this tooltip line is the Reborn effect's own name. */
+    public static boolean isRebornName(Text line) {
+        return line != null && line.getString().equals(Text.translatable(NAME).getString());
     }
 }

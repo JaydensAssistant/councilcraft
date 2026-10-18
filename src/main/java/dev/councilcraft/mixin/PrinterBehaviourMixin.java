@@ -3,6 +3,7 @@ package dev.councilcraft.mixin;
 import com.mojang.serialization.DataResult;
 import com.simibubi.create.foundation.blockEntity.behaviour.fluid.SmartFluidTankBehaviour;
 import dev.councilcraft.enchant.PrintedCopies;
+import dev.councilcraft.enchant.PrinterGate;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -45,6 +46,6 @@ public class PrinterBehaviourMixin {
         SmartFluidTankBehaviour tank,
         ItemStack template
     ) {
-        return PrinterCopyMixin.open(world, tank, template);
+        return PrinterGate.open(world, tank, template);
     }
 }

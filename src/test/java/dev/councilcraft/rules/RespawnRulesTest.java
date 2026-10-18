@@ -8,8 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import dev.councilcraft.CouncilCraftRules;
 import dev.councilcraft.enchant.ForgerLevels;
 import dev.councilcraft.respawn.RebornClock;
+import dev.councilcraft.respawn.RebornIdentity;
 import dev.councilcraft.respawn.RebornStats;
 import dev.councilcraft.respawn.RebornText;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 
 /** Baby respawn curve, the tooltip numbers, and the Blaze Forger level clamp. */
@@ -45,14 +48,15 @@ class RespawnRulesTest {
     }
 
     @Test
-    void tooltipPercentsComeFromTheSameConstants() {
-        int[] shown = RebornText.startingPercents();
-        assertEquals(RebornText.percent(CouncilCraftRules.REBORN_SCALE), shown[0]);
-        assertEquals(RebornText.percent(CouncilCraftRules.REBORN_SPEED), shown[1]);
-        assertEquals(RebornText.percent(CouncilCraftRules.REBORN_MELEE), shown[2]);
-        assertEquals(RebornText.hpPercent(CouncilCraftRules.REBORN_HEARTS), shown[3]);
-        // 6 of 10 hearts is 60% HP. The language line is these four numbers.
-        assertArrayEquals(new int[] {60, 85, 70, 60}, shown);
+    void hoverIsTheSentenceAndTheLiveLine() throws Exception {
+        String lang = Files.readString(Path.of("src/main/resources/assets/councilcraft/lang/en_us.json"));
+        assertTrue(lang.contains("Incrementally return to adult stats over one real life day, on or offline."));
+        assertTrue(lang.contains("Now: %s%% size, %s%% speed, %s%% strength, %s%% HP"));
+        assertFalse(lang.contains("effect.councilcraft.reborn.line2"));
+        assertEquals(RebornText.LINE1, "effect.councilcraft.reborn.line1");
+        assertEquals(RebornText.NOW, "effect.councilcraft.reborn.now");
+        // The floor numbers stay in the constants. They are not a hover line.
+        assertArrayEquals(new int[] {60, 85, 70, 60}, RebornText.startingPercents());
     }
 
     @Test
@@ -78,6 +82,20 @@ class RespawnRulesTest {
         assertEquals(5, ForgerLevels.clamp(true, 5, 5, 5, 6));
         assertEquals(5, ForgerLevels.clamp(false, 5, 5, 5, 6));
         assertEquals(4, ForgerLevels.clamp(true, 5, 3, 4, 4));
+        // Sharpness V + V clamps back to V, which is not an improvement.
+        assertFalse(ForgerLevels.clamp(true, 5, 5, 5, 6) > 5);
+    }
+
+    @Test
+    void aMatchingDurationIsTheMisdecodedRebornEffect() {
+        assertTrue(RebornIdentity.matches(1_000_000, 1_000_100));
+        assertTrue(RebornIdentity.matches(1_000_200, 1_000_000));
+        assertFalse(RebornIdentity.matches(1_000_000, 1_000_201));
+        assertFalse(RebornIdentity.matches(40, 0));
+        assertFalse(RebornIdentity.matches(0, 40));
+        assertEquals(0, RebornIdentity.ticksRemaining(0L));
+        assertEquals(1, RebornIdentity.ticksRemaining(1L));
+        assertEquals(20, RebornIdentity.ticksRemaining(1_000L));
     }
 
     @Test

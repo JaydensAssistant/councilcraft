@@ -1,9 +1,14 @@
 package dev.councilcraft.respawn;
 
 import dev.councilcraft.CouncilCraftRules;
+import java.util.ArrayList;
+import java.util.List;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
 
 /**
  * Client only. Owner review: this is the clock the inventory tooltip uses.
@@ -34,6 +39,40 @@ public final class RebornClient {
         serverNow = packetServerNow;
         clientNowAtSync = System.currentTimeMillis();
         synced = true;
+        if (packetUntil <= 0L) {
+            clearLocal();
+            return;
+        }
+        // The effect packet can arrive before this clock. A mis-decoded effect
+        // is already on the client by then, and setStatusEffect will not replace
+        // a different effect type. Drop the one whose duration matches.
+        correctGhosts();
+    }
+
+    /** Remaining ticks from the synced clock, or 0 before the first packet. */
+    public static int expectedTicks() {
+        if (!synced || until <= 0L) {
+            return 0;
+        }
+        long elapsed = RebornClock.elapsed(until, serverNow, clientNowAtSync, System.currentTimeMillis());
+        long remaining = CouncilCraftRules.REBORN_MILLIS - elapsed;
+        return RebornIdentity.ticksRemaining(remaining);
+    }
+
+    /**
+     * Live penalty for the hover. The synced clock wins. Before it arrives,
+     * the Reborn effect's own countdown is the remaining real time.
+     */
+    public static RebornStats current() {
+        int ticks = 0;
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player != null) {
+            StatusEffectInstance effect = client.player.getStatusEffect(RebornStatusEffect.EFFECT);
+            if (effect != null) {
+                ticks = effect.getDuration();
+            }
+        }
+        return stats(ticks);
     }
 
     /**
@@ -48,5 +87,39 @@ public final class RebornClient {
         }
         long remaining = Math.max(0, durationTicks) * 50L;
         return RebornStats.at(CouncilCraftRules.REBORN_MILLIS - remaining);
+    }
+
+    private static void correctGhosts() {
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if (player == null) {
+            return;
+        }
+        int expected = expectedTicks();
+        List<StatusEffectInstance> present = new ArrayList<>(player.getStatusEffects());
+        for (StatusEffectInstance effect : present) {
+            if (effect.getEffectType() == RebornStatusEffect.EFFECT) {
+                continue;
+            }
+            if (RebornIdentity.matches(effect.getDuration(), expected)) {
+                player.removeStatusEffect(effect.getEffectType());
+            }
+        }
+        if (!player.hasStatusEffect(RebornStatusEffect.EFFECT)) {
+            player.setStatusEffect(new StatusEffectInstance(
+                RebornStatusEffect.EFFECT,
+                Math.max(1, expected),
+                0,
+                false,
+                true,
+                true
+            ), null);
+        }
+    }
+
+    private static void clearLocal() {
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if (player != null && player.hasStatusEffect(RebornStatusEffect.EFFECT)) {
+            player.removeStatusEffect(RebornStatusEffect.EFFECT);
+        }
     }
 }
