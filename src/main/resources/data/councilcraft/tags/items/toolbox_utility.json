@@ -6,7 +6,6 @@
     "minecraft:ladder",
     "minecraft:scaffolding",
     "#minecraft:arrows",
-    "supplementaries:rope",
-    "create:rope"
+    "supplementaries:rope"
   ]
 }
