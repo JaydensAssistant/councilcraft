@@ -36,6 +36,10 @@ dependencies {
     modImplementation "maven.modrinth:paragliders:20.1.4"
     // Supplementaries 1.20-3.1.44-fabric (fFEIiSDQ / hsHs7Gle).
     modImplementation "maven.modrinth:supplementaries:1.20-3.1.44-fabric"
+    // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1) is the toolbox target.
+    // It is not a compile dependency. ToolboxInventory extends a Porting Lib class that
+    // Create nests inside its own jar, and the annotation processor cannot load that
+    // superclass. ToolboxInsertMixin is checked when the game starts. See that class.
 
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),

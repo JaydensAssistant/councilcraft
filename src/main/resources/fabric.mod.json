@@ -21,6 +21,7 @@
     "horseshoes": "*",
     "mutantmonsters": "*",
     "paraglider": "*",
-    "supplementaries": "*"
+    "supplementaries": "*",
+    "create": "*"
   }
 }

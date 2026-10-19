@@ -5,15 +5,21 @@
   "compatibilityLevel": "JAVA_17",
   "plugin": "dev.councilcraft.mixin.CouncilCraftMixinPlugin",
   "mixins": [
+    "AbstractHorseSpeedCapMixin",
+    "CamelSpeedCapMixin",
     "CreeperMinionGriefMixin",
     "GoldHorseshoeLootMixin",
+    "HorseEquipmentMixin",
+    "HorseshoeSpeedMixin",
     "ItemEntryAccess",
     "LivingEntityDepthStriderMixin",
+    "LivingEntityHorseSpeedMixin",
     "LoginAcceptMixin",
     "LootPoolBuilderAccess",
     "MutatedExplosionGriefMixin",
     "ParagliderRepairMixin",
     "SackNestingMixin",
+    "ToolboxInsertMixin",
     "TridentRiptideMixin"
   ],
   "injectors": {

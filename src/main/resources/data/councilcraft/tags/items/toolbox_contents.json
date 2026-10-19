@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#councilcraft:toolbox_tools",
+    "#councilcraft:toolbox_redstone",
+    "#councilcraft:toolbox_create_parts",
+    "#councilcraft:toolbox_utility"
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:torch",
+    "minecraft:soul_torch",
+    "minecraft:ladder",
+    "minecraft:scaffolding",
+    "#minecraft:arrows",
+    "supplementaries:rope"
+  ]
+}
