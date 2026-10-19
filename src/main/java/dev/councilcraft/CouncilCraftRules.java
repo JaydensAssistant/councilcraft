@@ -179,14 +179,12 @@ public final class CouncilCraftRules {
     public static final double REBORN_MACRO_STDEV_TICKS = 1.5;
     /** Recent action ticks kept per player. Enough to see a 12-action run. */
     public static final int REBORN_ACTION_RING = 16;
-    /** Self-driven input within this many ticks lets a window count. Thirty minutes. */
-    public static final long REBORN_SELF_MOVE_TICKS = 30L * 60L * 20L;
     /**
-     * A position change counts as walking, jumping or swimming when it exceeds
-     * the server's velocity by this many blocks. Flow, knockback and pistons
-     * sit inside that velocity and do not count.
+     * Self-driven input within this many ticks lets a window count. Thirty minutes.
+     * Which displacements count is {@code RebornMotion}: an accepted step or jump,
+     * not falling, ice, knockback, a bubble column, a piston, a current or a teleport.
      */
-    public static final double REBORN_SELF_MOVE_BLOCKS = 0.03;
+    public static final long REBORN_SELF_MOVE_TICKS = 30L * 60L * 20L;
     /** Accrued active minutes. Absent means not Reborn. Zero means just respawned. */
     public static final String REBORN_NBT = "councilcraft:reborn_minutes";
     /**

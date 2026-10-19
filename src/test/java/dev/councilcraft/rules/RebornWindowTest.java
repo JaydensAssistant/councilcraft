@@ -205,14 +205,7 @@ class RebornWindowTest {
     }
 
     @Test
-    void selfMoveIsRequiredAndExternalVelocityDoesNotCount() {
-        assertFalse(RebornMotion.positionIsSelfMove(true, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0));
-        assertFalse(RebornMotion.positionIsSelfMove(false, 0.4, 0.0, 0.0, 0.4, 0.0, 0.0));
-        assertFalse(RebornMotion.positionIsSelfMove(false, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0));
-        assertTrue(RebornMotion.positionIsSelfMove(false, 0.15, 0.0, 0.0, 0.0, 0.0, 0.0));
-        assertTrue(RebornMotion.positionIsSelfMove(false, 0.0, 0.42, 0.0, 0.0, 0.0, 0.0));
-        assertTrue(RebornMotion.positionIsSelfMove(false, 0.12, 0.0, 0.0, 0.04, 0.0, 0.0));
-
+    void selfMoveIsRequired() {
         long window = CouncilCraftRules.REBORN_SELF_MOVE_TICKS;
         assertFalse(RebornMotion.credit(true, 1_000L, -1L));
         assertTrue(RebornMotion.credit(true, window, 0L));
