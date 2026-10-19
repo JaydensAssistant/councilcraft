@@ -41,7 +41,7 @@ Hooks 19–21 and the POST-MVP list in `councilcraft-hooks.md` are not implement
 | 17 RU planks in dockyard | No code. Stage 1 confirmed the dockyard already accepts them. | — |
 | 18 Sides and handshake | A client without this mod, or on another version, is kicked at login, after the other login queries have finished. | `fabric.mod.json`, `handshake/LoginHandshake.java`, `mixin/LoginAcceptMixin.java`, `CouncilCraftClient.java`, `rules/HandshakeRule.java` |
 
-Mixins into other mods are required (`defaultRequire: 1`). A renamed target crashes startup and names the mixin in the log. `CouncilCraftMixinPlugin` does the same if Horseshoes, Mutant Monsters, Paragliders, Supplementaries, Create or Numismatics is not installed. Create's toolbox class, Create's basin class and Numismatics' coin enum are checked by name when the mod starts, because those mixins are marked pseudo so the compiler can build without the nested jars.
+Mixins into other mods are required (`defaultRequire: 1`). A renamed target crashes startup and names the mixin in the log. `CouncilCraftMixinPlugin` does the same if Horseshoes, Mutant Monsters, Paragliders, Supplementaries, Create or Numismatics is not installed. Create's toolbox class, Create's basin class and Numismatics' coin enum are checked by name when the mod starts. Create itself is a compile-only dependency (not packed into this jar) so Loom can remap inherited Minecraft calls such as `BasinBlockEntity.getWorld`. A stub for that class left the yarn name in the remapped jar, and every basin recipe crashed. `checkUnmappedYarn` fails the build if a yarn-named Minecraft member reference to a class outside this mod survives in the remapped jar.
 
 ## Textures
 

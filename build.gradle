@@ -18,6 +18,14 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+    maven {
+        name = "Create"
+        url = "https://maven.createmod.net"
+    }
+    maven {
+        name = "DevOS"
+        url = "https://mvn.devos.one/releases"
+    }
     mavenCentral()
 }
 
@@ -36,13 +44,18 @@ dependencies {
     modImplementation "maven.modrinth:paragliders:20.1.4"
     // Supplementaries 1.20-3.1.44-fabric (fFEIiSDQ / hsHs7Gle).
     modImplementation "maven.modrinth:supplementaries:1.20-3.1.44-fabric"
-    // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1) is the toolbox
-    // and basin target. It is not a compile dependency. ToolboxInventory extends a
-    // Porting Lib class that Create nests inside its own jar, and the annotation
-    // processor cannot load that superclass. ToolboxInsertMixin and BasinMintMixin
-    // are checked when the game starts. See those classes. src/stubs/java has the
-    // two Create types BasinMintMixin calls, so the invoke descriptors match Create
-    // 6.0.8.1. Those stubs are not packed into the jar.
+    // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1). Compile only.
+    // Loom remaps inherited Minecraft calls (BasinBlockEntity.getWorld -> method_10997)
+    // only when the real class and its superinterfaces are on the remap classpath.
+    // A stub left that call named getWorld, and every basin crashed with NoSuchMethodError.
+    // Ponder and Porting Lib are the versions nested in that Create jar. Not packed into ours.
+    modCompileOnly("maven.modrinth:create-fabric:6.0.8.1+build.1744-mc1.20.1") { transitive = false }
+    modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.20.1:1.0.91") { transitive = false }
+    modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-1.20.1:1.0.5-264") { transitive = false }
+    def portingLib = "2.3.13+1.20.1"
+    ["base", "core", "transfer", "fluids", "extensions", "common", "entity", "accessors", "utility", "tags", "config", "attributes", "lazy_registration", "tool_actions", "gui_utils", "mixin_extensions"].each { module ->
+        modCompileOnly("io.github.fabricators_of_create.Porting-Lib:${module}:${portingLib}") { transitive = false }
+    }
     //
     // Numismatics 1.1.0+fabric-mc1.20.1 (Jdbbtt0i / X08Z2kZi) is the coin target.
     // Coin implements a Create interface, so it has the same nested-jar problem.
@@ -73,9 +86,20 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 sourceSets {
+    jarcheck {
+        java.srcDir "src/jarcheck/java"
+    }
     stubs {
         java.srcDir "src/stubs/java"
     }
+}
+
+dependencies {
+    jarcheckImplementation "org.ow2.asm:asm:9.7.1"
+    jarcheckImplementation "org.ow2.asm:asm-tree:9.7.1"
+    testImplementation sourceSets.jarcheck.output
+    testImplementation "org.ow2.asm:asm:9.7.1"
+    testImplementation "org.ow2.asm:asm-tree:9.7.1"
 }
 
 // Stubs need Minecraft types, but they must not depend on main's output.
@@ -96,4 +120,28 @@ java {
 
 test {
     useJUnitPlatform()
+}
+
+tasks.register("checkUnmappedYarn", JavaExec) {
+    group = "verification"
+    description = "Fail if the remapped jar still names a Minecraft member with a yarn name."
+    dependsOn tasks.named("remapJar"), tasks.named("compileJarcheckJava")
+    classpath = sourceSets.jarcheck.runtimeClasspath
+    mainClass = "dev.councilcraft.build.UnmappedYarnCheck"
+    def remapped = tasks.named("remapJar", net.fabricmc.loom.task.RemapJarTask).flatMap { it.archiveFile }
+    inputs.file(remapped)
+    inputs.files(sourceSets.main.compileClasspath)
+    doFirst {
+        def mappings = configurations.getByName("mappings").files.find {
+            it.name.contains("yarn") && it.name.endsWith(".jar") && !it.name.contains("constants")
+        }
+        if (mappings == null) {
+            throw new GradleException("yarn mappings jar not on the mappings configuration")
+        }
+        args mappings.absolutePath, remapped.get().asFile.absolutePath, sourceSets.main.compileClasspath.asPath
+    }
+}
+
+tasks.named("check") {
+    dependsOn tasks.named("checkUnmappedYarn")
 }

@@ -21,9 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * diamond) do not make {@code matchBasinRecipe} reject it. {@code applyBasinRecipe}
  * consumes that locked recipe before it asks whether it still matches.
  *
- * <p>The target is {@code @Pseudo} for the same reason as {@link ToolboxInsertMixin}:
- * Create is not a compile dependency. {@code getInputInventory} returns
- * {@code SmartInventory}; the compile-only stub uses that exact return type.
+ * <p>Create is a compile-only dependency, so inherited calls such as
+ * {@code getWorld} remap to intermediary. The mixin target stays
+ * {@code @Pseudo} with intermediary descriptors: Create's own method names
+ * are not yarn names, and {@code remap = false} keeps them as written.
  */
 @Pseudo
 @Mixin(targets = "com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity", remap = false)
