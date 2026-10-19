@@ -9,7 +9,7 @@ import net.minecraft.text.Text;
  * the live size, speed, strength and HP. There is no floor-stats line.
  *
  * <p>Order is size, speed, strength, HP. Strength is the melee multiplier.
- * HP is hearts divided by the vanilla ten, so six hearts is 60% HP.
+ * HP is the stepped hit points over a vanilla 20, so 12 points is 60% HP.
  */
 public final class RebornText {
     public static final String LINE1 = "effect.councilcraft.reborn.line1";
@@ -23,9 +23,9 @@ public final class RebornText {
         return Math.round(fraction * 100f);
     }
 
-    /** Hearts as a percent of a vanilla ten-heart bar. */
-    public static int hpPercent(float hearts) {
-        return Math.round(hearts * 100f / CouncilCraftRules.VANILLA_HEARTS);
+    /** Stepped hit points as a percent of a vanilla 20-point bar. */
+    public static int hpPercent(int hitPoints) {
+        return hitPoints * 100 / CouncilCraftRules.VANILLA_HP;
     }
 
     /** Size, speed, strength, HP at the start of the penalty. Not a hover line. */
@@ -34,7 +34,7 @@ public final class RebornText {
             percent(CouncilCraftRules.REBORN_SCALE),
             percent(CouncilCraftRules.REBORN_SPEED),
             percent(CouncilCraftRules.REBORN_MELEE),
-            hpPercent(CouncilCraftRules.REBORN_HEARTS)
+            hpPercent(CouncilCraftRules.REBORN_BASE_HP)
         };
     }
 
@@ -44,7 +44,7 @@ public final class RebornText {
             percent(stats.scale),
             percent(stats.speed),
             percent(stats.melee),
-            hpPercent(stats.hearts)
+            hpPercent(stats.hitPoints)
         };
     }
 

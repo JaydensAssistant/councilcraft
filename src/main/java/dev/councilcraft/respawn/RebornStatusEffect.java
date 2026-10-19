@@ -17,10 +17,10 @@ import virtuoel.pehkui.api.ScaleTypes;
 
 /**
  * S80. The Reborn effect. Harmful, so it sits with the other debuffs.
- * The icon and the duration are vanilla. The duration is remaining active
- * time, and it does not tick down on its own. Size, speed, strength, hearts
- * and hunger each ease on the same fraction. {@link Reborn} refreshes the
- * modifiers at each window boundary.
+ * The icon and the duration are vanilla. The duration counts down, and
+ * {@link Reborn} rewrites it at each window boundary. There are no particles.
+ * Size, speed, strength and hunger ease on the recovery fraction. Max health
+ * steps by one point every 45 credited minutes.
  */
 public final class RebornStatusEffect extends StatusEffect {
     public static final StatusEffect EFFECT = new RebornStatusEffect();
@@ -39,14 +39,13 @@ public final class RebornStatusEffect extends StatusEffect {
 
     public void apply(ServerPlayerEntity player, RebornStats stats) {
         float before = player.getMaxHealth();
-        // Hearts are a flat change to the 20-point base. 6 hearts is 12 points, so -8.
-        // The count is linear, so a half heart is one point.
+        // Flat change from the 20-point base. 12 points is -8. 13 points is -7.
         modifier(
             player,
             EntityAttributes.GENERIC_MAX_HEALTH,
             CouncilCraftRules.REBORN_HEALTH_UUID,
             "councilcraft_reborn_health",
-            stats.hearts * 2.0 - CouncilCraftRules.VANILLA_HEARTS * 2.0,
+            stats.hitPoints - CouncilCraftRules.VANILLA_HP,
             EntityAttributeModifier.Operation.ADDITION
         );
         // MULTIPLY_TOTAL so 85% means the speed you would have had, times 0.85.

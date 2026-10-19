@@ -1,6 +1,7 @@
 package dev.councilcraft.mixin;
 
 import dev.councilcraft.respawn.Reborn;
+import dev.councilcraft.respawn.RebornMotion;
 import dev.councilcraft.respawn.RebornWindow;
 import net.minecraft.network.packet.c2s.play.ButtonClickC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
@@ -25,6 +26,28 @@ public class RebornPlayMixin {
     @Shadow
     public ServerPlayerEntity player;
 
+    @Inject(
+        method = "onPlayerMove",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/server/world/ServerWorld;)V",
+            shift = At.Shift.AFTER
+        )
+    )
+    private void councilcraft$selfMove(PlayerMoveC2SPacket packet, CallbackInfo ci) {
+        ServerPlayerEntity player = this.player;
+        if (player.hasVehicle()) {
+            return;
+        }
+        var velocity = player.getVelocity();
+        double dx = packet.getX(player.getX()) - player.getX();
+        double dy = packet.getY(player.getY()) - player.getY();
+        double dz = packet.getZ(player.getZ()) - player.getZ();
+        if (RebornMotion.positionIsSelfMove(false, dx, dy, dz, velocity.x, velocity.y, velocity.z)) {
+            Reborn.selfMoved(player);
+        }
+    }
+
     @Inject(method = "onPlayerMove", at = @At("TAIL"))
     private void councilcraft$look(PlayerMoveC2SPacket packet, CallbackInfo ci) {
         Reborn.sampleLook(this.player);
@@ -37,7 +60,14 @@ public class RebornPlayMixin {
 
     @Inject(method = "onClientCommand", at = @At("TAIL"))
     private void councilcraft$inventory(ClientCommandC2SPacket packet, CallbackInfo ci) {
-        if (packet.getMode() == ClientCommandC2SPacket.Mode.OPEN_INVENTORY) {
+        ClientCommandC2SPacket.Mode mode = packet.getMode();
+        if (mode == ClientCommandC2SPacket.Mode.PRESS_SHIFT_KEY
+            || mode == ClientCommandC2SPacket.Mode.RELEASE_SHIFT_KEY
+            || mode == ClientCommandC2SPacket.Mode.START_SPRINTING
+            || mode == ClientCommandC2SPacket.Mode.STOP_SPRINTING) {
+            Reborn.selfMoved(this.player);
+        }
+        if (mode == ClientCommandC2SPacket.Mode.OPEN_INVENTORY) {
             Reborn.note(this.player, RebornWindow.Action.MENU, 0);
         }
     }

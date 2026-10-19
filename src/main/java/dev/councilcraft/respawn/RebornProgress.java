@@ -5,7 +5,7 @@ import java.util.OptionalLong;
 
 /**
  * How far a Reborn recovery has come, from 0 at the start to 1 when it is over.
- * Every penalty reads this fraction, including hearts and hunger.
+ * Size, speed, strength and hunger read this fraction. Hearts step on their own.
  *
  * <p>The fraction is accrued active minutes over {@link CouncilCraftRules#REBORN_ACTIVE_MINUTES}.
  * Idle time and offline time are not part of it. A window credits its full five
@@ -36,9 +36,38 @@ public final class RebornProgress {
         return CouncilCraftRules.REBORN_ACTIVE_MINUTES - activeMinutes;
     }
 
-    /** Effect duration, in ticks, for the remaining active minutes. */
+    /** Remaining active time, in ticks. */
     public static long durationTicks(long activeMinutes) {
         return remaining(activeMinutes) * 60L * 20L;
+    }
+
+    /**
+     * Duration written onto the effect at a window boundary. While recovery is
+     * unfinished this stays at least one window plus a small pad, so the icon
+     * cannot expire before the next rewrite.
+     */
+    public static long displayTicks(long activeMinutes) {
+        long remaining = durationTicks(activeMinutes);
+        if (remaining <= 0L) {
+            return 0L;
+        }
+        long floor = CouncilCraftRules.REBORN_WINDOW_TICKS + CouncilCraftRules.REBORN_DURATION_PAD_TICKS;
+        return Math.max(remaining, floor);
+    }
+
+    /**
+     * Minutes to load. A saved count wins. Legacy data with no minute count
+     * starts a fresh Reborn at zero, so an old effect is not left stuck.
+     * Neither means not Reborn.
+     */
+    public static long adopt(boolean hasMinutes, long minutes, boolean legacy) {
+        if (hasMinutes) {
+            return Math.max(0L, minutes);
+        }
+        if (legacy) {
+            return 0L;
+        }
+        return -1L;
     }
 
     /**

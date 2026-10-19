@@ -28,7 +28,7 @@
     "PlayerExhaustionMixin",
     "PlayerRebornDataMixin",
     "RebornCraftMixin",
-    "RebornDurationMixin",
+    "RebornKeepaliveMixin",
     "RebornPlayMixin",
     "RebornTradeMixin",
     "PrinterBehaviourMixin",

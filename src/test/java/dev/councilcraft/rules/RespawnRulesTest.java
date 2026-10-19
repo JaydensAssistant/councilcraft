@@ -39,17 +39,28 @@ class RespawnRulesTest {
     }
 
     @Test
-    void heartsFollowTheFractionOnePerNinetyMinutes() {
-        assertEquals(90, CouncilCraftRules.REBORN_HEART_MINUTES);
-        assertEquals(360, CouncilCraftRules.REBORN_ACTIVE_MINUTES);
+    void heartsStepByOnePointEveryFortyFiveMinutes() {
+        assertEquals(45, CouncilCraftRules.REBORN_HEART_MINUTES);
+        assertEquals(12, RebornStats.hitPoints(0L));
+        assertEquals(12, RebornStats.at(44L).hitPoints);
+        assertEquals(13, RebornStats.at(45L).hitPoints);
+        assertEquals(13, RebornStats.at(89L).hitPoints);
+        assertEquals(14, RebornStats.at(90L).hitPoints);
+        assertEquals(16, RebornStats.at(180L).hitPoints);
+        assertEquals(18, RebornStats.at(270L).hitPoints);
+        assertEquals(20, RebornStats.at(360L).hitPoints);
+        assertEquals(20, RebornStats.at(400L).hitPoints);
         assertEquals(6f, RebornStats.at(0L).hearts, 0.0001f);
         assertEquals(6.5f, RebornStats.at(45L).hearts, 0.0001f);
         assertEquals(7f, RebornStats.at(90L).hearts, 0.0001f);
-        assertEquals(8f, RebornStats.at(180L).hearts, 0.0001f);
-        assertEquals(9f, RebornStats.at(270L).hearts, 0.0001f);
-        assertEquals(10f, RebornStats.at(360L).hearts, 0.0001f);
-        assertEquals(0.25f, RebornProgress.fraction(90L), 0.0001f);
-        assertEquals(RebornProgress.fraction(180L), RebornStats.at(180L).progress, 0.0001f);
+        assertEquals(60, RebornText.hpPercent(RebornStats.at(44L).hitPoints));
+        assertEquals(65, RebornText.hpPercent(RebornStats.at(45L).hitPoints));
+        assertEquals(80, RebornText.hpPercent(RebornStats.at(180L).hitPoints));
+        // Size has moved. The stepped HP percent has not.
+        int[] atFortyFour = RebornText.nowPercents(RebornStats.at(44L));
+        assertEquals(65, atFortyFour[0]);
+        assertEquals(60, atFortyFour[3]);
+        assertEquals(1.4375f, RebornStats.at(45L).hunger, 0.0001f);
     }
 
     @Test
@@ -127,6 +138,10 @@ class RespawnRulesTest {
 
         assertTrue(RebornProgress.stored(false, earned).isEmpty());
         assertEquals(-1L, RebornProgress.load(OptionalLong.empty()));
+        // An old save with the wall clock or the effect, and no minute count, starts over.
+        assertEquals(0L, RebornProgress.adopt(false, 0L, true));
+        assertEquals(40L, RebornProgress.adopt(true, 40L, true));
+        assertEquals(-1L, RebornProgress.adopt(false, 0L, false));
     }
 
     @Test
@@ -142,6 +157,13 @@ class RespawnRulesTest {
             RebornProgress.remaining(minutes)
         );
         assertEquals(355L * 60L * 20L, RebornProgress.durationTicks(minutes));
+        assertEquals(360L * 60L * 20L, RebornProgress.displayTicks(0L));
+        long nearEnd = CouncilCraftRules.REBORN_ACTIVE_MINUTES - 1L;
+        assertEquals(
+            CouncilCraftRules.REBORN_WINDOW_TICKS + CouncilCraftRules.REBORN_DURATION_PAD_TICKS,
+            RebornProgress.displayTicks(nearEnd)
+        );
+        assertEquals(0L, RebornProgress.displayTicks(CouncilCraftRules.REBORN_ACTIVE_MINUTES));
 
         long windows = CouncilCraftRules.REBORN_ACTIVE_MINUTES / CouncilCraftRules.REBORN_WINDOW_MINUTES;
         long accrued = 0L;

@@ -10,8 +10,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 
 /**
  * Client only. The server sends the accrued active minutes. This class keeps
- * that number for the inventory tooltip. It does not add wall-clock time, so
- * the "Now" line stays put until the next window is credited.
+ * that number for the inventory tooltip. It does not add wall-clock time.
+ * The icon itself counts down until the next window rewrite.
  * Dedicated servers do not load this class.
  */
 @Environment(EnvType.CLIENT)
@@ -56,8 +56,8 @@ public final class RebornClient {
 
     /**
      * Current penalty. Prefers the synced accrued minutes.
-     * {@code durationTicks} is the fallback for the moment before the packet arrives:
-     * the effect duration is the remaining active time, in ticks.
+     * {@code durationTicks} is the fallback for the moment before the packet arrives.
+     * The icon is counting down, so this is only a stand-in.
      */
     public static RebornStats stats(int durationTicks) {
         if (synced && accrued >= 0L) {

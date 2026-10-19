@@ -29,17 +29,19 @@ import net.minecraft.text.Text;
  * An operator clears it with {@code /councilcraft reborn clear}, or prints the
  * credited minutes and the last window with {@code /councilcraft reborn status}.
  *
- * <p>The icon's duration is the remaining active time. Vanilla would count that
- * down every tick, which looks like time passing while the player is idle.
- * {@code RebornDurationMixin} leaves the duration where the server last wrote
- * it. This class writes it again at each window boundary: five minutes shorter
- * when the window counted, the same remaining time when it did not. Respawn
- * writes it too. JOIN does not.
+ * <p>The icon's duration counts down like any other effect. At each window
+ * boundary this class writes the remaining active time again: five minutes
+ * shorter when the window counted, the same remaining time when it did not,
+ * which snaps a countdown back up. Respawn writes it too. JOIN does not.
+ * While minutes remain, the written duration cannot hit zero before the next
+ * boundary. There are no particles.
  */
 public final class Reborn {
     private static final Map<ServerPlayerEntity, Long> MINUTES = new WeakHashMap<>();
     private static final Map<ServerPlayerEntity, RebornWindow> WINDOWS = new WeakHashMap<>();
     private static final Map<ServerPlayerEntity, WindowVerdict> LAST_WINDOW = new WeakHashMap<>();
+    /** Server tick of the last walk, jump, swim, sneak or sprint. Not saved. */
+    private static final Map<ServerPlayerEntity, Long> LAST_MOVE = new WeakHashMap<>();
     /** The effect packet has been sent since this player object joined. JOIN itself must not send it. */
     private static final Set<ServerPlayerEntity> EFFECT_SENT = Collections.newSetFromMap(new WeakHashMap<>());
     /** Effect removal that must wait until after JOIN, so the packet is not a raw registry id. */
@@ -96,6 +98,7 @@ public final class Reborn {
             // Minutes already saved stay. The unfinished window does not.
             WINDOWS.remove(handler.player);
             LAST_WINDOW.remove(handler.player);
+            LAST_MOVE.remove(handler.player);
         });
         ServerTickEvents.END_SERVER_TICK.register(Reborn::tick);
         CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) ->
@@ -140,6 +143,17 @@ public final class Reborn {
         if (running(from)) {
             MINUTES.put(to, minutes(from));
         }
+        if (LAST_MOVE.containsKey(from)) {
+            LAST_MOVE.put(to, LAST_MOVE.get(from));
+        }
+    }
+
+    /** A sneak, sprint, walk, jump or swim. Ignored unless this player is Reborn. */
+    public static void selfMoved(ServerPlayerEntity player) {
+        if (player == null || !running(player) || player.getServer() == null) {
+            return;
+        }
+        LAST_MOVE.put(player, (long) player.getServer().getTicks());
     }
 
     public static void begin(ServerPlayerEntity player) {
@@ -211,7 +225,9 @@ public final class Reborn {
             RebornWindow window = window(player);
             boolean boundary = window.advance();
             if (boundary) {
-                boolean credited = window.counts();
+                long now = server.getTicks();
+                long lastMove = LAST_MOVE.containsKey(player) ? LAST_MOVE.get(player) : -1L;
+                boolean credited = RebornMotion.credit(window.counts(), now, lastMove);
                 LAST_WINDOW.put(player, credited ? WindowVerdict.CREDITED : WindowVerdict.MISSED);
                 WINDOWS.put(player, new RebornWindow());
                 if (credited) {
@@ -224,9 +240,9 @@ public final class Reborn {
                 }
             }
             boolean missing = !player.hasStatusEffect(RebornStatusEffect.EFFECT);
-            // Rewrite the duration at every window boundary. The first tick after
-            // JOIN still sends the icon, after registry remap, and a missing icon
-            // (milk, totem, /effect clear) is put back at the same remaining time.
+            // One effect packet at a window boundary, not every tick. The first tick
+            // after JOIN still sends the icon, after registry remap, and a missing
+            // icon (milk, totem, /effect clear) is put back at the remaining time.
             if (boundary || missing || !EFFECT_SENT.contains(player)) {
                 sync(player);
             }
@@ -241,13 +257,13 @@ public final class Reborn {
             return;
         }
         ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(accrued));
-        int duration = (int) Math.min(Integer.MAX_VALUE, RebornProgress.durationTicks(accrued));
+        int duration = (int) Math.min(Integer.MAX_VALUE, RebornProgress.displayTicks(accrued));
         player.setStatusEffect(new StatusEffectInstance(
             RebornStatusEffect.EFFECT,
             Math.max(1, duration),
             0,
             false,
-            true,
+            false,
             true
         ), null);
         RebornSync.send(player);
