@@ -117,7 +117,8 @@ public final class CouncilCraftRules {
      * S80 / S84 / S169. Real-time penalty after death, shown as the Reborn
      * status effect. Size is Pehkui's base scale only. Hearts step up by one
      * every six hours. Speed and strength ease in a straight line back to
-     * normal. Dying again starts the 24 hours over.
+     * normal. Hunger exhaustion starts at {@code REBORN_HUNGER} and eases to 1
+     * on that same progress. Dying again starts the 24 hours over.
      *
      * <p>The inventory tooltip's second line is these four numbers as percents.
      * Hit points are {@code REBORN_HEARTS / VANILLA_HEARTS}, so 6 of 10 hearts
@@ -132,6 +133,8 @@ public final class CouncilCraftRules {
     public static final int VANILLA_HEARTS = 10;
     public static final float REBORN_SPEED = 0.85f;
     public static final float REBORN_MELEE = 0.70f;
+    /** Hunger exhaustion multiplier at rebirth. Eases to 1 with the other penalties. */
+    public static final float REBORN_HUNGER = 1.5f;
     public static final String REBORN_NBT = "councilcraft:reborn_until";
     /** S2C channel. The payload is the expiry timestamp and the server's clock. */
     public static final String REBORN_CHANNEL = "reborn_until";

@@ -18,7 +18,6 @@ public final class RebornClock {
             return CouncilCraftRules.REBORN_MILLIS;
         }
         long now = serverNow + (clientNow - clientNowAtSync);
-        long start = until - CouncilCraftRules.REBORN_MILLIS;
-        return now - start;
+        return RebornProgress.elapsed(until, now);
     }
 }

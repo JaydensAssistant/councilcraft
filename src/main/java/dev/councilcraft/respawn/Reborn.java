@@ -128,8 +128,10 @@ public final class Reborn {
             case NONE -> {
             }
             case ATTRIBUTES_AND_CLOCK -> {
-                long start = until(player) - CouncilCraftRules.REBORN_MILLIS;
-                ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(now - start));
+                ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(
+                    player,
+                    RebornStats.at(RebornProgress.elapsed(until(player), now))
+                );
                 RebornSync.send(player);
             }
             case DEFER_EFFECT_CLEAR -> {
@@ -171,8 +173,10 @@ public final class Reborn {
             finish(player);
             return;
         }
-        long start = until(player) - CouncilCraftRules.REBORN_MILLIS;
-        ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(now - start));
+        ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(
+            player,
+            RebornStats.at(RebornProgress.elapsed(until(player), now))
+        );
         int ticks = (int) Math.min(Integer.MAX_VALUE, Math.max(1L, (remaining + 49L) / 50L));
         player.setStatusEffect(new StatusEffectInstance(
             RebornStatusEffect.EFFECT,

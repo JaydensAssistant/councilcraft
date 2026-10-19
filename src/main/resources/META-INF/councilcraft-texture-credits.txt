@@ -52,8 +52,7 @@ and the mark in the middle (cog, crown, sun) are new pixels drawn by hand.
 
 Reborn effect icon
 
-assets/councilcraft/textures/mob_effect/reborn.png is a placeholder, not a
-recolor. Minecraft's status-effect icons cannot be redistributed, and no pack
-mod with a compatible licence includes an effect icon to edit. The pixels were
-placed by hand. The top-left pixel is magenta (#FF00FF) to mark it as a
-placeholder. No AI-generated art.
+assets/councilcraft/textures/mob_effect/reborn.png is original CouncilCraft
+art. It is an 18x18 baby face, hand-pixeled for this mod. It is not a recolor
+and it has no third-party source. No AI-generated art. Vanilla uses this one
+texture for both the HUD icon and the inventory effect icon.

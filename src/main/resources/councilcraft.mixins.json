@@ -25,6 +25,7 @@
     "ParagliderRepairMixin",
     "PatrolEntityAccess",
     "PatrolEvokerMixin",
+    "PlayerExhaustionMixin",
     "PlayerRebornDataMixin",
     "PrinterBehaviourMixin",
     "PrinterCopyMixin",

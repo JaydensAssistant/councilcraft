@@ -11,6 +11,7 @@ import dev.councilcraft.respawn.Reborn;
 import dev.councilcraft.respawn.Reborn.JoinStep;
 import dev.councilcraft.respawn.RebornClock;
 import dev.councilcraft.respawn.RebornEmi;
+import dev.councilcraft.respawn.RebornProgress;
 import dev.councilcraft.respawn.RebornStats;
 import dev.councilcraft.respawn.RebornText;
 import java.nio.file.Files;
@@ -26,6 +27,7 @@ class RespawnRulesTest {
         assertEquals(CouncilCraftRules.REBORN_HEARTS, start.hearts);
         assertEquals(CouncilCraftRules.REBORN_SPEED, start.speed, 0.0001f);
         assertEquals(CouncilCraftRules.REBORN_MELEE, start.melee, 0.0001f);
+        assertEquals(CouncilCraftRules.REBORN_HUNGER, start.hunger, 0.0001f);
 
         long almostSixHours = CouncilCraftRules.REBORN_HEART_MILLIS - 1L;
         assertEquals(CouncilCraftRules.REBORN_HEARTS, RebornStats.at(almostSixHours).hearts);
@@ -36,6 +38,7 @@ class RespawnRulesTest {
         assertEquals(1f, done.scale, 0.0001f);
         assertEquals(1f, done.speed, 0.0001f);
         assertEquals(1f, done.melee, 0.0001f);
+        assertEquals(1f, done.hunger, 0.0001f);
         assertEquals(done.hearts, RebornStats.at(CouncilCraftRules.REBORN_MILLIS + 60_000L).hearts);
     }
 
@@ -46,7 +49,27 @@ class RespawnRulesTest {
         assertEquals(0.8f, mid.scale, 0.001f);
         assertEquals(0.925f, mid.speed, 0.001f);
         assertEquals(0.85f, mid.melee, 0.001f);
+        assertEquals(1.25f, mid.hunger, 0.001f);
         assertEquals(8, mid.hearts);
+    }
+
+    @Test
+    void hungerExhaustionEasesFromOneAndAHalfToNormal() {
+        assertEquals(0f, RebornProgress.fraction(0L), 0.0001f);
+        assertEquals(0.5f, RebornProgress.fraction(CouncilCraftRules.REBORN_MILLIS / 2L), 0.0001f);
+        assertEquals(1f, RebornProgress.fraction(CouncilCraftRules.REBORN_MILLIS), 0.0001f);
+        assertEquals(1f, RebornProgress.fraction(CouncilCraftRules.REBORN_MILLIS + 60_000L), 0.0001f);
+
+        long halfway = CouncilCraftRules.REBORN_MILLIS / 2L;
+        RebornStats mid = RebornStats.at(halfway);
+        float scaleProgress = (mid.scale - CouncilCraftRules.REBORN_SCALE) / (1f - CouncilCraftRules.REBORN_SCALE);
+        assertEquals(scaleProgress, mid.progress, 0.0001f);
+        assertEquals(1.25f, mid.hunger, 0.0001f);
+        assertEquals(2.5f, RebornStats.exhaustion(2f, mid.hunger), 0.0001f);
+        assertEquals(1.5f, RebornStats.exhaustion(1f, RebornStats.at(0L).hunger), 0.0001f);
+        assertEquals(1f, RebornStats.exhaustion(1f, RebornStats.at(CouncilCraftRules.REBORN_MILLIS).hunger), 0.0001f);
+        assertEquals(0f, RebornStats.exhaustion(0f, CouncilCraftRules.REBORN_HUNGER), 0.0001f);
+        assertEquals(-2f, RebornStats.exhaustion(-2f, CouncilCraftRules.REBORN_HUNGER), 0.0001f);
     }
 
     @Test
