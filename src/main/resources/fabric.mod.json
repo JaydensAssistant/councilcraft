@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "councilcraft",
+  "version": "${version}",
+  "name": "CouncilCraft",
+  "description": "Gameplay hooks for the CouncilCraft vanilla+ pack. Required on the client and the server.",
+  "authors": ["CouncilCraft"],
+  "contact": {},
+  "license": "ARR",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.councilcraft.CouncilCraft"],
+    "client": ["dev.councilcraft.CouncilCraftClient"]
+  },
+  "mixins": ["councilcraft.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "1.20.1",
+    "java": ">=17",
+    "fabric-api": "*",
+    "horseshoes": "*",
+    "mutantmonsters": "*",
+    "paraglider": "*",
+    "supplementaries": "*"
+  }
+}
