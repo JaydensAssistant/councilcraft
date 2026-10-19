@@ -1,6 +1,7 @@
 package dev.councilcraft;
 
 import dev.councilcraft.handshake.LoginHandshake;
+import dev.councilcraft.item.GovernmentMolds;
 import dev.councilcraft.item.NetheriteHorseshoes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -14,20 +15,41 @@ public final class CouncilCraft implements ModInitializer {
     public void onInitialize() {
         LoginHandshake.registerServer();
         NetheriteHorseshoes.register();
-        // Mutant Monsters' explosion class keeps its own name (it is not a Minecraft
-        // class, so Yarn vs intermediary does not matter). Touching it here means a
-        // renamed package fails at startup, in the log, instead of the first time a
-        // mutant creeper explodes. The mixin json still requires the method itself.
+        GovernmentMolds.register();
+        // These classes keep their own names (they are not Minecraft classes).
+        // Loading them here, after mixins are registered, applies our mixins and
+        // throws if the class was renamed. The mixin json still requires each method.
+        // Doing the same check inside the mixin plugin would be too early: the
+        // class would load before the mixin was registered, and a @Pseudo mixin
+        // would miss it.
+        requireClass(
+            "fuzs.mutantmonsters.world.level.MutatedExplosion",
+            "mutant creeper / minion no block damage (S224)"
+        );
+        requireClass(
+            "com.simibubi.create.content.equipment.toolbox.ToolboxInventory",
+            "toolbox whitelist (S234)"
+        );
+        requireClass(
+            "com.simibubi.create.content.processing.basin.BasinOperatingBlockEntity",
+            "sprocket and cog minting over diamond blocks"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.backend.Coin",
+            "coin values (S123)"
+        );
+        LOGGER.info("CouncilCraft {} loaded (client and server).", version());
+    }
+
+    private static void requireClass(String className, String hook) {
         try {
-            Class.forName("fuzs.mutantmonsters.world.level.MutatedExplosion");
+            Class.forName(className);
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(
-                "CouncilCraft hook failed: mutant creeper / minion no block damage (S224). "
-                    + "fuzs.mutantmonsters.world.level.MutatedExplosion is missing.",
+                "CouncilCraft hook failed: " + hook + ". " + className + " is missing or was renamed.",
                 e
             );
         }
-        LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 
     /** Version from fabric.mod.json, so the handshake and the jar stay in step. */

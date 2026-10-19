@@ -1,0 +1,19 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "councilcraft:spur_mold"
+    }
+  ],
+  "results": [
+    {
+      "item": "numismatics:spur"
+    },
+    {
+      "item": "councilcraft:spur_mold"
+    }
+  ]
+}

@@ -28,3 +28,24 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Government mold textures
+
+Source: Create: Coins Arise 1.0.2 (Modrinth E3j7uXh3 / yMF1xNuh). Coins Arise
+itself is not in the pack (S173 cut it). The textures were taken from that jar
+so the molds could be recolored.
+Authors: SnackBag.NET Team. Lead developer JX_Snack. Artists Kamilskii and
+Kszaczuch.
+Licence: GNU LGPL-2.1. The full text is LICENSE-coins-arise-LGPL-2.1.txt in
+this directory. These textures are modified copies. No AI image generation
+was used.
+
+spur_mold, bevel_mold and sprocket_mold are recolors of
+assets/coins_arise/textures/item/spur_casting_mold.png,
+bevel_casting_mold.png and sprocket_casting_mold.png. The dark outline
+(11, 13, 21) is unchanged. The remaining colours were shifted, darkest to
+lightest, onto copper, brass and blue steel.
+
+cog_mold, crown_mold and sun_mold keep the sprocket mold's outline and shading
+shape, which makes them a derivative of that LGPL texture. The metal colour
+and the mark in the middle (cog, crown, sun) are new pixels drawn by hand.

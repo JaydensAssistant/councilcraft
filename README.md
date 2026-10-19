@@ -22,8 +22,8 @@ Hooks 19–21 and the POST-MVP list in `councilcraft-hooks.md` are not implement
 
 | Hook | In game | Source |
 |---|---|---|
-| 1 Coin values | Not in this PR. | — |
-| 2 Government molds | Not in this PR. | — |
+| 1 Coin values | Spur through sun are worth 1, 5, 10, 20, 50, 100. One unit is one diamond. | `mixin/CoinValueMixin.java`, `rules/CoinValues.java` |
+| 2 Government molds | Six molds, not craftable. Pressing them with diamonds or netherite mints the matching coin and gives the mold back. Sprocket and cog still mint when the diamonds went in first. A dropped mold does not despawn, burn, or break. | `item/GovernmentMolds.java`, `item/GovernmentMoldItem.java`, `mixin/ItemEntityMoldMixin.java`, `mixin/BasinMintMixin.java`, `rules/MintPriority.java`, `data/councilcraft/recipes/mint_*.json` |
 | 3 Baby respawn | Not in this PR. | — |
 | 4 Blaze Forger clamp | Not in this PR. | — |
 | 5 Printed copies | Not in this PR. | — |
@@ -37,15 +37,17 @@ Hooks 19–21 and the POST-MVP list in `councilcraft-hooks.md` are not implement
 | 13 Paraglider repair | A paraglider can be repaired with a phantom membrane (leather still works too). | `mixin/ParagliderRepairMixin.java`, `rules/ParagliderRepair.java` |
 | 14 Sack nesting | Sacks cannot go inside bundles or Create toolboxes. | `mixin/SackNestingMixin.java`, `rules/SackNesting.java` |
 | 15 Toolbox whitelist | A Create toolbox only accepts items in the `councilcraft:toolbox_contents` tag. | `mixin/ToolboxInsertMixin.java`, `rules/ToolboxFilter.java`, `data/councilcraft/tags/items/toolbox_*.json` |
-| 16 Patrol evoker | Not in this PR. | — |
+| 16 Patrol evoker | One patrol in four also gets an evoker beside the captain. The evoker walks the captain's patrol route. | `mixin/PatrolEvokerMixin.java`, `mixin/PatrolEntityAccess.java`, `rules/PatrolEvoker.java` |
 | 17 RU planks in dockyard | No code. Stage 1 confirmed the dockyard already accepts them. | — |
 | 18 Sides and handshake | A client without this mod, or on another version, is kicked at login, after the other login queries have finished. | `fabric.mod.json`, `handshake/LoginHandshake.java`, `mixin/LoginAcceptMixin.java`, `CouncilCraftClient.java`, `rules/HandshakeRule.java` |
 
-Mixins into other mods are required (`defaultRequire: 1`). A renamed target crashes startup and names the mixin in the log. `CouncilCraftMixinPlugin` does the same if Horseshoes, Mutant Monsters, Paragliders, Supplementaries or Create is not installed.
+Mixins into other mods are required (`defaultRequire: 1`). A renamed target crashes startup and names the mixin in the log. `CouncilCraftMixinPlugin` does the same if Horseshoes, Mutant Monsters, Paragliders, Supplementaries, Create or Numismatics is not installed. Create's toolbox class, Create's basin class and Numismatics' coin enum are checked by name when the mod starts. Create itself is a compile-only dependency (not packed into this jar) so Loom can remap inherited Minecraft calls such as `BasinBlockEntity.getWorld`. A stub for that class left the yarn name in the remapped jar, and every basin recipe crashed. `checkUnmappedYarn` fails the build if a yarn-named Minecraft member reference to a class outside this mod survives in the remapped jar.
 
 ## Textures
 
-The netherite horseshoe texture is a hand recolor of Horseshoes 1.0.3 `assets/horseshoes/textures/item/diamond_horseshoes.png` (HyperPigeon, MIT). The diamond blues were replaced with a dark netherite palette. The MIT notice is in `META-INF/councilcraft-texture-credits.txt`, which is packed into the jar. No AI-generated art.
+The netherite horseshoe texture is a hand recolor of Horseshoes 1.0.3 `assets/horseshoes/textures/item/diamond_horseshoes.png` (HyperPigeon, MIT). The diamond blues were replaced with a dark netherite palette.
+
+The spur, bevel and sprocket molds are recolors of Create: Coins Arise 1.0.2 `spur_casting_mold.png`, `bevel_casting_mold.png` and `sprocket_casting_mold.png` (SnackBag.NET, JX_Snack, Kamilskii, Kszaczuch, LGPL-2.1). Coins Arise is not in the pack. The cog, crown and sun molds keep the sprocket mold's outline and shading, and the mark in the middle is new hand-placed pixels. The LGPL text ships in the jar as `META-INF/LICENSE-coins-arise-LGPL-2.1.txt`. Both notices are in `META-INF/councilcraft-texture-credits.txt`. No AI-generated art.
 
 ## How to test in a singleplayer world
 
@@ -60,5 +62,9 @@ Install this jar next to the pack mods. Create a creative world.
 - **Handshake.** Join this same world: you have the mod, so you get in. On a dedicated server, a client without the jar is disconnected with "This server requires the CouncilCraft mod. Install the CouncilCraft modpack." A client built from a different `mod_version` is disconnected with both version numbers. Both sentences are literal text, because that client is not running this mod. The disconnect is sent when login is about to accept the player, after every login query has been answered, so the client shows that sentence instead of "Connection reset by peer".
 - **Horseshoes.** Put iron horseshoes on a horse and ride it at a one-block and a two-block ledge. Mounted, it steps up 2 blocks. Dismount, and it is back to one block, so a pen still holds it. Diamond steps 2 blocks (the value is 2.6). Netherite steps 3. Smith the netherite pair: netherite upgrade template, diamond horseshoes, netherite ingot. Toss the netherite pair in lava: the item survives. A fast horse (or one with a Speed potion) does not go past the cap: attribute movement of 0.44. A camel's step stays 1.5 while it is not wearing shoes. Camels, llamas and zebras are not in the Horseshoes "allowed to wear" tag, so they do not get the step bonus unless a datapack adds them. The speed cap still applies to them.
 - **Toolbox.** Open a Create toolbox. A wrench, a shaft, an andesite casing, redstone, a torch and an arrow go in. A cobblestone, a plank and a sack do not. The tag files under `data/councilcraft/tags/items/` are the draft whitelist. A datapack can add an item by extending `councilcraft:toolbox_contents` or one of the four tags it includes. Every id in those tags exists in Create 6.0.8.1, Supplementaries 1.20-3.1.44, Farmer's Delight Refabricated 1.20.1-2.5.7, or vanilla 1.20.1. Create 6 has one white sail, one nixie tube, and no `create:rope` (the rope that goes in is `supplementaries:rope`).
+- **Coins.** Put a numismatics spur and a sun in a bank or vendor, or read the value tooltip. They should price as 1 and 100, not 1 and 4096. The other four are 5, 10, 20 and 50.
+- **Molds.** The six molds are in the Ingredients creative tab (1 Dia Mold through 100 Dia Mold). There is no crafting recipe for them. Give yourself one with `/give @p councilcraft:cog_mold`. Drop it in lava, on a cactus, and in the void: it comes back. Die with it in your inventory: it is in the death pile, and another player can pick it up. It does not vanish after five minutes.
+- **Minting.** Mechanical press on a basin. One diamond plus the 1 Dia mold presses one spur and returns the mold. Five, ten and twenty diamonds do the same for the 5, 10 and 20 molds. The 50 mold takes 5 diamond blocks and 5 diamonds and returns 50 crowns plus the mold. The 100 mold takes 11 diamond blocks and 1 diamond and returns 100 suns plus the mold. One netherite ingot plus the 20 mold returns 20 cogs. Five netherite ingots plus the 100 mold returns 100 suns. Emeralds do nothing. Put ten diamonds in first and the 10 Dia mold second: the press mints sprockets instead of a diamond block. Same for twenty diamonds and the 20 Dia mold. If the press had already started the diamond-block craft, that cycle finishes with nothing made and the next one mints.
+- **Patrols.** Wait for a night patrol, or summon several with a command that runs the patrol spawner. About one patrol in four has an evoker standing one block east of the captain. That evoker follows the patrol instead of standing still. The pillagers are still there. Illager Invasion may have already swapped some of them for marauders; the evoker is added on top, not instead of a member.
 
 `./gradlew test` covers the arithmetic (half riptide, depth-strider level, which loot entries survive, version match). It does not launch a world. The checks above need one.

@@ -1,3 +1,9 @@
 {
-  "item.councilcraft.netherite_horseshoes": "Netherite Horseshoes"
+  "item.councilcraft.netherite_horseshoes": "Netherite Horseshoes",
+  "item.councilcraft.spur_mold": "1 Dia Mold",
+  "item.councilcraft.bevel_mold": "5 Dia Mold",
+  "item.councilcraft.sprocket_mold": "10 Dia Mold",
+  "item.councilcraft.cog_mold": "20 Dia Mold",
+  "item.councilcraft.crown_mold": "50 Dia Mold",
+  "item.councilcraft.sun_mold": "100 Dia Mold"
 }

@@ -6,11 +6,14 @@
   "plugin": "dev.councilcraft.mixin.CouncilCraftMixinPlugin",
   "mixins": [
     "AbstractHorseSpeedCapMixin",
+    "BasinMintMixin",
     "CamelSpeedCapMixin",
+    "CoinValueMixin",
     "CreeperMinionGriefMixin",
     "GoldHorseshoeLootMixin",
     "HorseEquipmentMixin",
     "HorseshoeSpeedMixin",
+    "ItemEntityMoldMixin",
     "ItemEntryAccess",
     "LivingEntityDepthStriderMixin",
     "LivingEntityHorseSpeedMixin",
@@ -18,6 +21,8 @@
     "LootPoolBuilderAccess",
     "MutatedExplosionGriefMixin",
     "ParagliderRepairMixin",
+    "PatrolEntityAccess",
+    "PatrolEvokerMixin",
     "SackNestingMixin",
     "ToolboxInsertMixin",
     "TridentRiptideMixin"
