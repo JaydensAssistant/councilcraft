@@ -18,9 +18,9 @@ import virtuoel.pehkui.api.ScaleTypes;
 /**
  * S80. The Reborn effect. Harmful, so it sits with the other debuffs.
  * The icon and the duration are vanilla. The duration is remaining active
- * time, and it does not tick down on its own. The penalties are not a single
- * amplifier: hearts step, and size, speed and strength each ease on their
- * own line. {@link Reborn} refreshes the modifiers when a window is credited.
+ * time, and it does not tick down on its own. Size, speed, strength, hearts
+ * and hunger each ease on the same fraction. {@link Reborn} refreshes the
+ * modifiers at each window boundary.
  */
 public final class RebornStatusEffect extends StatusEffect {
     public static final StatusEffect EFFECT = new RebornStatusEffect();
@@ -40,6 +40,7 @@ public final class RebornStatusEffect extends StatusEffect {
     public void apply(ServerPlayerEntity player, RebornStats stats) {
         float before = player.getMaxHealth();
         // Hearts are a flat change to the 20-point base. 6 hearts is 12 points, so -8.
+        // The count is linear, so a half heart is one point.
         modifier(
             player,
             EntityAttributes.GENERIC_MAX_HEALTH,

@@ -21,7 +21,7 @@ public class PlayerExhaustionMixin {
         if (!((Object) this instanceof ServerPlayerEntity player) || !Reborn.running(player)) {
             return exhaustion;
         }
-        float multiplier = RebornStats.at(Reborn.ticks(player)).hunger;
+        float multiplier = RebornStats.at(Reborn.minutes(player)).hunger;
         return RebornStats.exhaustion(exhaustion, multiplier);
     }
 }

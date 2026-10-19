@@ -115,33 +115,35 @@ public final class CouncilCraftRules {
 
     /**
      * S80 / S84 / S169. Penalty after death, shown as the Reborn status effect.
-     * It lasts {@code REBORN_ACTIVE_TICKS} of active play (six hours), not wall
-     * time, and it does not move while the player is idle or offline. Size is
-     * Pehkui's base scale only. Hearts step up by one at each quarter of that
-     * active time. Speed, strength and hunger ease in a straight line on the
-     * same fraction. Dying again starts the six hours over.
+     * It lasts {@code REBORN_ACTIVE_MINUTES} of active play (six hours), not wall
+     * time. Idle time and offline time add nothing. Size, speed, strength, hearts
+     * and hunger all ease in a straight line on that fraction. Hearts go from 6
+     * to 10, one heart per {@code REBORN_HEART_MINUTES}. Dying again starts over.
      *
      * <p>The inventory tooltip's second line is these four numbers as percents.
-     * Hit points are {@code REBORN_HEARTS / VANILLA_HEARTS}, so 6 of 10 hearts
+     * Hit points are hearts divided by {@code VANILLA_HEARTS}, so 6 of 10 hearts
      * is 60% HP. The live "Now" line uses the same four, from {@code RebornStats}.
      *
-     * <p>A five-minute window is credited in full at its end, or not at all.
-     * It counts when the camera moved enough, in more than one direction, and
-     * the player did a real action. Chat, eating, drinking, a held button and
-     * a steady macro do not count. There is no distance requirement.
+     * <p>A five-minute window of online time is credited in full at its end, or
+     * not at all. It counts when the camera moved enough on both yaw and pitch,
+     * and the player did a real action. Chat, eating, drinking, a held button
+     * and a steady macro do not count. There is no distance requirement. A
+     * logout drops the unfinished window.
      */
-    public static final long REBORN_ACTIVE_TICKS = 6L * 60L * 60L * 20L;
+    public static final int REBORN_ACTIVE_MINUTES = 6 * 60;
     /** Five minutes. The activity check runs once per window, at the end. */
-    public static final long REBORN_WINDOW_TICKS = 5L * 60L * 20L;
+    public static final int REBORN_WINDOW_MINUTES = 5;
+    /** Online ticks in one window. Not stored. Logout discards whatever is left. */
+    public static final long REBORN_WINDOW_TICKS = REBORN_WINDOW_MINUTES * 60L * 20L;
     public static final float REBORN_SCALE = 0.6f;
     public static final int REBORN_HEARTS = 6;
     public static final int VANILLA_HEARTS = 10;
     /**
-     * Active ticks between heart steps. Four steps across the six hours
-     * (6, 7, 8, 9, 10), so one heart every 1.5 active hours, at each 25%.
+     * Active minutes per extra heart. Four hearts across the six hours, so the
+     * bar is {@code REBORN_HEARTS + 4 * fraction}, one heart per 90 minutes.
      */
-    public static final long REBORN_HEART_TICKS =
-        REBORN_ACTIVE_TICKS / (VANILLA_HEARTS - REBORN_HEARTS);
+    public static final int REBORN_HEART_MINUTES =
+        REBORN_ACTIVE_MINUTES / (VANILLA_HEARTS - REBORN_HEARTS);
     public static final float REBORN_SPEED = 0.85f;
     public static final float REBORN_MELEE = 0.70f;
     /** Hunger exhaustion multiplier at rebirth. Eases to 1 with the other penalties. */
@@ -149,33 +151,27 @@ public final class CouncilCraftRules {
     /** Total yaw plus pitch change, in degrees, required inside one window. */
     public static final float REBORN_CAMERA_DEGREES = 30f;
     /**
-     * A look direction (left, right, up, down) counts once it has moved this far.
-     * Less than this is not a second direction, so a one-way spin still fails.
+     * An axis counts once it has moved this far. Less than this is noise, so a
+     * one-axis spin still fails even if the other axis wobbles.
      */
     public static final float REBORN_CAMERA_DIRECTION_DEGREES = 1f;
-    /** How many of those directions have to move. One way around is not enough. */
-    public static final int REBORN_CAMERA_DIRECTIONS = 2;
     /**
-     * Use or attack on one target, with gaps at or below this, is one held button.
-     * It does not qualify while the player is standing still. A fresh click is further apart.
+     * Same use or attack on one target, repeating within this many ticks, is one
+     * held button. A fresh click is further apart. The run does not qualify.
      */
-    public static final int REBORN_HELD_GAP_TICKS = 2;
-    /** This many separate actions, at a steady beat, are a macro and do not qualify. */
+    public static final int REBORN_HELD_GAP_TICKS = 4;
+    /** This many actions, at a steady beat, are a macro. That run does not qualify. */
     public static final int REBORN_MACRO_ACTIONS = 12;
     /** A run is a macro when every gap sits within this many ticks of the others. */
-    public static final int REBORN_MACRO_TOLERANCE_TICKS = 2;
-    /** Recent gestures kept per player. Enough to see a 12-action run, and no more. */
+    public static final int REBORN_MACRO_TOLERANCE_TICKS = 3;
+    /** Recent action ticks kept per player. Enough to see a 12-action run. */
     public static final int REBORN_ACTION_RING = 16;
+    /** Accrued active minutes. Absent means not Reborn. Zero means just respawned. */
+    public static final String REBORN_NBT = "councilcraft:reborn_minutes";
     /**
-     * Movement below this, in blocks, still counts as standing still.
-     * The window itself has no distance requirement.
-     */
-    public static final double REBORN_STATIONARY_BLOCKS = 0.5;
-    /** Accrued active ticks. Absent means not Reborn. Zero means just respawned. */
-    public static final String REBORN_NBT = "councilcraft:reborn_ticks";
-    /**
-     * S2C channel. First long: accrued active ticks, or -1 when Reborn is off.
-     * Second long: remaining active ticks at send. The client does not add wall time.
+     * Existing S2C clock. First long: accrued active minutes, or -1 when Reborn
+     * is off. Second long: remaining active minutes at send. The client does not
+     * add wall time. This is the same payload; it is not a second channel.
      */
     public static final String REBORN_CHANNEL = "reborn_ticks";
 

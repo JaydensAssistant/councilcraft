@@ -49,9 +49,9 @@ class RebornWindowTest {
 
         RebornWindow moving = lookedAround();
         for (int tick = 0; tick < 5; tick++) {
-            moving.act(Action.ATTACK, 3, tick, false);
+            moving.act(Action.ATTACK, 3, tick);
         }
-        assertTrue(moving.counts());
+        assertFalse(moving.counts());
 
         // A real break still counts. The held stream is not the qualifying action.
         RebornWindow withBreak = lookedAround();
@@ -70,21 +70,29 @@ class RebornWindowTest {
         }
         assertFalse(steady.counts());
 
-        RebornWindow withinTwo = lookedAround();
+        RebornWindow withinThree = lookedAround();
         int beat = 0;
         for (int i = 0; i < CouncilCraftRules.REBORN_MACRO_ACTIONS; i++) {
-            withinTwo.act(Action.BREAK, i, beat);
-            beat += (i % 2 == 0) ? 10 : 12;
+            withinThree.act(Action.BREAK, i, beat);
+            beat += (i % 2 == 0) ? 10 : 13;
         }
-        assertFalse(withinTwo.counts());
+        assertFalse(withinThree.counts());
 
         RebornWindow varied = lookedAround();
         int tick = 0;
         for (int i = 0; i < CouncilCraftRules.REBORN_MACRO_ACTIONS; i++) {
             varied.act(Action.PLACE, i, tick);
-            tick += (i % 2 == 0) ? 10 : 20;
+            tick += (i % 2 == 0) ? 10 : 14;
         }
         assertTrue(varied.counts());
+
+        // The rhythmic run is ignored. One action off that cadence still counts.
+        RebornWindow withOneReal = lookedAround();
+        for (int i = 0; i < CouncilCraftRules.REBORN_MACRO_ACTIONS; i++) {
+            withOneReal.act(Action.BREAK, i, i * 10);
+        }
+        withOneReal.act(Action.PLACE, 1, CouncilCraftRules.REBORN_MACRO_ACTIONS * 10 + 40);
+        assertTrue(withOneReal.counts());
 
         // One gesture, even if the screen handler reports it as many clicks.
         RebornWindow burst = lookedAround();
@@ -122,18 +130,29 @@ class RebornWindowTest {
     }
 
     @Test
-    void thirtyDegreesInTwoDirectionsIsEnough() {
+    void thirtyDegreesOnBothAxesIsEnough() {
         RebornWindow enough = new RebornWindow();
         enough.look(0f, 0f);
-        enough.look(15f, 0f);
-        enough.look(0f, 0f);
+        enough.look(20f, 10f);
         enough.act(Action.PLACE, 1, 1);
         assertTrue(enough.counts());
 
+        RebornWindow yawOnly = new RebornWindow();
+        yawOnly.look(0f, 0f);
+        yawOnly.look(40f, 0f);
+        yawOnly.look(0f, 0f);
+        yawOnly.act(Action.PLACE, 1, 1);
+        assertFalse(yawOnly.counts());
+
+        RebornWindow pitchOnly = new RebornWindow();
+        pitchOnly.look(0f, 0f);
+        pitchOnly.look(0f, 40f);
+        pitchOnly.act(Action.PLACE, 1, 1);
+        assertFalse(pitchOnly.counts());
+
         RebornWindow shortLook = new RebornWindow();
         shortLook.look(0f, 0f);
-        shortLook.look(14.5f, 0f);
-        shortLook.look(0f, 0f);
+        shortLook.look(20f, 9f);
         shortLook.act(Action.PLACE, 1, 1);
         assertFalse(shortLook.counts());
     }

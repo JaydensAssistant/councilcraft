@@ -11,13 +11,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * S80. Accrued active ticks are stored on the player, so a restart or a logout
- * keeps the same progress. Time offline is not added. The old wall-clock key
- * is dropped on save and is not read.
+ * S80. Accrued active minutes are stored on the player, so a restart or a
+ * logout keeps the same progress. Time offline is not added. The old wall-clock
+ * key and the old tick count are dropped on save and are not read.
  */
 @Mixin(PlayerEntity.class)
 public abstract class PlayerRebornDataMixin {
     private static final String RETIRED_WALL_CLOCK = "councilcraft:reborn_until";
+    private static final String RETIRED_TICKS = "councilcraft:reborn_ticks";
 
     @Inject(method = "writeCustomDataToNbt", at = @At("TAIL"))
     private void councilcraft$writeReborn(NbtCompound nbt, CallbackInfo ci) {
@@ -25,8 +26,9 @@ public abstract class PlayerRebornDataMixin {
             return;
         }
         nbt.remove(RETIRED_WALL_CLOCK);
+        nbt.remove(RETIRED_TICKS);
         if (Reborn.running(player)) {
-            nbt.putLong(CouncilCraftRules.REBORN_NBT, Reborn.ticks(player));
+            nbt.putInt(CouncilCraftRules.REBORN_NBT, (int) Reborn.minutes(player));
         } else {
             nbt.remove(CouncilCraftRules.REBORN_NBT);
         }
@@ -38,7 +40,7 @@ public abstract class PlayerRebornDataMixin {
             return;
         }
         if (nbt.contains(CouncilCraftRules.REBORN_NBT)) {
-            Reborn.load(player, nbt.getLong(CouncilCraftRules.REBORN_NBT));
+            Reborn.load(player, nbt.getInt(CouncilCraftRules.REBORN_NBT));
         }
     }
 }

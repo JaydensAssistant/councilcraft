@@ -9,9 +9,10 @@ import net.minecraft.util.Identifier;
 
 /**
  * Tells the client how much active Reborn time has been credited.
- * First long: accrued ticks, or -1 when it is not active.
- * Second long: remaining active ticks at the moment of the send.
+ * First long: accrued minutes, or -1 when it is not active.
+ * Second long: remaining active minutes at the moment of the send.
  * The client keeps those numbers as they are. It does not add wall-clock time.
+ * Same channel as before. The longs are minutes now.
  */
 public final class RebornSync {
     public static final Identifier CHANNEL = new Identifier(CouncilCraftRules.MOD_ID, CouncilCraftRules.REBORN_CHANNEL);
@@ -25,7 +26,7 @@ public final class RebornSync {
             buf.writeLong(-1L);
             buf.writeLong(0L);
         } else {
-            long accrued = Reborn.ticks(player);
+            long accrued = Reborn.minutes(player);
             buf.writeLong(accrued);
             buf.writeLong(RebornProgress.remaining(accrued));
         }

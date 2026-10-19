@@ -19,8 +19,8 @@ import net.minecraft.text.Text;
 
 /**
  * S80 / S169. After a death, the new body is small and weak for six hours of
- * active play. Idle time and time offline do not count. The accrued ticks are
- * saved on the player. The six hours start when the player respawns, not at
+ * active play. Idle time and time offline do not count. The accrued minutes
+ * are saved on the player. The six hours start when the player respawns, not at
  * the moment of death, and dying again starts them over. The player sees it
  * as the Reborn status effect. There is no boss bar and no chat message.
  *
@@ -32,11 +32,12 @@ import net.minecraft.text.Text;
  * <p>The icon's duration is the remaining active time. Vanilla would count that
  * down every tick, which looks like time passing while the player is idle.
  * {@code RebornDurationMixin} leaves the duration where the server last wrote
- * it. This class writes it again only when a window is credited, five minutes
- * shorter. An idle window does not send another packet.
+ * it. This class writes it again at each window boundary: five minutes shorter
+ * when the window counted, the same remaining time when it did not. Respawn
+ * writes it too. JOIN does not.
  */
 public final class Reborn {
-    private static final Map<ServerPlayerEntity, Long> TICKS = new WeakHashMap<>();
+    private static final Map<ServerPlayerEntity, Long> MINUTES = new WeakHashMap<>();
     private static final Map<ServerPlayerEntity, RebornWindow> WINDOWS = new WeakHashMap<>();
     private static final Map<ServerPlayerEntity, WindowVerdict> LAST_WINDOW = new WeakHashMap<>();
     /** The effect packet has been sent since this player object joined. JOIN itself must not send it. */
@@ -58,11 +59,11 @@ public final class Reborn {
         DEFER_EFFECT_CLEAR
     }
 
-    public static JoinStep joinStep(boolean active, long activeTicks) {
+    public static JoinStep joinStep(boolean active, long activeMinutes) {
         if (!active) {
             return JoinStep.NONE;
         }
-        if (activeTicks >= CouncilCraftRules.REBORN_ACTIVE_TICKS) {
+        if (activeMinutes >= CouncilCraftRules.REBORN_ACTIVE_MINUTES) {
             return JoinStep.DEFER_EFFECT_CLEAR;
         }
         return JoinStep.ATTRIBUTES_AND_CLOCK;
@@ -91,6 +92,11 @@ public final class Reborn {
             }
         });
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> syncJoined(handler.player));
+        ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
+            // Minutes already saved stay. The unfinished window does not.
+            WINDOWS.remove(handler.player);
+            LAST_WINDOW.remove(handler.player);
+        });
         ServerTickEvents.END_SERVER_TICK.register(Reborn::tick);
         CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) ->
             dispatcher.register(CommandManager.literal("councilcraft")
@@ -112,32 +118,32 @@ public final class Reborn {
         );
     }
 
-    public static long ticks(ServerPlayerEntity player) {
-        Long ticks = TICKS.get(player);
-        return ticks == null ? 0L : ticks;
+    public static long minutes(ServerPlayerEntity player) {
+        Long minutes = MINUTES.get(player);
+        return minutes == null ? 0L : minutes;
     }
 
     public static boolean running(ServerPlayerEntity player) {
-        return TICKS.containsKey(player);
+        return MINUTES.containsKey(player);
     }
 
-    /** Reads the saved active-tick count. Negative means the key was absent. */
-    public static void load(ServerPlayerEntity player, long activeTicks) {
-        if (activeTicks < 0L) {
-            TICKS.remove(player);
+    /** Reads the saved active-minute count. Negative means the key was absent. */
+    public static void load(ServerPlayerEntity player, long activeMinutes) {
+        if (activeMinutes < 0L) {
+            MINUTES.remove(player);
             return;
         }
-        TICKS.put(player, activeTicks);
+        MINUTES.put(player, activeMinutes);
     }
 
     public static void copy(ServerPlayerEntity from, ServerPlayerEntity to) {
         if (running(from)) {
-            TICKS.put(to, ticks(from));
+            MINUTES.put(to, minutes(from));
         }
     }
 
     public static void begin(ServerPlayerEntity player) {
-        TICKS.put(player, 0L);
+        MINUTES.put(player, 0L);
         WINDOWS.put(player, new RebornWindow());
         LAST_WINDOW.remove(player);
         sync(player);
@@ -156,9 +162,7 @@ public final class Reborn {
         if (player == null || !running(player) || player.getServer() == null) {
             return;
         }
-        RebornWindow window = window(player);
-        boolean still = window.still(player.getX(), player.getY(), player.getZ());
-        window.act(action, target, player.getServer().getTicks(), still);
+        window(player).act(action, target, player.getServer().getTicks());
     }
 
     private static RebornWindow window(ServerPlayerEntity player) {
@@ -173,15 +177,15 @@ public final class Reborn {
      * the icon on that same later tick.
      */
     private static void syncJoined(ServerPlayerEntity player) {
-        switch (joinStep(running(player), ticks(player))) {
+        switch (joinStep(running(player), minutes(player))) {
             case NONE -> {
             }
             case ATTRIBUTES_AND_CLOCK -> {
-                ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(ticks(player)));
+                ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(minutes(player)));
                 RebornSync.send(player);
             }
             case DEFER_EFFECT_CLEAR -> {
-                TICKS.remove(player);
+                MINUTES.remove(player);
                 WINDOWS.remove(player);
                 ((RebornStatusEffect) RebornStatusEffect.EFFECT).clear(player);
                 EFFECT_CLEAR_AFTER_JOIN.add(player);
@@ -199,32 +203,31 @@ public final class Reborn {
                 WINDOWS.remove(player);
                 continue;
             }
-            long accrued = ticks(player);
-            if (accrued >= CouncilCraftRules.REBORN_ACTIVE_TICKS) {
+            long accrued = minutes(player);
+            if (accrued >= CouncilCraftRules.REBORN_ACTIVE_MINUTES) {
                 finish(player);
                 continue;
             }
             RebornWindow window = window(player);
             boolean boundary = window.advance();
-            boolean credited = false;
             if (boundary) {
-                credited = window.counts();
+                boolean credited = window.counts();
                 LAST_WINDOW.put(player, credited ? WindowVerdict.CREDITED : WindowVerdict.MISSED);
                 WINDOWS.put(player, new RebornWindow());
                 if (credited) {
                     accrued = RebornProgress.credit(accrued, true);
-                    TICKS.put(player, accrued);
+                    MINUTES.put(player, accrued);
                 }
-                if (accrued >= CouncilCraftRules.REBORN_ACTIVE_TICKS) {
+                if (accrued >= CouncilCraftRules.REBORN_ACTIVE_MINUTES) {
                     finish(player);
                     continue;
                 }
             }
             boolean missing = !player.hasStatusEffect(RebornStatusEffect.EFFECT);
-            // Refresh the frozen duration only when a window counted. The first tick
-            // after JOIN still sends the icon, after registry remap, and a missing
-            // icon (milk, totem, /effect clear) is put back without changing the time.
-            if (credited || missing || !EFFECT_SENT.contains(player)) {
+            // Rewrite the duration at every window boundary. The first tick after
+            // JOIN still sends the icon, after registry remap, and a missing icon
+            // (milk, totem, /effect clear) is put back at the same remaining time.
+            if (boundary || missing || !EFFECT_SENT.contains(player)) {
                 sync(player);
             }
         }
@@ -232,13 +235,13 @@ public final class Reborn {
 
     /** Sends the effect. Not for JOIN: the packet's effect id is a raw registry id. */
     private static void sync(ServerPlayerEntity player) {
-        long accrued = ticks(player);
-        if (!running(player) || accrued >= CouncilCraftRules.REBORN_ACTIVE_TICKS) {
+        long accrued = minutes(player);
+        if (!running(player) || accrued >= CouncilCraftRules.REBORN_ACTIVE_MINUTES) {
             finish(player);
             return;
         }
         ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(accrued));
-        int duration = (int) Math.min(Integer.MAX_VALUE, RebornProgress.remaining(accrued));
+        int duration = (int) Math.min(Integer.MAX_VALUE, RebornProgress.durationTicks(accrued));
         player.setStatusEffect(new StatusEffectInstance(
             RebornStatusEffect.EFFECT,
             Math.max(1, duration),
@@ -270,7 +273,7 @@ public final class Reborn {
             source.sendError(Text.translatable("command.councilcraft.reborn.absent", player.getDisplayName()));
             return 0;
         }
-        long minutes = ticks(player) / (20L * 60L);
+        long minutes = minutes(player);
         WindowVerdict verdict = LAST_WINDOW.getOrDefault(player, WindowVerdict.NONE);
         String key = switch (verdict) {
             case CREDITED -> "command.councilcraft.reborn.window.credited";
@@ -290,7 +293,7 @@ public final class Reborn {
     }
 
     private static void finish(ServerPlayerEntity player) {
-        TICKS.remove(player);
+        MINUTES.remove(player);
         WINDOWS.remove(player);
         EFFECT_SENT.remove(player);
         if (player.hasStatusEffect(RebornStatusEffect.EFFECT)) {

@@ -24,8 +24,8 @@ public final class RebornText {
     }
 
     /** Hearts as a percent of a vanilla ten-heart bar. */
-    public static int hpPercent(int hearts) {
-        return hearts * 100 / CouncilCraftRules.VANILLA_HEARTS;
+    public static int hpPercent(float hearts) {
+        return Math.round(hearts * 100f / CouncilCraftRules.VANILLA_HEARTS);
     }
 
     /** Size, speed, strength, HP at the start of the penalty. Not a hover line. */

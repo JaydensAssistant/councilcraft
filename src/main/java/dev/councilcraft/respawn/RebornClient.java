@@ -9,7 +9,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 
 /**
- * Client only. The server sends the accrued active ticks. This class keeps
+ * Client only. The server sends the accrued active minutes. This class keeps
  * that number for the inventory tooltip. It does not add wall-clock time, so
  * the "Now" line stays put until the next window is credited.
  * Dedicated servers do not load this class.
@@ -39,7 +39,7 @@ public final class RebornClient {
     }
 
     /**
-     * Live penalty for the hover. The synced accrued ticks win. Before they
+     * Live penalty for the hover. The synced accrued minutes win. Before they
      * arrive, the effect's displayed duration is the remaining active time.
      */
     public static RebornStats current() {
@@ -55,16 +55,16 @@ public final class RebornClient {
     }
 
     /**
-     * Current penalty. Prefers the synced accrued ticks.
+     * Current penalty. Prefers the synced accrued minutes.
      * {@code durationTicks} is the fallback for the moment before the packet arrives:
-     * the effect duration is the remaining active time, and it does not tick down.
+     * the effect duration is the remaining active time, in ticks.
      */
     public static RebornStats stats(int durationTicks) {
         if (synced && accrued >= 0L) {
             return RebornStats.at(accrued);
         }
-        long remaining = Math.max(0, durationTicks);
-        return RebornStats.at(Math.max(0L, CouncilCraftRules.REBORN_ACTIVE_TICKS - remaining));
+        long remainingMinutes = Math.max(0, durationTicks) / (60L * 20L);
+        return RebornStats.at(Math.max(0L, CouncilCraftRules.REBORN_ACTIVE_MINUTES - remainingMinutes));
     }
 
     private static void clearLocal() {

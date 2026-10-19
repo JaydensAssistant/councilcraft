@@ -14,8 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * client. Reborn's displayed time is remaining active play, so that countdown
  * would move while the player is idle and then jump back at the next window.
  * Holding this one effect's duration still lets the server write a new value
- * at each window boundary. The icon steps down by five minutes when the
- * window counted, and it does not move otherwise.
+ * at each window boundary. A counted window steps the icon down by five
+ * minutes. An idle window writes the same remaining time. Between those
+ * writes the number does not move, so a little drift never builds up.
  */
 @Mixin(StatusEffectInstance.class)
 public abstract class RebornDurationMixin {
