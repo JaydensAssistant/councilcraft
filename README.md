@@ -39,7 +39,7 @@ Hooks 19–21 and the POST-MVP list in `councilcraft-hooks.md` are not implement
 | 15 Toolbox whitelist | Not in this PR. | — |
 | 16 Patrol evoker | Not in this PR. | — |
 | 17 RU planks in dockyard | No code. Stage 1 confirmed the dockyard already accepts them. | — |
-| 18 Sides and handshake | A client without this mod, or on another version, is kicked at login. | `fabric.mod.json`, `handshake/LoginHandshake.java`, `CouncilCraftClient.java`, `rules/HandshakeRule.java` |
+| 18 Sides and handshake | A client without this mod, or on another version, is kicked at login, after the other login queries have finished. | `fabric.mod.json`, `handshake/LoginHandshake.java`, `mixin/LoginAcceptMixin.java`, `CouncilCraftClient.java`, `rules/HandshakeRule.java` |
 
 Mixins into other mods are required (`defaultRequire: 1`). A renamed target crashes startup and names the mixin in the log. `CouncilCraftMixinPlugin` does the same if Horseshoes, Mutant Monsters, Paragliders or Supplementaries is not installed.
 
@@ -53,6 +53,6 @@ Install this jar next to the pack mods. Create a creative world.
 - **Sacks.** Craft a Supplementaries sack. It does not fit in a bundle. It does not fit in a Create toolbox. (Supplementaries 1.20-3.1.44 already returns false here; the mixin keeps it that way.)
 - **Gold horseshoes.** `/loot spawn ~ ~ ~ loot minecraft:chests/nether_bridge` and the four `minecraft:chests/bastion_*` tables. No gold horseshoes. Desert pyramid and end city loot can still roll iron or diamond horseshoes, not gold. Iron and diamond horseshoes elsewhere are unchanged.
 - **Creepers.** Spawn `mutantmonsters:mutant_creeper` and `mutantmonsters:creeper_minion` and let them explode next to stone and next to a mob. The mob takes damage. The stone does not break. A vanilla creeper still breaks blocks while `mobGriefing` is true. The minion tracker's "destroys blocks" toggle cannot turn block damage back on.
-- **Handshake.** Join this same world: you have the mod, so you get in. On a dedicated server, a client without the jar is disconnected with "This server requires the CouncilCraft mod. Install the CouncilCraft modpack." A client built from a different `mod_version` is disconnected with both version numbers. Both sentences are literal text, because that client is not running this mod. The disconnect runs on the server thread so the client receives the reason instead of the generic "Disconnected".
+- **Handshake.** Join this same world: you have the mod, so you get in. On a dedicated server, a client without the jar is disconnected with "This server requires the CouncilCraft mod. Install the CouncilCraft modpack." A client built from a different `mod_version` is disconnected with both version numbers. Both sentences are literal text, because that client is not running this mod. The disconnect is sent when login is about to accept the player, after every login query has been answered, so the client shows that sentence instead of "Connection reset by peer".
 
 `./gradlew test` covers the arithmetic (half riptide, depth-strider level, which loot entries survive, version match). It does not launch a world. The checks above need one.

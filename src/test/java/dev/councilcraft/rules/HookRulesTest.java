@@ -2,6 +2,7 @@ package dev.councilcraft.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -79,6 +80,16 @@ class HookRulesTest {
             "CouncilCraft version mismatch. Server has 0.1.0, client has 0.2.0.",
             HandshakeRule.versionMismatch("0.1.0", "0.2.0")
         );
+    }
+
+    @Test
+    void rejectionIsHeldUntilThePlayerWouldBeAccepted() {
+        LoginRejection rejection = new LoginRejection();
+        assertNull(rejection.take());
+        rejection.record(HandshakeRule.MISSING_MOD);
+        rejection.record(HandshakeRule.versionMismatch("0.1.0", "0.2.0"));
+        assertEquals(HandshakeRule.MISSING_MOD, rejection.take());
+        assertNull(rejection.take());
     }
 
     @Test

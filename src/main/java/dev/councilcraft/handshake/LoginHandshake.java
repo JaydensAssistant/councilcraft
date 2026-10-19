@@ -3,16 +3,15 @@ package dev.councilcraft.handshake;
 import dev.councilcraft.CouncilCraft;
 import dev.councilcraft.CouncilCraftRules;
 import dev.councilcraft.rules.HandshakeRule;
+import dev.councilcraft.rules.LoginRejection;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
-import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking.LoginSynchronizer;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 /**
@@ -24,14 +23,16 @@ import net.minecraft.util.Identifier;
  * a client that did not install the mod, and a client on a different version.
  * Fabric only delivers the response when the client registered the same channel.
  *
- * <p>The query callback runs on the Netty thread. {@code handler.disconnect} writes the
- * login-disconnect packet and then closes the channel on that same thread, so the close
- * can win and the client shows the generic "Disconnected". The refusal is posted to the
- * server thread, and the query future stays open until the channel has closed, so login
- * does not continue into the play phase.
+ * <p>The query callback runs while other mods' login queries are still open.
+ * Disconnecting there makes the client report "Connection reset by peer" and
+ * drop the disconnect packet. The reason is stored, and
+ * {@link dev.councilcraft.mixin.LoginAcceptMixin} sends it at the start of
+ * {@code acceptPlayer}, which Fabric reaches only after every login query has
+ * been answered. No delay is inserted.
  */
 public final class LoginHandshake {
     public static final Identifier CHANNEL = new Identifier(CouncilCraftRules.MOD_ID, CouncilCraftRules.HANDSHAKE_CHANNEL);
+    private static final ConcurrentHashMap<ServerLoginNetworkHandler, LoginRejection> REJECTIONS = new ConcurrentHashMap<>();
 
     private LoginHandshake() {
     }
@@ -40,30 +41,28 @@ public final class LoginHandshake {
         ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) ->
             sender.sendPacket(CHANNEL, PacketByteBufs.empty())
         );
+        ServerLoginConnectionEvents.DISCONNECT.register((handler, server) -> REJECTIONS.remove(handler));
         ServerLoginNetworking.registerGlobalReceiver(CHANNEL, (server, handler, understood, buf, synchronizer, responseSender) -> {
             if (!understood) {
-                reject(server, handler, synchronizer, HandshakeRule.MISSING_MOD);
+                reject(handler, HandshakeRule.MISSING_MOD);
                 return;
             }
             String clientVersion = buf.readString(64);
             String serverVersion = CouncilCraft.version();
             if (!HandshakeRule.versionsMatch(serverVersion, clientVersion)) {
-                reject(server, handler, synchronizer, HandshakeRule.versionMismatch(serverVersion, clientVersion));
+                reject(handler, HandshakeRule.versionMismatch(serverVersion, clientVersion));
             }
         });
     }
 
-    /**
-     * Leave the Netty thread before closing the channel, and hold the login query
-     * until that close has finished so the player is not accepted in between.
-     */
-    private static void reject(
-        MinecraftServer server,
-        ServerLoginNetworkHandler handler,
-        LoginSynchronizer synchronizer,
-        String message
-    ) {
-        synchronizer.waitFor(server.submit(() -> handler.disconnect(Text.literal(message))));
+    private static void reject(ServerLoginNetworkHandler handler, String message) {
+        REJECTIONS.computeIfAbsent(handler, ignored -> new LoginRejection()).record(message);
+    }
+
+    /** Called at the start of accept-player. Null means the client may join. */
+    public static String takeRejection(ServerLoginNetworkHandler handler) {
+        LoginRejection rejection = REJECTIONS.remove(handler);
+        return rejection == null ? null : rejection.take();
     }
 
     public static void registerClient() {

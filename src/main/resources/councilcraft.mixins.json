@@ -9,6 +9,7 @@
     "GoldHorseshoeLootMixin",
     "ItemEntryAccess",
     "LivingEntityDepthStriderMixin",
+    "LoginAcceptMixin",
     "LootPoolBuilderAccess",
     "MutatedExplosionGriefMixin",
     "ParagliderRepairMixin",
