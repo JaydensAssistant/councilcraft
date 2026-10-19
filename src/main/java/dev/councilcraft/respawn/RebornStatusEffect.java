@@ -17,9 +17,10 @@ import virtuoel.pehkui.api.ScaleTypes;
 
 /**
  * S80. The Reborn effect. Harmful, so it sits with the other debuffs.
- * The icon and the countdown are vanilla. The penalties are not a single
+ * The icon and the duration are vanilla. The duration is remaining active
+ * time, and it does not tick down on its own. The penalties are not a single
  * amplifier: hearts step, and size, speed and strength each ease on their
- * own line. {@link Reborn} refreshes the modifiers about once a minute.
+ * own line. {@link Reborn} refreshes the modifiers when a window is credited.
  */
 public final class RebornStatusEffect extends StatusEffect {
     public static final StatusEffect EFFECT = new RebornStatusEffect();

@@ -9,11 +9,11 @@ import dev.councilcraft.CouncilCraftRules;
 import dev.councilcraft.enchant.ForgerLevels;
 import dev.councilcraft.respawn.Reborn;
 import dev.councilcraft.respawn.Reborn.JoinStep;
-import dev.councilcraft.respawn.RebornClock;
 import dev.councilcraft.respawn.RebornEmi;
 import dev.councilcraft.respawn.RebornProgress;
 import dev.councilcraft.respawn.RebornStats;
 import dev.councilcraft.respawn.RebornText;
+import java.util.OptionalLong;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 /** Baby respawn curve, the tooltip numbers, and the Blaze Forger level clamp. */
 class RespawnRulesTest {
     @Test
-    void rebornStartsSmallAndIsBackToNormalAfterOneRealDay() {
+    void rebornStartsSmallAndIsBackToNormalAfterSixActiveHours() {
         RebornStats start = RebornStats.at(0L);
         assertEquals(CouncilCraftRules.REBORN_SCALE, start.scale, 0.0001f);
         assertEquals(CouncilCraftRules.REBORN_HEARTS, start.hearts);
@@ -29,22 +29,31 @@ class RespawnRulesTest {
         assertEquals(CouncilCraftRules.REBORN_MELEE, start.melee, 0.0001f);
         assertEquals(CouncilCraftRules.REBORN_HUNGER, start.hunger, 0.0001f);
 
-        long almostSixHours = CouncilCraftRules.REBORN_HEART_MILLIS - 1L;
-        assertEquals(CouncilCraftRules.REBORN_HEARTS, RebornStats.at(almostSixHours).hearts);
-        assertEquals(CouncilCraftRules.REBORN_HEARTS + 1, RebornStats.at(CouncilCraftRules.REBORN_HEART_MILLIS).hearts);
-
-        RebornStats done = RebornStats.at(CouncilCraftRules.REBORN_MILLIS);
+        RebornStats done = RebornStats.at(CouncilCraftRules.REBORN_ACTIVE_TICKS);
         assertEquals(CouncilCraftRules.VANILLA_HEARTS, done.hearts);
         assertEquals(1f, done.scale, 0.0001f);
         assertEquals(1f, done.speed, 0.0001f);
         assertEquals(1f, done.melee, 0.0001f);
         assertEquals(1f, done.hunger, 0.0001f);
-        assertEquals(done.hearts, RebornStats.at(CouncilCraftRules.REBORN_MILLIS + 60_000L).hearts);
+        assertEquals(done.hearts, RebornStats.at(CouncilCraftRules.REBORN_ACTIVE_TICKS + 60_000L).hearts);
+    }
+
+    @Test
+    void heartsStepUpAtEachQuarter() {
+        long step = CouncilCraftRules.REBORN_HEART_TICKS;
+        assertEquals(6 * 60 * 60 * 20 / 4, step);
+        assertEquals(6, RebornStats.at(0L).hearts);
+        assertEquals(6, RebornStats.at(step - 1L).hearts);
+        assertEquals(7, RebornStats.at(step).hearts);
+        assertEquals(8, RebornStats.at(step * 2L).hearts);
+        assertEquals(9, RebornStats.at(step * 3L).hearts);
+        assertEquals(10, RebornStats.at(step * 4L).hearts);
+        assertEquals(CouncilCraftRules.REBORN_ACTIVE_TICKS, step * 4L);
     }
 
     @Test
     void sizeSpeedAndStrengthEaseInAStraightLine() {
-        long halfway = CouncilCraftRules.REBORN_MILLIS / 2L;
+        long halfway = CouncilCraftRules.REBORN_ACTIVE_TICKS / 2L;
         RebornStats mid = RebornStats.at(halfway);
         assertEquals(0.8f, mid.scale, 0.001f);
         assertEquals(0.925f, mid.speed, 0.001f);
@@ -56,18 +65,18 @@ class RespawnRulesTest {
     @Test
     void hungerExhaustionEasesFromOneAndAHalfToNormal() {
         assertEquals(0f, RebornProgress.fraction(0L), 0.0001f);
-        assertEquals(0.5f, RebornProgress.fraction(CouncilCraftRules.REBORN_MILLIS / 2L), 0.0001f);
-        assertEquals(1f, RebornProgress.fraction(CouncilCraftRules.REBORN_MILLIS), 0.0001f);
-        assertEquals(1f, RebornProgress.fraction(CouncilCraftRules.REBORN_MILLIS + 60_000L), 0.0001f);
+        assertEquals(0.5f, RebornProgress.fraction(CouncilCraftRules.REBORN_ACTIVE_TICKS / 2L), 0.0001f);
+        assertEquals(1f, RebornProgress.fraction(CouncilCraftRules.REBORN_ACTIVE_TICKS), 0.0001f);
+        assertEquals(1f, RebornProgress.fraction(CouncilCraftRules.REBORN_ACTIVE_TICKS + 60_000L), 0.0001f);
 
-        long halfway = CouncilCraftRules.REBORN_MILLIS / 2L;
+        long halfway = CouncilCraftRules.REBORN_ACTIVE_TICKS / 2L;
         RebornStats mid = RebornStats.at(halfway);
         float scaleProgress = (mid.scale - CouncilCraftRules.REBORN_SCALE) / (1f - CouncilCraftRules.REBORN_SCALE);
         assertEquals(scaleProgress, mid.progress, 0.0001f);
         assertEquals(1.25f, mid.hunger, 0.0001f);
         assertEquals(2.5f, RebornStats.exhaustion(2f, mid.hunger), 0.0001f);
         assertEquals(1.5f, RebornStats.exhaustion(1f, RebornStats.at(0L).hunger), 0.0001f);
-        assertEquals(1f, RebornStats.exhaustion(1f, RebornStats.at(CouncilCraftRules.REBORN_MILLIS).hunger), 0.0001f);
+        assertEquals(1f, RebornStats.exhaustion(1f, RebornStats.at(CouncilCraftRules.REBORN_ACTIVE_TICKS).hunger), 0.0001f);
         assertEquals(0f, RebornStats.exhaustion(0f, CouncilCraftRules.REBORN_HUNGER), 0.0001f);
         assertEquals(-2f, RebornStats.exhaustion(-2f, CouncilCraftRules.REBORN_HUNGER), 0.0001f);
     }
@@ -75,7 +84,8 @@ class RespawnRulesTest {
     @Test
     void hoverIsTheSentenceAndTheLiveLine() throws Exception {
         String lang = Files.readString(Path.of("src/main/resources/assets/councilcraft/lang/en_us.json"));
-        assertTrue(lang.contains("Incrementally return to adult stats over one real life day, on or offline."));
+        assertTrue(lang.contains("Grows up after 6 hours of active play."));
+        assertFalse(lang.contains("on or offline"));
         assertTrue(lang.contains("Now: %s%% size, %s%% speed, %s%% strength, %s%% HP"));
         assertFalse(lang.contains("effect.councilcraft.reborn.line2"));
         assertEquals(RebornText.LINE1, "effect.councilcraft.reborn.line1");
@@ -87,19 +97,56 @@ class RespawnRulesTest {
     @Test
     void nowLineUsesTheLiveCurve() {
         assertArrayEquals(RebornText.startingPercents(), RebornText.nowPercents(RebornStats.at(0L)));
-        RebornStats twelveHours = RebornStats.at(CouncilCraftRules.REBORN_HEART_MILLIS * 2L);
-        assertArrayEquals(new int[] {80, 93, 85, 80}, RebornText.nowPercents(twelveHours));
+        RebornStats halfway = RebornStats.at(CouncilCraftRules.REBORN_ACTIVE_TICKS / 2L);
+        assertArrayEquals(new int[] {80, 93, 85, 80}, RebornText.nowPercents(halfway));
     }
 
     @Test
-    void clientClockFollowsTheServerExpiry() {
-        long day = CouncilCraftRules.REBORN_MILLIS;
-        long serverNow = 1_700_000_000_000L;
-        long until = serverNow + day;
-        long clientAtSync = 50_000L;
-        assertEquals(0L, RebornClock.elapsed(until, serverNow, clientAtSync, clientAtSync));
-        assertEquals(60_000L, RebornClock.elapsed(until, serverNow, clientAtSync, clientAtSync + 60_000L));
-        assertEquals(day, RebornClock.elapsed(0L, serverNow, clientAtSync, clientAtSync));
+    void progressIsSavedAndDoesNotCatchUpOffline() {
+        long earned = CouncilCraftRules.REBORN_WINDOW_TICKS * 2L;
+        OptionalLong saved = RebornProgress.stored(true, earned);
+        assertEquals(earned, saved.getAsLong());
+        assertEquals("councilcraft:reborn_ticks", CouncilCraftRules.REBORN_NBT);
+        assertFalse(CouncilCraftRules.REBORN_NBT.contains("until"));
+
+        long loaded = RebornProgress.load(saved);
+        assertEquals(earned, loaded);
+        for (int idle = 0; idle < 50; idle++) {
+            loaded = RebornProgress.credit(loaded, false);
+        }
+        assertEquals(earned, loaded);
+        assertEquals(RebornProgress.fraction(earned), RebornProgress.fraction(loaded), 0.0001f);
+
+        // Dying again stores a fresh zero, not the time already earned.
+        OptionalLong restarted = RebornProgress.stored(true, 0L);
+        assertEquals(0L, restarted.getAsLong());
+        assertEquals(0f, RebornProgress.fraction(RebornProgress.load(restarted)), 0.0001f);
+        assertEquals(6, RebornStats.at(RebornProgress.load(restarted)).hearts);
+
+        assertTrue(RebornProgress.stored(false, earned).isEmpty());
+        assertEquals(-1L, RebornProgress.load(OptionalLong.empty()));
+    }
+
+    @Test
+    void displayedTimeHoldsUntilAWindowCounts() {
+        long ticks = 0L;
+        assertEquals(CouncilCraftRules.REBORN_ACTIVE_TICKS, RebornProgress.remaining(ticks));
+        ticks = RebornProgress.credit(ticks, false);
+        assertEquals(CouncilCraftRules.REBORN_ACTIVE_TICKS, RebornProgress.remaining(ticks));
+        ticks = RebornProgress.credit(ticks, true);
+        assertEquals(
+            CouncilCraftRules.REBORN_ACTIVE_TICKS - CouncilCraftRules.REBORN_WINDOW_TICKS,
+            RebornProgress.remaining(ticks)
+        );
+
+        long windows = CouncilCraftRules.REBORN_ACTIVE_TICKS / CouncilCraftRules.REBORN_WINDOW_TICKS;
+        long accrued = 0L;
+        for (long i = 0; i < windows; i++) {
+            accrued = RebornProgress.credit(accrued, true);
+        }
+        assertEquals(CouncilCraftRules.REBORN_ACTIVE_TICKS, accrued);
+        assertEquals(0L, RebornProgress.remaining(accrued));
+        assertEquals(1f, RebornProgress.fraction(accrued), 0.0001f);
     }
 
     @Test
@@ -113,11 +160,12 @@ class RespawnRulesTest {
 
     @Test
     void joinSendsNoStatusEffect() {
-        long now = 1_700_000_000_000L;
-        assertEquals(JoinStep.NONE, Reborn.joinStep(0L, now));
-        assertEquals(JoinStep.ATTRIBUTES_AND_CLOCK, Reborn.joinStep(now + 60_000L, now));
-        assertEquals(JoinStep.DEFER_EFFECT_CLEAR, Reborn.joinStep(now, now));
-        assertEquals(JoinStep.DEFER_EFFECT_CLEAR, Reborn.joinStep(now - 1L, now));
+        assertEquals(JoinStep.NONE, Reborn.joinStep(false, 0L));
+        assertEquals(JoinStep.ATTRIBUTES_AND_CLOCK, Reborn.joinStep(true, 0L));
+        // Logout does not expire the timer, and JOIN still does not send the effect.
+        assertEquals(JoinStep.ATTRIBUTES_AND_CLOCK, Reborn.joinStep(true, 1_000L));
+        assertEquals(JoinStep.DEFER_EFFECT_CLEAR, Reborn.joinStep(true, CouncilCraftRules.REBORN_ACTIVE_TICKS));
+        assertEquals(JoinStep.DEFER_EFFECT_CLEAR, Reborn.joinStep(true, CouncilCraftRules.REBORN_ACTIVE_TICKS + 1L));
     }
 
     @Test

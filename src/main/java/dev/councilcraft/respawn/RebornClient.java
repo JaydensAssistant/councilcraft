@@ -9,16 +9,14 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 
 /**
- * Client only. Owner review: this is the clock the inventory tooltip uses.
- * The server sends the expiry and its own time. This class keeps those two
- * numbers and the client time they arrived, and turns them into {@link RebornStats}.
+ * Client only. The server sends the accrued active ticks. This class keeps
+ * that number for the inventory tooltip. It does not add wall-clock time, so
+ * the "Now" line stays put until the next window is credited.
  * Dedicated servers do not load this class.
  */
 @Environment(EnvType.CLIENT)
 public final class RebornClient {
-    private static long until;
-    private static long serverNow;
-    private static long clientNowAtSync;
+    private static long accrued = -1L;
     private static boolean synced;
 
     private RebornClient() {
@@ -26,25 +24,23 @@ public final class RebornClient {
 
     public static void register() {
         ClientPlayNetworking.registerGlobalReceiver(RebornSync.CHANNEL, (client, handler, buf, response) -> {
-            long packetUntil = buf.readLong();
-            long packetServerNow = buf.readLong();
-            client.execute(() -> accept(packetUntil, packetServerNow));
+            long packetAccrued = buf.readLong();
+            buf.readLong();
+            client.execute(() -> accept(packetAccrued));
         });
     }
 
-    static void accept(long packetUntil, long packetServerNow) {
-        until = packetUntil;
-        serverNow = packetServerNow;
-        clientNowAtSync = System.currentTimeMillis();
+    static void accept(long packetAccrued) {
+        accrued = packetAccrued;
         synced = true;
-        if (packetUntil <= 0L) {
+        if (packetAccrued < 0L) {
             clearLocal();
         }
     }
 
     /**
-     * Live penalty for the hover. The synced clock wins. Before it arrives,
-     * the Reborn effect's own countdown is the remaining real time.
+     * Live penalty for the hover. The synced accrued ticks win. Before they
+     * arrive, the effect's displayed duration is the remaining active time.
      */
     public static RebornStats current() {
         int ticks = 0;
@@ -59,17 +55,16 @@ public final class RebornClient {
     }
 
     /**
-     * Current penalty. Prefers the synced real-time expiry.
+     * Current penalty. Prefers the synced accrued ticks.
      * {@code durationTicks} is the fallback for the moment before the packet arrives:
-     * the effect countdown is the remaining real time, in game ticks.
+     * the effect duration is the remaining active time, and it does not tick down.
      */
     public static RebornStats stats(int durationTicks) {
-        if (synced && until > 0L) {
-            long elapsed = RebornClock.elapsed(until, serverNow, clientNowAtSync, System.currentTimeMillis());
-            return RebornStats.at(elapsed);
+        if (synced && accrued >= 0L) {
+            return RebornStats.at(accrued);
         }
-        long remaining = Math.max(0, durationTicks) * 50L;
-        return RebornStats.at(CouncilCraftRules.REBORN_MILLIS - remaining);
+        long remaining = Math.max(0, durationTicks);
+        return RebornStats.at(Math.max(0L, CouncilCraftRules.REBORN_ACTIVE_TICKS - remaining));
     }
 
     private static void clearLocal() {

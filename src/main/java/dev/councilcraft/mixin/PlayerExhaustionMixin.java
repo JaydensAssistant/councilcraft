@@ -1,7 +1,6 @@
 package dev.councilcraft.mixin;
 
 import dev.councilcraft.respawn.Reborn;
-import dev.councilcraft.respawn.RebornProgress;
 import dev.councilcraft.respawn.RebornStats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -22,9 +21,7 @@ public class PlayerExhaustionMixin {
         if (!((Object) this instanceof ServerPlayerEntity player) || !Reborn.running(player)) {
             return exhaustion;
         }
-        float multiplier = RebornStats.at(
-            RebornProgress.elapsed(Reborn.until(player), System.currentTimeMillis())
-        ).hunger;
+        float multiplier = RebornStats.at(Reborn.ticks(player)).hunger;
         return RebornStats.exhaustion(exhaustion, multiplier);
     }
 }

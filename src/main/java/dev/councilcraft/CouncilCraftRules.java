@@ -114,30 +114,63 @@ public final class CouncilCraftRules {
     public static final int PATROL_EVOKER_SIDES = 4;
 
     /**
-     * S80 / S84 / S169. Real-time penalty after death, shown as the Reborn
-     * status effect. Size is Pehkui's base scale only. Hearts step up by one
-     * every six hours. Speed and strength ease in a straight line back to
-     * normal. Hunger exhaustion starts at {@code REBORN_HUNGER} and eases to 1
-     * on that same progress. Dying again starts the 24 hours over.
+     * S80 / S84 / S169. Penalty after death, shown as the Reborn status effect.
+     * It lasts {@code REBORN_ACTIVE_TICKS} of active play (six hours), not wall
+     * time, and it does not move while the player is idle or offline. Size is
+     * Pehkui's base scale only. Hearts step up by one at each quarter of that
+     * active time. Speed, strength and hunger ease in a straight line on the
+     * same fraction. Dying again starts the six hours over.
      *
      * <p>The inventory tooltip's second line is these four numbers as percents.
      * Hit points are {@code REBORN_HEARTS / VANILLA_HEARTS}, so 6 of 10 hearts
      * is 60% HP. The live "Now" line uses the same four, from {@code RebornStats}.
+     *
+     * <p>A five-minute window is credited in full at its end, or not at all.
+     * It counts when the camera moved enough, in more than one direction, and
+     * the player did a real action. Chat, eating, drinking, a held button and
+     * a steady macro do not count. There is no distance requirement.
      */
-    public static final long REBORN_MILLIS = 24L * 60L * 60L * 1000L;
-    public static final long REBORN_HEART_MILLIS = 6L * 60L * 60L * 1000L;
-    /** How often the effect's modifiers and the client clock packet are refreshed. */
-    public static final long REBORN_REFRESH_MILLIS = 60_000L;
+    public static final long REBORN_ACTIVE_TICKS = 6L * 60L * 60L * 20L;
+    /** Five minutes. The activity check runs once per window, at the end. */
+    public static final long REBORN_WINDOW_TICKS = 5L * 60L * 20L;
     public static final float REBORN_SCALE = 0.6f;
     public static final int REBORN_HEARTS = 6;
     public static final int VANILLA_HEARTS = 10;
+    /**
+     * Active ticks between heart steps. Four steps across the six hours
+     * (6, 7, 8, 9, 10), so one heart every 1.5 active hours, at each 25%.
+     */
+    public static final long REBORN_HEART_TICKS =
+        REBORN_ACTIVE_TICKS / (VANILLA_HEARTS - REBORN_HEARTS);
     public static final float REBORN_SPEED = 0.85f;
     public static final float REBORN_MELEE = 0.70f;
     /** Hunger exhaustion multiplier at rebirth. Eases to 1 with the other penalties. */
     public static final float REBORN_HUNGER = 1.5f;
-    public static final String REBORN_NBT = "councilcraft:reborn_until";
-    /** S2C channel. The payload is the expiry timestamp and the server's clock. */
-    public static final String REBORN_CHANNEL = "reborn_until";
+    /** Total yaw plus pitch change, in degrees, required inside one window. */
+    public static final float REBORN_CAMERA_DEGREES = 30f;
+    /**
+     * A look direction (left, right, up, down) counts once it has moved this far.
+     * Less than this is not a second direction, so a one-way spin still fails.
+     */
+    public static final float REBORN_CAMERA_DIRECTION_DEGREES = 1f;
+    /** How many of those directions have to move. One way around is not enough. */
+    public static final int REBORN_CAMERA_DIRECTIONS = 2;
+    /**
+     * Use or attack on one target, with gaps at or below this, is one held button.
+     * It does not qualify. A fresh click is further apart than this.
+     */
+    public static final int REBORN_HELD_GAP_TICKS = 3;
+    /** This many separate actions, at a steady beat, are a macro and do not qualify. */
+    public static final int REBORN_MACRO_ACTIONS = 12;
+    /** Macro gaps have to sit within this many ticks of each other. */
+    public static final int REBORN_MACRO_TOLERANCE_TICKS = 3;
+    /** Accrued active ticks. Absent means not Reborn. Zero means just respawned. */
+    public static final String REBORN_NBT = "councilcraft:reborn_ticks";
+    /**
+     * S2C channel. First long: accrued active ticks, or -1 when Reborn is off.
+     * Second long: remaining active ticks at send. The client does not add wall time.
+     */
+    public static final String REBORN_CHANNEL = "reborn_ticks";
 
     public static final UUID REBORN_HEALTH_UUID =
         UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a003");
