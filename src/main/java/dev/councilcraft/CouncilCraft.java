@@ -3,6 +3,7 @@ package dev.councilcraft;
 import dev.councilcraft.handshake.LoginHandshake;
 import dev.councilcraft.item.GovernmentMolds;
 import dev.councilcraft.item.NetheriteHorseshoes;
+import dev.councilcraft.respawn.Reborn;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ public final class CouncilCraft implements ModInitializer {
         LoginHandshake.registerServer();
         NetheriteHorseshoes.register();
         GovernmentMolds.register();
+        Reborn.register();
         // These classes keep their own names (they are not Minecraft classes).
         // Loading them here, after mixins are registered, applies our mixins and
         // throws if the class was renamed. The mixin json still requires each method.
@@ -37,6 +39,14 @@ public final class CouncilCraft implements ModInitializer {
         requireClass(
             "dev.ithundxr.createnumismatics.content.backend.Coin",
             "coin values (S123)"
+        );
+        requireClass(
+            "plus.dragons.createenchantmentindustry.common.processing.forger.BlazeForgerInventory",
+            "Blaze Forger clamp (S177)"
+        );
+        requireClass(
+            "plus.dragons.createenchantmentindustry.common.fluids.printer.PrinterBlockEntity",
+            "printed copies (S207)"
         );
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }

@@ -26,7 +26,9 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"paraglider", "paraglider repair with phantom membrane (S244)"},
         {"supplementaries", "sacks barred from bundles and toolboxes (S236)"},
         {"create", "toolbox whitelist (S234) and basin minting"},
-        {"numismatics", "coin values (S123)"}
+        {"numismatics", "coin values (S123)"},
+        {"pehkui", "baby respawn size (S80)"},
+        {"create_enchantment_industry", "Blaze Forger clamp and printed copies (S177 / S207)"}
     };
 
     @Override

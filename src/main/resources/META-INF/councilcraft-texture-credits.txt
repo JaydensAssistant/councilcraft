@@ -49,3 +49,10 @@ lightest, onto copper, brass and blue steel.
 cog_mold, crown_mold and sun_mold keep the sprocket mold's outline and shading
 shape, which makes them a derivative of that LGPL texture. The metal colour
 and the mark in the middle (cog, crown, sun) are new pixels drawn by hand.
+
+Reborn effect icon
+
+assets/councilcraft/textures/mob_effect/reborn.png is original CouncilCraft
+art. It is an 18x18 baby face, hand-pixeled for this mod. It is not a recolor
+and it has no third-party source. No AI-generated art. Vanilla uses this one
+texture for both the HUD icon and the inventory effect icon.

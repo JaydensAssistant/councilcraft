@@ -9,6 +9,16 @@ base {
     archivesName = project.archives_base_name
 }
 
+sourceSets {
+    // Empty stand-ins for classes that live inside Create's nested jars.
+    // The compiler needs the names. They are not packed into our jar.
+    stubs {
+        java {
+            srcDir "src/stubs/java"
+        }
+    }
+}
+
 repositories {
     // Every third-party mod below is the exact pack build from the Stage 1 appendix.
     maven {
@@ -60,6 +70,13 @@ dependencies {
     // Numismatics 1.1.0+fabric-mc1.20.1 (Jdbbtt0i / X08Z2kZi) is the coin target.
     // Coin implements a Create interface, so it has the same nested-jar problem.
     // CoinValueMixin is @Pseudo and is checked when the game starts.
+    //
+    // Create: Enchantment Industry 2.5.2-g (JWGBpFUP / Or9rfT7c) is the printer and
+    // Blaze Forger target. It needs Create the same way, so those mixins are @Pseudo too.
+    //
+    // Pehkui 3.8.3+1.14.4-1.21 (t5W7Jfwy / 6fzxx6SC). Size only. The baby timer sets
+    // the base scale itself and does not turn on Pehkui's health, motion or attack scale.
+    modImplementation "maven.modrinth:pehkui:3.8.3+1.14.4-1.21"
 
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
@@ -79,12 +96,6 @@ processResources {
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    // The pack runs Java 17. JDK 21 may run Gradle, but the class files must be 17.
-    it.options.release = 17
-    it.options.encoding = "UTF-8"
-}
-
 sourceSets {
     jarcheck {
         java.srcDir "src/jarcheck/java"
@@ -102,15 +113,23 @@ dependencies {
     testImplementation "org.ow2.asm:asm-tree:9.7.1"
 }
 
-// Stubs need Minecraft types, but they must not depend on main's output.
-// main compiles against the stub classes and does not package them.
 tasks.named("compileStubsJava") {
+    // Stubs name Create and CEI classes. A few of those signatures mention
+    // Minecraft types, so this compile can see Minecraft. The stub classes
+    // themselves are still not packed into the mod jar. Assign the classpath
+    // instead of appending, so this task does not depend on main's output.
     classpath = sourceSets.main.compileClasspath
 }
 
 tasks.named("compileJava") {
-    dependsOn "compileStubsJava"
+    dependsOn tasks.named("compileStubsJava")
     classpath += sourceSets.stubs.output
+}
+
+tasks.withType(JavaCompile).configureEach {
+    // The pack runs Java 17. JDK 21 may run Gradle, but the class files must be 17.
+    it.options.release = 17
+    it.options.encoding = "UTF-8"
 }
 
 java {
@@ -130,7 +149,7 @@ tasks.register("checkUnmappedYarn", JavaExec) {
     mainClass = "dev.councilcraft.build.UnmappedYarnCheck"
     def remapped = tasks.named("remapJar", net.fabricmc.loom.task.RemapJarTask).flatMap { it.archiveFile }
     inputs.file(remapped)
-    inputs.files(sourceSets.main.compileClasspath)
+    inputs.files(sourceSets.main.compileClasspath, sourceSets.stubs.output)
     doFirst {
         def mappings = configurations.getByName("mappings").files.find {
             it.name.contains("yarn") && it.name.endsWith(".jar") && !it.name.contains("constants")
@@ -138,7 +157,8 @@ tasks.register("checkUnmappedYarn", JavaExec) {
         if (mappings == null) {
             throw new GradleException("yarn mappings jar not on the mappings configuration")
         }
-        args mappings.absolutePath, remapped.get().asFile.absolutePath, sourceSets.main.compileClasspath.asPath
+        def classpath = sourceSets.main.compileClasspath + sourceSets.stubs.output
+        args mappings.absolutePath, remapped.get().asFile.absolutePath, classpath.asPath
     }
 }
 

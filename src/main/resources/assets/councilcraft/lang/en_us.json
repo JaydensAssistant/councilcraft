@@ -5,5 +5,14 @@
   "item.councilcraft.sprocket_mold": "10 Dia Mold",
   "item.councilcraft.cog_mold": "20 Dia Mold",
   "item.councilcraft.crown_mold": "50 Dia Mold",
-  "item.councilcraft.sun_mold": "100 Dia Mold"
+  "item.councilcraft.sun_mold": "100 Dia Mold",
+  "effect.councilcraft.reborn": "Reborn",
+  "effect.councilcraft.reborn.line1": "Grows up after 6 hours of active play.",
+  "effect.councilcraft.reborn.now": "Now: %s%% size, %s%% speed, %s%% strength, %s%% HP",
+  "command.councilcraft.reborn.cleared": "Cleared Reborn for %s",
+  "command.councilcraft.reborn.absent": "%s is not Reborn",
+  "command.councilcraft.reborn.status": "%s: %s active minutes credited. Last window: %s",
+  "command.councilcraft.reborn.window.credited": "credited",
+  "command.councilcraft.reborn.window.missed": "not counted",
+  "command.councilcraft.reborn.window.none": "none yet"
 }

@@ -113,6 +113,112 @@ public final class CouncilCraftRules {
      */
     public static final int PATROL_EVOKER_SIDES = 4;
 
+    /**
+     * S80 / S84 / S169. Penalty after death, shown as the Reborn status effect.
+     * It lasts {@code REBORN_ACTIVE_MINUTES} of active play (six hours), not wall
+     * time. Idle time and offline time add nothing. Size, speed, strength and
+     * hunger ease in a straight line on that fraction. Max health is 12 points
+     * plus one point per {@code REBORN_HEART_MINUTES}, capped at 20. Dying again
+     * starts over.
+     *
+     * <p>The inventory tooltip's second line is these four numbers as percents.
+     * Hit points are the stepped value over a vanilla 20, so 12 points is 60% HP.
+     * The live "Now" line uses the same four, from {@code RebornStats}.
+     *
+     * <p>A five-minute window of online time is credited in full at its end, or
+     * not at all. It counts when the camera moved enough on both yaw and pitch,
+     * the player did a real action, and they moved under their own input in the
+     * last {@code REBORN_SELF_MOVE_TICKS}. Chat, eating, drinking, a held button
+     * and a steady macro do not count. A logout drops the unfinished window.
+     */
+    public static final int REBORN_ACTIVE_MINUTES = 6 * 60;
+    /** Five minutes. The activity check runs once per window, at the end. */
+    public static final int REBORN_WINDOW_MINUTES = 5;
+    /** Online ticks in one window. Not stored. Logout discards whatever is left. */
+    public static final long REBORN_WINDOW_TICKS = REBORN_WINDOW_MINUTES * 60L * 20L;
+    /**
+     * Extra ticks past one window so the icon cannot hit zero before the next
+     * boundary rewrite, while credited minutes are still under six hours.
+     */
+    public static final int REBORN_DURATION_PAD_TICKS = 20;
+    public static final float REBORN_SCALE = 0.6f;
+    public static final int REBORN_HEARTS = 6;
+    public static final int VANILLA_HEARTS = 10;
+    /** Starting max health, in hit points. Six hearts. */
+    public static final int REBORN_BASE_HP = REBORN_HEARTS * 2;
+    /** Vanilla max health, in hit points. */
+    public static final int VANILLA_HP = VANILLA_HEARTS * 2;
+    /**
+     * S258. Minutes per extra hit point. Eight steps from 12 to 20, so one point
+     * every 45 credited minutes: 12, 13, 14, … 20.
+     */
+    public static final int REBORN_HEART_MINUTES =
+        REBORN_ACTIVE_MINUTES / (VANILLA_HP - REBORN_BASE_HP);
+    public static final float REBORN_SPEED = 0.85f;
+    public static final float REBORN_MELEE = 0.70f;
+    /** Hunger exhaustion multiplier at rebirth. Eases to 1 with the other penalties. */
+    public static final float REBORN_HUNGER = 1.5f;
+    /** Total yaw plus pitch change, in degrees, required inside one window. */
+    public static final float REBORN_CAMERA_DEGREES = 30f;
+    /**
+     * Each of yaw and pitch has to move at least this far. A one-axis spin fails,
+     * and so does a smaller jiggle on the other axis.
+     */
+    public static final float REBORN_CAMERA_DIRECTION_DEGREES = 5f;
+    /**
+     * Same action on one target is one held stream when each gap stays within
+     * this many ticks of the gap before it. A 4-tick gap then a 5-tick gap is
+     * still the same stream.
+     */
+    public static final int REBORN_HELD_JITTER_TICKS = 2;
+    /** This many actions, at a steady beat, are a macro. That run does not qualify. */
+    public static final int REBORN_MACRO_ACTIONS = 12;
+    /** A run is a macro when the widest gap and the narrowest differ by at most this. */
+    public static final int REBORN_MACRO_TOLERANCE_TICKS = 3;
+    /** A run is also a macro when the gap standard deviation is at most this. */
+    public static final double REBORN_MACRO_STDEV_TICKS = 1.5;
+    /** Recent action ticks kept per player. Enough to see a 12-action run. */
+    public static final int REBORN_ACTION_RING = 16;
+    /**
+     * Self-driven input within this many ticks lets a window count. Thirty minutes.
+     * Which displacements count is {@code RebornMotion}: an accepted step or jump,
+     * not falling, ice, knockback, a bubble column, a piston, a current or a teleport.
+     */
+    public static final long REBORN_SELF_MOVE_TICKS = 30L * 60L * 20L;
+    /** Accrued active minutes. Absent means not Reborn. Zero means just respawned. */
+    public static final String REBORN_NBT = "councilcraft:reborn_minutes";
+    /**
+     * Existing S2C clock. First long: accrued active minutes, or -1 when Reborn
+     * is off. Second long: remaining active minutes at send. The client does not
+     * add wall time. This is the same payload; it is not a second channel.
+     */
+    public static final String REBORN_CHANNEL = "reborn_ticks";
+
+    public static final UUID REBORN_HEALTH_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a003");
+    public static final UUID REBORN_SPEED_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a004");
+    public static final UUID REBORN_MELEE_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a005");
+
+    /**
+     * S177. Vanilla max, from {@code Enchantment.getMaxLevel}. Only these four
+     * may sit one level above that, and only when a book already had that level.
+     * Two books at the vanilla max do not combine into the next level.
+     */
+    public static final String SHARPNESS_ID = "minecraft:sharpness";
+    public static final String POWER_ID = "minecraft:power";
+    public static final String BLAST_PROTECTION_ID = "minecraft:blast_protection";
+    public static final String PROTECTION_ID = "minecraft:protection";
+
+    /**
+     * S207 / S242. NBT boolean on the stack, not an item tag. An item tag would
+     * mark every enchanted book. The grey lore line is the in-game label.
+     * The CIT look for copies is POST-MVP and is not in this mod.
+     */
+    public static final String PRINTED_NBT = "councilcraft:printed";
+    public static final String PRINTED_LORE = "Printed Copy";
+
     private CouncilCraftRules() {
     }
 }
