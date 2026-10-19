@@ -10,5 +10,9 @@
   "effect.councilcraft.reborn.line1": "Grows up after 6 hours of active play.",
   "effect.councilcraft.reborn.now": "Now: %s%% size, %s%% speed, %s%% strength, %s%% HP",
   "command.councilcraft.reborn.cleared": "Cleared Reborn for %s",
-  "command.councilcraft.reborn.absent": "%s is not Reborn"
+  "command.councilcraft.reborn.absent": "%s is not Reborn",
+  "command.councilcraft.reborn.status": "%s: %s active minutes credited. Last window: %s",
+  "command.councilcraft.reborn.window.credited": "credited",
+  "command.councilcraft.reborn.window.missed": "not counted",
+  "command.councilcraft.reborn.window.none": "none yet"
 }

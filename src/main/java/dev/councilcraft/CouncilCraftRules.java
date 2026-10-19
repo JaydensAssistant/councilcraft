@@ -157,13 +157,20 @@ public final class CouncilCraftRules {
     public static final int REBORN_CAMERA_DIRECTIONS = 2;
     /**
      * Use or attack on one target, with gaps at or below this, is one held button.
-     * It does not qualify. A fresh click is further apart than this.
+     * It does not qualify while the player is standing still. A fresh click is further apart.
      */
-    public static final int REBORN_HELD_GAP_TICKS = 3;
+    public static final int REBORN_HELD_GAP_TICKS = 2;
     /** This many separate actions, at a steady beat, are a macro and do not qualify. */
     public static final int REBORN_MACRO_ACTIONS = 12;
-    /** Macro gaps have to sit within this many ticks of each other. */
-    public static final int REBORN_MACRO_TOLERANCE_TICKS = 3;
+    /** A run is a macro when every gap sits within this many ticks of the others. */
+    public static final int REBORN_MACRO_TOLERANCE_TICKS = 2;
+    /** Recent gestures kept per player. Enough to see a 12-action run, and no more. */
+    public static final int REBORN_ACTION_RING = 16;
+    /**
+     * Movement below this, in blocks, still counts as standing still.
+     * The window itself has no distance requirement.
+     */
+    public static final double REBORN_STATIONARY_BLOCKS = 0.5;
     /** Accrued active ticks. Absent means not Reborn. Zero means just respawned. */
     public static final String REBORN_NBT = "councilcraft:reborn_ticks";
     /**

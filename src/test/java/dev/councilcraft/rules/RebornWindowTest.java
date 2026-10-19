@@ -47,6 +47,12 @@ class RebornWindowTest {
         }
         assertFalse(heldAttack.counts());
 
+        RebornWindow moving = lookedAround();
+        for (int tick = 0; tick < 5; tick++) {
+            moving.act(Action.ATTACK, 3, tick, false);
+        }
+        assertTrue(moving.counts());
+
         // A real break still counts. The held stream is not the qualifying action.
         RebornWindow withBreak = lookedAround();
         for (int tick = 0; tick < 40; tick++) {
@@ -63,6 +69,14 @@ class RebornWindowTest {
             steady.act(Action.BREAK, i, i * 10);
         }
         assertFalse(steady.counts());
+
+        RebornWindow withinTwo = lookedAround();
+        int beat = 0;
+        for (int i = 0; i < CouncilCraftRules.REBORN_MACRO_ACTIONS; i++) {
+            withinTwo.act(Action.BREAK, i, beat);
+            beat += (i % 2 == 0) ? 10 : 12;
+        }
+        assertFalse(withinTwo.counts());
 
         RebornWindow varied = lookedAround();
         int tick = 0;

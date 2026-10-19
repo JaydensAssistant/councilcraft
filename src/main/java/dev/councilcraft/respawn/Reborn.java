@@ -26,17 +26,19 @@ import net.minecraft.text.Text;
  *
  * <p>Milk, a totem, a beacon and {@code /effect clear} take the icon off.
  * The next tick puts it back while active time is still left.
- * An operator clears it on purpose with {@code /councilcraft reborn clear}.
+ * An operator clears it with {@code /councilcraft reborn clear}, or prints the
+ * credited minutes and the last window with {@code /councilcraft reborn status}.
  *
  * <p>The icon's duration is the remaining active time. Vanilla would count that
  * down every tick, which looks like time passing while the player is idle.
  * {@code RebornDurationMixin} leaves the duration where the server last wrote
- * it. This class writes it again at each window boundary: five minutes shorter
- * when the window counted, the same number when it did not.
+ * it. This class writes it again only when a window is credited, five minutes
+ * shorter. An idle window does not send another packet.
  */
 public final class Reborn {
     private static final Map<ServerPlayerEntity, Long> TICKS = new WeakHashMap<>();
     private static final Map<ServerPlayerEntity, RebornWindow> WINDOWS = new WeakHashMap<>();
+    private static final Map<ServerPlayerEntity, WindowVerdict> LAST_WINDOW = new WeakHashMap<>();
     /** The effect packet has been sent since this player object joined. JOIN itself must not send it. */
     private static final Set<ServerPlayerEntity> EFFECT_SENT = Collections.newSetFromMap(new WeakHashMap<>());
     /** Effect removal that must wait until after JOIN, so the packet is not a raw registry id. */
@@ -66,6 +68,13 @@ public final class Reborn {
         return JoinStep.ATTRIBUTES_AND_CLOCK;
     }
 
+    /** What the last finished window did. Not saved; a restart starts at none. */
+    public enum WindowVerdict {
+        NONE,
+        CREDITED,
+        MISSED
+    }
+
     private Reborn() {
     }
 
@@ -91,6 +100,12 @@ public final class Reborn {
                         .executes(ctx -> clear(ctx.getSource(), ctx.getSource().getPlayerOrThrow()))
                         .then(CommandManager.argument("player", EntityArgumentType.player())
                             .executes(ctx -> clear(
+                                ctx.getSource(),
+                                EntityArgumentType.getPlayer(ctx, "player")
+                            ))))
+                    .then(CommandManager.literal("status")
+                        .then(CommandManager.argument("player", EntityArgumentType.player())
+                            .executes(ctx -> status(
                                 ctx.getSource(),
                                 EntityArgumentType.getPlayer(ctx, "player")
                             ))))))
@@ -124,6 +139,7 @@ public final class Reborn {
     public static void begin(ServerPlayerEntity player) {
         TICKS.put(player, 0L);
         WINDOWS.put(player, new RebornWindow());
+        LAST_WINDOW.remove(player);
         sync(player);
     }
 
@@ -140,7 +156,9 @@ public final class Reborn {
         if (player == null || !running(player) || player.getServer() == null) {
             return;
         }
-        window(player).act(action, target, player.getServer().getTicks());
+        RebornWindow window = window(player);
+        boolean still = window.still(player.getX(), player.getY(), player.getZ());
+        window.act(action, target, player.getServer().getTicks(), still);
     }
 
     private static RebornWindow window(ServerPlayerEntity player) {
@@ -188,10 +206,12 @@ public final class Reborn {
             }
             RebornWindow window = window(player);
             boolean boundary = window.advance();
+            boolean credited = false;
             if (boundary) {
-                boolean counted = window.counts();
+                credited = window.counts();
+                LAST_WINDOW.put(player, credited ? WindowVerdict.CREDITED : WindowVerdict.MISSED);
                 WINDOWS.put(player, new RebornWindow());
-                if (counted) {
+                if (credited) {
                     accrued = RebornProgress.credit(accrued, true);
                     TICKS.put(player, accrued);
                 }
@@ -201,9 +221,10 @@ public final class Reborn {
                 }
             }
             boolean missing = !player.hasStatusEffect(RebornStatusEffect.EFFECT);
-            // The first tick after JOIN always sends the icon. That is after registry
-            // remap. A missing icon (milk, totem, /effect clear) is put back here too.
-            if (boundary || missing || !EFFECT_SENT.contains(player)) {
+            // Refresh the frozen duration only when a window counted. The first tick
+            // after JOIN still sends the icon, after registry remap, and a missing
+            // icon (milk, totem, /effect clear) is put back without changing the time.
+            if (credited || missing || !EFFECT_SENT.contains(player)) {
                 sync(player);
             }
         }
@@ -236,9 +257,34 @@ public final class Reborn {
             return 0;
         }
         finish(player);
+        LAST_WINDOW.remove(player);
         source.sendFeedback(
             () -> Text.translatable("command.councilcraft.reborn.cleared", player.getDisplayName()),
             true
+        );
+        return 1;
+    }
+
+    private static int status(ServerCommandSource source, ServerPlayerEntity player) {
+        if (!running(player)) {
+            source.sendError(Text.translatable("command.councilcraft.reborn.absent", player.getDisplayName()));
+            return 0;
+        }
+        long minutes = ticks(player) / (20L * 60L);
+        WindowVerdict verdict = LAST_WINDOW.getOrDefault(player, WindowVerdict.NONE);
+        String key = switch (verdict) {
+            case CREDITED -> "command.councilcraft.reborn.window.credited";
+            case MISSED -> "command.councilcraft.reborn.window.missed";
+            case NONE -> "command.councilcraft.reborn.window.none";
+        };
+        source.sendFeedback(
+            () -> Text.translatable(
+                "command.councilcraft.reborn.status",
+                player.getDisplayName(),
+                minutes,
+                Text.translatable(key)
+            ),
+            false
         );
         return 1;
     }

@@ -11,10 +11,10 @@ import dev.councilcraft.CouncilCraftRules;
  * {@link CouncilCraftRules#REBORN_CAMERA_DEGREES} and that movement was in
  * more than one direction, and the player also did a qualifying action.
  * Chat, eating and drinking never qualify. A held use or attack on one
- * target does not qualify. Twelve or more separate actions whose gaps all
- * sit within {@link CouncilCraftRules#REBORN_MACRO_TOLERANCE_TICKS} of each
- * other are a macro and do not qualify. Several actions on the same tick are
- * one gesture, so filling a crafting grid is not a macro.
+ * target does not qualify while the player is standing still. Twelve or more
+ * gestures whose gaps all sit within {@link CouncilCraftRules#REBORN_MACRO_TOLERANCE_TICKS}
+ * of each other are a macro and do not qualify. The last few gesture ticks sit
+ * in a ring. Several actions on the same tick are one gesture.
  */
 public final class RebornWindow {
     public enum Action {
@@ -42,11 +42,20 @@ public final class RebornWindow {
     private int streamTarget;
     private int streamCount;
     private int streamTick;
+    private boolean streamStill = true;
 
+    /** Last gesture ticks, oldest overwritten once the ring is full. */
+    private final int[] ring = new int[CouncilCraftRules.REBORN_ACTION_RING];
+    private int ringCount;
+    private int ringNext;
     private int qualifying;
     private int previousTick;
     private int minGap = Integer.MAX_VALUE;
     private int maxGap = Integer.MIN_VALUE;
+    private boolean hasPos;
+    private double lastX;
+    private double lastY;
+    private double lastZ;
     private long age;
 
     /** Yaw and pitch after a look packet. The first sample only sets the anchor. */
@@ -63,12 +72,35 @@ public final class RebornWindow {
         this.lastPitch = pitch;
     }
 
+    /** Standing still. The first sample has nothing to compare, so it counts as still. */
+    public boolean still(double x, double y, double z) {
+        if (!this.hasPos) {
+            this.hasPos = true;
+            this.lastX = x;
+            this.lastY = y;
+            this.lastZ = z;
+            return true;
+        }
+        double dx = x - this.lastX;
+        double dy = y - this.lastY;
+        double dz = z - this.lastZ;
+        this.lastX = x;
+        this.lastY = y;
+        this.lastZ = z;
+        double limit = CouncilCraftRules.REBORN_STATIONARY_BLOCKS;
+        return dx * dx + dy * dy + dz * dz <= limit * limit;
+    }
+
     public void act(Action action, int target, int tick) {
+        act(action, target, tick, true);
+    }
+
+    public void act(Action action, int target, int tick, boolean stationary) {
         if (action == Action.EAT || action == Action.CHAT) {
             return;
         }
         if (action == Action.USE || action == Action.ATTACK) {
-            noteStream(action, target, tick);
+            noteStream(action, target, tick, stationary);
             return;
         }
         finishStream();
@@ -87,13 +119,16 @@ public final class RebornWindow {
         return cameraOk() && actionsOk();
     }
 
-    private void noteStream(Action action, int target, int tick) {
+    private void noteStream(Action action, int target, int tick, boolean stationary) {
         if (this.streaming
             && action == this.streamAction
             && target == this.streamTarget
             && tick - this.streamTick <= CouncilCraftRules.REBORN_HELD_GAP_TICKS) {
             this.streamCount++;
             this.streamTick = tick;
+            if (!stationary) {
+                this.streamStill = false;
+            }
             return;
         }
         finishStream();
@@ -102,18 +137,26 @@ public final class RebornWindow {
         this.streamTarget = target;
         this.streamCount = 1;
         this.streamTick = tick;
+        this.streamStill = stationary;
     }
 
-    /** A run of one click is a real action. A longer run on one target is a held button. */
+    /**
+     * One click is a real gesture. A longer run on one target is a held button
+     * and does not count while the player stayed still. The same run while
+     * moving counts, unless it is also a 12-long macro.
+     */
     private void finishStream() {
         if (!this.streaming) {
             return;
         }
         if (this.streamCount == 1) {
             addQualifying(this.streamTick);
+        } else if (!this.streamStill && this.streamCount < CouncilCraftRules.REBORN_MACRO_ACTIONS) {
+            addQualifying(this.streamTick);
         }
         this.streaming = false;
         this.streamCount = 0;
+        this.streamStill = true;
     }
 
     private void addQualifying(int tick) {
@@ -131,6 +174,11 @@ public final class RebornWindow {
         }
         this.previousTick = tick;
         this.qualifying++;
+        this.ring[this.ringNext] = tick;
+        this.ringNext = (this.ringNext + 1) % this.ring.length;
+        if (this.ringCount < this.ring.length) {
+            this.ringCount++;
+        }
     }
 
     private boolean cameraOk() {
@@ -162,7 +210,31 @@ public final class RebornWindow {
         if (this.qualifying < CouncilCraftRules.REBORN_MACRO_ACTIONS) {
             return true;
         }
-        return this.maxGap - this.minGap > CouncilCraftRules.REBORN_MACRO_TOLERANCE_TICKS;
+        int spread = this.qualifying <= this.ringCount ? this.ringSpread() : this.maxGap - this.minGap;
+        return spread > CouncilCraftRules.REBORN_MACRO_TOLERANCE_TICKS;
+    }
+
+    /** Widest minus narrowest gap in the ring. One gesture is not a macro. */
+    private int ringSpread() {
+        if (this.ringCount < 2) {
+            return Integer.MAX_VALUE;
+        }
+        int start = this.ringCount == this.ring.length ? this.ringNext : 0;
+        int previous = this.ring[start];
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+        for (int i = 1; i < this.ringCount; i++) {
+            int tick = this.ring[(start + i) % this.ring.length];
+            int gap = tick - previous;
+            if (gap < min) {
+                min = gap;
+            }
+            if (gap > max) {
+                max = gap;
+            }
+            previous = tick;
+        }
+        return max - min;
     }
 
     /** Small samples add up. A direction counts later, once its total clears the floor. */
