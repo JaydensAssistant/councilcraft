@@ -2,20 +2,30 @@ package dev.councilcraft.mixin;
 
 import dev.councilcraft.respawn.Reborn;
 import dev.councilcraft.respawn.RebornMotion;
+import dev.councilcraft.respawn.RebornStats;
 import dev.councilcraft.respawn.RebornWindow;
 import dev.councilcraft.rules.DepthStriderRule;
 import java.util.Set;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.network.packet.c2s.play.ButtonClickC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClickSlotC2SPacket;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.network.packet.c2s.play.VehicleMoveC2SPacket;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -62,32 +72,146 @@ public class RebornPlayMixin {
             player.getY(),
             player.getZ(),
             onGround,
-            drag(player, onGround),
-            ((RebornJumpAccess) player).councilcraft$jumpVelocity(),
-            glide
+            move(player, onGround, glide)
         )) {
             Reborn.selfMoved(player);
         }
     }
 
-    private static double drag(ServerPlayerEntity player, boolean onGround) {
+    /**
+     * Expectations for this packet. Size comes from the Reborn effect. Movement
+     * speed already includes that effect's speed modifier. The fluid push is the
+     * same vector {@code updateMovementInFluid} adds, times the motion scale,
+     * because {@code move} scales the whole displacement.
+     */
+    private static RebornMotion.Move move(ServerPlayerEntity player, boolean onGround, boolean glide) {
+        boolean water = player.isTouchingWater();
+        boolean lava = player.isInLava();
         boolean grace = player.hasStatusEffect(StatusEffects.DOLPHINS_GRACE);
         int depth = DepthStriderRule.effectiveLevel(EnchantmentHelper.getDepthStrider(player), grace);
         double slip = 0.6;
-        if (onGround && !player.isTouchingWater() && !player.isInLava()) {
+        if (onGround && !water && !lava) {
             slip = player.getWorld().getBlockState(((RebornEntityAccess) player).councilcraft$velocityAffectingPos())
                 .getBlock()
                 .getSlipperiness();
         }
-        return RebornMotion.drag(
-            player.isTouchingWater(),
-            player.isInLava(),
-            onGround,
-            player.isSprinting(),
-            depth,
-            grace,
-            slip
+        double scale = 1.0;
+        if (Reborn.running(player)) {
+            scale = RebornStats.at(Reborn.minutes(player)).scale;
+        }
+        double movement = player.getMovementSpeed();
+        double step;
+        if (water) {
+            step = RebornMotion.scaledSwimStroke(movement, depth, onGround, scale);
+        } else if (onGround && !lava) {
+            step = RebornMotion.scaledGroundStep(movement, slip, scale);
+        } else {
+            step = RebornMotion.scaledTravelStep(scale);
+        }
+        Vec3d flow = fluidPush(player).multiply(scale);
+        boolean bubble = water && inBubbleColumn(player);
+        double swimUp = water ? RebornMotion.SWIM_UP * scale : 0.0;
+        double sink = water && !player.isSprinting() && !player.hasNoGravity()
+            ? RebornMotion.WATER_SINK * scale
+            : 0.0;
+        return new RebornMotion.Move(
+            RebornMotion.drag(water, lava, onGround, player.isSprinting(), depth, grace, slip),
+            water ? RebornMotion.WATER_VERTICAL_DRAG : 0.0,
+            RebornMotion.scaledJump(((RebornJumpAccess) player).councilcraft$jumpVelocity(), scale),
+            step,
+            swimUp,
+            sink,
+            flow.x,
+            flow.y,
+            flow.z,
+            water,
+            bubble,
+            glide
         );
+    }
+
+    /**
+     * Velocity {@code updateMovementInFluid} adds for water and lava. The slow
+     * push up to length 0.0045 is left out: it depends on client velocity, which
+     * this server does not keep, and it is below one scaled step.
+     */
+    private static Vec3d fluidPush(ServerPlayerEntity player) {
+        if (!player.isPushedByFluids() || player.isRegionUnloaded()) {
+            return Vec3d.ZERO;
+        }
+        Vec3d push = Vec3d.ZERO;
+        if (player.isTouchingWater()) {
+            push = push.add(fluidPush(player, FluidTags.WATER, RebornMotion.WATER_PUSH));
+        }
+        if (player.isInLava()) {
+            double speed = player.getWorld().getDimension().ultrawarm()
+                ? RebornMotion.LAVA_PUSH
+                : RebornMotion.LAVA_PUSH_COLD;
+            push = push.add(fluidPush(player, FluidTags.LAVA, speed));
+        }
+        return push;
+    }
+
+    private static Vec3d fluidPush(ServerPlayerEntity player, TagKey<Fluid> tag, double speed) {
+        Box box = player.getBoundingBox().contract(0.001);
+        World world = player.getWorld();
+        int minX = MathHelper.floor(box.minX);
+        int maxX = MathHelper.ceil(box.maxX);
+        int minY = MathHelper.floor(box.minY);
+        int maxY = MathHelper.ceil(box.maxY);
+        int minZ = MathHelper.floor(box.minZ);
+        int maxZ = MathHelper.ceil(box.maxZ);
+        double highest = 0.0;
+        Vec3d sum = Vec3d.ZERO;
+        int count = 0;
+        BlockPos.Mutable pos = new BlockPos.Mutable();
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                for (int z = minZ; z < maxZ; z++) {
+                    FluidState fluid = world.getFluidState(pos.set(x, y, z));
+                    if (!fluid.isIn(tag)) {
+                        continue;
+                    }
+                    double surface = y + fluid.getHeight(world, pos);
+                    if (surface < box.minY) {
+                        continue;
+                    }
+                    highest = Math.max(surface - box.minY, highest);
+                    Vec3d velocity = fluid.getVelocity(world, pos);
+                    if (highest < 0.4) {
+                        velocity = velocity.multiply(highest);
+                    }
+                    sum = sum.add(velocity);
+                    count++;
+                }
+            }
+        }
+        if (count == 0 || sum.lengthSquared() == 0.0) {
+            return Vec3d.ZERO;
+        }
+        return sum.multiply(speed / count);
+    }
+
+    private static boolean inBubbleColumn(ServerPlayerEntity player) {
+        Box box = player.getBoundingBox();
+        World world = player.getWorld();
+        int minX = MathHelper.floor(box.minX);
+        int maxX = MathHelper.ceil(box.maxX);
+        int minY = MathHelper.floor(box.minY);
+        int maxY = MathHelper.ceil(box.maxY);
+        int minZ = MathHelper.floor(box.minZ);
+        int maxZ = MathHelper.ceil(box.maxZ);
+        BlockPos.Mutable pos = new BlockPos.Mutable();
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
+                for (int z = minZ; z < maxZ; z++) {
+                    if (world.getBlockState(pos.set(x, y, z)).isOf(Blocks.BUBBLE_COLUMN)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Inject(method = "onPlayerMove", at = @At("TAIL"))
