@@ -5,8 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "HandledScreenAccess",
-    "RebornEffectSyncMixin",
-    "RebornEffectTooltipMixin"
+    "RebornEffectTooltipMixin",
+    "RebornTooltipDrawMixin"
   ],
   "injectors": {
     "defaultRequire": 1

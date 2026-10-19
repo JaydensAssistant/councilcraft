@@ -146,15 +146,7 @@ public final class UnmappedYarnCheck {
             return;
         }
         Declaration declaration = hierarchy.declare(owner, name, desc, method, mapped);
-        if (declaration == null) {
-            Member yarn = mapped.yarnMember(name, desc, method);
-            if (yarn != null) {
-                report(failures, seen, from + " calls " + owner + "." + name + desc
-                + " and that yarn name belongs to " + yarn.ownerNamed + " but the declaring class could not be resolved");
-            }
-            return;
-        }
-        if (declaration.minecraft && declaration.member != null
+        if (declaration != null && declaration.minecraft && declaration.member != null
             && !declaration.member.interName.equals(declaration.member.namedName)
             && name.equals(declaration.member.namedName)) {
             report(failures, seen, from + " calls " + owner + "." + name + desc
@@ -451,18 +443,6 @@ public final class UnmappedYarnCheck {
                     continue;
                 }
                 return member;
-            }
-            return null;
-        }
-
-        private Member yarnMember(String name, String desc, boolean method) {
-            String interDesc = toIntermediaryDesc(desc);
-            for (Member member : members) {
-                if (name.equals(member.namedName)
-                    && !member.namedName.equals(member.interName)
-                    && (member.namedDesc.equals(desc) || member.interDesc.equals(desc) || member.interDesc.equals(interDesc))) {
-                    return member;
-                }
             }
             return null;
         }

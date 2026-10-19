@@ -1,7 +1,9 @@
 package dev.councilcraft.respawn;
 
 import dev.councilcraft.CouncilCraftRules;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.WeakHashMap;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -29,6 +31,32 @@ import net.minecraft.text.Text;
 public final class Reborn {
     private static final Map<ServerPlayerEntity, Long> UNTIL = new WeakHashMap<>();
     private static final Map<ServerPlayerEntity, Long> NEXT_REFRESH = new WeakHashMap<>();
+    /** Effect removal that must wait until after JOIN, so the packet is not a raw registry id. */
+    private static final Set<ServerPlayerEntity> EFFECT_CLEAR_AFTER_JOIN = Collections.newSetFromMap(new WeakHashMap<>());
+
+    /**
+     * What a player joining may do. A status-effect packet carries a raw registry
+     * id. At JOIN the client has not applied Fabric's registry remap yet, so that
+     * id is decoded as a different effect. The clock packet is two longs.
+     */
+    public enum JoinStep {
+        /** No timer. Send nothing. */
+        NONE,
+        /** Apply the attributes and send the clock. The effect icon waits for a later tick. */
+        ATTRIBUTES_AND_CLOCK,
+        /** Timer already over. Clear attributes, send a finished clock, drop the icon next tick. */
+        DEFER_EFFECT_CLEAR
+    }
+
+    public static JoinStep joinStep(long until, long now) {
+        if (until <= 0L) {
+            return JoinStep.NONE;
+        }
+        if (now >= until) {
+            return JoinStep.DEFER_EFFECT_CLEAR;
+        }
+        return JoinStep.ATTRIBUTES_AND_CLOCK;
+    }
 
     private Reborn() {
     }
@@ -87,22 +115,39 @@ public final class Reborn {
         sync(player, System.currentTimeMillis());
     }
 
+    /**
+     * JOIN is too early for {@link #sync}. That method sends the effect, and the
+     * effect packet's id is a registry raw id. Attributes and the clock do not
+     * carry one. Leaving the refresh unset makes the next tick send the effect,
+     * after the client has remapped registries. An already-finished timer clears
+     * attributes now and removes the icon on that same later tick.
+     */
     private static void syncJoined(ServerPlayerEntity player) {
-        long until = until(player);
-        if (until == 0L) {
-            return;
-        }
         long now = System.currentTimeMillis();
-        if (now >= until) {
-            finish(player);
-        } else {
-            sync(player, now);
+        switch (joinStep(until(player), now)) {
+            case NONE -> {
+            }
+            case ATTRIBUTES_AND_CLOCK -> {
+                long start = until(player) - CouncilCraftRules.REBORN_MILLIS;
+                ((RebornStatusEffect) RebornStatusEffect.EFFECT).apply(player, RebornStats.at(now - start));
+                RebornSync.send(player);
+            }
+            case DEFER_EFFECT_CLEAR -> {
+                setUntil(player, 0L);
+                NEXT_REFRESH.remove(player);
+                ((RebornStatusEffect) RebornStatusEffect.EFFECT).clear(player);
+                EFFECT_CLEAR_AFTER_JOIN.add(player);
+                RebornSync.send(player);
+            }
         }
     }
 
     private static void tick(MinecraftServer server) {
         long now = System.currentTimeMillis();
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            if (EFFECT_CLEAR_AFTER_JOIN.remove(player) && player.hasStatusEffect(RebornStatusEffect.EFFECT)) {
+                player.removeStatusEffect(RebornStatusEffect.EFFECT);
+            }
             long until = until(player);
             if (until == 0L) {
                 continue;
@@ -119,6 +164,7 @@ public final class Reborn {
         }
     }
 
+    /** Sends the effect. Not for JOIN: the packet's effect id is a raw registry id. */
     private static void sync(ServerPlayerEntity player, long now) {
         long remaining = until(player) - now;
         if (remaining <= 0L) {

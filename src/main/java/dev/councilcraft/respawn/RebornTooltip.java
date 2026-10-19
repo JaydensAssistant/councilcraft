@@ -39,6 +39,10 @@ public final class RebornTooltip {
      * has no tooltip. The position matches EMI 1.1.24's centered layout.
      */
     public static void hoverSingle(DrawContext context, HandledScreen<?> screen, int mouseX, int mouseY) {
+        // A top-bar hover while EMI draws effects on the right would be a false tooltip.
+        if (!RebornEmi.drawsEffectsOnTop()) {
+            return;
+        }
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.player.getStatusEffects().size() != 1) {
             return;

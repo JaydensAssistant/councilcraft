@@ -7,8 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import dev.councilcraft.CouncilCraftRules;
 import dev.councilcraft.enchant.ForgerLevels;
+import dev.councilcraft.respawn.Reborn;
+import dev.councilcraft.respawn.Reborn.JoinStep;
 import dev.councilcraft.respawn.RebornClock;
-import dev.councilcraft.respawn.RebornIdentity;
+import dev.councilcraft.respawn.RebornEmi;
 import dev.councilcraft.respawn.RebornStats;
 import dev.councilcraft.respawn.RebornText;
 import java.nio.file.Files;
@@ -87,15 +89,25 @@ class RespawnRulesTest {
     }
 
     @Test
-    void aMatchingDurationIsTheMisdecodedRebornEffect() {
-        assertTrue(RebornIdentity.matches(1_000_000, 1_000_100));
-        assertTrue(RebornIdentity.matches(1_000_200, 1_000_000));
-        assertFalse(RebornIdentity.matches(1_000_000, 1_000_201));
-        assertFalse(RebornIdentity.matches(40, 0));
-        assertFalse(RebornIdentity.matches(0, 40));
-        assertEquals(0, RebornIdentity.ticksRemaining(0L));
-        assertEquals(1, RebornIdentity.ticksRemaining(1L));
-        assertEquals(20, RebornIdentity.ticksRemaining(1_000L));
+    void joinSendsNoStatusEffect() {
+        long now = 1_700_000_000_000L;
+        assertEquals(JoinStep.NONE, Reborn.joinStep(0L, now));
+        assertEquals(JoinStep.ATTRIBUTES_AND_CLOCK, Reborn.joinStep(now + 60_000L, now));
+        assertEquals(JoinStep.DEFER_EFFECT_CLEAR, Reborn.joinStep(now, now));
+        assertEquals(JoinStep.DEFER_EFFECT_CLEAR, Reborn.joinStep(now - 1L, now));
+    }
+
+    @Test
+    void onlyEmiTopCountsAsTheCenteredBar() {
+        assertTrue(RebornEmi.isTop(Sample.TOP));
+        assertFalse(RebornEmi.isTop(Sample.LEFT));
+        assertFalse(RebornEmi.isTop("TOP"));
+        assertFalse(RebornEmi.isTop(null));
+    }
+
+    private enum Sample {
+        TOP,
+        LEFT
     }
 
     @Test

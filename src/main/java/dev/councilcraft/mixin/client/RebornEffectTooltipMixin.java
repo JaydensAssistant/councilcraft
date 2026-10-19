@@ -13,16 +13,17 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Client only. Jayden: this file and {@code RebornTooltip} are the tooltip
- * surface. EMI's default puts effects along the top, so a hit box that assumes
- * the vanilla list on the right never sees them. These hooks edit the tooltip
- * the effect list already draws, wherever that list is.
+ * Client only. Jayden: this file, {@code RebornTooltipDrawMixin} and
+ * {@code RebornTooltip} are the tooltip surface.
  *
- * <p>The EMI method is added by EMI's own mixin. {@code require = 0} so a
- * pack without EMI still boots. This mixin applies after EMI (lower priority)
- * so that method exists. It does not shadow inventory coordinates.
+ * <p>Vanilla's narrow effect list calls {@code DrawContext.drawTooltip}. This
+ * replaces that list. EMI's multi-effect row calls the same draw method, so
+ * {@link RebornTooltipDrawMixin} covers it without targeting EMI's mixin.
+ * EMI's single-effect bar draws the name in the bar and opens no tooltip.
+ * That case is drawn at the end of this method, and only when EMI is putting
+ * effects along the top.
  */
-@Mixin(value = AbstractInventoryScreen.class, priority = 500)
+@Mixin(AbstractInventoryScreen.class)
 public abstract class RebornEffectTooltipMixin {
     @ModifyArg(
         method = "drawStatusEffects",
@@ -37,26 +38,7 @@ public abstract class RebornEffectTooltipMixin {
         return RebornTooltip.linesFor(lines);
     }
 
-    @ModifyArg(
-        method = "emi$drawCenteredEffects(Lnet/minecraft/class_332;II)V",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/class_332;method_51437(Lnet/minecraft/class_327;Ljava/util/List;Ljava/util/Optional;II)V"
-        ),
-        index = 1,
-        require = 0,
-        remap = false
-    )
-    private List<Text> councilcraft$emiRebornTooltip(List<Text> lines) {
-        return RebornTooltip.linesFor(lines);
-    }
-
-    @Inject(
-        method = "emi$drawCenteredEffects(Lnet/minecraft/class_332;II)V",
-        at = @At("RETURN"),
-        require = 0,
-        remap = false
-    )
+    @Inject(method = "drawStatusEffects", at = @At("TAIL"))
     private void councilcraft$emiSingleRebornHover(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
         RebornTooltip.hoverSingle(context, (HandledScreen<?>) (Object) this, mouseX, mouseY);
     }

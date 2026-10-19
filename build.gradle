@@ -149,7 +149,7 @@ tasks.register("checkUnmappedYarn", JavaExec) {
     mainClass = "dev.councilcraft.build.UnmappedYarnCheck"
     def remapped = tasks.named("remapJar", net.fabricmc.loom.task.RemapJarTask).flatMap { it.archiveFile }
     inputs.file(remapped)
-    inputs.files(sourceSets.main.compileClasspath)
+    inputs.files(sourceSets.main.compileClasspath, sourceSets.stubs.output)
     doFirst {
         def mappings = configurations.getByName("mappings").files.find {
             it.name.contains("yarn") && it.name.endsWith(".jar") && !it.name.contains("constants")
@@ -157,7 +157,8 @@ tasks.register("checkUnmappedYarn", JavaExec) {
         if (mappings == null) {
             throw new GradleException("yarn mappings jar not on the mappings configuration")
         }
-        args mappings.absolutePath, remapped.get().asFile.absolutePath, sourceSets.main.compileClasspath.asPath
+        def classpath = sourceSets.main.compileClasspath + sourceSets.stubs.output
+        args mappings.absolutePath, remapped.get().asFile.absolutePath, classpath.asPath
     }
 }
 
