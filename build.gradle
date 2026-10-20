@@ -83,6 +83,15 @@ dependencies {
     // the base scale itself and does not turn on Pehkui's health, motion or attack scale.
     modImplementation "maven.modrinth:pehkui:3.8.3+1.14.4-1.21"
 
+    // 0.4.2 compat targets, compile only and optional (each mixin is applied only when its mod is loaded;
+    // see CouncilCraftMixinPlugin.OPTIONAL_MIXINS). None of these is packed into our jar.
+    // Nameplate 1.1.4+1.20.1 (9J82qMn9 / mFgPkM5x) and GeckoLib 4.8.4 (8BmcQJ2H / SD2lOScS): PM14e.
+    modCompileOnly("maven.modrinth:nameplate:mFgPkM5x") { transitive = false }
+    modCompileOnly("maven.modrinth:geckolib:SD2lOScS") { transitive = false }
+    // Distant Horizons 3.3.3-1.20.1 (uCdwusMi / 6UnEfsRQ): PM21 deferred-render cancel (DH API only).
+    // Immersive Portals' PortalRendering lives in a nested jar, so it is a stub in src/stubs.
+    modCompileOnly("maven.modrinth:distanthorizons:6UnEfsRQ") { transitive = false }
+
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
     // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).
