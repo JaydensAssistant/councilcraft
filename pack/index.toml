@@ -338,11 +338,6 @@ hash = "e9ba6ffa1109ca957fef061ef4b41a46300b3cfb382ef4ae24f96c54309fd31f"
 metafile = true
 
 [[files]]
-file = "mods/easy-magic.pw.toml"
-hash = "2748a91387d8bd583894ed2271eea4f3889095ebb0c72372b79e3a4878110710"
-metafile = true
-
-[[files]]
 file = "mods/ebe.pw.toml"
 hash = "c9102ad224c1496927d326707ee2cd2a2cfd6f278f05e23a19aa45395306daf6"
 metafile = true
