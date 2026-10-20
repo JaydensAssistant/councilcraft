@@ -1,0 +1,13 @@
+name = "NiftyCarts x Regions Unexplored"
+filename = "niftycarts-x-regions-unexplored-1.0.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/SUxgYFgZ/versions/nN9J1K6b/niftycarts-x-regions-unexplored-1.0.jar"
+hash-format = "sha512"
+hash = "094054d88c9bed9e0ec6cb819ab1775ea48c9e175a14df812265903584e418860c731bed996b49279adea7ba00716f171aef9011e24669cc3093199f7b1a4f1c"
+
+[update]
+[update.modrinth]
+mod-id = "SUxgYFgZ"
+version = "nN9J1K6b"

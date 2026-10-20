@@ -263,6 +263,11 @@ hash = "a1cd367df21e2a8ec5f99a3fafab021f927bdfb088cc518d8225b02078f36728"
 metafile = true
 
 [[files]]
+file = "mods/controlling.pw.toml"
+hash = "e81c635602878f92af9a9c11b92481b25c7aaf3f68cd015dabf5f67201886401"
+metafile = true
+
+[[files]]
 file = "mods/coroutil.pw.toml"
 hash = "429284603e4c5ca44777cb4ce2455477fcc1eee4dc9a4ae2f759c4895bf332e7"
 metafile = true
@@ -360,6 +365,11 @@ metafile = true
 [[files]]
 file = "mods/entitytexturefeatures.pw.toml"
 hash = "9c3f955ecb685f039b9399f8d534e3afa7a23055b37e2bdfe81970e0c528cd7a"
+metafile = true
+
+[[files]]
+file = "mods/exposure.pw.toml"
+hash = "d292f0f198a0f9f42e0d35e6ba4975f697bda32660e1a3607daef60f25a6ba5b"
 metafile = true
 
 [[files]]
@@ -623,6 +633,11 @@ hash = "cb9cb89e51e6948fa2a9790483c4eb3d2d739ac62da6fc838c18d3d8e7781d18"
 metafile = true
 
 [[files]]
+file = "mods/niftycarts-x-regions-unexplored.pw.toml"
+hash = "b19319b742da40d7724083767b87cbab763248a94794d31305768aa93fced4d2"
+metafile = true
+
+[[files]]
 file = "mods/niftycarts.pw.toml"
 hash = "85403dfbcff240580a8630397c8a2da2c9a006fc3e4236948983520121c4620d"
 metafile = true
@@ -730,6 +745,16 @@ metafile = true
 [[files]]
 file = "mods/rrls.pw.toml"
 hash = "83164a6af3923e28cadf9d404f059bf74aa4f0842fc1ca0f6e7cf1e686044875"
+metafile = true
+
+[[files]]
+file = "mods/screencopy.pw.toml"
+hash = "278ba67d0cd144d8e39ead1b4b38aa22c144c6993cd3b0bdac4294e8f8f86434"
+metafile = true
+
+[[files]]
+file = "mods/searchables.pw.toml"
+hash = "830270b8e5a34f5621720ae09c4cf716a65d8003a30d585c8b817aba1fde9ac8"
 metafile = true
 
 [[files]]
