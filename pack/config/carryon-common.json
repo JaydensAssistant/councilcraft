@@ -219,7 +219,8 @@
       "createrailwaysnavigator:*",
       "forgottengraves:*",
       "immersive_portals:*",
-      "smallships:*"
+      "smallships:*",
+      "niftycarts:*"
     ],
     "//forbiddenStacking": "Entities that cannot have other entities stacked on top of them",
     "forbiddenStacking": [

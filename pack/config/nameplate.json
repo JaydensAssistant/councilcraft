@@ -63,7 +63,6 @@
     "minecraft:wandering_trader",
     "minecraft:zombie_horse",
     "mutantmonsters:mutant_snow_golem",
-    "mutantmonsters:spider_pig",
     "naturalist:bass",
     "naturalist:bluejay",
     "naturalist:butterfly",
@@ -84,6 +83,8 @@
     "naturalist:sparrow",
     "naturalist:tortoise",
     "naturalist:zebra",
-    "railways:conductor"
+    "railways:conductor",
+    "friendsandfoes:player_illusion",
+    "mutantmonsters:creeper_minion"
   ]
 }

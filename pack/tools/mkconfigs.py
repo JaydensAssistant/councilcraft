@@ -171,4 +171,39 @@ BLOCK = ['meteor-client','wurst','liquidbounce','bleachhack','thunderhack','mete
  'baritone','baritone-meteor','freecam','freecam_by_jasonzli','legacyfreecam','cameratweaks','tweakeroo','litematica_printer','xtoxray','xray-orevision','xray','advanced-xray','xraymod',
  'autoclicker-fabric','targetespmod','chestesp','autoelytra','elytrafly','fullbright','gammautils']
 js('mod_whitelist-config.json', [('USE_WHITELIST_ONLY', False), ('CLIENT_MOD_BLACKLIST', BLOCK)])
+# === 0.4.2 (2026-10-20): post-MVP LOCKED items. Applied in place to the shipped configs (SRC = OUT = config). ===
+# --- PM4 / S165: DH generation capped to the 20k pregen (Chebyshev radius 10,000 blocks = 625 chunks around 0,0)
+toml('DistantHorizons.toml', [('common.worldGenerator','generationMaxChunkRadius',625)])
+# --- PM13: Chunky on the client blocklist (DH 3.3.3 + Chunky crash; pregen uses /dh pregen)
+mw = json.load(open(out('mod_whitelist-config.json') if os.path.exists(out('mod_whitelist-config.json')) else src('mod_whitelist-config.json')))
+js('mod_whitelist-config.json', [('CLIENT_MOD_BLACKLIST', mw['CLIENT_MOD_BLACKLIST'] + [m for m in ['chunky'] if m not in mw['CLIENT_MOD_BLACKLIST']])])
+# --- PM20 / PM20a: lumisene bottle off, crank off, cauldron dye water off, no lead slot when hitching
+js('supplementaries-common.json', [('functional/lumisene/lumisene_bottle/enabled',False),('redstone/crank',False)])
+js('amendments-common.json', [('cauldron/dye_water',False)])
+toml('horseman-common.toml', [('hitching','lead_slot',False)])
+# --- PM20a (4) Improved Mobs vanilla-only gear; PM27 spiders hold no items (HELDITEMS only)
+im2 = json.load(open(out('improvedmobs/common.json') if os.path.exists(out('improvedmobs/common.json')) else src('improvedmobs/common.json')))
+ec2 = im2['Entity Configs']['input'] + [e for e in ['minecraft:spider|HELDITEMS','minecraft:cave_spider|HELDITEMS'] if e not in im2['Entity Configs']['input']]
+js('improvedmobs/common.json', [('Item Blacklist',['minecraft']),('Item Whitelist',True),('Entity Configs',ec2)], cfgform=True)
+# --- PM36 / PM39: Tectonic back to Jayden's older test profile, elevation_boost stays 14
+js('tectonic.json', [('biomes/temperature_scale',0.08),('biomes/vegetation_scale',0.08),('continents/continents_scale',0.06),
+    ('continents/erosion_scale',0.12),('continents/ridge_scale',0.15),('continents/ocean_offset',-0.76),('continents/flat_terrain_skew',0.1),
+    ('islands/noise_scale',0.06),('oceans/ocean_depth',-0.3),('oceans/deep_ocean_depth',-0.55),('oceans/monument_offset',-40),
+    ('general/snow_start_offset',256),('global_terrain/elevation_boost',14.0)])
+# --- PM44 / PM47: every Nifty Carts entity on the Carry On blacklist (hand cart included)
+co2 = json.load(open(out('carryon-common.json')))
+js('carryon-common.json', [('blacklist/forbiddenEntities', co2['blacklist']['forbiddenEntities'] + [e for e in ['niftycarts:*'] if e not in co2['blacklist']['forbiddenEntities']])])
+# --- PM47: no Nifty Cart is player-pulled; every saddleable mount can pull every cart (the stock empty list also allows players)
+NC_PULLERS = ['minecraft:horse','minecraft:donkey','minecraft:mule','minecraft:skeleton_horse','minecraft:zombie_horse','minecraft:camel','naturalist:zebra','mutantmonsters:spider_pig']
+toml('niftycarts-common.toml', [(f'carts.{c}','pull_animals',NC_PULLERS) for c in ['supply_cart','handCart','animal_cart','plow','seed_drill','reaper','wagon']])
+# --- PM23a / PM26: Exposure server: no projecting, Lightroom gives no XP
+toml('exposure-server.toml', [('capture','projecting_enabled',False),('lightroom','experience_black_and_white',0),('lightroom','experience_color',0),('lightroom','experience_chromatic',0)])
+# --- PM23a: photographs render in item frames (client option, first-install default via yosbr)
+toml('yosbr/config/exposure-client.toml', [('render','photograph_renders_in_item_frame',True)])
+# --- PM43 1d: passives list (spider_pig out; creeper_minion, player_illusion in) feeds RpgDifficulty + Nameplate exclusions
+rd2 = json.load(open(out('rpgdifficulty.json')))
+js('rpgdifficulty.json', [('excludedEntity', PASSIVES)])
+np2 = json.load(open(out('nameplate.json')))
+js('nameplate.json', [('excludedEntities', [e for e in np2['excludedEntities'] if e != 'mutantmonsters:spider_pig'] + [p for p in PASSIVES if p not in np2['excludedEntities']])])
+
 print('\n'.join(log)); print(len(log), 'settings')

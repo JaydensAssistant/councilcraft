@@ -50,7 +50,7 @@
     "wind_vane": true,
     "clock_block": true,
     "redstone_illuminator": true,
-    "crank": true,
+    "crank": false,
     "cog_block": false,
     "gold_door": true,
     "gold_trapdoor": true,
@@ -154,7 +154,7 @@
     "lumisene": {
       "enabled": false,
       "lumisene_bottle": {
-        "enabled": true,
+        "enabled": false,
         "flammable_duration": 300,
         "glowing_duration": 200
       },

@@ -249,7 +249,7 @@ _version = 5
 		# This should only be set if you have a pre-generated world that has a very limited size. 
 		# Setting this on a normal MC world will prevent the world generator from filling 
 		# out your render distance.
-		generationMaxChunkRadius = 0
+		generationMaxChunkRadius = 625
 		#
 		# If the Minecraft server thread is taking too long 
 		# Distant Horizons will pause world gen to reduce server stuttering/lag.

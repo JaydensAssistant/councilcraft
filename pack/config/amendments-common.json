@@ -21,7 +21,7 @@
     "enhanced_cauldron": true,
     "hand_crafting": true,
     "in_world_crafting": true,
-    "dye_water": true,
+    "dye_water": false,
     "dye_recipes_per_layer": 4,
     "potion_recipes_per_layer": 2,
     "potions_mixing": "ON",

@@ -198,7 +198,9 @@
       "friendsandfoes:glare",
       "minecraft:axolotl",
       "mutantmonsters",
-      "illagerinvasion"
+      "illagerinvasion",
+      "minecraft:spider|HELDITEMS",
+      "minecraft:cave_spider|HELDITEMS"
     ]
   },
   "Flag Blacklist": {
@@ -541,13 +543,15 @@
     "__comment": [
       "Blacklist items from whole mods. Add modid to prevent items from that mod being equipped. (For individual items use the equipment.json)"
     ],
-    "input": []
+    "input": [
+      "minecraft"
+    ]
   },
   "Item Whitelist": {
     "__comment": [
       "Use blacklist as whitelist"
     ],
-    "input": false
+    "input": true
   },
   "Item Use Blacklist": {
     "__comment": [

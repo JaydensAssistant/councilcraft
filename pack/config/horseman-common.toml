@@ -31,7 +31,7 @@
 [hitching]
 	#Slot for a lead will be added to horse inventory menu. Default: true
 	#If disabled, Lead should be added by Sneak+Right-Clicking a Horse with an item. Default: true
-	lead_slot = true
+	lead_slot = false
 	#Hitching requires Lead item to be present on a horse. If disabled, 'horse_hitch_lead_slot' will be disabled as well. Default: true
 	requires_lead = true
 	#Right-clicking a fence while riding will leash the horse to it. Default: true

@@ -2,11 +2,11 @@ hash-format = "sha256"
 
 [[files]]
 file = "config/DistantHorizons.toml"
-hash = "fd96d4a121c3fff7cae673f343c012f6a08e3fa461ff78f61ccba0d60f1dd71b"
+hash = "946d721221d8336aa15c48e5668fb3bbfc564a60ce0018a37984b13b9f509086"
 
 [[files]]
 file = "config/amendments-common.json"
-hash = "daf779b04b594e5cd5c70842119284736145214fb290c792f733be7434c88875"
+hash = "cade3dca56fad944ec7e838bae67d9d22fe6ec5ca79666da9f0c88ceb1c62e6f"
 
 [[files]]
 file = "config/bstats.json"
@@ -14,7 +14,7 @@ hash = "507aa13edaa287f38f0d6531cf3617c3935f9ece9b8dfce6c5e03cffc7b042c0"
 
 [[files]]
 file = "config/carryon-common.json"
-hash = "409b6c5d88a27ac34b7749c50f357ddb3864b4ff6ef602e38fbd3ea2a9bce782"
+hash = "3d3faf9f2138716d024868532f6137b35fe59b3dc48d63a5f8547a37358d3d51"
 
 [[files]]
 file = "config/create-server.toml"
@@ -23,6 +23,10 @@ hash = "c97846647a722b618f38607e75654c1176babf258d31e4bad079aa3930f29efe"
 [[files]]
 file = "config/create_enchantment_industry-server.toml"
 hash = "40b3414e21bb1e0519600546c1144cbc7ff7e04f6da2c051de4f8519b47f90d1"
+
+[[files]]
+file = "config/exposure-server.toml"
+hash = "ea6c9a907d75a1b7cf3533aebd88bac7db9905e7deffc0c2a4ecdbccad5daa40"
 
 [[files]]
 file = "config/fabric_loader_dependencies.json"
@@ -46,7 +50,7 @@ hash = "0e1770112c2ccf1335ce2c99464204f293add9c2a45263cc6988466861233887"
 
 [[files]]
 file = "config/horseman-common.toml"
-hash = "94749f0323f0dac2f5b0c89494d01455ec4aa81297b63818080cefd443ff6ba4"
+hash = "4a76f6089898efbbe337abd1e913d6f708e148cb77e7935d84696d61dba086a1"
 
 [[files]]
 file = "config/illagerinvasion-server.toml"
@@ -58,11 +62,11 @@ hash = "0ad580c60be9386b982aa37dde8269bdb958a457fbe4a7bb614733628f8667f5"
 
 [[files]]
 file = "config/improvedmobs/common.json"
-hash = "b1d62a76b0a3ab30fce2dc8bf32bd263d2bdabd1055f4125b1d13e95baf34536"
+hash = "838c0e0d7af7e59da38c7851f9e6afb1099acb6da6289aa49d03373e4d327c71"
 
 [[files]]
 file = "config/mod_whitelist-config.json"
-hash = "501bc7de7b7cd41d8d7111d5cf418ce0dd2e139796bc72fd3364dc469555795d"
+hash = "ca737d264619e8c53fa0a1e0272b8c75c4c680859ed94c2aa724d45d7ea4a7d6"
 
 [[files]]
 file = "config/modernfix-mixins.properties"
@@ -74,7 +78,11 @@ hash = "218e2e08e6482f8abf02c4e52830ed3ed8259544cb8a8a241ffd776a65bedd17"
 
 [[files]]
 file = "config/nameplate.json"
-hash = "b89b9baacf6c0580fa7d1b6fa2861ab1d220260c824bf6916aec659ed4ff0099"
+hash = "ffb80eab78dcd5604b5ca2b3b4519e64ca51246cbf7c7d0ef0ad47f3231a006c"
+
+[[files]]
+file = "config/niftycarts-common.toml"
+hash = "3eecf92a8cd92f8081bdb985f954bda3245d3cef5d92d0acb0b11efc44ec4c7e"
 
 [[files]]
 file = "config/numismatics-common.toml"
@@ -98,7 +106,7 @@ hash = "19559f1ac8c25bffec023f60f8042a8eebd57f3bf6005b70c140df7127ebb07d"
 
 [[files]]
 file = "config/rpgdifficulty.json"
-hash = "92cf244efea86929752a7f2f9cc80e424ca50c80d5998ca3466900f7ac20fa1d"
+hash = "74030cc5fa8ac1e59f065f5cfd6b44b14f43d217342de5a4e3a3d4c37ce7a580"
 
 [[files]]
 file = "config/smallships-server.toml"
@@ -106,7 +114,7 @@ hash = "6c1e41e361737d1d26e49e2f719392f6d1310ef460e7879d019e9778b1ae189f"
 
 [[files]]
 file = "config/supplementaries-common.json"
-hash = "4325d63472cf4fea23723c156c9815e7124a7826dbcfdcedce970c2e3042fbdb"
+hash = "76f822873993c533ac815cb686d9420ec5fa5ae6dab088f1fea5ba482545b449"
 
 [[files]]
 file = "config/surveyor.toml"
@@ -114,7 +122,7 @@ hash = "6791674c172a971c1179b7974a3aa20965159787c1597034be171ce0b34311d9"
 
 [[files]]
 file = "config/tectonic.json"
-hash = "3eb42c112ab92ea3785237e8d1ea97cd60f0845cddd9c94dcc4372e3d49baf32"
+hash = "1a12dde41bc5bb719734d1a02802451f10f8b054003df01b57c3b29bb3473777"
 
 [[files]]
 file = "config/vanillabackport-common.toml"
@@ -131,6 +139,18 @@ hash = "22f52952b18e5785fe6bd0c4f12cd1a2223c54f19b3f0914b2b0066dcb0e4131"
 [[files]]
 file = "config/yosbr/config/amendments-client.json"
 hash = "b8c5dbf4e57f885ad13beb867e6e2768776ad34a5bd49e06548a19757cccf893"
+
+[[files]]
+file = "config/yosbr/config/controlify.json"
+hash = "dd13b3a931a886c5e9da78ca9c20cb81783615d1a8a8c89098f5b1c7c1403da2"
+
+[[files]]
+file = "config/yosbr/config/enhanced_bes.properties"
+hash = "fe464e53b09693cbae398ec9585f056c00fcbe36a65c2b8ddb7b6f5edb5067d0"
+
+[[files]]
+file = "config/yosbr/config/exposure-client.toml"
+hash = "51607364819e931433f43e94f86ccb68d8077ef231e985a7e21a7027a6585d25"
 
 [[files]]
 file = "config/yosbr/config/ponderer-client.toml"
