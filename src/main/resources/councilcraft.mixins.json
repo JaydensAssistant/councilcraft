@@ -37,6 +37,7 @@
     "RebornTradeMixin",
     "PrinterBehaviourMixin",
     "PrinterCopyMixin",
+    "SackEncumbranceMixin",
     "SackNestingMixin",
     "SmithingPrintedCopyMixin",
     "ToolboxInsertMixin",

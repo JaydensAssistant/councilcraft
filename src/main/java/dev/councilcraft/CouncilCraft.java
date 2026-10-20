@@ -48,6 +48,12 @@ public final class CouncilCraft implements ModInitializer {
             "plus.dragons.createenchantmentindustry.common.fluids.printer.PrinterBlockEntity",
             "printed copies (S207)"
         );
+        if (FabricLoader.getInstance().isModLoaded("inventorio")) {
+            requireClass(
+                "net.mehvahdjukaar.supplementaries.common.utils.fabric.ItemsUtilImpl",
+                "sack weight in Inventorio slots"
+            );
+        }
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 

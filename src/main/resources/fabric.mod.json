@@ -32,5 +32,8 @@
     "numismatics": "*",
     "pehkui": "*",
     "create_enchantment_industry": "*"
+  },
+  "suggests": {
+    "inventorio": "*"
   }
 }

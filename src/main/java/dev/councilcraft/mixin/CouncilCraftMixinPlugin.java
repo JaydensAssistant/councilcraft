@@ -2,6 +2,7 @@ package dev.councilcraft.mixin;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.slf4j.Logger;
@@ -29,6 +30,11 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"numismatics", "coin values (S123)"},
         {"pehkui", "baby respawn size (S80)"},
         {"create_enchantment_industry", "Blaze Forger clamp and printed copies (S177 / S207)"}
+    };
+
+    /** Mixins that hook an optional mod: mixin class name, then the mod ids it needs. */
+    private static final String[][] OPTIONAL_MIXINS = {
+        {"dev.councilcraft.mixin.SackEncumbranceMixin", "supplementaries", "inventorio"}
     };
 
     @Override
@@ -62,6 +68,21 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        return shouldApply(mixinClassName, FabricLoader.getInstance()::isModLoaded);
+    }
+
+    /** False only for an optional-mod mixin whose mods are not all loaded. */
+    static boolean shouldApply(String mixinClassName, Predicate<String> isModLoaded) {
+        for (String[] optional : OPTIONAL_MIXINS) {
+            if (optional[0].equals(mixinClassName)) {
+                for (int i = 1; i < optional.length; i++) {
+                    if (!isModLoaded.test(optional[i])) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
         return true;
     }
 

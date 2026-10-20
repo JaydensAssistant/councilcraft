@@ -54,6 +54,11 @@ dependencies {
     modImplementation "maven.modrinth:paragliders:20.1.4"
     // Supplementaries 1.20-3.1.44-fabric (fFEIiSDQ / hsHs7Gle).
     modImplementation "maven.modrinth:supplementaries:1.20-3.1.44-fabric"
+    // Inventorio 1.10.4+1.20.1 Fabric (inventorio / 11nerhMX). Named by version id because
+    // the Forge build has the same version number. Compile only and optional: SackEncumbranceMixin
+    // reads its Deep Pockets, utility belt and tool belt stacks, and is applied only when
+    // Inventorio is loaded. Not packed into our jar.
+    modCompileOnly("maven.modrinth:inventorio:11nerhMX") { transitive = false }
     // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1). Compile only.
     // Loom remaps inherited Minecraft calls (BasinBlockEntity.getWorld -> method_10997)
     // only when the real class and its superinterfaces are on the remap classpath.
