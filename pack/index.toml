@@ -142,7 +142,7 @@ hash = "b8c5dbf4e57f885ad13beb867e6e2768776ad34a5bd49e06548a19757cccf893"
 
 [[files]]
 file = "config/yosbr/config/controlify.json"
-hash = "dd13b3a931a886c5e9da78ca9c20cb81783615d1a8a8c89098f5b1c7c1403da2"
+hash = "2519fc22f66d91618a36989c4d7c953deafd79df806f2c09f139b30322a754ce"
 
 [[files]]
 file = "config/yosbr/config/enhanced_bes.properties"
