@@ -18,6 +18,7 @@ public final class CouncilCraft implements ModInitializer {
         LoginHandshake.registerServer();
         NetheriteHorseshoes.register();
         GovernmentMolds.register();
+        dev.councilcraft.item.AntiqueAtlasItem.register();
         Reborn.register();
         VillagerRemoval.register();
         // These classes keep their own names (they are not Minecraft classes).
@@ -73,6 +74,10 @@ public final class CouncilCraft implements ModInitializer {
         requireClass(
             "plus.dragons.createenchantmentindustry.common.fluids.printer.PrinterBlockEntity",
             "printed copies (S207)"
+        );
+        requireClass(
+            "io.github.mortuusars.exposure.world.level.storage.ExposureRepository",
+            "exposure upload size guard (PM26)"
         );
         if (FabricLoader.getInstance().isModLoaded("inventorio")) {
             requireClass(

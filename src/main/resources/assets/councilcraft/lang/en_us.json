@@ -16,5 +16,6 @@
   "command.councilcraft.reborn.window.missed": "not counted",
   "command.councilcraft.reborn.window.none": "none yet",
   "councilcraft.coins.diamond": "%s Diamond",
-  "councilcraft.coins.diamonds": "%s Diamonds"
+  "councilcraft.coins.diamonds": "%s Diamonds",
+  "item.councilcraft.antique_atlas": "Antique Atlas"
 }

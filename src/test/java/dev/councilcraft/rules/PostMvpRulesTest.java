@@ -80,4 +80,15 @@ class PostMvpRulesTest {
         assertEquals(1f, RebornJump.jumpScale(1f));
         assertEquals(1f, RebornJump.stepScale(1f));
     }
+
+    @Test
+    void exposureUploadsMustBeNormalFrames() {
+        assertTrue(ExposureUploadGuard.acceptable(320, 320));
+        assertTrue(ExposureUploadGuard.acceptable(2048, 2048));
+        assertFalse(ExposureUploadGuard.acceptable(2049, 2049));
+        assertFalse(ExposureUploadGuard.acceptable(320, 321));
+        assertFalse(ExposureUploadGuard.acceptable(0, 0));
+        assertFalse(ExposureUploadGuard.acceptable(-5, -5));
+        assertFalse(ExposureUploadGuard.acceptable(65536, 65536));
+    }
 }
