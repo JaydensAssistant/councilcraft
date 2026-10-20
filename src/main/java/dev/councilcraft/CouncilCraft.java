@@ -4,6 +4,7 @@ import dev.councilcraft.handshake.LoginHandshake;
 import dev.councilcraft.item.GovernmentMolds;
 import dev.councilcraft.item.NetheriteHorseshoes;
 import dev.councilcraft.respawn.Reborn;
+import dev.councilcraft.world.VillagerRemoval;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public final class CouncilCraft implements ModInitializer {
         NetheriteHorseshoes.register();
         GovernmentMolds.register();
         Reborn.register();
+        VillagerRemoval.register();
         // These classes keep their own names (they are not Minecraft classes).
         // Loading them here, after mixins are registered, applies our mixins and
         // throws if the class was renamed. The mixin json still requires each method.
@@ -39,6 +41,30 @@ public final class CouncilCraft implements ModInitializer {
         requireClass(
             "dev.ithundxr.createnumismatics.content.backend.Coin",
             "coin values (S123)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.coins.CoinItem",
+            "coin value tooltip in diamonds (PM32)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.vendor.VendorBlockEntity",
+            "vendor price text (PM32a)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.depositor.BrassDepositorBlockEntity",
+            "brass depositor price text (PM32a)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.salepoint.SalepointBlockEntity",
+            "salepoint price text (PM32a)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.backend.sub_authorization.Limit",
+            "spending limit text (PM32a)"
+        );
+        requireClass(
+            "com.simibubi.create.content.contraptions.elevator.ElevatorPulleyBlockEntity",
+            "faster elevators (PM38)"
         );
         requireClass(
             "plus.dragons.createenchantmentindustry.common.processing.forger.BlazeForgerInventory",

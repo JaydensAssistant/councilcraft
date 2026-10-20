@@ -62,13 +62,27 @@
       "item": "minecraft:diamond"
     },
     {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
       "item": "councilcraft:cog_mold"
     }
   ],
   "results": [
     {
-      "item": "numismatics:cog",
-      "count": 20
+      "item": "numismatics:cog"
     },
     {
       "item": "councilcraft:cog_mold"
