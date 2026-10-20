@@ -34,7 +34,11 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
 
     /** Mixins that hook an optional mod: mixin class name, then the mod ids it needs. */
     private static final String[][] OPTIONAL_MIXINS = {
-        {"dev.councilcraft.mixin.SackEncumbranceMixin", "supplementaries", "inventorio"}
+        {"dev.councilcraft.mixin.SackEncumbranceMixin", "supplementaries", "inventorio"},
+        {"dev.councilcraft.mixin.client.MutantNameplateMixin", "nameplate"},
+        {"dev.councilcraft.mixin.client.GeoNameplateMixin", "nameplate", "geckolib"},
+        {"dev.councilcraft.mixin.client.ParagliderWheelMixin", "paraglider"},
+        {"dev.councilcraft.mixin.client.StaminaXpBarMixin", "paraglider"}
     };
 
     @Override
