@@ -61,6 +61,7 @@
     "/^create_enchantment_industry:(classic_)?blaze_enchanter$/",
     "/^exposure:(broken_)?interplanar_projector$/",
     "/^railways:track_(incomplete_)?(oak|spruce|birch|jungle|acacia|dark_oak|mangrove|cherry|bamboo|stripped_bamboo|crimson|warped)(_narrow|_wide)?$/",
-    "/^niftycarts:([a-z_]+_)?hand_cart$/"
+    "/^niftycarts:([a-z_]+_)?hand_cart$/",
+    "/^supplementaries:netherite_(door|trapdoor)$/"
   ]
 }
