@@ -93,13 +93,15 @@ public final class CouncilCraft implements ModInitializer {
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 
+    /**
+     * Checks that a hooked class still exists without loading it. Loading it here would run its
+     * mixins and static initialiser during onInitialize, before the owning mod may be set up.
+     */
     private static void requireClass(String className, String hook) {
-        try {
-            Class.forName(className);
-        } catch (ClassNotFoundException e) {
+        String resource = className.replace('.', '/') + ".class";
+        if (CouncilCraft.class.getClassLoader().getResource(resource) == null) {
             throw new IllegalStateException(
-                "CouncilCraft hook failed: " + hook + ". " + className + " is missing or was renamed.",
-                e
+                "CouncilCraft hook failed: " + hook + ". " + className + " is missing or was renamed."
             );
         }
     }
