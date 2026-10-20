@@ -1,0 +1,13 @@
+name = "CouncilCraft"
+author = "Jayden Prue"
+version = "0.4.2"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "d2854ab98af8f965800b9896d8bdcc82e2ed41f190068ba4646772bd4c80fc4b"
+
+[versions]
+fabric = "0.19.5"
+minecraft = "1.20.1"

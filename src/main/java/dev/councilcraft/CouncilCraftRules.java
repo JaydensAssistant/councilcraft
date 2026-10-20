@@ -87,18 +87,19 @@ public final class CouncilCraftRules {
     public static final String TOOLBOX_TAG_PATH = "toolbox_contents";
 
     /**
-     * S123. Numismatics 1.1.0 ships SPUR 1, BEVEL 8, SPROCKET 16, COG 64, CROWN 512, SUN 4096.
-     * One unit is one diamond. Names are the enum constants.
+     * S123 / PM32. Numismatics 1.1.0 ships SPUR 1, BEVEL 8, SPROCKET 16, COG 64, CROWN 512, SUN 4096.
+     * One unit is one diamond. Names are the enum constants. In game they are the Diamond Penny,
+     * Nickel, Dime, Quarter, Half Dollar and Dollar (pack lang). PM32 moved the 20 coin to 25.
      */
     public static final int SPUR_VALUE = 1;
     public static final int BEVEL_VALUE = 5;
     public static final int SPROCKET_VALUE = 10;
-    public static final int COG_VALUE = 20;
+    public static final int COG_VALUE = 25;
     public static final int CROWN_VALUE = 50;
     public static final int SUN_VALUE = 100;
 
     /**
-     * Sprocket (10 diamonds) and cog (20 diamonds) are the only mint recipes with
+     * Sprocket (dime, 10 diamonds) and cog (quarter, 25 diamonds) are the only mint recipes with
      * nine or more loose diamonds. The press also accepts the vanilla 3x3 diamond
      * block recipe, and extra items do not stop that recipe matching. These two
      * molds must beat it no matter which item was inserted first.
@@ -218,6 +219,19 @@ public final class CouncilCraftRules {
      */
     public static final String PRINTED_NBT = "councilcraft:printed";
     public static final String PRINTED_LORE = "Printed Copy";
+
+    /** PM38. Extra factor on the elevator pulley's input speed (Create already doubles it). */
+    public static final float ELEVATOR_SPEED_MULTIPLIER = 2.0f;
+
+    /**
+     * PM35 / PM41 / PM45. Natural Mutant Monsters spawns as a share of hostile spawns, by straight-line
+     * distance from 0,0: none within 2,500 blocks, then +0.3% per full 250 blocks, capped at 7.5% (8,750 out).
+     */
+    public static final double MUTANT_FREE_RADIUS = 2500.0;
+    public static final double MUTANT_STEP_BLOCKS = 250.0;
+    public static final double MUTANT_STEP_SHARE = 0.003;
+    public static final double MUTANT_MAX_SHARE = 0.075;
+    public static final String MUTANT_NAMESPACE = "mutantmonsters";
 
     private CouncilCraftRules() {
     }

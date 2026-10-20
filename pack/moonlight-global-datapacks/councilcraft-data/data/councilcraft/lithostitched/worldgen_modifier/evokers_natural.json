@@ -1,0 +1,17 @@
+{
+  "type": "lithostitched:add_biome_spawns",
+  "biomes": [
+    "minecraft:dark_forest",
+    "regions_unexplored:blackwood_taiga",
+    "regions_unexplored:ashen_woodland",
+    "regions_unexplored:mauve_hills"
+  ],
+  "spawners": [
+    {
+      "type": "minecraft:evoker",
+      "weight": 2,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

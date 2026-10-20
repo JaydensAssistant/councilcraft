@@ -1,0 +1,13 @@
+name = "Improved Mobs"
+filename = "improvedmobs-1.20.1-1.13.7-fabric.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/23MovWyi/versions/wqRKnx49/improvedmobs-1.20.1-1.13.7-fabric.jar"
+hash-format = "sha512"
+hash = "ba015199c1484bfd241b79cec937febbde4504956335e363fe8387d0b9d899280b10faa43f37483e1690c1016c9954c041a5112b3991dc261e13d7e10722af47"
+
+[update]
+[update.modrinth]
+mod-id = "23MovWyi"
+version = "wqRKnx49"

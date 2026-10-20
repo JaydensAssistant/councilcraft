@@ -4,13 +4,19 @@
   "version": "${version}",
   "name": "CouncilCraft",
   "description": "Gameplay hooks for the CouncilCraft vanilla+ pack. Required on the client and the server.",
-  "authors": ["CouncilCraft"],
+  "authors": [
+    "CouncilCraft"
+  ],
   "contact": {},
   "license": "ARR",
   "environment": "*",
   "entrypoints": {
-    "main": ["dev.councilcraft.CouncilCraft"],
-    "client": ["dev.councilcraft.CouncilCraftClient"]
+    "main": [
+      "dev.councilcraft.CouncilCraft"
+    ],
+    "client": [
+      "dev.councilcraft.CouncilCraftClient"
+    ]
   },
   "mixins": [
     "councilcraft.mixins.json",
@@ -31,9 +37,15 @@
     "create": "*",
     "numismatics": "*",
     "pehkui": "*",
-    "create_enchantment_industry": "*"
+    "create_enchantment_industry": "*",
+    "exposure": "*"
   },
   "suggests": {
-    "inventorio": "*"
+    "inventorio": "*",
+    "antique_atlas": "*",
+    "nameplate": "*",
+    "geckolib": "*",
+    "distanthorizons": "*",
+    "imm_ptl_core": "*"
   }
 }

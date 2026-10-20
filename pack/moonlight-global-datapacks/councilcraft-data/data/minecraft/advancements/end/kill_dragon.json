@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:end/root",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.end.kill_dragon.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:dragon_head"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.end.kill_dragon.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

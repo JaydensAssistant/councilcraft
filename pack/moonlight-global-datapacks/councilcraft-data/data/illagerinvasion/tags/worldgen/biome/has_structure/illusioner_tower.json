@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "regions_unexplored:ashen_woodland",
+    "regions_unexplored:bayou",
+    "regions_unexplored:boreal_taiga",
+    "regions_unexplored:fen",
+    "regions_unexplored:golden_boreal_taiga",
+    "regions_unexplored:marsh",
+    "regions_unexplored:old_growth_bayou",
+    "regions_unexplored:pine_taiga",
+    "regions_unexplored:redwoods",
+    "regions_unexplored:sparse_redwoods"
+  ]
+}

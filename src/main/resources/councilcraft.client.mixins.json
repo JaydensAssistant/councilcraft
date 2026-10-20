@@ -3,12 +3,25 @@
   "minVersion": "0.8",
   "package": "dev.councilcraft.mixin.client",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "dev.councilcraft.mixin.CouncilCraftMixinPlugin",
   "client": [
+    "AntiqueAtlasItemMixin",
+    "FeedFirstPersonMixin",
+    "FeedPoseMixin",
+    "GeoNameplateMixin",
     "HandledScreenAccess",
+    "MutantNameplateMixin",
+    "NumismaticsCoinValueTextMixin",
+    "NumismaticsLimitTextMixin",
+    "NumismaticsSalepointPriceMixin",
+    "NumismaticsScreenPriceMixin",
+    "NumismaticsTooltipPriceMixin",
+    "ParagliderWheelMixin",
     "RebornEffectTooltipMixin",
-    "RebornTooltipDrawMixin"
+    "RebornTooltipDrawMixin",
+    "StaminaXpBarMixin"
   ],
   "injectors": {
-    "defaultRequire": 1
+    "defaultRequire": 0
   }
 }

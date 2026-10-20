@@ -1,0 +1,40 @@
+{
+  "values": {
+    "minecraft:infinity": {
+      "level_extension": {
+        "blaze_enchanter": 0,
+        "blaze_forger": 0
+      }
+    },
+    "minecraft:mending": {
+      "level_extension": {
+        "blaze_enchanter": 0,
+        "blaze_forger": 0
+      }
+    },
+    "minecraft:sharpness": {
+      "level_extension": {
+        "blaze_enchanter": 0,
+        "blaze_forger": 1
+      }
+    },
+    "minecraft:power": {
+      "level_extension": {
+        "blaze_enchanter": 0,
+        "blaze_forger": 1
+      }
+    },
+    "minecraft:blast_protection": {
+      "level_extension": {
+        "blaze_enchanter": 0,
+        "blaze_forger": 1
+      }
+    },
+    "minecraft:protection": {
+      "level_extension": {
+        "blaze_enchanter": 0,
+        "blaze_forger": 1
+      }
+    }
+  }
+}

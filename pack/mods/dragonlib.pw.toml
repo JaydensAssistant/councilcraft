@@ -1,0 +1,13 @@
+name = "DragonLib"
+filename = "dragonlib-3.0.29+mc1.20.1-fabric.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/sbIsGaOV/versions/HOY8RMW9/dragonlib-3.0.29%2Bmc1.20.1-fabric.jar"
+hash-format = "sha512"
+hash = "b47108a8d445a06f11b3020eddb701d5a95e5d34f1df8fdd6204a5208f05bf82f7c05b88c9a0aaf64144bcaedaac7a6d3643b1a2448ad9ec2e198c278a771b06"
+
+[update]
+[update.modrinth]
+mod-id = "sbIsGaOV"
+version = "HOY8RMW9"

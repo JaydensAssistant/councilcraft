@@ -1,11 +1,11 @@
 {
   "item.councilcraft.netherite_horseshoes": "Netherite Horseshoes",
-  "item.councilcraft.spur_mold": "1 Dia Mold",
-  "item.councilcraft.bevel_mold": "5 Dia Mold",
-  "item.councilcraft.sprocket_mold": "10 Dia Mold",
-  "item.councilcraft.cog_mold": "20 Dia Mold",
-  "item.councilcraft.crown_mold": "50 Dia Mold",
-  "item.councilcraft.sun_mold": "100 Dia Mold",
+  "item.councilcraft.spur_mold": "Diamond Penny Mold",
+  "item.councilcraft.bevel_mold": "Diamond Nickel Mold",
+  "item.councilcraft.sprocket_mold": "Diamond Dime Mold",
+  "item.councilcraft.cog_mold": "Diamond Quarter Mold",
+  "item.councilcraft.crown_mold": "Diamond Half Dollar Mold",
+  "item.councilcraft.sun_mold": "Diamond Dollar Mold",
   "effect.councilcraft.reborn": "Reborn",
   "effect.councilcraft.reborn.line1": "Grows up after 6 hours of active play.",
   "effect.councilcraft.reborn.now": "Now: %s%% size, %s%% speed, %s%% strength, %s%% HP",
@@ -14,5 +14,10 @@
   "command.councilcraft.reborn.status": "%s: %s active minutes credited. Last window: %s",
   "command.councilcraft.reborn.window.credited": "credited",
   "command.councilcraft.reborn.window.missed": "not counted",
-  "command.councilcraft.reborn.window.none": "none yet"
+  "command.councilcraft.reborn.window.none": "none yet",
+  "councilcraft.coins.diamond": "%s Diamond",
+  "councilcraft.coins.diamonds": "%s Diamonds",
+  "item.councilcraft.antique_atlas": "Antique Atlas",
+  "effect.councilcraft.growth_spurt": "Growth Spurt",
+  "councilcraft.feed.tooltip": "Feeds a Reborn player: %s min"
 }

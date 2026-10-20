@@ -1,0 +1,22 @@
+{
+  "item.numismatics.spur": "Diamond Penny",
+  "item.numismatics.spur.plural": "Diamond Pennies",
+  "item.numismatics.bevel": "Diamond Nickel",
+  "item.numismatics.bevel.plural": "Diamond Nickels",
+  "item.numismatics.sprocket": "Diamond Dime",
+  "item.numismatics.sprocket.plural": "Diamond Dimes",
+  "item.numismatics.cog": "Diamond Quarter",
+  "item.numismatics.cog.plural": "Diamond Quarters",
+  "item.numismatics.crown": "Diamond Half Dollar",
+  "item.numismatics.crown.plural": "Diamond Half Dollars",
+  "item.numismatics.sun": "Diamond Dollar",
+  "item.numismatics.sun.plural": "Diamond Dollars",
+  "block.numismatics.andesite_depositor.tooltip.price": "Price: %s %s",
+  "block.numismatics.brass_depositor.tooltip.price": "Price: %s",
+  "block.numismatics.vendor.tooltip.price": "For: %s",
+  "gui.numismatics.bank_terminal.balance": "Balance: %s",
+  "gui.numismatics.limit.monetary": "Spent %s of %s",
+  "gui.numismatics.salepoint.price": "Price/Unit: %s",
+  "item.numismatics.coin.tooltip.value": "Value: %s",
+  "item.numismatics.coin.tooltip.value.basic": "Value: %s"
+}

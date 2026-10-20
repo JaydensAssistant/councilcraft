@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:end/enter_end_gateway",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.end.find_end_city.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:purpur_block"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.end.find_end_city.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

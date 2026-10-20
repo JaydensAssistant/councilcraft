@@ -4,6 +4,7 @@ import dev.councilcraft.handshake.LoginHandshake;
 import dev.councilcraft.item.GovernmentMolds;
 import dev.councilcraft.item.NetheriteHorseshoes;
 import dev.councilcraft.respawn.Reborn;
+import dev.councilcraft.world.VillagerRemoval;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -17,7 +18,10 @@ public final class CouncilCraft implements ModInitializer {
         LoginHandshake.registerServer();
         NetheriteHorseshoes.register();
         GovernmentMolds.register();
+        dev.councilcraft.item.AntiqueAtlasItem.register();
         Reborn.register();
+        dev.councilcraft.respawn.RebornFeeding.register();
+        VillagerRemoval.register();
         // These classes keep their own names (they are not Minecraft classes).
         // Loading them here, after mixins are registered, applies our mixins and
         // throws if the class was renamed. The mixin json still requires each method.
@@ -41,12 +45,44 @@ public final class CouncilCraft implements ModInitializer {
             "coin values (S123)"
         );
         requireClass(
+            "dev.ithundxr.createnumismatics.content.coins.CoinItem",
+            "coin value tooltip in diamonds (PM32)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.vendor.VendorBlockEntity",
+            "vendor price text (PM32a)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.depositor.BrassDepositorBlockEntity",
+            "brass depositor price text (PM32a)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.salepoint.SalepointBlockEntity",
+            "salepoint price text (PM32a)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.backend.sub_authorization.Limit",
+            "spending limit text (PM32a)"
+        );
+        requireClass(
+            "com.simibubi.create.content.contraptions.elevator.ElevatorPulleyBlockEntity",
+            "faster elevators (PM38)"
+        );
+        requireClass(
             "plus.dragons.createenchantmentindustry.common.processing.forger.BlazeForgerInventory",
             "Blaze Forger clamp (S177)"
         );
         requireClass(
             "plus.dragons.createenchantmentindustry.common.fluids.printer.PrinterBlockEntity",
             "printed copies (S207)"
+        );
+        requireClass(
+            "dev.ithundxr.createnumismatics.content.backend.behaviours.SliderStylePriceBehaviour",
+            "vendor change-making (PM34)"
+        );
+        requireClass(
+            "io.github.mortuusars.exposure.world.level.storage.ExposureRepository",
+            "exposure upload size guard (PM26)"
         );
         if (FabricLoader.getInstance().isModLoaded("inventorio")) {
             requireClass(
@@ -57,13 +93,15 @@ public final class CouncilCraft implements ModInitializer {
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 
+    /**
+     * Checks that a hooked class still exists without loading it. Loading it here would run its
+     * mixins and static initialiser during onInitialize, before the owning mod may be set up.
+     */
     private static void requireClass(String className, String hook) {
-        try {
-            Class.forName(className);
-        } catch (ClassNotFoundException e) {
+        String resource = className.replace('.', '/') + ".class";
+        if (CouncilCraft.class.getClassLoader().getResource(resource) == null) {
             throw new IllegalStateException(
-                "CouncilCraft hook failed: " + hook + ". " + className + " is missing or was renamed.",
-                e
+                "CouncilCraft hook failed: " + hook + ". " + className + " is missing or was renamed."
             );
         }
     }

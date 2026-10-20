@@ -1,0 +1,13 @@
+name = "Ponderer - \u601d\u7d22\u8005"
+filename = "ponderer-1.20.1-fabric-1.10.4.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/voXQB5Hr/versions/V9lw7bSS/ponderer-1.20.1-fabric-1.10.4.jar"
+hash-format = "sha512"
+hash = "903b601821433046d4424ad65babdb538c6655e78528798f08c6d56a52917479a20005d80e440fa46cdc222cb7f1b4c4b478d97adde92bdb3824a9de1dad82e2"
+
+[update]
+[update.modrinth]
+mod-id = "voXQB5Hr"
+version = "V9lw7bSS"

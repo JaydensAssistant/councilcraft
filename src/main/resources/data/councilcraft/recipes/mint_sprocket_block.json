@@ -1,0 +1,22 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "councilcraft:sprocket_mold"
+    }
+  ],
+  "results": [
+    {
+      "item": "numismatics:sprocket"
+    },
+    {
+      "item": "councilcraft:sprocket_mold"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:diamond_block"
+    },
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "councilcraft:bevel_mold"
+    }
+  ],
+  "results": [
+    {
+      "item": "numismatics:bevel",
+      "count": 2
+    },
+    {
+      "item": "councilcraft:bevel_mold"
+    }
+  ]
+}
