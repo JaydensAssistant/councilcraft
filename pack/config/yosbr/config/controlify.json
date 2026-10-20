@@ -2,7 +2,7 @@
   "current_controller": null,
   "controllers": {},
   "global": {
-    "vibrationOnboarded": true,
-    "loadVibrationNatives": false
+    "load_vibration_natives": false,
+    "vibration_onboarded": true
   }
 }
