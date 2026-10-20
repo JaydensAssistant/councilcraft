@@ -13,6 +13,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import dev.councilcraft.rules.RebornJump;
 import virtuoel.pehkui.api.ScaleTypes;
 
 /**
@@ -94,7 +95,13 @@ public final class RebornStatusEffect extends StatusEffect {
     }
 
     private static void scale(ServerPlayerEntity player, float scale) {
-        var data = ScaleTypes.BASE.getScaleData(player);
+        set(ScaleTypes.BASE.getScaleData(player), scale);
+        // PM24: size, speed, strength and HP stay nerfed; jump apex and step height stay vanilla.
+        set(ScaleTypes.JUMP_HEIGHT.getScaleData(player), RebornJump.jumpScale(scale));
+        set(ScaleTypes.STEP_HEIGHT.getScaleData(player), RebornJump.stepScale(scale));
+    }
+
+    private static void set(virtuoel.pehkui.api.ScaleData data, float scale) {
         data.setScaleTickDelay(0);
         data.setTargetScale(scale);
         data.setScale(scale);
