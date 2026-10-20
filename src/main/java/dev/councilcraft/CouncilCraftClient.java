@@ -14,6 +14,7 @@ public final class CouncilCraftClient implements ClientModInitializer {
     public void onInitializeClient() {
         LoginHandshake.registerClient();
         RebornClient.register();
+        dev.councilcraft.respawn.RebornFeedingClient.register();
         FabricLoader loader = FabricLoader.getInstance();
         if (loader.isModLoaded("distanthorizons") && loader.isModLoaded("imm_ptl_core")) {
             // PM21. Separate class so DH and IP types load only when both mods are present.

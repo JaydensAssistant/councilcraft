@@ -14,6 +14,7 @@
     "CreeperMinionGriefMixin",
     "ElevatorSpeedMixin",
     "ExposureUploadGuardMixin",
+    "FeedConsumeMixin",
     "GoldHorseshoeLootMixin",
     "HorseEquipmentMixin",
     "HorseshoeSpeedMixin",

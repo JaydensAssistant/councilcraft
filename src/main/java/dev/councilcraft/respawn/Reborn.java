@@ -46,6 +46,8 @@ public final class Reborn {
     private static final Set<ServerPlayerEntity> EFFECT_SENT = Collections.newSetFromMap(new WeakHashMap<>());
     /** Effect removal that must wait until after JOIN, so the packet is not a raw registry id. */
     private static final Set<ServerPlayerEntity> EFFECT_CLEAR_AFTER_JOIN = Collections.newSetFromMap(new WeakHashMap<>());
+    /** PM24a: ticks of the current window spent under Growth Spurt. Not saved, like the window. */
+    private static final Map<ServerPlayerEntity, Long> GROWTH_TICKS = new WeakHashMap<>();
 
     /**
      * What a player joining may do. A status-effect packet carries a raw registry
@@ -97,6 +99,7 @@ public final class Reborn {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             // Minutes already saved stay. The unfinished window does not.
             WINDOWS.remove(handler.player);
+            GROWTH_TICKS.remove(handler.player);
             LAST_WINDOW.remove(handler.player);
             LAST_MOVE.remove(handler.player);
         });
@@ -159,6 +162,7 @@ public final class Reborn {
     public static void begin(ServerPlayerEntity player) {
         MINUTES.put(player, 0L);
         WINDOWS.put(player, new RebornWindow());
+        GROWTH_TICKS.remove(player);
         LAST_WINDOW.remove(player);
         sync(player);
     }
@@ -223,6 +227,9 @@ public final class Reborn {
                 continue;
             }
             RebornWindow window = window(player);
+            if (player.hasStatusEffect(GrowthSpurtEffect.EFFECT)) {
+                GROWTH_TICKS.merge(player, 1L, Long::sum);
+            }
             boolean boundary = window.advance();
             if (boundary) {
                 long now = server.getTicks();
@@ -230,8 +237,14 @@ public final class Reborn {
                 boolean credited = RebornMotion.credit(window.counts(), now, lastMove);
                 LAST_WINDOW.put(player, credited ? WindowVerdict.CREDITED : WindowVerdict.MISSED);
                 WINDOWS.put(player, new RebornWindow());
+                long growth = GROWTH_TICKS.getOrDefault(player, 0L);
+                GROWTH_TICKS.remove(player);
                 if (credited) {
                     accrued = RebornProgress.credit(accrued, true);
+                    // PM24a Growth Spurt: 3x for the part of the window it covered. AFK windows still add nothing.
+                    long extra = dev.councilcraft.rules.FeedingRules.extraMinutes(
+                        growth, CouncilCraftRules.REBORN_WINDOW_TICKS, CouncilCraftRules.REBORN_WINDOW_MINUTES);
+                    accrued = Math.min(CouncilCraftRules.REBORN_ACTIVE_MINUTES, accrued + extra);
                     MINUTES.put(player, accrued);
                 }
                 if (accrued >= CouncilCraftRules.REBORN_ACTIVE_MINUTES) {
@@ -311,6 +324,10 @@ public final class Reborn {
     private static void finish(ServerPlayerEntity player) {
         MINUTES.remove(player);
         WINDOWS.remove(player);
+        GROWTH_TICKS.remove(player);
+        if (player.hasStatusEffect(GrowthSpurtEffect.EFFECT)) {
+            player.removeStatusEffect(GrowthSpurtEffect.EFFECT);
+        }
         EFFECT_SENT.remove(player);
         if (player.hasStatusEffect(RebornStatusEffect.EFFECT)) {
             player.removeStatusEffect(RebornStatusEffect.EFFECT);

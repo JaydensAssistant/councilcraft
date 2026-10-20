@@ -17,5 +17,7 @@
   "command.councilcraft.reborn.window.none": "none yet",
   "councilcraft.coins.diamond": "%s Diamond",
   "councilcraft.coins.diamonds": "%s Diamonds",
-  "item.councilcraft.antique_atlas": "Antique Atlas"
+  "item.councilcraft.antique_atlas": "Antique Atlas",
+  "effect.councilcraft.growth_spurt": "Growth Spurt",
+  "councilcraft.feed.tooltip": "Feeds a Reborn player: %s min"
 }

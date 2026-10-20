@@ -20,6 +20,7 @@ public final class CouncilCraft implements ModInitializer {
         GovernmentMolds.register();
         dev.councilcraft.item.AntiqueAtlasItem.register();
         Reborn.register();
+        dev.councilcraft.respawn.RebornFeeding.register();
         VillagerRemoval.register();
         // These classes keep their own names (they are not Minecraft classes).
         // Loading them here, after mixins are registered, applies our mixins and

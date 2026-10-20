@@ -110,4 +110,27 @@ class PostMvpRulesTest {
         int[] spread = CoinChange.take(values, new int[] {30, 1, 1, 0, 0, 0}, 21);
         assertEquals(21, CoinChange.value(values, spread));
     }
+
+    @Test
+    void feedingMinutesFollowTheLockedRates() {
+        // FD feast serving / meal, k = 1: roast chicken 14 + 21 = 35.
+        assertEquals(35, FeedingRules.minutes(true, false, false, 14, 0.75f));
+        // Other food, k = 2/3: cooked porkchop 8 + 12.8 = 20.8 -> 13.
+        assertEquals(13, FeedingRules.minutes(false, false, false, 8, 0.8f));
+        // Bread 5 + 6 = 11 -> 7.
+        assertEquals(7, FeedingRules.minutes(false, false, false, 5, 0.6f));
+        // Snack under 4 hunger, always-edible, excluded: 0.
+        assertEquals(0, FeedingRules.minutes(false, false, false, 3, 0.3f));
+        assertEquals(0, FeedingRules.minutes(false, false, true, 4, 1.2f));
+        assertEquals(0, FeedingRules.minutes(true, true, false, 14, 0.75f));
+        // Cap 40 per feed.
+        assertEquals(40, FeedingRules.minutes(true, false, false, 20, 1.0f));
+        // Stacking caps at 60 minutes.
+        assertEquals(60 * 1200, FeedingRules.stackTicks(35 * 1200, 35));
+        assertEquals(45 * 1200, FeedingRules.stackTicks(10 * 1200, 35));
+        // Full window under Growth Spurt: 5 + 10 = 15 minutes; half a window: +5.
+        assertEquals(10, FeedingRules.extraMinutes(6000, 6000, 5));
+        assertEquals(5, FeedingRules.extraMinutes(3000, 6000, 5));
+        assertEquals(0, FeedingRules.extraMinutes(0, 6000, 5));
+    }
 }

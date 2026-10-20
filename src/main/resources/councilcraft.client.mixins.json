@@ -6,6 +6,8 @@
   "plugin": "dev.councilcraft.mixin.CouncilCraftMixinPlugin",
   "client": [
     "AntiqueAtlasItemMixin",
+    "FeedFirstPersonMixin",
+    "FeedPoseMixin",
     "GeoNameplateMixin",
     "HandledScreenAccess",
     "MutantNameplateMixin",
