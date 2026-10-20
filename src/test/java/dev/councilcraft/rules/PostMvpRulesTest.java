@@ -91,4 +91,23 @@ class PostMvpRulesTest {
         assertFalse(ExposureUploadGuard.acceptable(-5, -5));
         assertFalse(ExposureUploadGuard.acceptable(65536, 65536));
     }
+
+    @Test
+    void vendorPaymentMakesChangeInTheLargestCoins() {
+        int[] values = {1, 5, 10, 25, 50, 100};
+        // 21 Dia with only Diamond Dollars: one dollar taken, 79 back as a half dollar, a quarter and 4 pennies.
+        int[] taken = CoinChange.take(values, new int[] {0, 0, 0, 0, 0, 3}, 21);
+        assertEquals(List.of(0, 0, 0, 0, 0, 1), java.util.Arrays.stream(taken).boxed().toList());
+        int change = CoinChange.value(values, taken) - 21;
+        assertEquals(79, change);
+        assertEquals(List.of(4, 0, 0, 1, 1, 0), java.util.Arrays.stream(CoinChange.change(values, change)).boxed().toList());
+        // Too little in total.
+        assertEquals(null, CoinChange.take(values, new int[] {20, 0, 0, 0, 0, 0}, 21));
+        // Small coins used before breaking a big one, never short.
+        int[] mixed = CoinChange.take(values, new int[] {4, 0, 0, 0, 0, 1}, 21);
+        assertTrue(CoinChange.value(values, mixed) >= 21);
+        assertEquals(List.of(4, 0, 0, 0, 0, 1), java.util.Arrays.stream(mixed).boxed().toList());
+        int[] spread = CoinChange.take(values, new int[] {30, 1, 1, 0, 0, 0}, 21);
+        assertEquals(21, CoinChange.value(values, spread));
+    }
 }

@@ -29,6 +29,7 @@
     "NumismaticsLimitTextMixin",
     "NumismaticsSalepointPriceMixin",
     "NumismaticsTooltipPriceMixin",
+    "NumismaticsVendorChangeMixin",
     "ParagliderRepairMixin",
     "PatrolEntityAccess",
     "PatrolEvokerMixin",

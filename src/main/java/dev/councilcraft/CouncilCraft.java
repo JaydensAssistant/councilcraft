@@ -76,6 +76,10 @@ public final class CouncilCraft implements ModInitializer {
             "printed copies (S207)"
         );
         requireClass(
+            "dev.ithundxr.createnumismatics.content.backend.behaviours.SliderStylePriceBehaviour",
+            "vendor change-making (PM34)"
+        );
+        requireClass(
             "io.github.mortuusars.exposure.world.level.storage.ExposureRepository",
             "exposure upload size guard (PM26)"
         );
