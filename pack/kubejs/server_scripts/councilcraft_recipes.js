@@ -56,6 +56,11 @@ ServerEvents.recipes(event => {
   mech('councilcraft:smallships_cannon', ['  S', 'III', ' LL'], { L: { tag: 'minecraft:logs' }, S: { item: 'minecraft:string' }, I: { item: 'minecraft:iron_block' } }, { item: 'smallships:cannon' })
   event.remove({ id: 'smallships:cannon_ball' })
   mech('councilcraft:smallships_cannon_ball', [' # ', '#G#', ' # '], { '#': { item: 'minecraft:iron_nugget' }, G: { item: 'minecraft:gunpowder' } }, { item: 'smallships:cannon_ball', count: 2 })
+  // PM43 1b / PM44: grapeshot and chainshot follow the cannonball onto the mechanical crafter (same layouts and counts)
+  event.remove({ id: 'smallships:grape_shot' })
+  mech('councilcraft:smallships_grape_shot', ['nnn', 'nGn', 'nnn'], { n: { item: 'minecraft:iron_nugget' }, G: { item: 'minecraft:gunpowder' } }, { item: 'smallships:grape_shot', count: 1 })
+  event.remove({ id: 'smallships:chained_shot' })
+  mech('councilcraft:smallships_chained_shot', ['B B', ' C ', 'B B'], { B: { item: 'smallships:cannon_ball' }, C: { item: 'minecraft:chain' } }, { item: 'smallships:chained_shot', count: 2 })
   event.remove({ id: 'smallships:copper_plating' })
   mech('councilcraft:smallships_copper_plating', [' I ', 'IBI', ' I '], { I: { item: 'create:copper_sheet' }, B: { item: 'minecraft:copper_block' } }, { item: 'smallships:copper_plating' })
   event.remove({ id: 'smallships:iron_scantlings' })
@@ -83,8 +88,8 @@ ServerEvents.recipes(event => {
     })
   })
 
-  // ---- Coin melting (S128): Create crushing, 80% value in diamonds, no 1-coin recipe ----
-  ;[['bevel', 4], ['sprocket', 8], ['cog', 16], ['crown', 40], ['sun', 80]].forEach(c => {
+  // ---- Coin melting (S128): Create crushing, 80% value in diamonds, no 1-coin recipe (PM32: the 20 coin is now the 25 Diamond Quarter) ----
+  ;[['bevel', 4], ['sprocket', 8], ['cog', 20], ['crown', 40], ['sun', 80]].forEach(c => {
     event.custom({ type: 'create:crushing', ingredients: [{ item: 'numismatics:' + c[0] }], results: [{ item: 'minecraft:diamond', count: c[1] }], processingTime: 250 }).id('councilcraft:melt_' + c[0])
   })
 
@@ -138,6 +143,38 @@ ServerEvents.recipes(event => {
   event.remove({ id: 'regions_unexplored:ash' })
   event.shaped('regions_unexplored:ash', ['AA', 'AA'], { A: 'supplementaries:ash' }).id('councilcraft:ru_ash_from_supplementaries_ash')
   event.shapeless(Item.of('supplementaries:ash', 4), ['regions_unexplored:ash']).id('councilcraft:supplementaries_ash_from_ru_ash')
+  // ---- 0.4.2 ----
+  // PM2a: loot-only enchanting (no enchanting table, no CEI Blaze Enchanter of either kind)
+  event.remove({ output: 'minecraft:enchanting_table' })
+  event.remove({ output: 'create_enchantment_industry:blaze_enchanter' })
+  event.remove({ output: 'create_enchantment_industry:classic_blaze_enchanter' })
+  // PM20 (1): no Dragons Plus "ending" (dragon breath) processing
+  event.remove({ type: 'create_dragons_plus:ending' })
+  // PM46b: Steam 'n' Rails vanilla-wood tracks go; Create's track, gauges (create_andesite narrow/wide), monorail and the non-wood S'n'R tracks stay
+  event.remove({ output: /^railways:track_(oak|spruce|birch|jungle|acacia|dark_oak|mangrove|cherry|bamboo|stripped_bamboo|crimson|warped)(_narrow|_wide)?$/ })
+  // PM47: the Nifty Carts hand cart is disabled
+  event.remove({ output: /^niftycarts:[a-z_]+_hand_cart$/ })
+  // PM26 (1): no interplanar projector (projecting is off server-side too)
+  event.remove({ output: 'exposure:interplanar_projector' })
+  event.remove({ output: 'exposure:broken_interplanar_projector' })
+  // PM26a: camera
+  event.remove({ id: 'exposure:camera' })
+  event.shaped('exposure:camera', ['LIB', 'IGI', 'ICI'], { L: 'minecraft:lever', I: 'create:iron_sheet', B: '#minecraft:buttons', G: 'minecraft:glass_pane', C: 'create:cogwheel' }).id('councilcraft:exposure_camera')
+  // PM26b: Create-flavored film (same layout as Exposure's, 1 roll each)
+  const film = (id, nugget, sheet, mid, top) => {
+    event.remove({ id: 'exposure:' + id })
+    event.shaped('exposure:' + id, ['NTT', 'SMM', 'SKK'], { N: nugget, T: top, S: sheet, M: mid, K: 'minecraft:dried_kelp' }).id('councilcraft:exposure_' + id)
+  }
+  film('black_and_white_film', 'create:zinc_nugget', 'create:iron_sheet', 'minecraft:gunpowder', 'minecraft:bone_meal')
+  film('color_film', 'minecraft:gold_nugget', 'create:golden_sheet', 'minecraft:gunpowder', 'minecraft:lapis_lazuli')
+  film('high_sensitivity_black_and_white_film', 'create:zinc_nugget', 'create:iron_sheet', 'minecraft:prismarine_crystals', 'minecraft:bone_meal')
+  film('high_sensitivity_color_film', 'minecraft:gold_nugget', 'create:golden_sheet', 'minecraft:prismarine_crystals', 'minecraft:lapis_lazuli')
+  // PM25 / PM25a: Antique Atlas item + craftable antique ink
+  event.shapeless('supplementaries:antique_ink', ['minecraft:ink_sac', '#minecraft:coals']).id('councilcraft:antique_ink')
+  ;['minecraft:leather', 'create:cardboard', 'farmersdelight:canvas'].forEach(c => {
+    event.shapeless('councilcraft:antique_atlas', ['minecraft:paper', 'minecraft:paper', 'minecraft:paper', c, 'minecraft:compass', 'supplementaries:antique_ink']).id('councilcraft:antique_atlas_' + c.split(':')[1])
+  })
+  event.shapeless('councilcraft:antique_atlas', ['minecraft:book', 'minecraft:compass', 'supplementaries:antique_ink']).id('councilcraft:antique_atlas_from_book')
 })
 
 ServerEvents.tags('item', event => {

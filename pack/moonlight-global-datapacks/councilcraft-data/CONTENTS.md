@@ -26,14 +26,16 @@
 - mutantmonsters/loot_tables/entities/mutant_snow_golem.json  # S156/S242 mutant snow golem
 - illagerinvasion/loot_tables/entities/invoker.json  # S156 Primal Essence out of Invoker drops
 - illagerinvasion/loot_tables/chests/labyrinth_map.json  # S82 Lost Candle removed
-- minecraft/loot_tables/chests/simple_dungeon.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/skeleton_dungeon/chests/common.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/skeleton_dungeon/chests/middle.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/small_dungeon/chests/loot_piles.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/spider_dungeon/chests/egg_room.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/zombie_dungeon/chests/common.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/zombie_dungeon/chests/special.json  # S248(b) Heave Ho 2%
-- betterdungeons/loot_tables/zombie_dungeon/chests/tombstone.json  # S248(b) Heave Ho 2%
+- minecraft/loot_tables/chests/simple_dungeon.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/skeleton_dungeon/chests/common.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/skeleton_dungeon/chests/middle.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/small_dungeon/chests/loot_piles.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/spider_dungeon/chests/egg_room.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/zombie_dungeon/chests/common.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/zombie_dungeon/chests/special.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- betterdungeons/loot_tables/zombie_dungeon/chests/tombstone.json  # S248(b)/PM43 1c Heave Ho 0.5%
+- minecraft/loot_tables/gameplay/fishing/treasure.json  # PM2a no enchanted books from fishing
+- minecraft/worldgen/processor_list/illager_manor_generic_degradation.json  # PM2a D&T manor library enchanting tables -> bookshelves
 - farmersdelight/loot_tables/chests/fd_abandoned_mineshaft.json  # S245 rope loot swap
 - farmersdelight/loot_tables/chests/fd_shipwreck_supply.json  # S245 rope loot swap
 - farmersdelight/loot_tables/chests/fd_simple_dungeon.json  # S245 rope loot swap

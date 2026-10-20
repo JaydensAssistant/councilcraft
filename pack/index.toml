@@ -166,7 +166,7 @@ hash = "1695a5f3694c262cf65de1b9c18d8f25922fa605fa01692448090e27d261226f"
 
 [[files]]
 file = "kubejs/assets/emi/index/stacks/councilcraft_hidden.json"
-hash = "457b90b057222fe1c4dffa66419f24d57f3f019b807aa821b2f49e7ee87f5a07"
+hash = "7a7d9d111c193b41babb5087562f23ce3a951564099452e50d2d91076ea3a809"
 
 [[files]]
 file = "kubejs/assets/numismatics/lang/en_us.json"
@@ -182,7 +182,7 @@ hash = "50d62cd56092803f317c2ab3f3f46e1620d8ef72aeaa4849687b0b1b62296bd9"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "ac863ee378ea24be320a8e6286dde263f7d561d12651cc7de12130e2520d8f6e"
+hash = "f31eae5148180c7b888a051068c8ea89ef89dc6561c74024ad0f0c7e21f7620e"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_world.js"
@@ -191,6 +191,10 @@ hash = "77e88d9601d453f48fee99530ffccf3069bd4eadd472a500c2d409d688917116"
 [[files]]
 file = "kubejs/server_scripts/end_disable.js"
 hash = "70aab5c07ff2b9d79a1a51eb715b7e754e620f5d052e5da43dcfe8f1d0ceb4d4"
+
+[[files]]
+file = "kubejs/startup_scripts/councilcraft_startup.js"
+hash = "e5e7c265d9757f804cbaa4de050db104e7f2914c7d860fea02c8b6d8a542b2fb"
 
 [[files]]
 file = "mods/3dskinlayers.pw.toml"
@@ -919,35 +923,35 @@ metafile = true
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/CONTENTS.md"
-hash = "fbfa4e817f13376286b0583c51c6dc0592897dc9185a1b42476cc95079351098"
+hash = "c32ecd311435619acd4b3e31ba5d4327973a238ea192f76dadae55db096e46e4"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/skeleton_dungeon/chests/common.json"
-hash = "ba4c7a4a8135c9b9550647d582b42ef0536c3333db8c78f169841837d61a39ef"
+hash = "add6c5a6f4606a63e8f6b54bce5999aed1a91e8f191a2e5988df80e96f11f8b0"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/skeleton_dungeon/chests/middle.json"
-hash = "e89322de6a6b5b41bb56ea2be29c23d2f78d50732007ec07d10184118866a271"
+hash = "646e8ffa19346b5959cbcdee0b060c76bea92943f9deb6b7b85e96e136781b12"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/small_dungeon/chests/loot_piles.json"
-hash = "ebbbcb05d5aff352bb098328deb901088760d6c8a56bcc8b05836e82a0300ae5"
+hash = "e4a52b788aa710ea2e1ac47842c6a6a2b9fed1631229d9efd87f96de47340f3e"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/spider_dungeon/chests/egg_room.json"
-hash = "a80cf1ce1da9d96d38536d930c81544c34f174edcd799e217357e2211affe2db"
+hash = "8a29d0a2f540108a0bdea904d38fb0fcc8539202a52946402dcd6b887bee60f1"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/zombie_dungeon/chests/common.json"
-hash = "5bd1dc5cfc4501a2fc73d828754b106f917102b3e5f60c58d24346b6d5e35c88"
+hash = "4c880788de535d1a0164a79bb6ea374501be5aa40948944613e29384a09d247b"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/zombie_dungeon/chests/special.json"
-hash = "5bd1dc5cfc4501a2fc73d828754b106f917102b3e5f60c58d24346b6d5e35c88"
+hash = "4c880788de535d1a0164a79bb6ea374501be5aa40948944613e29384a09d247b"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/zombie_dungeon/chests/tombstone.json"
-hash = "1d627aa7a2b015195a46caeae4f50d61aa1536baf3b027c58caf36449c59bc2b"
+hash = "9c8addb846791becc51310eebe6e7a98cf76101fa909679563eb149cbbbefcf4"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/tags/worldgen/biome/has_structure/skeleton_dungeon.json"
@@ -1179,7 +1183,11 @@ hash = "273393b8cff75270d79c92b9611cdda5005053c3b6e21b3982f3e2cebbe2a16c"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/loot_tables/chests/simple_dungeon.json"
-hash = "309d03d27c613d0f64053469adfb82b37bbd84e83bc6e6800ccbcbbdf13a1da5"
+hash = "5728f7b234d21347a99bb6dcf1cf66bb2266371818f8c8058771b10050ff3305"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/loot_tables/gameplay/fishing/treasure.json"
+hash = "16a7f4d4946d8ddb9053258eb19bd8d2f0ba5b68193fc1ea3c07544d8f2f30eb"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/tags/worldgen/biome/has_structure/village_desert.json"
@@ -1200,6 +1208,10 @@ hash = "33975eff3c2c6cf9000bce7825e1256f756eb8a353be7e9b7011bb4298f97a65"
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/tags/worldgen/biome/has_structure/village_taiga.json"
 hash = "33975eff3c2c6cf9000bce7825e1256f756eb8a353be7e9b7011bb4298f97a65"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/worldgen/processor_list/illager_manor_generic_degradation.json"
+hash = "64d306db265092d0c5a3f680f2e2c73309c5736773326b50c991114b1f510430"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/worldgen/structure/village_taiga.json"

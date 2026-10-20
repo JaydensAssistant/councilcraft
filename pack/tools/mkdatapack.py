@@ -117,14 +117,25 @@ for pl in lab['pools']: pl['entries'] = [e for e in pl['entries'] if 'lost_candl
 lab['pools'] = [pl for pl in lab['pools'] if pl['entries']]
 w('illagerinvasion/loot_tables/chests/labyrinth_map.json', lab, 'S82 Lost Candle removed')
 
-# ---------- S244 C4 / S248(b): Heave Ho disc at 2% in simple_dungeon + YUNG's Better Dungeons chest tables
-disc = {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'supplementaries:music_disc_heave_ho'}], 'conditions': [{'condition': 'minecraft:random_chance', 'chance': 0.02}]}
-t = rd(f'{VAN}/data/minecraft/loot_tables/chests/simple_dungeon.json'); t['pools'].append(disc); w('minecraft/loot_tables/chests/simple_dungeon.json', t, 'S248(b) Heave Ho 2%')
+# ---------- S244 C4 / S248(b) / PM43 1c: Heave Ho disc at 0.5% (was 2%) in simple_dungeon + YUNG's Better Dungeons chest tables
+disc = {'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'supplementaries:music_disc_heave_ho'}], 'conditions': [{'condition': 'minecraft:random_chance', 'chance': 0.005}]}
+t = rd(f'{VAN}/data/minecraft/loot_tables/chests/simple_dungeon.json'); t['pools'].append(disc); w('minecraft/loot_tables/chests/simple_dungeon.json', t, 'S248(b)/PM43 1c Heave Ho 0.5%')
 BD = jar('YungsBetterDungeons')
 for f in sorted(glob.glob(f'{BD}/data/betterdungeons/loot_tables/*/chests/*.json')):
     if 'nether' in f: continue
-    t = rd(f); t['pools'].append(copy.deepcopy(disc)); w(f.split('/data/')[1], t, 'S248(b) Heave Ho 2%')
+    t = rd(f); t['pools'].append(copy.deepcopy(disc)); w(f.split('/data/')[1], t, 'S248(b)/PM43 1c Heave Ho 0.5%')
 
+# ---------- PM2a: loot-only enchanting
+# fishing treasure without the enchanted book entry (the enchanted bow/rod stay)
+t = rd(f'{VAN}/data/minecraft/loot_tables/gameplay/fishing/treasure.json'); n0 = len(t['pools'][0]['entries'])
+t['pools'][0]['entries'] = [e for e in t['pools'][0]['entries'] if e.get('name') != 'minecraft:book']; assert len(t['pools'][0]['entries']) == n0 - 1
+w('minecraft/loot_tables/gameplay/fishing/treasure.json', t, 'PM2a no enchanted books from fishing')
+# D&T illager manor libraries: enchanting tables become bookshelves. D&T is ARR, so instead of shipping edited structure NBTs
+# we override the processor list those pieces already use (copied from D&T 3.0.3, one rule prepended).
+pl = rd(f'{DT}/data/minecraft/worldgen/processor_list/illager_manor_generic_degradation.json')
+pl['processors'].insert(0, {'processor_type': 'minecraft:rule', 'rules': [{'input_predicate': {'predicate_type': 'minecraft:block_match', 'block': 'minecraft:enchanting_table'},
+    'location_predicate': {'predicate_type': 'minecraft:always_true'}, 'output_state': {'Name': 'minecraft:bookshelf'}}]})
+w('minecraft/worldgen/processor_list/illager_manor_generic_degradation.json', pl, 'PM2a D&T manor library enchanting tables -> bookshelves')
 # ---------- S227/S245: FD rope -> Supplementaries rope in FD chest loot
 for f in glob.glob(f'{FD}/data/farmersdelight/loot_tables/chests/*.json'):
     s = open(f).read()

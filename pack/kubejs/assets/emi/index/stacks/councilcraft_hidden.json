@@ -51,6 +51,16 @@
     "/^friendsandfoes:totem_of_illusion$/",
     "/^naturalist:cooked_egg$/",
     "/^minecraft:([a-z_]+_)?shulker_box$/",
-    "/^minecraft:[a-z_]+_harness$/"
+    "/^minecraft:[a-z_]+_harness$/",
+    "/^supplementaries:lumisene(_bucket|_bottle)?$/",
+    "/^create_dragons_plus:dragon_breath(_bucket)?$/",
+    "/^create_enchantment_industry:(infused_dragon_breath|apotheotic_essence|crystal_essence)(_bucket)?$/",
+    "/^amendments:dye_bottle$/",
+    "/^supplementaries:crank$/",
+    "/^minecraft:enchanting_table$/",
+    "/^create_enchantment_industry:(classic_)?blaze_enchanter$/",
+    "/^exposure:(broken_)?interplanar_projector$/",
+    "/^railways:track_(incomplete_)?(oak|spruce|birch|jungle|acacia|dark_oak|mangrove|cherry|bamboo|stripped_bamboo|crimson|warped)(_narrow|_wide)?$/",
+    "/^niftycarts:([a-z_]+_)?hand_cart$/"
   ]
 }
