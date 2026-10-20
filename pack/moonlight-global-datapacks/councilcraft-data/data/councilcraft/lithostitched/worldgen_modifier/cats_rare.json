@@ -1,0 +1,39 @@
+{
+  "type": "lithostitched:add_biome_spawns",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:sunflower_plains",
+    "minecraft:meadow",
+    "minecraft:forest",
+    "minecraft:flower_forest",
+    "minecraft:birch_forest",
+    "regions_unexplored:alpha_grove",
+    "regions_unexplored:autumnal_maple_forest",
+    "regions_unexplored:bamboo_forest",
+    "regions_unexplored:barley_fields",
+    "regions_unexplored:clover_plains",
+    "regions_unexplored:deciduous_forest",
+    "regions_unexplored:flower_fields",
+    "regions_unexplored:grassland",
+    "regions_unexplored:magnolia_woodland",
+    "regions_unexplored:maple_forest",
+    "regions_unexplored:mauve_hills",
+    "regions_unexplored:orchard",
+    "regions_unexplored:poppy_fields",
+    "regions_unexplored:prairie",
+    "regions_unexplored:pumpkin_fields",
+    "regions_unexplored:rocky_meadow",
+    "regions_unexplored:shrubland",
+    "regions_unexplored:silver_birch_forest",
+    "regions_unexplored:temperate_grove",
+    "regions_unexplored:willow_forest"
+  ],
+  "spawners": [
+    {
+      "type": "minecraft:cat",
+      "weight": 1,
+      "minCount": 1,
+      "maxCount": 1
+    }
+  ]
+}

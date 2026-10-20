@@ -1,0 +1,12 @@
+{
+  "type": "lithostitched:add_biome_spawns",
+  "biomes": "#minecraft:is_beach",
+  "spawners": [
+    {
+      "type": "minecraft:turtle",
+      "weight": 5,
+      "minCount": 2,
+      "maxCount": 5
+    }
+  ]
+}

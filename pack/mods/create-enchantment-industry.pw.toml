@@ -1,0 +1,13 @@
+name = "Create: Enchantment Industry"
+filename = "create-enchantment-industry-fabric-1.20.1-2.5.2-g.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/JWGBpFUP/versions/Or9rfT7c/create-enchantment-industry-fabric-1.20.1-2.5.2-g.jar"
+hash-format = "sha512"
+hash = "a1dd05201a7124445ba18a85ac72176de885c89a75227cf172b411fc821d7705de076d35c12bf8fbd48ca82aa77cff384f4f8158988d43a1de1495b22bdc660b"
+
+[update]
+[update.modrinth]
+mod-id = "JWGBpFUP"
+version = "Or9rfT7c"

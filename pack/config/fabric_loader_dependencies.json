@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "overrides": {
+    "nyfsspiders": {
+      "-depends": {
+        "fabricloader": "IGNORED"
+      },
+      "+depends": {
+        "fabricloader": ">=0.14.21"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "regions_unexplored:ancient_delta",
+    "regions_unexplored:ashen_woodland",
+    "regions_unexplored:bayou",
+    "regions_unexplored:chalk_cliffs",
+    "regions_unexplored:cold_boreal_taiga",
+    "regions_unexplored:cold_deciduous_forest",
+    "regions_unexplored:cold_river",
+    "regions_unexplored:fen",
+    "regions_unexplored:grassy_beach",
+    "regions_unexplored:gravel_beach",
+    "regions_unexplored:hyacinth_deeps",
+    "regions_unexplored:marsh",
+    "regions_unexplored:muddy_river",
+    "regions_unexplored:old_growth_bayou",
+    "regions_unexplored:pine_slopes",
+    "regions_unexplored:prismachasm",
+    "regions_unexplored:redstone_caves",
+    "regions_unexplored:rocky_reef",
+    "regions_unexplored:scorching_caves",
+    "regions_unexplored:tropical_river",
+    "regions_unexplored:tropics"
+  ]
+}

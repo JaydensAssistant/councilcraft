@@ -1,0 +1,13 @@
+name = "Ride Together"
+filename = "ridetogether-fabric-1.0.3-1.20.1.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/5OpfEtF0/versions/tJAZP5ir/ridetogether-fabric-1.0.3-1.20.1.jar"
+hash-format = "sha512"
+hash = "5d7eaff13786606555be2c8fde7d234f7358463e8753b37bdd3b7b4eaecacc50689e8d16b412c622dcc18c816a1193fbefa64f91c0af2cb78ee5ab32edde988c"
+
+[update]
+[update.modrinth]
+mod-id = "5OpfEtF0"
+version = "tJAZP5ir"

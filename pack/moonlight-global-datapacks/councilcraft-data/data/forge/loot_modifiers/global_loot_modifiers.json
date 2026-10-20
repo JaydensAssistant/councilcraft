@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "entries": [
+    "councilcraft:straw_from_medium_grass",
+    "councilcraft:straw_from_steppe_grass",
+    "councilcraft:straw_from_steppe_tall_grass",
+    "councilcraft:straw_from_bladed_grass",
+    "councilcraft:straw_from_bladed_tall_grass",
+    "councilcraft:straw_from_sandy_grass",
+    "councilcraft:straw_from_sandy_tall_grass",
+    "councilcraft:straw_from_windswept_grass",
+    "councilcraft:straw_from_frozen_grass",
+    "councilcraft:scavenging_feather_from_duck",
+    "councilcraft:scavenging_ham_from_boar"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "values": {
+    "minecraft:sharpness": [
+      {
+        "level": 6,
+        "value": 1000000
+      }
+    ],
+    "minecraft:power": [
+      {
+        "level": 6,
+        "value": 1000000
+      }
+    ],
+    "minecraft:blast_protection": [
+      {
+        "level": 5,
+        "value": 1000000
+      }
+    ],
+    "minecraft:protection": [
+      {
+        "level": 5,
+        "value": 1000000
+      }
+    ]
+  }
+}

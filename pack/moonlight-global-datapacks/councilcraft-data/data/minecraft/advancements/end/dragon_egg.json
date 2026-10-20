@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:end/kill_dragon",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.end.dragon_egg.description"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "item": "minecraft:dragon_egg"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.end.dragon_egg.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

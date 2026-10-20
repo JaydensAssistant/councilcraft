@@ -1,0 +1,13 @@
+name = "Mod Whitelist"
+filename = "mod_whitelist-1.1.0.jar"
+side = "both"
+
+[download]
+url = "https://cdn.modrinth.com/data/uqa8tezN/versions/qZ0mdvh2/mod_whitelist-1.1.0.jar"
+hash-format = "sha512"
+hash = "dcca5256d784d4d7f4da9b022007079914a7adc610a99ebc95d577fdb4bb463d3bdc93731204cea81e8ba4e53ada9357346d7269787208936ddfd1254e268f93"
+
+[update]
+[update.modrinth]
+mod-id = "uqa8tezN"
+version = "qZ0mdvh2"
