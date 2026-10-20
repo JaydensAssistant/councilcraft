@@ -1,4 +1,4 @@
-package dev.councilcraft.mixin;
+package dev.councilcraft.mixin.client;
 
 import dev.councilcraft.coin.NumismaticsText;
 import net.minecraft.text.MutableText;
