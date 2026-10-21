@@ -78,6 +78,17 @@ public final class HorseshoeTiers {
         return new BigDecimal(Float.toString(value)).stripTrailingZeros().toPlainString();
     }
 
+    /**
+     * PPM59. Minecraft Wiki horse factor: one point of movement_speed is about 42.16 blocks per second on flat ground.
+     * Horseshoes adds the tier speed as an ADDITION modifier, so the bonus is linear in it.
+     */
+    public static final double HORSE_BLOCKS_PER_SECOND_PER_SPEED = 42.16;
+
+    /** PPM59. The tier's speed bonus in blocks per second, one decimal: 0.05 -> "2.1". */
+    public static String blocksPerSecond(float speed) {
+        return new BigDecimal(speed * HORSE_BLOCKS_PER_SECOND_PER_SPEED).setScale(1, java.math.RoundingMode.HALF_UP).toPlainString();
+    }
+
     /** PPM20. The singular lang key at exactly 1 ("+1 block"), otherwise the plural one. */
     public static String blocksKey(String key, float value) {
         return value == 1.0f ? key + ".one" : key;

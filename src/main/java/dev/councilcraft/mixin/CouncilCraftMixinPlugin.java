@@ -38,6 +38,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.SackEncumbranceMixin", "supplementaries", "inventorio"},
         {"dev.councilcraft.mixin.CarryOnWeightMixin", "carryon", "supplementaries"},
         {"dev.councilcraft.mixin.NameplateExcludedNbtMixin", "nameplate"},
+        {"dev.councilcraft.mixin.EasyAnvilPrintedCopyMixin", "easyanvils"},
         {"dev.councilcraft.mixin.client.MutantNameplateMixin", "nameplate"},
         {"dev.councilcraft.mixin.client.GeoNameplateMixin", "nameplate", "geckolib"},
         {"dev.councilcraft.mixin.client.ParagliderWheelMixin", "paraglider"},

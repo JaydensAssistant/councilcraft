@@ -1,0 +1,29 @@
+{
+  "parent": "betterend:portal",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.betterend.portal_on.description"
+    },
+    "frame": "task",
+    "hidden": true,
+    "icon": {
+      "item": "betterend:eternal_crystal"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.betterend.portal_on.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

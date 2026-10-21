@@ -1,0 +1,29 @@
+{
+  "parent": "betterend:enter_end",
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "description": {
+      "translate": "advancements.betterend.portal.description"
+    },
+    "frame": "goal",
+    "hidden": true,
+    "icon": {
+      "item": "betterend:eternal_pedestal"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.betterend.portal.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

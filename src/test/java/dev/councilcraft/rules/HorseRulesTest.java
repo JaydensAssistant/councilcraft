@@ -56,6 +56,11 @@ class HorseRulesTest {
         assertEquals("0.0625", HorseshoeTiers.plain(0.0625f));
         assertEquals("4.5", HorseshoeTiers.plain(4.5f));
         assertEquals("2", HorseshoeTiers.plain(2.0f));
+        // PPM59: blocks per second on flat ground, one decimal.
+        assertEquals("2.1", HorseshoeTiers.blocksPerSecond(HorseshoeTiers.tier(CouncilCraftRules.IRON_HORSESHOES_ID).speed()));
+        assertEquals("2.6", HorseshoeTiers.blocksPerSecond(0.0625f));
+        assertEquals("3.2", HorseshoeTiers.blocksPerSecond(0.075f));
+        assertEquals("4.2", HorseshoeTiers.blocksPerSecond(0.1f));
         assertEquals("k.one", HorseshoeTiers.blocksKey("k", 1.0f));
         assertEquals("k", HorseshoeTiers.blocksKey("k", 2.0f));
     }

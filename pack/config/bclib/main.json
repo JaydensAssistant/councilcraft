@@ -1,0 +1,5 @@
+{
+  "patches": {
+    "applyPatches [default: true]": false
+  }
+}

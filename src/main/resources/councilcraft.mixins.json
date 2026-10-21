@@ -13,6 +13,7 @@
     "CarryOnWeightMixin",
     "CoinValueMixin",
     "CreeperMinionGriefMixin",
+    "EasyAnvilPrintedCopyMixin",
     "ElevatorSpeedMixin",
     "ExposureUploadGuardMixin",
     "FeedConsumeMixin",
@@ -49,7 +50,10 @@
     "SackNestingMixin",
     "SmithingPrintedCopyMixin",
     "ToolboxInsertMixin",
-    "TridentRiptideMixin"
+    "TridentRiptideMixin",
+    "ZebraInventoryMixin",
+    "ZebraParityMixin",
+    "ZebraScreenHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

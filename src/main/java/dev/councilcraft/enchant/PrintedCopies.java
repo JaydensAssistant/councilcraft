@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 /**
- * S207 / S242. A printed stack carries an NBT flag and a grey lore line.
+ * S207 / S242 / PPM51. A printed stack carries an NBT flag and a grey lore line.
  * The flag is per stack. An item tag cannot do that, because every enchanted
  * book is the same item.
  */
@@ -43,12 +43,35 @@ public final class PrintedCopies {
         display.put("Lore", lore);
     }
 
-    /** The result keeps the base stack's status. A printed addition does not spread. */
-    public static void copyStatus(ItemStack base, ItemStack result) {
+    /** True when the stack holds enchantments: applied ones, or stored ones (enchanted books, CEI templates). */
+    public static boolean carriesEnchantments(ItemStack stack) {
+        if (stack == null || stack.isEmpty() || !stack.hasNbt()) {
+            return false;
+        }
+        NbtCompound nbt = stack.getNbt();
+        return !nbt.getList("Enchantments", NbtElement.COMPOUND_TYPE).isEmpty()
+            || !nbt.getList("StoredEnchantments", NbtElement.COMPOUND_TYPE).isEmpty();
+    }
+
+    /** True when any of these stacks carries the printed mark. */
+    public static boolean anyPrinted(ItemStack... inputs) {
+        for (ItemStack input : inputs) {
+            if (isPrinted(input)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * PPM51 / PM2b copy-wins. A combination that involves a copy produces a copy: the result is printed when any
+     * input is printed, otherwise it carries no mark. Two originals still make an original (PM2a).
+     */
+    public static void copyWins(ItemStack result, ItemStack... inputs) {
         if (result == null || result.isEmpty()) {
             return;
         }
-        if (isPrinted(base)) {
+        if (anyPrinted(inputs)) {
             mark(result);
         } else {
             clear(result);

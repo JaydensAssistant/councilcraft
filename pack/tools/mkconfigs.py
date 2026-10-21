@@ -187,14 +187,14 @@ ec2 = im2['Entity Configs']['input'] + [e for e in ['minecraft:spider|HELDITEMS'
 js('improvedmobs/common.json', [('Item Blacklist',['minecraft']),('Item Whitelist',True),('Entity Configs',ec2)], cfgform=True)
 # --- PM36 / PM39: Tectonic back to Jayden's older test profile, elevation_boost stays 14
 js('tectonic.json', [('biomes/temperature_scale',0.08),('biomes/vegetation_scale',0.08),('continents/continents_scale',0.06),
-    ('continents/erosion_scale',0.12),('continents/ridge_scale',0.15),('continents/ocean_offset',-0.76),('continents/flat_terrain_skew',0.1),
+    ('continents/erosion_scale',0.12),('continents/ridge_scale',0.15),('continents/ocean_offset',-0.46),('continents/flat_terrain_skew',0.1),
     ('islands/noise_scale',0.06),('oceans/ocean_depth',-0.3),('oceans/deep_ocean_depth',-0.55),('oceans/monument_offset',-40),
     ('general/snow_start_offset',256),('global_terrain/elevation_boost',14.0)])
 # --- PM44 / PM47: every Nifty Carts entity on the Carry On blacklist (hand cart included)
 co2 = json.load(open(out('carryon-common.json')))
 js('carryon-common.json', [('blacklist/forbiddenEntities', co2['blacklist']['forbiddenEntities'] + [e for e in ['niftycarts:*'] if e not in co2['blacklist']['forbiddenEntities']])])
 # --- PM47: no Nifty Cart is player-pulled; every saddleable mount can pull every cart (the stock empty list also allows players)
-NC_PULLERS = ['minecraft:horse','minecraft:donkey','minecraft:mule','minecraft:skeleton_horse','minecraft:zombie_horse','minecraft:camel','naturalist:zebra','mutantmonsters:spider_pig']
+NC_PULLERS = ['minecraft:horse','minecraft:donkey','minecraft:mule','minecraft:skeleton_horse','minecraft:zombie_horse','minecraft:camel','naturalist:zebra']  # PPM56: spider pig is not a cart-puller
 toml('niftycarts-common.toml', [(f'carts.{c}','pull_animals',NC_PULLERS) for c in ['supply_cart','handCart','animal_cart','plow','seed_drill','reaper','wagon']])
 # --- PM23a / PM26: Exposure server: no projecting, Lightroom gives no XP
 toml('exposure-server.toml', [('capture','projecting_enabled',False),('lightroom','experience_black_and_white',0),('lightroom','experience_color',0),('lightroom','experience_chromatic',0)])
@@ -204,6 +204,6 @@ toml('yosbr/config/exposure-client.toml', [('render','photograph_renders_in_item
 rd2 = json.load(open(out('rpgdifficulty.json')))
 js('rpgdifficulty.json', [('excludedEntity', PASSIVES)])
 np2 = json.load(open(out('nameplate.json')))
-js('nameplate.json', [('excludedEntities', [e for e in np2['excludedEntities'] if e != 'mutantmonsters:spider_pig'] + [p for p in PASSIVES if p not in np2['excludedEntities']])])
+js('nameplate.json', [('excludedEntities', [e for e in np2['excludedEntities'] if e not in ('mutantmonsters:spider_pig', 'minecraft:ender_dragon', 'minecraft:wither')]  # PPM57: dragon + wither get plates + [p for p in PASSIVES if p not in np2['excludedEntities']])])
 
 print('\n'.join(log)); print(len(log), 'settings')

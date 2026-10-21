@@ -9,14 +9,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * S242. The anvil result keeps the base item's printed mark.
- * A printed book in the sacrifice slot does not spread.
+ * S242 / PPM51 copy-wins. The anvil result is printed when either input is printed, so a copy can never be
+ * laundered into an original by combining it with one. Easy Anvils replaces this method; see
+ * {@link EasyAnvilPrintedCopyMixin}.
  */
 @Mixin(AnvilScreenHandler.class)
 public abstract class AnvilPrintedCopyMixin {
     @Inject(method = "updateResult", at = @At("RETURN"))
     private void councilcraft$printed(CallbackInfo ci) {
         ScreenHandler handler = (ScreenHandler) (Object) this;
-        PrintedCopies.copyStatus(handler.getSlot(0).getStack(), handler.getSlot(2).getStack());
+        PrintedCopies.copyWins(handler.getSlot(2).getStack(), handler.getSlot(0).getStack(), handler.getSlot(1).getStack());
     }
 }

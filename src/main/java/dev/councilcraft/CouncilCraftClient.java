@@ -17,6 +17,10 @@ public final class CouncilCraftClient implements ClientModInitializer {
         RebornClient.register();
         dev.councilcraft.respawn.RebornFeedingClient.register();
         HorseshoeTooltip.register();
+        // PPPM3. Zebras render horse armor.
+        dev.councilcraft.compat.client.ZebraArmorFeatureRenderer.register();
+        // PPM61. Graphics preset picker (first title screen) and the Video Settings button.
+        dev.councilcraft.client.graphics.GraphicsPresets.register();
         FabricLoader loader = FabricLoader.getInstance();
         if (loader.isModLoaded("distanthorizons") && loader.isModLoaded("imm_ptl_core")) {
             // PM21. Separate class so DH and IP types load only when both mods are present.

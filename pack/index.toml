@@ -9,6 +9,26 @@ file = "config/amendments-common.json"
 hash = "cade3dca56fad944ec7e838bae67d9d22fe6ec5ca79666da9f0c88ceb1c62e6f"
 
 [[files]]
+file = "config/bclib/client.json"
+hash = "ea7f64c0d0c6aa710c1788f89f07c62760be7f91d2b49ef313d83cf7dc7986ec"
+
+[[files]]
+file = "config/bclib/main.json"
+hash = "18752ab42fb59ec17d448c39178e9d17a3df6062ac2c3805ee1af664a3451634"
+
+[[files]]
+file = "config/bclib/server.json"
+hash = "f20fc7d76f396f38d2339529e64c3f11a6f2a15aeaa560d4e09c5a9f57dacbb3"
+
+[[files]]
+file = "config/betterend/enchantments.json"
+hash = "c067d9902d1e1124d1c854dcbe4cd69bd77bc5f520d11cf4be68c2b92e20d869"
+
+[[files]]
+file = "config/betterend/generator.json"
+hash = "b7a93b89245d56c012c903389a31742668790a7263a61b1632b1d15134622053"
+
+[[files]]
 file = "config/bstats.json"
 hash = "507aa13edaa287f38f0d6531cf3617c3935f9ece9b8dfce6c5e03cffc7b042c0"
 
@@ -82,7 +102,7 @@ hash = "218e2e08e6482f8abf02c4e52830ed3ed8259544cb8a8a241ffd776a65bedd17"
 
 [[files]]
 file = "config/nameplate.json"
-hash = "611c9637071291a72cbbeb045bdaa16f6207b951cc8aa679e44cfb3e45aaff71"
+hash = "77edab8e65349932f8a562621f764c1a1dceb740d2e0b5150a6689a0f69c4304"
 
 [[files]]
 file = "config/netherite_horse_armor.json5"
@@ -90,7 +110,7 @@ hash = "8936d646594716f495dde391e43b2b483452c6bf11bfc48d75081e674f648728"
 
 [[files]]
 file = "config/niftycarts-common.toml"
-hash = "3eecf92a8cd92f8081bdb985f954bda3245d3cef5d92d0acb0b11efc44ec4c7e"
+hash = "303b0433452f3fa720cd7d274e20c0f3cdb5d55f572f66a12f9e14361b6c1eea"
 
 [[files]]
 file = "config/numismatics-common.toml"
@@ -134,7 +154,7 @@ hash = "6791674c172a971c1179b7974a3aa20965159787c1597034be171ce0b34311d9"
 
 [[files]]
 file = "config/tectonic.json"
-hash = "fdbc16a1bea861a53eaf0e3c092bec72865cad7820be257c82706f725a3ae0ee"
+hash = "c22e94da6ffd082603ed0204bc5c7482d736494ed4f36353166cfd010060faaf"
 
 [[files]]
 file = "config/vanillabackport-common.toml"
@@ -189,16 +209,20 @@ file = "config/yosbr/config/vanillabackport-client.toml"
 hash = "5dec9932a01d8289bdf435729820d4547eca82b2484577709c2ca5374262c46c"
 
 [[files]]
+file = "config/yosbr/config/wakes.json"
+hash = "d395ff1ba07a53c589d6928efc9d713d9b26503a9499cdd63f4cbec7f2a2850b"
+
+[[files]]
 file = "config/yosbr/config/zoomify.json"
 hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "7994cb07f13da88dfb715951515f204897ff4f8f8ed6ef55fd777e1f764738ab"
+hash = "bf1375918eb1ec8ca4af5eedb3bb82436dac3eee177488fd5bbb8db1bfa96cf3"
 
 [[files]]
 file = "credits.txt"
-hash = "4d6e64e474b9d19d491eb0f09b94138564e91a993fed66f278506c3f8b58988a"
+hash = "be972fe70d4b5d0d0b493f5a774636fb6385e0f4b921a520dd1db03ccbb64c54"
 
 [[files]]
 file = "kubejs/assets/councilcraft/lang/en_us.json"
@@ -206,7 +230,7 @@ hash = "0cf27440a0a3d098c10eba4e7e7dbc3c1467e8e36c4c3d7a4bb34dc01a1ef478"
 
 [[files]]
 file = "kubejs/assets/emi/index/stacks/councilcraft_hidden.json"
-hash = "a73788c0ee37f70d4ca88955afc64ef6e5ec3d9dc0962b948d55a9c4b664f180"
+hash = "0aac1c775aeaa047a66ac051477c808cfa417089057e5087280c6312e88683b1"
 
 [[files]]
 file = "kubejs/assets/emi/recipe/additions/councilcraft_exposure_film.json"
@@ -261,6 +285,10 @@ file = "kubejs/client_scripts/councilcraft_tooltips.js"
 hash = "50d62cd56092803f317c2ab3f3f46e1620d8ef72aeaa4849687b0b1b62296bd9"
 
 [[files]]
+file = "kubejs/server_scripts/councilcraft_end.js"
+hash = "7375515bc0e5c2fb7eb06cde38fcf83faf3c017a8f6b8117395f852f59995bfa"
+
+[[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
 hash = "c31656a75746db21eb6ac0751f8b073b1a3aaded34fd659a92ecc58efa41a204"
 
@@ -270,7 +298,7 @@ hash = "6c89779a9343b1536a1afe1fcaaa9456dfd95e6e04e56f3c7ee8112ae8b486c3"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_world.js"
-hash = "70432c3f1a07118dc4d8ed2b2c034caca286a52fc365203070c10934f808704e"
+hash = "d14f1fa91a4210a72a0496969ad58213d784762640e2b990aab2a455ec367775"
 
 [[files]]
 file = "kubejs/server_scripts/end_disable.js"
@@ -331,6 +359,11 @@ hash = "d37398ef80a4645987209f96d9d1ddf390ba06f2546b6ce246d3ccd197054417"
 metafile = true
 
 [[files]]
+file = "mods/bclib.pw.toml"
+hash = "d653a3256959ed8d801b69c0ef305811409a19a980744e41e8744e415ef70afc"
+metafile = true
+
+[[files]]
 file = "mods/better-combat.pw.toml"
 hash = "9e94089231d50ff38c030369b6b9b8af0c8d9f0b495611ae3b29be18656d35bb"
 metafile = true
@@ -338,6 +371,11 @@ metafile = true
 [[files]]
 file = "mods/better-mount-hud.pw.toml"
 hash = "333dfa2b93c688ce5f9f685f77cb62e5df8b9c8d21a2c4dd4eb9232aa85dccff"
+metafile = true
+
+[[files]]
+file = "mods/betterend.pw.toml"
+hash = "fdfce692e21fa05498c5243d1c39bf8a1128535dcdeb9e8db083ef88735d3034"
 metafile = true
 
 [[files]]
@@ -363,11 +401,6 @@ metafile = true
 [[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "41a3dc271859b118417946d2fdb2408523563b2f4f49048073672a342fb1aebf"
-metafile = true
-
-[[files]]
-file = "mods/connected-paths-mod.pw.toml"
-hash = "52b34c986d062802008afd5e60e74e57130a410c17a221cc99b7a544148102b5"
 metafile = true
 
 [[files]]
@@ -692,7 +725,7 @@ metafile = true
 
 [[files]]
 file = "mods/minertrack.pw.toml"
-hash = "dcb3b4303179661be12ff451b201ee5e01160f6d0932f120af2310a7cabd0bf9"
+hash = "541cbec2187caac53251696314608c4c6c8eb070b1ddecf7e61e7d57b455e8df"
 metafile = true
 
 [[files]]
@@ -783,6 +816,11 @@ metafile = true
 [[files]]
 file = "mods/nuit.pw.toml"
 hash = "329335dea58d3cd0b4adbf14a62b7b09dc94d3e1823a01a2701ecfe87a722ffa"
+metafile = true
+
+[[files]]
+file = "mods/nullscape.pw.toml"
+hash = "e5e76b305f6e8fd611fb70695f42014c62e5f46b926d626eaf5ca0c78e394c5c"
 metafile = true
 
 [[files]]
@@ -966,6 +1004,11 @@ hash = "c709708a11f117743c086f16de67701eb35bfad331826960398bb1e64ea4d35f"
 metafile = true
 
 [[files]]
+file = "mods/worldborderfix.pw.toml"
+hash = "27a1f34c60a563aba739742de0d1a0042ab7a2b268536fddbb8aaab5881931af"
+metafile = true
+
+[[files]]
 file = "mods/yacl.pw.toml"
 hash = "8305bf17272f0c579b0930b751c12089de9fb157dbdb5c080836ce3daad310b5"
 metafile = true
@@ -1040,6 +1083,22 @@ file = "moonlight-global-datapacks/councilcraft-data/CONTENTS.md"
 hash = "09e90afa1f79950d5d225cac1f938a51d3413317336acdfe58910c84e7bed893"
 
 [[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/bclib/worldgen/world_preset/amplified.json"
+hash = "ae6441b416e07ef050c6cae069abdb93925863a6fe1787a757356ecf3a430d6c"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/bclib/worldgen/world_preset/large.json"
+hash = "2186c0eccf628a14de8640fadac97dccd7baf57042c4de4d6061b933e6686d9b"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/bclib/worldgen/world_preset/legacy_17.json"
+hash = "b233fb3090be5e86f8d59fba4cfcc034707a320059f2640dac74497f701bb034"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/bclib/worldgen/world_preset/normal.json"
+hash = "68da46ed02a66b0deaa4b6434cb0b67f17d0fde71a8fbfd4f68085784191a9b1"
+
+[[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/skeleton_dungeon/chests/common.json"
 hash = "add6c5a6f4606a63e8f6b54bce5999aed1a91e8f191a2e5988df80e96f11f8b0"
 
@@ -1082,6 +1141,146 @@ hash = "7c32fdf024717e26060f1e5647aa6839a361ad9730ca42f52a8d2c0574da29a2"
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/tags/worldgen/biome/has_structure/zombie_dungeon.json"
 hash = "7c32fdf024717e26060f1e5647aa6839a361ad9730ca42f52a8d2c0574da29a2"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_anvil.json"
+hash = "1f7323248ab2d9c658c7069ca6b3e118323a23d4d2876d63793e8883ce8a5719"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_armor.json"
+hash = "194297f09db94b5b7e1643b14db2d300a38b6d7968797ae2248b67a492a98c0c"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_hammer.json"
+hash = "b03396d513f4dec1e4de497087b5569a7f4fb85c1ab1f4ca6e76b7389832b2d8"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_hammer_head.json"
+hash = "cb57e38b8b7ab62d0928e454fc6d10acc56ff8edba12965ac724d281c93ab14b"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_plate.json"
+hash = "88d8d13eee92a03cc36fb2f1ea5c8f0c6106defa67e4e755c944db254563dd67"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_tool.json"
+hash = "d23c88de1030abe51f551a355e1677017eac644eca2e7f04790d5dcaac94cc44"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/aeternium_tool_head.json"
+hash = "db2bebb72da29d29d24a5bc0db68a2b0cab4dfe13855c1f0ca7c42e5ea434253"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/all_elytras.json"
+hash = "e6676377c6d47793169c5e6cea9cf35a0254acbf8e24777d06c72ce1a07ef990"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/all_the_templates.json"
+hash = "e7cf5c26c0466922333c890a2a9d4e5ae9bbe7524afbb0d5fa28f8cbf3913979"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/hammer.json"
+hash = "4f6922bb8ac7391e821b7e1beb37e3592e6017030f3727a6cd2ddcf236888897"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/infusion.json"
+hash = "97221036d92d325924c3936e59d2ffdbf160425eafcaab3f80a3fa40ce90f6d3"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/infusion_finished.json"
+hash = "737f1283f47c969ef31f6a21d32343bc1d8b1c8df1d3407524c6865a0c3da8aa"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/portal.json"
+hash = "a69e0586d8ab937db368a434825bb051b90b041ff57e7456e671140a11a74f47"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/portal_on.json"
+hash = "e32f0fba93093336cc3c9269890459fc0bc1120052343fdbfca52f1eff42932b"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/portal_travel.json"
+hash = "58fa5660ab4a026cf67f378b2f131ef3130e2a876df4fc4838a916c7a99611fe"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/terminite_anvil.json"
+hash = "ab6654e32aa53982a508ba9f285c79d14cc53fe7fe0a98a39a7d302c0fe75e60"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/terminite_armor.json"
+hash = "232d9bcbacddd9839a3c0bfd9e95e3e391e4a46f04b20b88517d28f801c4c9f9"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/terminite_plate.json"
+hash = "a2b539a5731a8c957ca814f8351a629ea11f68656de14e603c097e940a40ae20"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/terminite_tool.json"
+hash = "210351a71d28cc2b88085c9c40d654924e050febd5cc2f043666ca36b357a78d"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/terminite_tool_head.json"
+hash = "545b5ae4381cf752f70f3a3b33d52f5deaff631a54274b45f45469dc97a114bd"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/thallasium_anvil.json"
+hash = "55cee8ae4d699823a51859f73d524752448738346793ae203f423ed42198fa91"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/thallasium_armor.json"
+hash = "e91acde51d7a0a4c9fd0a842f9724bd26a03b22fb065531eef392a7fc4cf5af5"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/thallasium_plate.json"
+hash = "d51b7fcb9ecbf24985b19cba52675ff0c89fba01ded1221b59efc0ea2320d358"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/thallasium_tool.json"
+hash = "a2440129ec3df3658e812d9f2935e62cb01db91d052a2d499cb34eac28ead4ff"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/advancements/thallasium_tool_head.json"
+hash = "323af3ee17a7bc167480a1e72309fcfc4d9e42b6a52e6b5934eb018ae261445e"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/biome.json"
+hash = "9b826e5f0712c709e0f6e4f532634b15990946987bef5f15c9ef1ed3b9e571ce"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/chorus_forest.json"
+hash = "770799a584c23d3cf98d82eebcb6644df049f4cf5586ac7fa7d9f68e28b4a142"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/common.json"
+hash = "25ddc3bd9a35e6a440684de65839fc56ce1e28462b253526dfdef3fd44f211a3"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/end_village_bonus_loot.json"
+hash = "50eba81183860674fa0df9c8ede8bb3212cae2e50725fc69e63f45b308fe71da"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/end_village_loot.json"
+hash = "c46ff71f31b956927629e6424e5a1324d477c6a48d61fbd958af922dce124793"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/end_village_template_loot.json"
+hash = "c46ff71f31b956927629e6424e5a1324d477c6a48d61fbd958af922dce124793"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/foggy_mushroomland.json"
+hash = "c242f1fe0596fa56a0172ad3353067201f8334bb92ebc582f8d40f8e52b31800"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/lantern_woods.json"
+hash = "d28fc2bec8506e3b188ce14da063be10e92f74397c73a4445aeb9aaad672c790"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/shadow_forest.json"
+hash = "c3b617c9c052184bd26750871fadd907f41d0007e7a25b8362f408b38aa91abb"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/betterend/loot_tables/chests/umbrella_jungle.json"
+hash = "4a99da7491a0a2a841a599d1bfe2f056595961a29eb738767ded8e0ab0bf3c87"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/bettermineshafts/tags/worldgen/biome/has_structure/better_mineshaft_oak.json"
@@ -1308,6 +1507,10 @@ file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/loot_tables/
 hash = "16a7f4d4946d8ddb9053258eb19bd8d2f0ba5b68193fc1ea3c07544d8f2f30eb"
 
 [[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/structures/end_city/ship.nbt"
+hash = "5bdc0a07980464832d2e7bcb0512da1e2562332a0bb35c82e5c814baa92df85c"
+
+[[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/tags/worldgen/biome/has_structure/village_desert.json"
 hash = "33975eff3c2c6cf9000bce7825e1256f756eb8a353be7e9b7011bb4298f97a65"
 
@@ -1439,7 +1642,15 @@ hash = "bc03a2bc8f9fb0fd6df68d27de56c9be30e86453de4975415896eaede41645ff"
 
 [[files]]
 file = "resourcepacks/councilcraft-bettergrass-ru.zip"
-hash = "e057924dbbc4a121168a4fca6efdd7bd1fc0ad57b778d30a890fa5a5c8a604b0"
+hash = "957090490ab3c41a3b075c59669e35e2d089ec520291f334485c85e2bb33d0dc"
+
+[[files]]
+file = "resourcepacks/councilcraft-blending.zip"
+hash = "36bb57712771986faaf8313483d99f68179b695a812c405166326816821a6d79"
+
+[[files]]
+file = "resourcepacks/councilcraft-connected-glass.zip"
+hash = "4efc78aa32cce9db3fa30f8eeb267eb7f2809618c02e7a900734b3a9e29b3319"
 
 [[files]]
 file = "resourcepacks/councilcraft-printed-copies.zip"

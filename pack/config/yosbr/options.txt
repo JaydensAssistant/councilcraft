@@ -1,3 +1,4 @@
-resourcePacks:["fabric","file/councilcraft-printed-copies.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","file/Connected-Paths.zip","file/Connected-Bricks.zip","file/Connected-Rocks.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
+resourcePacks:["fabric","continuity:default","file/councilcraft-printed-copies.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","file/councilcraft-blending.zip","file/councilcraft-connected-glass.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
+incompatibleResourcePacks:["file/Antique_Atlas_4_Compat_v1.4.zip"]
 renderDistance:8
 simulationDistance:8

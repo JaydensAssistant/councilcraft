@@ -1,0 +1,5 @@
+{
+  "customGenerator": {
+    "endCityFailChance [default: 5]": 1
+  }
+}

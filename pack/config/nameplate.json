@@ -14,8 +14,6 @@
   "levelTitle": true,
   "healthBar": true,
   "excludedEntities": [
-    "minecraft:ender_dragon",
-    "minecraft:wither",
     "adventurez:stone_golem",
     "adventurez:void_shadow",
     "adventurez:the_eye",

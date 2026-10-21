@@ -8,7 +8,7 @@
     "CouncilCraft"
   ],
   "contact": {},
-  "license": "ARR",
+  "license": "MIT",
   "environment": "*",
   "entrypoints": {
     "main": [

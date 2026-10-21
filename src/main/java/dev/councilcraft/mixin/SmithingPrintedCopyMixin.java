@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * S242. Smithing keeps the base item's printed mark. The template and the
- * addition do not spread it, and they do not clear it.
+ * S242 / PPM51 copy-wins. The smithing result is printed when any input (template, base or addition) is printed.
  */
 @Mixin(SmithingScreenHandler.class)
 public abstract class SmithingPrintedCopyMixin {
     @Inject(method = "updateResult", at = @At("RETURN"))
     private void councilcraft$printed(CallbackInfo ci) {
         ScreenHandler handler = (ScreenHandler) (Object) this;
-        PrintedCopies.copyStatus(handler.getSlot(1).getStack(), handler.getSlot(3).getStack());
+        PrintedCopies.copyWins(handler.getSlot(3).getStack(),
+            handler.getSlot(0).getStack(), handler.getSlot(1).getStack(), handler.getSlot(2).getStack());
     }
 }

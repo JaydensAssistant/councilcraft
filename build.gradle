@@ -98,6 +98,12 @@ dependencies {
     // IP's MyRenderHelper and PortalRendering live in a nested jar, so they are stubs in src/stubs.
     modCompileOnly("maven.modrinth:carry-on:Mkla4B3q") { transitive = false }
 
+    // 0.4.6 compat targets, compile only (not packed into our jar).
+    // Iris 1.7.6+mc1.20.1 (YL57xq9U / s5eFLITc): PPM61 graphics presets write the shader choice through IrisConfig.
+    // That jar was built with a newer Loom than ours, so Iris and IrisConfig are stubs in src/stubs (their methods
+    // used here take no Minecraft types). Distant Horizons (above) also provides the DH core Config used for the
+    // preset. Easy Anvils' menu is a @Pseudo string target (PPM51 EasyAnvilPrintedCopyMixin).
+
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
     // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).
@@ -107,6 +113,11 @@ dependencies {
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+jar {
+    // PPM54: the mod is MIT; ship the license text inside the jar.
+    from("LICENSE")
 }
 
 processResources {

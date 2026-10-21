@@ -1,6 +1,7 @@
 package dev.councilcraft.mixin;
 
 import dev.councilcraft.CouncilCraftRules;
+import dev.councilcraft.compat.Zebras;
 import dev.councilcraft.rules.HorseJump;
 import dev.councilcraft.rules.HorseStep;
 import dev.councilcraft.rules.HorseshoeTiers;
@@ -33,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *
  * <p>PPM15. Horses, donkeys and mules also get a transient jump-strength modifier from {@link HorseJump}:
  * the re-ranged jump plus the shoes' blocks. It is recomputed from the bred base value whenever that or
- * the shoes change, so it never compounds and existing horses rescale too. Camels stay vanilla.
+ * the shoes change, so it never compounds and existing horses rescale too. Camels stay vanilla. PPPM3: zebras too.
  */
 @Mixin(AbstractHorseEntity.class)
 public abstract class HorseEquipmentMixin {
@@ -63,7 +64,8 @@ public abstract class HorseEquipmentMixin {
 
     @Unique
     private void councilcraft$jump(AbstractHorseEntity horse, float shoeBlocks) {
-        if (!(horse instanceof HorseEntity || horse instanceof DonkeyEntity || horse instanceof MuleEntity)) {
+        if (!(horse instanceof HorseEntity || horse instanceof DonkeyEntity || horse instanceof MuleEntity
+            || Zebras.isZebra(horse))) {
             return;
         }
         EntityAttributeInstance jump = horse.getAttributeInstance(EntityAttributes.HORSE_JUMP_STRENGTH);

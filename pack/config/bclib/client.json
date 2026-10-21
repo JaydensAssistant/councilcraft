@@ -1,0 +1,16 @@
+{
+  "version": {
+    "didShowWelcome [default: false]": true,
+    "check [default: true]": false
+  },
+  "ui": {
+    "showUpdateInfo [default: true]": false,
+    "suppressExperimentalDialogOnLoad [default: false]": true
+  },
+  "auto_sync": {
+    "enabled [default: true]": false
+  },
+  "rendering": {
+    "customFogRendering [default: true]": false
+  }
+}

@@ -83,6 +83,12 @@ public final class CouncilCraftRules {
      */
     public static final double HORSE_JUMP_AVERAGE_BLOCKS = 5.0;
     public static final double HORSE_JUMP_BEST_BLOCKS = 8.0;
+    /** PPPM3. Zebras (Naturalist) get horse parity: armor, horseshoes, jump buff; they keep their chests. */
+    public static final String ZEBRA_ID = "naturalist:zebra";
+    /** PPPM3. A zebra's inventory: 0 saddle, 1 armor, 2 horseshoes, then the 15 chest slots. */
+    public static final int ZEBRA_CHEST_FIRST_SLOT = 3;
+    public static final UUID ZEBRA_ARMOR_UUID = UUID.fromString("6b1f3c2e-5a4d-4e8b-9c7a-2d4f6e8a0b13");
+
     public static final UUID HORSE_JUMP_UUID =
         UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a015");
 
