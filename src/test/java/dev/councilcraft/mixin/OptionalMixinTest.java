@@ -17,6 +17,23 @@ class OptionalMixinTest {
     }
 
     @Test
+    void carryOnWeightNeedsCarryOnAndSupplementaries() {
+        String carry = "dev.councilcraft.mixin.CarryOnWeightMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(carry, Set.of("carryon", "supplementaries")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(carry, Set.of("carryon")::contains));
+    }
+
+    @Test
+    void portalShaderFixesNeedIrisAndImmersivePortals() {
+        String hand = "dev.councilcraft.mixin.client.IrisPortalHandMixin";
+        String depth = "dev.councilcraft.mixin.client.IrisDhPortalDepthMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(hand, Set.of("iris", "imm_ptl_core")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(hand, Set.of("iris")::contains));
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(depth, Set.of("iris", "distanthorizons", "imm_ptl_core")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(depth, Set.of("iris", "imm_ptl_core")::contains));
+    }
+
+    @Test
     void otherMixinsAreNotGated() {
         assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.SackNestingMixin", Set.<String>of()::contains));
     }

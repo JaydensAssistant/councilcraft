@@ -22,7 +22,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
 
     /** Mod id, then the hook that needs it. */
     private static final String[][] REQUIRED_MODS = {
-        {"horseshoes", "gold horseshoe loot block (S245)"},
+        {"horseshoes", "horseshoe tiers, ridden step height and shift-click equip (S230 / PPM3 / PPM4)"},
         {"mutantmonsters", "mutant creeper / minion no block damage (S224)"},
         {"paraglider", "paraglider repair with phantom membrane (S244)"},
         {"supplementaries", "sacks barred from bundles and toolboxes (S236)"},
@@ -36,11 +36,15 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
     /** Mixins that hook an optional mod: mixin class name, then the mod ids it needs. */
     private static final String[][] OPTIONAL_MIXINS = {
         {"dev.councilcraft.mixin.SackEncumbranceMixin", "supplementaries", "inventorio"},
+        {"dev.councilcraft.mixin.CarryOnWeightMixin", "carryon", "supplementaries"},
+        {"dev.councilcraft.mixin.NameplateExcludedNbtMixin", "nameplate"},
         {"dev.councilcraft.mixin.client.MutantNameplateMixin", "nameplate"},
         {"dev.councilcraft.mixin.client.GeoNameplateMixin", "nameplate", "geckolib"},
         {"dev.councilcraft.mixin.client.ParagliderWheelMixin", "paraglider"},
         {"dev.councilcraft.mixin.client.StaminaXpBarMixin", "paraglider"},
-        {"dev.councilcraft.mixin.client.AntiqueAtlasItemMixin", "antique_atlas"}
+        {"dev.councilcraft.mixin.client.AntiqueAtlasItemMixin", "antique_atlas"},
+        {"dev.councilcraft.mixin.client.IrisDhPortalDepthMixin", "iris", "distanthorizons", "imm_ptl_core"},
+        {"dev.councilcraft.mixin.client.IrisPortalHandMixin", "iris", "imm_ptl_core"}
     };
 
     @Override

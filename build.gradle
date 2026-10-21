@@ -92,6 +92,12 @@ dependencies {
     // Immersive Portals' PortalRendering lives in a nested jar, so it is a stub in src/stubs.
     modCompileOnly("maven.modrinth:distanthorizons:6UnEfsRQ") { transitive = false }
 
+    // 0.4.5 compat targets, compile only and optional (see CouncilCraftMixinPlugin.OPTIONAL_MIXINS).
+    // Carry On 2.1.2.7 Fabric (joEfVgkn / Mkla4B3q): PPM35 CarryOnWeightMixin.
+    // Iris DHCompat and Immersive Portals' IrisPortalRenderer are @Pseudo string targets (PPM5 / PPM7);
+    // IP's MyRenderHelper and PortalRendering live in a nested jar, so they are stubs in src/stubs.
+    modCompileOnly("maven.modrinth:carry-on:Mkla4B3q") { transitive = false }
+
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
     // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).

@@ -10,6 +10,8 @@
     "FeedPoseMixin",
     "GeoNameplateMixin",
     "HandledScreenAccess",
+    "IrisDhPortalDepthMixin",
+    "IrisPortalHandMixin",
     "MutantNameplateMixin",
     "NumismaticsCoinValueTextMixin",
     "NumismaticsLimitTextMixin",

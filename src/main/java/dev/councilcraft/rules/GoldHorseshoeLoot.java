@@ -1,34 +1,32 @@
 package dev.councilcraft.rules;
 
 import dev.councilcraft.CouncilCraftRules;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * S245. Gold horseshoes are stripped from every Horseshoes loot injection.
- *
- * <p>Horseshoes 1.0.3 adds gold on its own to nether-bridge and all four bastion
- * chests, and adds gold beside iron and diamond in desert-pyramid and end-city
- * chests. The hook text names bastion and nether bridge because those pools are
- * gold-only. S245 says gold horseshoes never exist, so the mixed pools lose the
- * gold entry too. Iron and diamond injections are left in place.
+ * PPM18. Gold horseshoe loot is "definitely lower". Horseshoes 1.0.3 injects a gold-only pool
+ * from code into nether-bridge chests (1-2 rolls) and all four bastion chests (2-3 rolls).
+ * {@code HorseshoeLootMixin} turns that pool into one roll at the chance below. The mixed
+ * iron/gold/diamond pools in desert pyramid and end city chests are unchanged.
  */
 public final class GoldHorseshoeLoot {
+    public static final String NETHER_BRIDGE = "minecraft:chests/nether_bridge";
+
     private GoldHorseshoeLoot() {
     }
 
-    public static boolean isGoldHorseshoe(String itemId) {
-        return CouncilCraftRules.GOLD_HORSESHOE_ID.equals(itemId);
-    }
-
-    /** Entries that remain. An empty result means the whole pool is not added. */
-    public static List<String> withoutGold(List<String> itemIds) {
-        List<String> kept = new ArrayList<>();
-        for (String itemId : itemIds) {
-            if (!isGoldHorseshoe(itemId)) {
-                kept.add(itemId);
-            }
+    /** One-roll chance for the gold pool in this loot table, or NaN to leave the pool as it is. */
+    public static float chance(String lootTableId) {
+        if (NETHER_BRIDGE.equals(lootTableId)) {
+            return CouncilCraftRules.GOLD_HORSESHOE_FORTRESS_CHANCE;
         }
-        return kept;
+        switch (lootTableId) {
+            case "minecraft:chests/bastion_bridge":
+            case "minecraft:chests/bastion_hoglin_stable":
+            case "minecraft:chests/bastion_other":
+            case "minecraft:chests/bastion_treasure":
+                return CouncilCraftRules.GOLD_HORSESHOE_BASTION_CHANCE;
+            default:
+                return Float.NaN;
+        }
     }
 }

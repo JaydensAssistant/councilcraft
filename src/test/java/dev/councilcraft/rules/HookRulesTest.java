@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /** Rules that do not need a world. The mixins call these same methods. */
@@ -44,20 +43,26 @@ class HookRulesTest {
     }
 
     @Test
-    void goldOnlyPoolIsDroppedAndMixedPoolKeepsTheOtherShoes() {
-        assertTrue(GoldHorseshoeLoot.withoutGold(List.of("horseshoes:gold_horseshoes")).isEmpty());
-        assertEquals(
-            List.of("horseshoes:iron_horseshoes", "horseshoes:diamond_horseshoes"),
-            GoldHorseshoeLoot.withoutGold(List.of(
-                "horseshoes:iron_horseshoes",
-                "horseshoes:diamond_horseshoes",
-                "horseshoes:gold_horseshoes"
-            ))
-        );
-        assertEquals(
-            List.of("horseshoes:iron_horseshoes"),
-            GoldHorseshoeLoot.withoutGold(List.of("horseshoes:iron_horseshoes"))
-        );
+    void goldLootIsOneRareRollInFortressAndBastionChests() {
+        assertEquals(0.15f, GoldHorseshoeLoot.chance("minecraft:chests/nether_bridge"), 0.0001f);
+        assertEquals(0.2f, GoldHorseshoeLoot.chance("minecraft:chests/bastion_bridge"), 0.0001f);
+        assertEquals(0.2f, GoldHorseshoeLoot.chance("minecraft:chests/bastion_hoglin_stable"), 0.0001f);
+        assertEquals(0.2f, GoldHorseshoeLoot.chance("minecraft:chests/bastion_other"), 0.0001f);
+        assertEquals(0.2f, GoldHorseshoeLoot.chance("minecraft:chests/bastion_treasure"), 0.0001f);
+        assertTrue(Float.isNaN(GoldHorseshoeLoot.chance("minecraft:chests/desert_pyramid")));
+        assertTrue(Float.isNaN(GoldHorseshoeLoot.chance("minecraft:chests/end_city_treasure")));
+    }
+
+    @Test
+    void carryOnLevelMapsToOverencumberedAmplifier() {
+        assertEquals(0, CarryWeight.amplifier(0));
+        assertEquals(2, CarryWeight.amplifier(2));
+        assertEquals(3, CarryWeight.amplifier(4));
+        assertEquals(0, CarryWeight.amplifier(-1));
+        assertFalse(CarryWeight.shouldApply(1, 1, 10, true));
+        assertTrue(CarryWeight.shouldApply(2, 1, 10, true));
+        assertTrue(CarryWeight.shouldApply(1, 1, 10, false));
+        assertTrue(CarryWeight.shouldApply(1, 1, CarryWeight.REFRESH_TICKS, true));
     }
 
     @Test

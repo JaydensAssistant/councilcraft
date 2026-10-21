@@ -42,13 +42,15 @@ class PostMvpRulesTest {
     }
 
     @Test
-    void pricesSplitIntoTheLargestCoins() {
-        assertEquals(List.of(), CoinBreakdown.split(0));
-        assertEquals(List.of(new CoinBreakdown.Part("spur", 1)), CoinBreakdown.split(1));
-        assertEquals(List.of(new CoinBreakdown.Part("cog", 1), new CoinBreakdown.Part("sprocket", 2)), CoinBreakdown.split(45));
-        assertEquals(List.of(
-            new CoinBreakdown.Part("sun", 2), new CoinBreakdown.Part("crown", 1), new CoinBreakdown.Part("cog", 1),
-            new CoinBreakdown.Part("sprocket", 2), new CoinBreakdown.Part("spur", 4)), CoinBreakdown.split(299));
+    void pricesShowOneMoneyTotal() {
+        assertEquals("0\u00a2", CoinMoney.format(0));
+        assertEquals("6\u00a2", CoinMoney.format(6));
+        assertEquals("99\u00a2", CoinMoney.format(99));
+        assertEquals("$1.00", CoinMoney.format(100));
+        assertEquals("$1.06", CoinMoney.format(106));
+        assertEquals("$2.50", CoinMoney.format(250));
+        assertEquals("$123.45", CoinMoney.format(12345));
+        assertEquals("$1,234.56", CoinMoney.format(123456));
         assertEquals(1234, CoinBreakdown.parseCount("1,234"));
         assertEquals(1234567, CoinBreakdown.parseCount("1\u202f234\u202f567"));
         assertEquals(-12, CoinBreakdown.parseCount("-12"));
@@ -114,20 +116,22 @@ class PostMvpRulesTest {
     @Test
     void feedingMinutesFollowTheLockedRates() {
         // FD feast serving / meal, k = 1: roast chicken 14 + 21 = 35.
-        assertEquals(35, FeedingRules.minutes(true, false, false, 14, 0.75f));
+        assertEquals(35, FeedingRules.minutes(true, 14, 0.75f));
         // Other food, k = 2/3: cooked porkchop 8 + 12.8 = 20.8 -> 13.
-        assertEquals(13, FeedingRules.minutes(false, false, false, 8, 0.8f));
+        assertEquals(13, FeedingRules.minutes(false, 8, 0.8f));
         // Bread 5 + 6 = 11 -> 7.
-        assertEquals(7, FeedingRules.minutes(false, false, false, 5, 0.6f));
-        // Snack under 4 hunger, always-edible, excluded: 0.
-        assertEquals(0, FeedingRules.minutes(false, false, false, 3, 0.3f));
-        assertEquals(0, FeedingRules.minutes(false, false, true, 4, 1.2f));
-        assertEquals(0, FeedingRules.minutes(true, true, false, 14, 0.75f));
-        // Cap 40 per feed.
-        assertEquals(40, FeedingRules.minutes(true, false, false, 20, 1.0f));
-        // Stacking caps at 60 minutes.
-        assertEquals(60 * 1200, FeedingRules.stackTicks(35 * 1200, 35));
-        assertEquals(45 * 1200, FeedingRules.stackTicks(10 * 1200, 35));
+        assertEquals(7, FeedingRules.minutes(false, 5, 0.6f));
+        // PPM34: snacks and always-edible food count too (3 + 1.8 = 4.8 -> 3; golden apple 4 + 9.6 -> 9).
+        assertEquals(3, FeedingRules.minutes(false, 3, 0.3f));
+        assertEquals(9, FeedingRules.minutes(false, 4, 1.2f));
+        // Tiny food still gives at least a minute; cap 40 per feed.
+        assertEquals(1, FeedingRules.minutes(false, 1, 0.1f));
+        assertEquals(1, FeedingRules.minutes(false, 0, 0.0f));
+        assertEquals(40, FeedingRules.minutes(true, 20, 1.0f));
+        // One feed per spurt: no stacking.
+        assertEquals(35 * 1200, FeedingRules.spurtTicks(35));
+        assertTrue(FeedingRules.canFeedAgain(0));
+        assertFalse(FeedingRules.canFeedAgain(1));
         // Full window under Growth Spurt: 5 + 10 = 15 minutes; half a window: +5.
         assertEquals(10, FeedingRules.extraMinutes(6000, 6000, 5));
         assertEquals(5, FeedingRules.extraMinutes(3000, 6000, 5));

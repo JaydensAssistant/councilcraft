@@ -4,6 +4,7 @@ import dev.councilcraft.handshake.LoginHandshake;
 import dev.councilcraft.item.GovernmentMolds;
 import dev.councilcraft.item.NetheriteHorseshoes;
 import dev.councilcraft.respawn.Reborn;
+import dev.councilcraft.world.DifficultyLock;
 import dev.councilcraft.world.VillagerRemoval;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -22,6 +23,7 @@ public final class CouncilCraft implements ModInitializer {
         Reborn.register();
         dev.councilcraft.respawn.RebornFeeding.register();
         VillagerRemoval.register();
+        DifficultyLock.register();
         // These classes keep their own names (they are not Minecraft classes).
         // Loading them here, after mixins are registered, applies our mixins and
         // throws if the class was renamed. The mixin json still requires each method.
@@ -84,6 +86,12 @@ public final class CouncilCraft implements ModInitializer {
             "io.github.mortuusars.exposure.world.level.storage.ExposureRepository",
             "exposure upload size guard (PM26)"
         );
+        if (FabricLoader.getInstance().isModLoaded("carryon") && FabricLoader.getInstance().isModLoaded("supplementaries")) {
+            requireClass(
+                "tschipp.carryon.CarryOnCommon",
+                "Carry On weight as Overencumbered (PPM35)"
+            );
+        }
         if (FabricLoader.getInstance().isModLoaded("inventorio")) {
             requireClass(
                 "net.mehvahdjukaar.supplementaries.common.utils.fabric.ItemsUtilImpl",

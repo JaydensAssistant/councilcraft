@@ -35,9 +35,9 @@ public final class CouncilCraftRules {
     public static final boolean SACKS_CAN_FIT_INSIDE_CONTAINERS = false;
 
     /**
-     * S245. Horseshoes 1.0.3 injects this item from code (there is no loot JSON).
-     * Any pool entry with this id is removed. A pool that contained only gold is
-     * dropped entirely, so bastion and nether-bridge chests gain no extra pool.
+     * PPM4. Gold horseshoes are back (S245's loot block and recipe removal are gone).
+     * Horseshoes 1.0.3 still injects them into fortress and bastion loot from code;
+     * PPM18 makes that rarer (see the gold loot chances below).
      */
     public static final String GOLD_HORSESHOE_ID = "horseshoes:gold_horseshoes";
 
@@ -51,18 +51,55 @@ public final class CouncilCraftRules {
     public static final String DIAMOND_HORSESHOES_ID = "horseshoes:diamond_horseshoes";
     public static final String NETHERITE_HORSESHOES_ID = "councilcraft:netherite_horseshoes";
 
+    /** PPM14. Step heights: gold 2.1, iron 3.1, diamond 4.1, netherite 6.1. */
     public static final float IRON_HORSESHOE_SPEED = 0.05f;
     public static final float IRON_HORSESHOE_ARMOR = 3.5f;
-    public static final float IRON_HORSESHOE_STEP = 2.1f;
+    public static final float IRON_HORSESHOE_STEP = 3.1f;
+
+    /** PPM4. Speed between iron and diamond; armor follows vanilla's horse armor order (gold above iron). */
+    public static final float GOLD_HORSESHOE_SPEED = 0.0625f;
+    public static final float GOLD_HORSESHOE_ARMOR = 4.5f;
+    public static final float GOLD_HORSESHOE_STEP = 2.1f;
 
     public static final float DIAMOND_HORSESHOE_SPEED = 0.075f;
     public static final float DIAMOND_HORSESHOE_ARMOR = 5.5f;
-    public static final float DIAMOND_HORSESHOE_STEP = 2.6f;
+    public static final float DIAMOND_HORSESHOE_STEP = 4.1f;
 
     public static final float NETHERITE_HORSESHOE_SPEED = 0.1f;
     public static final float NETHERITE_HORSESHOE_ARMOR = 7.0f;
     public static final float NETHERITE_HORSESHOE_KNOCKBACK_RESISTANCE = 0.1f;
-    public static final float NETHERITE_HORSESHOE_STEP = 3.1f;
+    public static final float NETHERITE_HORSESHOE_STEP = 6.1f;
+
+    /** PPM15. Jump height each horseshoe tier adds, in blocks, on top of the horse's own jump. */
+    public static final float GOLD_HORSESHOE_JUMP = 1.0f;
+    public static final float IRON_HORSESHOE_JUMP = 2.0f;
+    public static final float DIAMOND_HORSESHOE_JUMP = 3.0f;
+    public static final float NETHERITE_HORSESHOE_JUMP = 4.0f;
+
+    /**
+     * PPM15. Horse, donkey and mule jump re-ranged so the average horse (vanilla strength 0.7)
+     * clears about 5 blocks and the best (1.0) about 8. Applied as a transient modifier, so
+     * existing horses rescale and the bred base value stays vanilla.
+     */
+    public static final double HORSE_JUMP_AVERAGE_BLOCKS = 5.0;
+    public static final double HORSE_JUMP_BEST_BLOCKS = 8.0;
+    public static final UUID HORSE_JUMP_UUID =
+        UUID.fromString("c07c11a4-5aa3-4e17-8b00-0c0c11c4a015");
+
+    /**
+     * PPM19 / PPM19a / PPM19b. A horse and its riders take no fall damage up to the horse's
+     * full-charge jump height plus 2 blocks, and never less than vanilla's 6. Past that, only
+     * the blocks beyond the safe distance count.
+     */
+    public static final double HORSE_FALL_EXTRA_SAFE_BLOCKS = 2.0;
+    public static final double HORSE_FALL_VANILLA_SAFE_BLOCKS = 6.0;
+
+    /**
+     * PPM18. Gold horseshoe loot is one roll at this chance: nether fortress chests 15%,
+     * all four bastion chests 20%.
+     */
+    public static final float GOLD_HORSESHOE_FORTRESS_CHANCE = 0.15f;
+    public static final float GOLD_HORSESHOE_BASTION_CHANCE = 0.2f;
 
     /**
      * S221 / S244. Attribute units, not blocks per tick. A top-roll horse in netherite

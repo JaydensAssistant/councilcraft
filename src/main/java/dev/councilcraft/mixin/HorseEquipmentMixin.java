@@ -1,6 +1,7 @@
 package dev.councilcraft.mixin;
 
 import dev.councilcraft.CouncilCraftRules;
+import dev.councilcraft.rules.HorseJump;
 import dev.councilcraft.rules.HorseStep;
 import dev.councilcraft.rules.HorseshoeTiers;
 import net.hyper_pigeon.horseshoes.items.HorseshoesItem;
@@ -9,6 +10,9 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import net.minecraft.entity.passive.DonkeyEntity;
+import net.minecraft.entity.passive.HorseEntity;
+import net.minecraft.entity.passive.MuleEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
@@ -26,6 +30,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * Horseshoes copies the shoe stack into that slot on the server. This mixin
  * also clears the slot when the shoes come off, and adds netherite knockback
  * resistance, which the Horseshoes mod does not.
+ *
+ * <p>PPM15. Horses, donkeys and mules also get a transient jump-strength modifier from {@link HorseJump}:
+ * the re-ranged jump plus the shoes' blocks. It is recomputed from the bred base value whenever that or
+ * the shoes change, so it never compounds and existing horses rescale too. Camels stay vanilla.
  */
 @Mixin(AbstractHorseEntity.class)
 public abstract class HorseEquipmentMixin {
@@ -34,6 +42,10 @@ public abstract class HorseEquipmentMixin {
 
     @Unique
     private float councilcraft$vanillaStep = Float.NaN;
+    @Unique
+    private double councilcraft$jumpBase = Double.NaN;
+    @Unique
+    private float councilcraft$jumpShoes = Float.NaN;
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void councilcraft$riddenStep(CallbackInfo ci) {
@@ -44,6 +56,34 @@ public abstract class HorseEquipmentMixin {
         ItemStack feet = horse.getEquippedStack(EquipmentSlot.FEET);
         float shoeStep = HorseshoeTiers.stepHeight(Registries.ITEM.getId(feet.getItem()).toString());
         horse.setStepHeight(HorseStep.height(horse.hasPassengers(), shoeStep, this.councilcraft$vanillaStep));
+        if (!horse.getWorld().isClient) {
+            councilcraft$jump(horse, HorseshoeTiers.jumpBlocks(Registries.ITEM.getId(feet.getItem()).toString()));
+        }
+    }
+
+    @Unique
+    private void councilcraft$jump(AbstractHorseEntity horse, float shoeBlocks) {
+        if (!(horse instanceof HorseEntity || horse instanceof DonkeyEntity || horse instanceof MuleEntity)) {
+            return;
+        }
+        EntityAttributeInstance jump = horse.getAttributeInstance(EntityAttributes.HORSE_JUMP_STRENGTH);
+        if (jump == null) {
+            return;
+        }
+        double base = jump.getBaseValue();
+        if (base == this.councilcraft$jumpBase && shoeBlocks == this.councilcraft$jumpShoes
+            && jump.getModifier(CouncilCraftRules.HORSE_JUMP_UUID) != null) {
+            return;
+        }
+        this.councilcraft$jumpBase = base;
+        this.councilcraft$jumpShoes = shoeBlocks;
+        jump.removeModifier(CouncilCraftRules.HORSE_JUMP_UUID);
+        jump.addTemporaryModifier(new EntityAttributeModifier(
+            CouncilCraftRules.HORSE_JUMP_UUID,
+            "CouncilCraft horse jump",
+            HorseJump.strength(base, shoeBlocks) - base,
+            EntityAttributeModifier.Operation.ADDITION
+        ));
     }
 
     @Inject(method = "onInventoryChanged", at = @At("TAIL"))

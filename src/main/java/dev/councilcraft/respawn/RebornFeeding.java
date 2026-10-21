@@ -41,11 +41,12 @@ import net.minecraft.util.math.Vec3d;
  * 3 blocks and neither moves a block from where it started, the food goes to the Reborn player, who
  * also gets Growth Spurt (FeedingRules). The eating sound and crumbs play at the Reborn player.
  *
- * <p>Only food that gives Growth Spurt minutes can be fed (so no feeding raw, harmful or pet food).
+ * <p>PPM34. Every food gives Growth Spurt minutes, and bad food still applies its vanilla effects to the
+ * baby. A baby can be fed again only once its current Growth Spurt has run out, and only when it could
+ * eat that food itself (not full, unless the food is edible while full).
  */
 public final class RebornFeeding {
     public static final TagKey<Item> MEALS = TagKey.of(RegistryKeys.ITEM, new Identifier(CouncilCraftRules.MOD_ID, "reborn_feed_meals"));
-    public static final TagKey<Item> EXCLUDED = TagKey.of(RegistryKeys.ITEM, new Identifier(CouncilCraftRules.MOD_ID, "reborn_feed_excluded"));
     /** UUIDs of Reborn players, for every client (who may be fed). */
     public static final Identifier REBORN_PLAYERS = new Identifier(CouncilCraftRules.MOD_ID, "reborn_players");
     /** Entity id of a feeder and whether it is feeding now, for the use pose and effects. */
@@ -81,7 +82,7 @@ public final class RebornFeeding {
         });
     }
 
-    /** Growth Spurt minutes this food gives a Reborn player; 0 means it cannot be fed. */
+    /** Growth Spurt minutes this food gives a Reborn player; 0 means it is not food. */
     public static int minutes(ItemStack stack) {
         if (stack.isEmpty() || !stack.isFood()) {
             return 0;
@@ -90,8 +91,16 @@ public final class RebornFeeding {
         if (food == null) {
             return 0;
         }
-        return FeedingRules.minutes(stack.isIn(MEALS), stack.isIn(EXCLUDED), food.isAlwaysEdible(),
-            food.getHunger(), food.getSaturationModifier());
+        return FeedingRules.minutes(stack.isIn(MEALS), food.getHunger(), food.getSaturationModifier());
+    }
+
+    /** PPM34. One feed per Growth Spurt, and only food the baby could eat itself right now. */
+    private static boolean canTake(ServerPlayerEntity target, ItemStack stack) {
+        FoodComponent food = stack.getItem().getFoodComponent();
+        StatusEffectInstance spurt = target.getStatusEffect(GrowthSpurtEffect.EFFECT);
+        return food != null
+            && FeedingRules.canFeedAgain(spurt == null ? 0 : spurt.getDuration())
+            && target.canConsume(food.isAlwaysEdible());
     }
 
     /** Whether this living entity is feeding someone now. Server: the live feed; client: the synced set. */
@@ -111,7 +120,7 @@ public final class RebornFeeding {
         }
         ItemStack stack = feeder.getStackInHand(hand);
         if (feeder == target || feeder.isSpectator() || target.isSpectator() || !Reborn.running(target)
-            || minutes(stack) <= 0 || !target.getHungerManager().isNotFull()
+            || minutes(stack) <= 0 || !canTake(target, stack)
             || feeder.squaredDistanceTo(target) > FeedingRules.MAX_DISTANCE * FeedingRules.MAX_DISTANCE) {
             return ActionResult.PASS;
         }
@@ -152,7 +161,7 @@ public final class RebornFeeding {
             && server.getPlayerManager().getPlayer(target.getUuid()) == target
             && feeder.isUsingItem() && feeder.getActiveHand() == feed.hand()
             && feeder.getActiveItem().isOf(feed.item())
-            && Reborn.running(target) && target.getHungerManager().isNotFull()
+            && Reborn.running(target) && canTake(target, feeder.getActiveItem())
             && feeder.getWorld() == target.getWorld()
             && feeder.squaredDistanceTo(target) <= FeedingRules.MAX_DISTANCE * FeedingRules.MAX_DISTANCE
             && feeder.getPos().squaredDistanceTo(feed.feederStart()) < FeedingRules.MAX_DRIFT * FeedingRules.MAX_DRIFT
@@ -177,8 +186,7 @@ public final class RebornFeeding {
         int minutes = minutes(stack);
         effects(target, stack, 16);
         ItemStack result = eat.apply(stack, target);
-        StatusEffectInstance current = target.getStatusEffect(GrowthSpurtEffect.EFFECT);
-        int ticks = FeedingRules.stackTicks(current == null ? 0 : current.getDuration(), minutes);
+        int ticks = FeedingRules.spurtTicks(minutes);
         target.setStatusEffect(new StatusEffectInstance(GrowthSpurtEffect.EFFECT, ticks, 0, false, false, true), serverFeeder);
         return result;
     }

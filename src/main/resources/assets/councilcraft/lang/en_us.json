@@ -19,5 +19,14 @@
   "councilcraft.coins.diamonds": "%s Diamonds",
   "item.councilcraft.antique_atlas": "Antique Atlas",
   "effect.councilcraft.growth_spurt": "Growth Spurt",
-  "councilcraft.feed.tooltip": "Feeds a Reborn player: %s min"
+  "councilcraft.feed.tooltip": "Feeds a baby for %s minutes",
+  "councilcraft.feed.tooltip.one": "Feeds a baby for %s minute",
+  "councilcraft.horseshoes.tooltip.header": "When on a horse:",
+  "councilcraft.horseshoes.tooltip.speed": "+%s Speed",
+  "councilcraft.horseshoes.tooltip.armor": "+%s Armor",
+  "councilcraft.horseshoes.tooltip.knockback": "+%s%% Knockback Resistance",
+  "councilcraft.horseshoes.tooltip.jump": "+%s blocks Jump Height",
+  "councilcraft.horseshoes.tooltip.jump.one": "+%s block Jump Height",
+  "councilcraft.horseshoes.tooltip.step": "Steps up %s blocks while ridden",
+  "councilcraft.horseshoes.tooltip.step.one": "Steps up %s block while ridden"
 }

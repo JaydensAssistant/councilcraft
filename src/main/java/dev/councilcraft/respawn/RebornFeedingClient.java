@@ -62,7 +62,9 @@ public final class RebornFeedingClient {
         ItemTooltipCallback.EVENT.register((stack, context, lines) -> {
             int minutes = RebornFeeding.minutes(stack);
             if (minutes > 0) {
-                lines.add(Text.translatable("councilcraft.feed.tooltip", minutes).formatted(Formatting.GRAY));
+                lines.add(Text.translatable(
+                    minutes == 1 ? "councilcraft.feed.tooltip.one" : "councilcraft.feed.tooltip", minutes
+                ).formatted(Formatting.GRAY));
             }
         });
     }

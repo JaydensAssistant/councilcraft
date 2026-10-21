@@ -1,41 +1,12 @@
 package dev.councilcraft.rules;
 
-import dev.councilcraft.CouncilCraftRules;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * PM32 / PM32a / PM32b. Numismatics prints a price as "count of the reference coin, name, leftover spurs"
- * ("3 cogs, 0¤"). The pack shows a price as coins instead, largest first ("3 Diamond Quarters, 2 Diamond Dimes").
+ * ("3 cogs, 0¤"). This turns that pair back into one total; PPM8's {@link CoinMoney} formats it.
  * Pure arithmetic, no Minecraft classes.
  */
 public final class CoinBreakdown {
-    /** Enum name and pack value, largest first. */
-    public static final String[] NAMES = {"sun", "crown", "cog", "sprocket", "bevel", "spur"};
-    public static final int[] VALUES = {
-        CouncilCraftRules.SUN_VALUE, CouncilCraftRules.CROWN_VALUE, CouncilCraftRules.COG_VALUE,
-        CouncilCraftRules.SPROCKET_VALUE, CouncilCraftRules.BEVEL_VALUE, CouncilCraftRules.SPUR_VALUE
-    };
-
     private CoinBreakdown() {
-    }
-
-    /** One coin type and how many of it. */
-    public record Part(String coin, int count) {
-    }
-
-    /** Largest coins first; empty for zero or less. */
-    public static List<Part> split(int total) {
-        List<Part> parts = new ArrayList<>();
-        int left = Math.max(0, total);
-        for (int i = 0; i < VALUES.length; i++) {
-            int n = left / VALUES[i];
-            if (n > 0) {
-                parts.add(new Part(NAMES[i], n));
-                left -= n * VALUES[i];
-            }
-        }
-        return parts;
     }
 
     /**
