@@ -90,3 +90,6 @@
 - minecraft/advancements/adventure/kill_all_mobs.json  # S244 G7 unearnable, hidden
 - create_enchantment_industry/data_maps/enchantment/enchantment_processing/rules.json  # S177 forger +1 for 4 enchants; Infinity/Mending rules kept
 - create_enchantment_industry/data_maps/enchantment/printing/enchanted_book/custom_cost.json  # S177 printer cannot copy above-max books
+- supplementaries/loot_tables/blocks/urn_loot/rare.json  # PPM11 urn loot without bombs
+- supplementaries/loot_tables/blocks/urn_loot/epic.json  # PPM11 urn loot without bombs
+- minecraft/loot_tables/blocks/respawn_anchor.json  # PPM43 respawn anchors drop nothing

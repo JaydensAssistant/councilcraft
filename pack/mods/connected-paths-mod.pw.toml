@@ -1,0 +1,13 @@
+name = "Connected Paths Mod"
+filename = "connected-paths-fabric-1.0.2.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/8IFuRx0t/versions/g2nakYrI/connected-paths-fabric-1.0.2.jar"
+hash-format = "sha512"
+hash = "e7fc0207469be8051f7035ae0c2c1ff765813e95eb5c1a9154320a4f4d116f8d30f6a0f913a0234a29f30be8786b1a29f1323079dbce22307a080920fc7102d9"
+
+[update]
+[update.modrinth]
+mod-id = "8IFuRx0t"
+version = "g2nakYrI"

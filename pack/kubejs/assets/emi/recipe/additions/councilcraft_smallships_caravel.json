@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_caravel",
+    "item:smallships:spruce_caravel",
+    "item:smallships:birch_caravel",
+    "item:smallships:jungle_caravel",
+    "item:smallships:acacia_caravel",
+    "item:smallships:dark_oak_caravel",
+    "item:smallships:mangrove_caravel",
+    "item:smallships:cherry_caravel",
+    "item:smallships:bamboo_caravel"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.caravel"
+  ]
+}

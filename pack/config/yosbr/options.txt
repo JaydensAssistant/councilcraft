@@ -1,1 +1,3 @@
-resourcePacks:["fabric","file/councilcraft-printed-copies.zip"]
+resourcePacks:["fabric","file/councilcraft-printed-copies.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","file/Connected-Paths.zip","file/Connected-Bricks.zip","file/Connected-Rocks.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
+renderDistance:8
+simulationDistance:8

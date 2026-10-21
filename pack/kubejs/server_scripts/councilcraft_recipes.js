@@ -24,7 +24,7 @@ ServerEvents.recipes(event => {
     acceptMirrored: false
   }).id('councilcraft:paraglider_mechanical_crafting')
 
-  // ---- Horseshoes (S114/S221/S230): iron + diamond via sequenced assembly only; no gold ----
+  // ---- Horseshoes (S114/S221/S230; PPM4 brings gold back): iron, gold and diamond via sequenced assembly only ----
   event.remove({ output: /^horseshoes:/ })
   event.custom({
     type: 'create:sequenced_assembly',
@@ -38,6 +38,19 @@ ServerEvents.recipes(event => {
     results: [{ item: 'horseshoes:iron_horseshoes' }],
     loops: 2
   }).id('councilcraft:iron_horseshoes_sequenced')
+  // --- PPM4 (2026-10-20): gold horseshoes, the iron recipe with golden sheets and gold nuggets
+  event.custom({
+    type: 'create:sequenced_assembly',
+    ingredient: { item: 'create:golden_sheet' },
+    transitionalItem: { item: 'create:golden_sheet' },
+    sequence: [
+      { type: 'create:deploying', ingredients: [{ item: 'create:golden_sheet' }, { item: 'minecraft:gold_nugget' }], results: [{ item: 'create:golden_sheet' }] },
+      { type: 'create:deploying', ingredients: [{ item: 'create:golden_sheet' }, { item: 'minecraft:gold_nugget' }], results: [{ item: 'create:golden_sheet' }] },
+      { type: 'create:pressing', ingredients: [{ item: 'create:golden_sheet' }], results: [{ item: 'create:golden_sheet' }] }
+    ],
+    results: [{ item: 'horseshoes:gold_horseshoes' }],
+    loops: 2
+  }).id('councilcraft:gold_horseshoes_sequenced')
   event.custom({
     type: 'create:sequenced_assembly',
     ingredient: { item: 'horseshoes:iron_horseshoes' },
@@ -129,8 +142,15 @@ ServerEvents.recipes(event => {
     event.campfireCooking('farmersdelight:fried_egg', e).xp(0.35).id('councilcraft:fried_egg_from_' + n + '_campfire')
   })
 
-  // ---- Horse feed (S222), gold horseshoes (S230; covered by the horseshoes block above) ----
+  // ---- Horse feed (S222) ----
   event.remove({ output: 'farmersdelight:horse_feed' })
+
+  // --- PPM23 (Jayden): every horse armor is craftable, same shape as vanilla leather horse armor (X X / XXX / X X).
+  // Netherite stays a smithing upgrade only (Simple Netherite Horse Armor, PPM22). Horse armor loot is untouched.
+  const horseArmor = [['iron', 'minecraft:iron_ingot'], ['golden', 'minecraft:gold_ingot'], ['diamond', 'minecraft:diamond']]
+  horseArmor.forEach(a => {
+    event.shaped('minecraft:' + a[0] + '_horse_armor', ['X X', 'XXX', 'X X'], { X: a[1] }).id('councilcraft:' + a[0] + '_horse_armor')
+  })
 
   // ---- Bell (S242) ----
   event.shaped('minecraft:bell', [' S ', 'GGG', ' B '], { S: 'minecraft:stick', G: 'minecraft:gold_ingot', B: 'minecraft:gold_block' }).id('councilcraft:bell')
@@ -157,6 +177,8 @@ ServerEvents.recipes(event => {
   // PM26 (1): no interplanar projector (projecting is off server-side too)
   event.remove({ output: 'exposure:interplanar_projector' })
   event.remove({ output: 'exposure:broken_interplanar_projector' })
+  // --- PPM11 (2026-10-20): no dried ghast (enforces S60; Vanilla Backport's minecraft:dried_ghast recipe)
+  event.remove({ id: 'minecraft:dried_ghast' })
   // PM26a: camera
   event.remove({ id: 'exposure:camera' })
   event.shaped('exposure:camera', ['LIB', 'IGI', 'ICI'], { L: 'minecraft:lever', I: 'create:iron_sheet', B: '#minecraft:buttons', G: 'minecraft:glass_pane', C: 'create:cogwheel' }).id('councilcraft:exposure_camera')
@@ -175,6 +197,10 @@ ServerEvents.recipes(event => {
     event.shapeless('councilcraft:antique_atlas', ['minecraft:paper', 'minecraft:paper', 'minecraft:paper', c, 'minecraft:compass', 'supplementaries:antique_ink']).id('councilcraft:antique_atlas_' + c.split(':')[1])
   })
   event.shapeless('councilcraft:antique_atlas', ['minecraft:book', 'minecraft:compass', 'supplementaries:antique_ink']).id('councilcraft:antique_atlas_from_book')
+  // --- PPM43 (0.4.5): respawn lockdown. No respawn anchors and no end crystals (every recipe that makes them).
+  // End crystals are only needed to RE-summon the dragon; the first fight's pillar crystals are world-generated.
+  event.remove({ output: 'minecraft:respawn_anchor' })
+  event.remove({ output: 'minecraft:end_crystal' })
 })
 
 ServerEvents.tags('item', event => {

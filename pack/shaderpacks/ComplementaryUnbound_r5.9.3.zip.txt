@@ -1,0 +1,7 @@
+#CouncilCraft PPM38/PPM40 defaults (Complementary Unbound r5.9.3)
+LIGHTSHAFT_SMOKE=true
+RP_MODE=0
+CLOUD_SHADOWS=true
+CLOUD_ALT1=850
+NETHER_VIEW_LIMIT=99999.0
+shadowDistance=128.0

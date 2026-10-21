@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_galleon",
+    "item:smallships:spruce_galleon",
+    "item:smallships:birch_galleon",
+    "item:smallships:jungle_galleon",
+    "item:smallships:acacia_galleon",
+    "item:smallships:dark_oak_galleon",
+    "item:smallships:mangrove_galleon",
+    "item:smallships:cherry_galleon",
+    "item:smallships:bamboo_galleon"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.galleon"
+  ]
+}

@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "config/DistantHorizons.toml"
-hash = "946d721221d8336aa15c48e5668fb3bbfc564a60ce0018a37984b13b9f509086"
+hash = "b8260302548e1fb0186ab707cbc08e8c1290fa39a386759af41dd0528416080b"
 
 [[files]]
 file = "config/amendments-common.json"
@@ -58,7 +58,11 @@ hash = "47751187492401dbe731fc07104c69f861273dd82577ec88051f3f2da2954d78"
 
 [[files]]
 file = "config/immersive_portals.json"
-hash = "0ad580c60be9386b982aa37dde8269bdb958a457fbe4a7bb614733628f8667f5"
+hash = "a702629e8a4365e11955a22aa27111b36e3f8e0d360977724cc05d55f2a41e52"
+
+[[files]]
+file = "config/improvedmobs/client.json"
+hash = "ca014144818d5ce9e66a9dcae1cf1414e1002747d9781616148311e682a2649f"
 
 [[files]]
 file = "config/improvedmobs/common.json"
@@ -78,7 +82,11 @@ hash = "218e2e08e6482f8abf02c4e52830ed3ed8259544cb8a8a241ffd776a65bedd17"
 
 [[files]]
 file = "config/nameplate.json"
-hash = "ffb80eab78dcd5604b5ca2b3b4519e64ca51246cbf7c7d0ef0ad47f3231a006c"
+hash = "611c9637071291a72cbbeb045bdaa16f6207b951cc8aa679e44cfb3e45aaff71"
+
+[[files]]
+file = "config/netherite_horse_armor.json5"
+hash = "8936d646594716f495dde391e43b2b483452c6bf11bfc48d75081e674f648728"
 
 [[files]]
 file = "config/niftycarts-common.toml"
@@ -109,8 +117,12 @@ file = "config/rpgdifficulty.json"
 hash = "74030cc5fa8ac1e59f065f5cfd6b44b14f43d217342de5a4e3a3d4c37ce7a580"
 
 [[files]]
+file = "config/smallships-client.toml"
+hash = "2b5d6f1cf6e2edb9f79036bc82e31ccd9453d4069a6aa46ee6e644bcc72ba8f9"
+
+[[files]]
 file = "config/smallships-server.toml"
-hash = "6c1e41e361737d1d26e49e2f719392f6d1310ef460e7879d019e9778b1ae189f"
+hash = "9cef7a74545e24c4b09a458f8bd79795a34f52366847d89129d9f63476d3128b"
 
 [[files]]
 file = "config/supplementaries-common.json"
@@ -122,7 +134,7 @@ hash = "6791674c172a971c1179b7974a3aa20965159787c1597034be171ce0b34311d9"
 
 [[files]]
 file = "config/tectonic.json"
-hash = "1a12dde41bc5bb719734d1a02802451f10f8b054003df01b57c3b29bb3473777"
+hash = "fdbc16a1bea861a53eaf0e3c092bec72865cad7820be257c82706f725a3ae0ee"
 
 [[files]]
 file = "config/vanillabackport-common.toml"
@@ -141,6 +153,10 @@ file = "config/yosbr/config/amendments-client.json"
 hash = "b8c5dbf4e57f885ad13beb867e6e2768776ad34a5bd49e06548a19757cccf893"
 
 [[files]]
+file = "config/yosbr/config/bettercombat/client.json5"
+hash = "3ae2e6cf458dd4746d0cfc573c7a870bde92fd9faeb173660e05d74205b8be61"
+
+[[files]]
 file = "config/yosbr/config/controlify.json"
 hash = "2519fc22f66d91618a36989c4d7c953deafd79df806f2c09f139b30322a754ce"
 
@@ -153,6 +169,18 @@ file = "config/yosbr/config/exposure-client.toml"
 hash = "51607364819e931433f43e94f86ccb68d8077ef231e985a7e21a7027a6585d25"
 
 [[files]]
+file = "config/yosbr/config/horseman-client.toml"
+hash = "01edad9b39cbfc214c483577ea6f28b55e1a121df4317ee1819c715e78b12064"
+
+[[files]]
+file = "config/yosbr/config/inventory_particles.json5"
+hash = "fbd08cbb8fbc7606ccbec8ab7e084678ee433051c5329dad365a50cc0ba506c3"
+
+[[files]]
+file = "config/yosbr/config/iris.properties"
+hash = "173e8a65bfadf40a2e4ad414f9f4a0c3d1000dbe43f8f7255ecdcb7fb50df2b5"
+
+[[files]]
 file = "config/yosbr/config/ponderer-client.toml"
 hash = "47231c9e20adb072453a46524450c6094a94df2be0f334482bd1febc28efa1a5"
 
@@ -161,16 +189,68 @@ file = "config/yosbr/config/vanillabackport-client.toml"
 hash = "5dec9932a01d8289bdf435729820d4547eca82b2484577709c2ca5374262c46c"
 
 [[files]]
+file = "config/yosbr/config/zoomify.json"
+hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
+
+[[files]]
 file = "config/yosbr/options.txt"
-hash = "1695a5f3694c262cf65de1b9c18d8f25922fa605fa01692448090e27d261226f"
+hash = "7994cb07f13da88dfb715951515f204897ff4f8f8ed6ef55fd777e1f764738ab"
+
+[[files]]
+file = "credits.txt"
+hash = "4d6e64e474b9d19d491eb0f09b94138564e91a993fed66f278506c3f8b58988a"
+
+[[files]]
+file = "kubejs/assets/councilcraft/lang/en_us.json"
+hash = "0cf27440a0a3d098c10eba4e7e7dbc3c1467e8e36c4c3d7a4bb34dc01a1ef478"
 
 [[files]]
 file = "kubejs/assets/emi/index/stacks/councilcraft_hidden.json"
-hash = "caeb1bce48c52173a61e1a41bace982bb15a1c8a55b5140ef8b9447628364b03"
+hash = "a73788c0ee37f70d4ca88955afc64ef6e5ec3d9dc0962b948d55a9c4b664f180"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_exposure_film.json"
+hash = "5557ccf5a86b7b9c604db1ce6f9e3ba75a6b67e2aa9b51e20122c18cf5a7e623"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_exposure_lightroom.json"
+hash = "f17cf4e464544ce38287d27a169ede6fcc779f8edcd05083c0ebac617b9d882a"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_exposure_photograph.json"
+hash = "d60b0e08beb6ecf2b24633792474694044e45263cbde390a9abd47e3c5ad1334"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_brigg.json"
+hash = "10cb40059197c1e01a026a9669a81dd955d3b02c9efb990a6994d7e9f6fca71d"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_caravel.json"
+hash = "850c5b7783b60115be1a405b36813206206c4c10bf20e233cd52bef2954836a0"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_cog.json"
+hash = "d50c98402c7c5352b6d973bcc28b8a7b2e858ce9526cc913d1fe88fd73dc462f"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_dhow.json"
+hash = "449a4bc156ebe30d34e0ef1267ee6a22f440632c621755352840db7338d8598f"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_drakkar.json"
+hash = "87e91fea44c84d4af61dd62add3ed64d6de6820420ec28bde824ad891d744ed7"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_galleon.json"
+hash = "b0f45513e55a7d4982d4b4811056090e645ea9351fc7694d36f61572590c2b65"
+
+[[files]]
+file = "kubejs/assets/emi/recipe/additions/councilcraft_smallships_galley.json"
+hash = "2c01edb97cc505e83b4c9cd347c3b2d8ab3c2d2c0c9bfa409fa5876b2e83afc0"
 
 [[files]]
 file = "kubejs/assets/numismatics/lang/en_us.json"
-hash = "b3467d24f7b634c06f2d3ca54e0b71d77e7f5c86be00cfe0a6bf89a516e40baa"
+hash = "5bd48ac036b9275e05a737c9db34c5c5f4e155925dda9d5b0be6441ec0405183"
 
 [[files]]
 file = "kubejs/assets/regions_unexplored/lang/en_us.json"
@@ -182,11 +262,15 @@ hash = "50d62cd56092803f317c2ab3f3f46e1620d8ef72aeaa4849687b0b1b62296bd9"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "f31eae5148180c7b888a051068c8ea89ef89dc6561c74024ad0f0c7e21f7620e"
+hash = "c31656a75746db21eb6ac0751f8b073b1a3aaded34fd659a92ecc58efa41a204"
+
+[[files]]
+file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"
+hash = "6c89779a9343b1536a1afe1fcaaa9456dfd95e6e04e56f3c7ee8112ae8b486c3"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_world.js"
-hash = "77e88d9601d453f48fee99530ffccf3069bd4eadd472a500c2d409d688917116"
+hash = "70432c3f1a07118dc4d8ed2b2c034caca286a52fc365203070c10934f808704e"
 
 [[files]]
 file = "kubejs/server_scripts/end_disable.js"
@@ -247,6 +331,11 @@ hash = "d37398ef80a4645987209f96d9d1ddf390ba06f2546b6ce246d3ccd197054417"
 metafile = true
 
 [[files]]
+file = "mods/better-combat.pw.toml"
+hash = "9e94089231d50ff38c030369b6b9b8af0c8d9f0b495611ae3b29be18656d35bb"
+metafile = true
+
+[[files]]
 file = "mods/better-mount-hud.pw.toml"
 hash = "333dfa2b93c688ce5f9f685f77cb62e5df8b9c8d21a2c4dd4eb9232aa85dccff"
 metafile = true
@@ -274,6 +363,11 @@ metafile = true
 [[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "41a3dc271859b118417946d2fdb2408523563b2f4f49048073672a342fb1aebf"
+metafile = true
+
+[[files]]
+file = "mods/connected-paths-mod.pw.toml"
+hash = "52b34c986d062802008afd5e60e74e57130a410c17a221cc99b7a544148102b5"
 metafile = true
 
 [[files]]
@@ -319,6 +413,11 @@ metafile = true
 [[files]]
 file = "mods/create-steam-n-rails.pw.toml"
 hash = "7c01fb6fca963567ccb0cc5bd3780e99a712f44b96c4c65c993163e7c20e3277"
+metafile = true
+
+[[files]]
+file = "mods/create-trimmed.pw.toml"
+hash = "b349813927154f2bc111425dbad6f3553d41203994d297b967cf6671f386fad5"
 metafile = true
 
 [[files]]
@@ -537,6 +636,11 @@ hash = "968ebc0ac017432971e093cf7ac83657d2dcf30014d5549402a431a2bd8be95f"
 metafile = true
 
 [[files]]
+file = "mods/lambdabettergrass.pw.toml"
+hash = "d1f7415c669798740ddd1aa801fe224c4fb391a1e5bc70526546146108ae4d6c"
+metafile = true
+
+[[files]]
 file = "mods/lambdynamiclights.pw.toml"
 hash = "8508e46b7e272d79dc6b3cc0149f9fd132c701369bcb2abb5c35da3ed92b27fb"
 metafile = true
@@ -717,6 +821,11 @@ hash = "096b706a9018fe826ca276bf682003b3159de6cc8c130170d7d6c884d5df663c"
 metafile = true
 
 [[files]]
+file = "mods/playeranimator.pw.toml"
+hash = "7ad4ca488da13998ce660729167eef71ce1bdfb57ef1c5d593096fa459cec0f8"
+metafile = true
+
+[[files]]
 file = "mods/presence-footsteps.pw.toml"
 hash = "a9769ced0531122518321833966d375196753db1c3a47b975aed4bb6837fae7a"
 metafile = true
@@ -774,6 +883,11 @@ metafile = true
 [[files]]
 file = "mods/searchables.pw.toml"
 hash = "830270b8e5a34f5621720ae09c4cf716a65d8003a30d585c8b817aba1fde9ac8"
+metafile = true
+
+[[files]]
+file = "mods/simple-netherite-horse-armor.pw.toml"
+hash = "4a88b489a46aa54159605522a54ac16d8980b4b829f229507d52850f9559af38"
 metafile = true
 
 [[files]]
@@ -923,7 +1037,7 @@ metafile = true
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/CONTENTS.md"
-hash = "c32ecd311435619acd4b3e31ba5d4327973a238ea192f76dadae55db096e46e4"
+hash = "09e90afa1f79950d5d225cac1f938a51d3413317336acdfe58910c84e7bed893"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/betterdungeons/loot_tables/skeleton_dungeon/chests/common.json"
@@ -1182,6 +1296,10 @@ file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/advancements
 hash = "273393b8cff75270d79c92b9611cdda5005053c3b6e21b3982f3e2cebbe2a16c"
 
 [[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/loot_tables/blocks/respawn_anchor.json"
+hash = "cb548d64f21952f78fa36e22baa9e0266749309ce159a822d84be3b4d9a6b2c8"
+
+[[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/minecraft/loot_tables/chests/simple_dungeon.json"
 hash = "5728f7b234d21347a99bb6dcf1cf66bb2266371818f8c8058771b10050ff3305"
 
@@ -1278,6 +1396,14 @@ file = "moonlight-global-datapacks/councilcraft-data/data/paraglider/tags/worldg
 hash = "33975eff3c2c6cf9000bce7825e1256f756eb8a353be7e9b7011bb4298f97a65"
 
 [[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/supplementaries/loot_tables/blocks/urn_loot/epic.json"
+hash = "5d2ba4b6d40b3568f05d71dc8af3e30ed5e11cedbc5a5dabcc83d5c8153b3391"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/supplementaries/loot_tables/blocks/urn_loot/rare.json"
+hash = "37c1c134fdf8ecb86833f88c5175b0596ab5d7e7837ba083abb4d0afa7210657"
+
+[[files]]
 file = "moonlight-global-datapacks/councilcraft-data/pack.mcmeta"
 hash = "1b098d8b6d0a1031a54cb1607991e0ac101fd03295db44658b17daf04bae3e5c"
 
@@ -1295,8 +1421,44 @@ hash = "7fc1ab5d57b084b6f5222ddaa624ead7f2ff4ffeba71171616104a8ec3896e10"
 
 [[files]]
 file = "moonlight-global-datapacks/ru-tectonic-altitude-biomes.zip"
-hash = "92ccb5e65a3f1df97ca9b63db808c5d2047d488c587773d2656de0425e494a92"
+hash = "799f16d0de516f1e6ab28f2cdd41fe17b608e9c6b5c38df9e8a20b2f3c0bb875"
+
+[[files]]
+file = "resourcepacks/antique-atlas-4-compat.pw.toml"
+hash = "2656e9634e50389144f805e13828e8bf087b5ddc3f89701c29f46725b062d501"
+metafile = true
+
+[[files]]
+file = "resourcepacks/better-leaves.pw.toml"
+hash = "eb0b5f269171cd5b891d9bdf2c5da89698e21a71ffec1172ead75bc19411cbdc"
+metafile = true
+
+[[files]]
+file = "resourcepacks/councilcraft-atlas-ru.zip"
+hash = "bc03a2bc8f9fb0fd6df68d27de56c9be30e86453de4975415896eaede41645ff"
+
+[[files]]
+file = "resourcepacks/councilcraft-bettergrass-ru.zip"
+hash = "e057924dbbc4a121168a4fca6efdd7bd1fc0ad57b778d30a890fa5a5c8a604b0"
 
 [[files]]
 file = "resourcepacks/councilcraft-printed-copies.zip"
 hash = "d9f105053788fc2d65b8462e27f027c7bbf74ece436c458ed9b703bfb71e75a2"
+
+[[files]]
+file = "resourcepacks/vanillatweaks-councilcraft.zip"
+hash = "a8ede48926811bea50e9d1d9b4274d07c0adf120c64483aeaa2b96b8b70cbeda"
+
+[[files]]
+file = "shaderpacks/ComplementaryUnbound_r5.9.3.zip.txt"
+hash = "f15396112df95310bc5aa26eac3136f6d1c401cccfc52fee66886a19fa34ed0f"
+
+[[files]]
+file = "shaderpacks/complementary-unbound.pw.toml"
+hash = "1a3d3663c44dc21e227c39c42ea9b5e3c4f3b2e3b5272ed55b45da9e247a46d7"
+metafile = true
+
+[[files]]
+file = "shaderpacks/lite-shaders.pw.toml"
+hash = "4b148c9c406875b0f75a5b35fd552cb78a5e199a4b3f53e5081fd752b8c6c629"
+metafile = true

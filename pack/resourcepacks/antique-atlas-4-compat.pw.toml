@@ -1,0 +1,13 @@
+name = "Antique Atlas 4 Compat"
+filename = "Antique_Atlas_4_Compat_v1.4.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/EZrcB8Mu/versions/IsoXrQfU/Antique_Atlas_4_Compat_v1.4.zip"
+hash-format = "sha512"
+hash = "e42447f035fefd174b67a0953297f314288bf5edddf17742eeae3a766c2cb357bb9e06a47b7d834e4c59e9267dfe4a7cc6e5ba180c84c6ba2854cc814480c0ac"
+
+[update]
+[update.modrinth]
+mod-id = "EZrcB8Mu"
+version = "IsoXrQfU"

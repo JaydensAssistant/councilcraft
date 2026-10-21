@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_drakkar",
+    "item:smallships:spruce_drakkar",
+    "item:smallships:birch_drakkar",
+    "item:smallships:jungle_drakkar",
+    "item:smallships:acacia_drakkar",
+    "item:smallships:dark_oak_drakkar",
+    "item:smallships:mangrove_drakkar",
+    "item:smallships:cherry_drakkar",
+    "item:smallships:bamboo_drakkar"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.drakkar"
+  ]
+}

@@ -283,4 +283,4 @@ schematicVersion = 6
 # This category holds configs that define general mod settings.
 [General]
 	#Check for a new version of the mod when the server starts and write the result to the server log.
-	updateCheckerEnable = true
+	updateCheckerEnable = false

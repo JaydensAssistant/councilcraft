@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_dhow",
+    "item:smallships:spruce_dhow",
+    "item:smallships:birch_dhow",
+    "item:smallships:jungle_dhow",
+    "item:smallships:acacia_dhow",
+    "item:smallships:dark_oak_dhow",
+    "item:smallships:mangrove_dhow",
+    "item:smallships:cherry_dhow",
+    "item:smallships:bamboo_dhow"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.dhow"
+  ]
+}

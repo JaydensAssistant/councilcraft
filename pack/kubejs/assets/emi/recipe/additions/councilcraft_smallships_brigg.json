@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_brigg",
+    "item:smallships:spruce_brigg",
+    "item:smallships:birch_brigg",
+    "item:smallships:jungle_brigg",
+    "item:smallships:acacia_brigg",
+    "item:smallships:dark_oak_brigg",
+    "item:smallships:mangrove_brigg",
+    "item:smallships:cherry_brigg",
+    "item:smallships:bamboo_brigg"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.brigg"
+  ]
+}

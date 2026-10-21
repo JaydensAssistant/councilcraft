@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_galley",
+    "item:smallships:spruce_galley",
+    "item:smallships:birch_galley",
+    "item:smallships:jungle_galley",
+    "item:smallships:acacia_galley",
+    "item:smallships:dark_oak_galley",
+    "item:smallships:mangrove_galley",
+    "item:smallships:cherry_galley",
+    "item:smallships:bamboo_galley"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.galley"
+  ]
+}

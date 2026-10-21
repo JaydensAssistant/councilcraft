@@ -11,7 +11,7 @@
   "item.numismatics.crown.plural": "Diamond Half Dollars",
   "item.numismatics.sun": "Diamond Dollar",
   "item.numismatics.sun.plural": "Diamond Dollars",
-  "block.numismatics.andesite_depositor.tooltip.price": "Price: %s %s",
+  "block.numismatics.andesite_depositor.tooltip.price": "Price: %s",
   "block.numismatics.brass_depositor.tooltip.price": "Price: %s",
   "block.numismatics.vendor.tooltip.price": "For: %s",
   "gui.numismatics.bank_terminal.balance": "Balance: %s",

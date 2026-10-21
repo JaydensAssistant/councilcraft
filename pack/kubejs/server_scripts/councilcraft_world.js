@@ -1,17 +1,17 @@
 // CouncilCraft MVP world rules (SPEC KubeJS section, S209). Rebuilt 2026-10-19.
 // Not here because the councilcraft Java mod does it: evoker patrols (PatrolEvokerMixin), creeper/mutant grief,
-// horse/camel speed caps, gold horseshoe loot block, toolbox, printed copies, Reborn, coin values/minting.
+// horse/camel speed caps, toolbox, printed copies, Reborn, coin values/minting.
 
 // ---- Villager removal, 2-pass (S81/S94/S135): block every join (spawn, structure, breeding, cure, eggs) = delete on load ----
 const CC_NO_VILLAGERS = ['minecraft:villager', 'minecraft:wandering_trader', 'minecraft:trader_llama', 'minecraft:zombie_villager']
 // ---- Sorcerer / necromancer fallbacks (S157/S158) ----
 const CC_KILL = ['illagerinvasion:sorcerer', 'illagerinvasion:necromancer']
-// ---- Removed mutant items (S154/S156): never allowed to exist as item entities or in inventories ----
+// ---- Removed mutant items (S154/S156; gold horseshoes allowed again, PPM4): never allowed to exist as item entities or in inventories ----
 const CC_REMOVED_ITEMS = ['mutantmonsters:hulk_hammer', 'mutantmonsters:endersoul_hand', 'mutantmonsters:creeper_minion_tracker',
   'mutantmonsters:creeper_shard', 'mutantmonsters:creeper_minion_spawn_egg', 'mutantmonsters:mutant_skeleton_arms',
   'mutantmonsters:mutant_skeleton_limb', 'mutantmonsters:mutant_skeleton_pelvis', 'mutantmonsters:mutant_skeleton_rib',
   'mutantmonsters:mutant_skeleton_rib_cage', 'mutantmonsters:mutant_skeleton_shoulder_pad', 'mutantmonsters:mutant_skeleton_chestplate',
-  'mutantmonsters:mutant_skeleton_leggings', 'mutantmonsters:mutant_skeleton_boots', 'farmersdelight:horse_feed', 'horseshoes:gold_horseshoes']
+  'mutantmonsters:mutant_skeleton_leggings', 'mutantmonsters:mutant_skeleton_boots', 'farmersdelight:horse_feed']
 
 EntityEvents.spawned(event => {
   const e = event.entity

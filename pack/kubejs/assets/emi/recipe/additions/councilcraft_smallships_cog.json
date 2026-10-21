@@ -1,0 +1,17 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:smallships:oak_cog",
+    "item:smallships:spruce_cog",
+    "item:smallships:birch_cog",
+    "item:smallships:jungle_cog",
+    "item:smallships:acacia_cog",
+    "item:smallships:dark_oak_cog",
+    "item:smallships:mangrove_cog",
+    "item:smallships:cherry_cog",
+    "item:smallships:bamboo_cog"
+  ],
+  "text": [
+    "councilcraft.emi.info.smallships.cog"
+  ]
+}

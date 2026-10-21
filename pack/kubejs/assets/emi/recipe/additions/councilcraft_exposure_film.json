@@ -1,0 +1,12 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:exposure:black_and_white_film",
+    "item:exposure:high_sensitivity_black_and_white_film",
+    "item:exposure:color_film",
+    "item:exposure:high_sensitivity_color_film"
+  ],
+  "text": [
+    "councilcraft.emi.info.exposure.film"
+  ]
+}

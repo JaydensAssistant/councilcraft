@@ -29,7 +29,6 @@
     "/^create:dough$/",
     "/^farmersdelight:horse_feed$/",
     "/^farmersdelight:rope$/",
-    "/^horseshoes:gold_horseshoes$/",
     "/^supplementaries:dragon_banner_pattern$/",
     "/^minecraft:dragon_breath$/",
     "/^minecraft:chorus_fruit$/",
@@ -62,6 +61,19 @@
     "/^exposure:(broken_)?interplanar_projector$/",
     "/^railways:track_(incomplete_)?(oak|spruce|birch|jungle|acacia|dark_oak|mangrove|cherry|bamboo|stripped_bamboo|crimson|warped)(_narrow|_wide)?$/",
     "/^niftycarts:([a-z_]+_)?hand_cart$/",
-    "/^supplementaries:netherite_(door|trapdoor)$/"
+    "/^supplementaries:netherite_(door|trapdoor)$/",
+    "/^supplementaries:(bomb|bomb_blue|bomb_spiky)(_projectile)?$/",
+    "/^supplementaries:(safe|key|lock_block|wrench|cog_block|pulley_block|spring_launcher|bubble_blower|bubble_block|altimeter|cannon|cannonball|bamboo_spikes_tipped|end_stone_lamp)$/",
+    "/^paraglider:(heart_container|stamina_vessel|spirit_orb|essence|anti_vessel)$/",
+    "/^ponderer:(blueprint|miniature_projector|life_size_projector)$/",
+    "/^illagerinvasion:primal_essence$/",
+    "/^create_enchantment_industry:blazes_enchanting_handbook$/",
+    "/^minecraft:end_stone(_bricks|_brick_slab|_brick_stairs|_brick_wall)?$/",
+    "/^minecraft:dragon_egg$/",
+    "/^minecraft:spire_armor_trim_smithing_template$/",
+    "/^railways:track_(incomplete_)?ender(_narrow|_wide)?$/",
+    "/^minecraft:(villager|zombie_villager|wandering_trader|trader_llama)_spawn_egg$/",
+    "/^minecraft:(dried_ghast|happy_ghast_spawn_egg)$/",
+    "/^minecraft:(respawn_anchor|end_crystal)$/"
   ]
 }

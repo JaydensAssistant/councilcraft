@@ -1,0 +1,9 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:exposure:photograph"
+  ],
+  "text": [
+    "councilcraft.emi.info.exposure.photograph"
+  ]
+}

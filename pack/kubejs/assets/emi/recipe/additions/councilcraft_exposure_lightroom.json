@@ -1,0 +1,11 @@
+{
+  "type": "emi:info",
+  "stacks": [
+    "item:exposure:lightroom",
+    "item:exposure:developed_black_and_white_film",
+    "item:exposure:developed_color_film"
+  ],
+  "text": [
+    "councilcraft.emi.info.exposure.lightroom"
+  ]
+}
