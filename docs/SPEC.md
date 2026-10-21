@@ -1139,3 +1139,23 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - Zebras equal horses (PPPM3).
   - Discord Integration and MinerTrack become server-only (S247(e)).
   - Graphics presets (PPPM7) are pending Jayden's settings.
+- PPM49a (2026-10-21 14:48 EDT) [LOCKED, Jayden; NOT BUILT; refines PPM49 and supersedes its "top faces only" line] Blending pack rules versus current Connected Paths:
+  1. Drop the Connected Paths mod and ship our own pack, rendered by Continuity. Art comes from the Connected Paths artist's CC-BY-NC-SA-4.0 resource packs, credited, and our blending pack shares under CC-BY-NC-SA. Jayden confirmed the server is non-commercial. Edge tiles for newly covered blocks are recolored from each block's own texture using the artist's masks (no new art). There is no first-launch compile.
+  2. Side faces still blend, but only when the face is open to the air and the source neighbor is also exposed. This fixes grass seeping down dirt walls and doubled snow on block sides; LambdaBetterGrass keeps handling snowy grass sides.
+  3. Fringe from below: soft ground creeps up the bottom edge of a block sitting on it (soft ground and natural stone receivers only; man-made blocks stay clean).
+  4. Pairings:
+     - Soft ground (dirt, grass, sand, snow, gravel, mud, powders) onto soft ground and natural stone.
+     - Stone onto stone only.
+     - Nothing onto logs, wood, planks, obsidian, ores, bricks or man-made blocks (concrete, terracotta, wool, polished stone).
+     - No cross-brick-type blending.
+     - The tree-base fringe on logs was considered and declined.
+  5. Added coverage:
+     - Create natural stones: limestone, scoria, ochrum, veridium, crimsite, asurine, scorchia.
+     - Vanilla Backport pale moss.
+     - Farmer's Delight rich soil, Naturalist shellstone, Supplementaries ashen basalt.
+  6. Snowy fences for the 22 RU fences plus pale_oak_fence, via the councilcraft-bettergrass-ru LambdaBetterGrass data.
+  
+  Diagonal-only (corner-touch) connection is declined: it would need a Continuity mixin plus new corner art. Corners when a side neighbor also connects stay as they are.
+- PPM53 (2026-10-21 14:48 EDT) [LOCKED, Jayden; NOT BUILT] Connected glass:
+  - Enable Continuity's built-in "default" connected-textures pack (vanilla glass and stained glass, plus panes) in the yosbr resource pack list.
+  - Add a connected-texture rule for Regions Unexplored prismaglass in our own pack, built from RU's own texture. Check how its animated texture behaves.
