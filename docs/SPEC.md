@@ -1245,3 +1245,4 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - Magma z-fighting: NO CHANGE (gone after relaunch, treated as a fluke).
   - Snowy fences: replace our tools/mklbgfences.py look by overlaying LambdaBetterGrass's own snowy fence overlay pixels onto every other fence (RU fences and pale oak), so all fences match Lambda's look.
   Still open: tool-belt swap while holding a sword (sword-only vs whenever a belt tool mines faster), with a switch back to the held weapon on entity attack so Better Combat never swings the belt tool.
+- PPM71 (2026-10-22 16:52 EDT) [LOCKED, Jayden; resolves PPM70's open item; no code change] Tool belt with a sword in the main hand: NO swap (Inventorio's current behavior stays), so Better Combat always swings the sword. PPM70 is now fully locked; 0.4.8 = PPM70 + PPM71, NOT BUILT.
