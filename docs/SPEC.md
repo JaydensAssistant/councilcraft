@@ -1271,3 +1271,31 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
 - Unverified: the wind mixin in practice; belt-only (a non-selected slot) in game (unit test only); feeding pose visuals with Punchy (only the mixin application was confirmed).
   - New EMF log line "model attempted creation more than 64 times {minecraft:player_head#main}". EMF ignores that model, so player heads render vanilla. It was not seen in the 0.4.7 log and is cosmetic.
 - Process note: once, `./gradlew compileJava` ran while the crashed 0.4.8 server JVM was still alive (a breach of "never run Gradle alongside the game"). It was killed before the full test/build.
+
+## 0.4.9 decisions (2026-10-22, LOCKED by Jayden, NOT BUILT)
+- PPM72 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9] Add Every Compat 1.20-2.9.27-fabric. It generates Farmer's Delight cabinets, Friends & Foes beehives, and Create windows/panes for Regions Unexplored woods and pale oak. Skip End woods (woodtype.blacklist ["betterend:.*"]) and the RU branches/shrubs module (module.blacklist ["regions_unexplored"]), since those never generate in-world; pale oak branches/shrubs are not kept either. Ship config/everycomp-hazardous.json, forced identical on client and server.
+- PPM73 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; used by PPM74 and PPM75] Closest-vanilla wood mapping, computed procedurally from CIELAB plank colour (no hand-picking):
+  - alpha_oak -> oak; cypress, maple, pine -> oak
+  - baobab -> cherry
+  - blackwood, brimwood, dead -> dark_oak
+  - eucalyptus, joshua, kapok, socotra, larch -> jungle
+  - magnolia -> mangrove
+  - redwood -> acacia
+  - palm, willow, pale_oak -> birch
+  - yellow and green bioshroom -> bamboo
+  - mauve and pink bioshroom -> crimson (carts) / mangrove (ships)
+  - blue bioshroom -> warped (carts) / birch (ships)
+  - cobalt -> crimson (carts) / dark_oak (ships)
+  - RU's 16 painted planks also map to their closest-colour vanilla wood and work for Nifty Carts.
+- PPM74 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; extends S160/PM14c (NiftyCarts x RU, already in the pack since 0.4.2)] Nifty Carts: KubeJS wood-look tags per the PPM73 mapping, then rewrite the supply cart, animal cart, wagon, plow, reaper and seed drill recipes so RU and painted woods produce the closest vanilla variant.
+- PPM75 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; refines S242 (RU planks accepted, no new variants)] Small Ships: client-side preselect, in the dockyard, of the PPM73-mapped vanilla wood type for the planks the player holds the most of. The player can still change it. The server still charges planks by tag (unchanged).
+- PPM76 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; fixes PPM61's 'Graphics Preset' button] Reese's Sodium Options 1.7.2 never draws standard widgets, so it hides our Graphics Preset button. Draw the button via ScreenEvents.afterRender at the bottom-left of that screen, so players can get back to the presets screen after first launch.
+- PPM77 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; amends PPM70's pack order] Add Drigo 3D Lanterns x Punchy 1.0.0 as a Modrinth download ref. The file is renamed to Drigo-3D-Lanterns-x-Punchy.zip, listed in incompatibleResourcePacks, and ordered directly after (above) Modded Swords x Punchy.
+- PPM78 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; amends PPM61] A Vanilla-look checkbox on the Graphics Preset screen turns off Fresh Animations and its compats, Punchy, Eating Animation, Drigo (PPM77), Connected Paths, better grass, connected glass, and Bibliophilia (PPM79). Vanilla Tweaks stays on (S176). Also add a short guide to per-mod settings.
+- PPM79 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; keeps PPM51/PPM64 printed-copy look] Add Bibliophilia 1.17 (a CIT Resewn pack covering all 45 enchants) as an unmodified Modrinth ref. Multi-enchant books show their single most notable enchantment by our own priority order (e.g. Mending/Sharpness over Unbreaking). Printed copies keep the generic grey printed cover (the printed rule's weight 10 wins), with no desaturated overlay.
+- PPM80 (2026-10-22 18:21 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9; related to PPM55 (wakes under shaders)] Fix red/stale Wakes 0.4.0+1.20.1 wakes after an Immersive Portals dimension change. Client mixins in councilcraft, gated on mod 'wakes' via CouncilCraftMixinPlugin.OPTIONAL_MIXINS; Wakes is modCompileOnly; remap=false on Wakes targets.
+  - (A) Inject at HEAD of WakeWorldTicker.onEndTick(ClientWorld) and cancel when client.player != null && world != client.player.getWorld(). This skips IP remote-world tick passes that recolour wakes with Nether light.
+  - (B) At START_CLIENT_TICK, if the WakeHandler instance's world != client.world, call its private reset() via @Invoker, then WakeHandler.init(client.world).
+  - (C) Cancel WakesUtils.placeWakeTrail / placeFallSplash when the entity's world != the player's world.
+  - Root cause: Wakes' singleton WakeHandler is never reset on an IP world switch; IP ClientWorldLoader.tickRemoteWorld fires END_WORLD_TICK for the remote dimension; Brick.populatePixels uses MinecraftClient.world for tint/light. Decompiled refs in /workspace/wakes-inv/.
+  - Test: go through an IP portal Nether -> Overworld near water and get in a boat immediately. Wakes must be water-coloured.
