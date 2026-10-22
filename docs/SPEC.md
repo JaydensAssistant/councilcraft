@@ -1299,3 +1299,8 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - (C) Cancel WakesUtils.placeWakeTrail / placeFallSplash when the entity's world != the player's world.
   - Root cause: Wakes' singleton WakeHandler is never reset on an IP world switch; IP ClientWorldLoader.tickRemoteWorld fires END_WORLD_TICK for the remote dimension; Brick.populatePixels uses MinecraftClient.world for tint/light. Decompiled refs in /workspace/wakes-inv/.
   - Test: go through an IP portal Nether -> Overworld near water and get in a boat immediately. Wakes must be water-coloured.
+- PPM81 (2026-10-22 18:22 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9] Low mob density fix. Cause: Tectonic's large cave volume fills the 70-monster cap with mobs in unseen caves far above/below players (vanilla SpawnHelper picks y from bottomY to the WORLD_SURFACE heightmap + 1, more than 24 blocks from the player). Fix = server-only councilcraft mixin, monsters category only:
+  - (1) Overworld only: monster spawn attempts pick Y within ±64 blocks of the nearest player. Horizontal range unchanged.
+  - (2) Faster despawning for monsters far above/below every player (outside the ±64 band).
+  - (3) Raise the monster cap about 1.25x (70 -> ~88), via SpawnGroup capacity or an equally clean hook.
+  - Spawners are unaffected. Accepted side effect: AFK mob farms yield more than vanilla-on-Tectonic (about vanilla-with-lit-caves level).
