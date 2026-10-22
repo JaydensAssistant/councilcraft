@@ -1304,3 +1304,8 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - (2) Faster despawning for monsters far above/below every player (outside the ±64 band).
   - (3) Raise the monster cap about 1.25x (70 -> ~88), via SpawnGroup capacity or an equally clean hook.
   - Spawners are unaffected. Accepted side effect: AFK mob farms yield more than vanilla-on-Tectonic (about vanilla-with-lit-caves level).
+- PPM82 (2026-10-22 18:25 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.9] Immersive Portals 5.2.0 render limits in pack/config/immersive_portals.json, to cap the cost of stacked portal rendering with shaders:
+  - portalRenderLimit 200 -> 2 (closest visible portals are drawn first).
+  - maxPortalLayer 5 -> 2 (portal-in-portal depth).
+  - Complementary shadowDistance stays 128 (explicitly decided). All other IP options unchanged.
+  - Note: the IP config is currently a forced packwiz file (not yosbr); no change to that is decided here.
