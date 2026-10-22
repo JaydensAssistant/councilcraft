@@ -45,6 +45,10 @@ file = "config/create_enchantment_industry-server.toml"
 hash = "40b3414e21bb1e0519600546c1144cbc7ff7e04f6da2c051de4f8519b47f90d1"
 
 [[files]]
+file = "config/everycomp-hazardous.json"
+hash = "3a0c9ded24fbca2fdee063d9f80cf38f5b9881af6b1def714c07c47b53368b50"
+
+[[files]]
 file = "config/exposure-server.toml"
 hash = "ea6c9a907d75a1b7cf3533aebd88bac7db9905e7deffc0c2a4ecdbccad5daa40"
 
@@ -75,10 +79,6 @@ hash = "4a76f6089898efbbe337abd1e913d6f708e148cb77e7935d84696d61dba086a1"
 [[files]]
 file = "config/illagerinvasion-server.toml"
 hash = "47751187492401dbe731fc07104c69f861273dd82577ec88051f3f2da2954d78"
-
-[[files]]
-file = "config/immersive_portals.json"
-hash = "a702629e8a4365e11955a22aa27111b36e3f8e0d360977724cc05d55f2a41e52"
 
 [[files]]
 file = "config/improvedmobs/client.json"
@@ -193,6 +193,10 @@ file = "config/yosbr/config/horseman-client.toml"
 hash = "01edad9b39cbfc214c483577ea6f28b55e1a121df4317ee1819c715e78b12064"
 
 [[files]]
+file = "config/yosbr/config/immersive_portals.json"
+hash = "202d04a96615154703e3812de8772c0183069ed8e8591ff39c8d8609926ed891"
+
+[[files]]
 file = "config/yosbr/config/inventorio.json"
 hash = "a8da7f28d0a318ce64a262cdb00f480159724e8c0b0ba0b982ba2375dd3b8ccb"
 
@@ -218,11 +222,11 @@ hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "7bd9f7fc920ca85cdd4ff6d62be6d33ab769696d95e8d8e6cf0e73bd147ce10a"
+hash = "88ed731945f859f1ba511b773c3c61aada65eefa3ccffd055e926792c064ecc7"
 
 [[files]]
 file = "credits.txt"
-hash = "1e86570085988ba5a7c93ec2bab1827f0a0a0a900a1c1ec1588189424ab4d78c"
+hash = "f6d0895c44119c517640e2ea6ed09f2f8b6682598de0d2e301b3b761bc5619bb"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -314,7 +318,7 @@ hash = "7375515bc0e5c2fb7eb06cde38fcf83faf3c017a8f6b8117395f852f59995bfa"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "c31656a75746db21eb6ac0751f8b073b1a3aaded34fd659a92ecc58efa41a204"
+hash = "e0f43b7b135cd1461e4ee16fad04a6ee24e9367151973ad3202e3ae86bd624d0"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"
@@ -555,6 +559,11 @@ metafile = true
 [[files]]
 file = "mods/entitytexturefeatures.pw.toml"
 hash = "9c3f955ecb685f039b9399f8d534e3afa7a23055b37e2bdfe81970e0c528cd7a"
+metafile = true
+
+[[files]]
+file = "mods/every-compat.pw.toml"
+hash = "cc6a518b703dbee708fbd8bd5f94b5c06105f3d1546ec892b13c4d8b75568324"
 metafile = true
 
 [[files]]
@@ -1676,6 +1685,11 @@ hash = "eb0b5f269171cd5b891d9bdf2c5da89698e21a71ffec1172ead75bc19411cbdc"
 metafile = true
 
 [[files]]
+file = "resourcepacks/bibliophilia.pw.toml"
+hash = "f9aaaa7b3bfaed0e80b28118f681e0dc1bb24d3d58ca6684a7dd5aae94d59865"
+metafile = true
+
+[[files]]
 file = "resourcepacks/councilcraft-atlas-ru.zip"
 hash = "bc03a2bc8f9fb0fd6df68d27de56c9be30e86453de4975415896eaede41645ff"
 
@@ -1684,12 +1698,21 @@ file = "resourcepacks/councilcraft-bettergrass-ru.zip"
 hash = "246017ad5b13875d055157d1330b12ff10a164b37a6200d41f6a0c11e0b011c1"
 
 [[files]]
+file = "resourcepacks/councilcraft-book-priority.zip"
+hash = "b8e8f84d18b73d8d135036b841dce25ce86733cb011cda163eb90642a177a414"
+
+[[files]]
 file = "resourcepacks/councilcraft-connected-glass.zip"
 hash = "4efc78aa32cce9db3fa30f8eeb267eb7f2809618c02e7a900734b3a9e29b3319"
 
 [[files]]
 file = "resourcepacks/councilcraft-printed-copies.zip"
 hash = "ddbeb14cb9031b81a8e20d5d149b3c4e4686a3d41c7b9125267a611bb7ac37f3"
+
+[[files]]
+file = "resourcepacks/drigo-3d-lanterns-x-punchy.pw.toml"
+hash = "b7f626c245683bde8caffaef5964318963607e4e4d7a82fe1c0787b1da4674d5"
+metafile = true
 
 [[files]]
 file = "resourcepacks/fresh-animations.pw.toml"

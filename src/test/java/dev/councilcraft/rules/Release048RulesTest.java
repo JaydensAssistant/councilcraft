@@ -54,7 +54,10 @@ class Release048RulesTest {
             "file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip", "minecraft:supporteatinganimation", "file/FreshAnimations_v1.11.1_1.20+.zip",
             "vanillabackport:freshly_animated", "file/5.0 FA Illager Mod Compats.zip", "file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip",
             "file/Connected-Paths.zip", "file/Connected-Bricks.zip", "file/Connected-Rocks.zip", "file/councilcraft-connected-glass.zip",
-            "file/councilcraft-bettergrass-ru.zip", "lambdabettergrass:default"), packs);
+            "file/councilcraft-bettergrass-ru.zip", "lambdabettergrass:default"), packs.stream()
+            // 0.4.9 (PPM77 / PPM78) inserts packs; the PPM70 packs keep their relative order.
+            .filter(p -> !p.startsWith("file/Bibliophilia") && !p.equals("file/councilcraft-book-priority.zip")
+                && !p.equals("file/Drigo-3D-Lanterns-x-Punchy.zip")).toList());
         java.util.Set<String> shipped = new java.util.HashSet<>();
         try (var files = Files.list(Path.of("pack/resourcepacks"))) {
             for (Path f : files.toList()) {

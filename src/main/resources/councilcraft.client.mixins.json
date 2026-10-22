@@ -10,6 +10,7 @@
     "ConnectedPathsPropertiesMixin",
     "ConnectedPathsStateMixin",
     "ControllerRadialDefaultsMixin",
+    "DockyardWoodPreselectMixin",
     "FeedFirstPersonMixin",
     "FeedPoseMixin",
     "GeoNameplateMixin",
@@ -30,7 +31,10 @@
     "RebornTooltipDrawMixin",
     "SharedKeyMixin",
     "StaminaXpBarMixin",
-    "UtilityScrollMixin"
+    "UtilityScrollMixin",
+    "WakeHandlerAccess",
+    "WakesOtherWorldMixin",
+    "WakesRemoteTickMixin"
   ],
   "injectors": {
     "defaultRequire": 0

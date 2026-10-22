@@ -53,7 +53,11 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.ConnectedPathsConfigMixin", "connectedpaths"},
         {"dev.councilcraft.mixin.client.ConnectedPathsPropertiesMixin", "connectedpaths"},
         {"dev.councilcraft.mixin.client.ConnectedPathsStateMixin", "connectedpaths"},
-        {"dev.councilcraft.mixin.client.ControllerRadialDefaultsMixin", "controlify"}
+        {"dev.councilcraft.mixin.client.ControllerRadialDefaultsMixin", "controlify"},
+        {"dev.councilcraft.mixin.client.DockyardWoodPreselectMixin", "smallships"},
+        {"dev.councilcraft.mixin.client.WakesRemoteTickMixin", "wakes"},
+        {"dev.councilcraft.mixin.client.WakeHandlerAccess", "wakes"},
+        {"dev.councilcraft.mixin.client.WakesOtherWorldMixin", "wakes"}
     };
 
     @Override

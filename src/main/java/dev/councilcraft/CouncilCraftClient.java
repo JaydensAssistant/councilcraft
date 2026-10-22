@@ -30,5 +30,9 @@ public final class CouncilCraftClient implements ClientModInitializer {
             // PM21. Separate class so DH and IP types load only when both mods are present.
             dev.councilcraft.compat.DhPortalDeferredFix.register();
         }
+        if (loader.isModLoaded("wakes")) {
+            // PPM80 (B). Separate class so Wakes types load only when Wakes is present.
+            dev.councilcraft.client.compat.WakesWorldSync.register();
+        }
     }
 }

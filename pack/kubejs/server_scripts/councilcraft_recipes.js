@@ -4,6 +4,36 @@
 const RU_WOODS = ['baobab','blackwood','cypress','dead','eucalyptus','joshua','kapok','larch','magnolia','maple','mauve','palm','pine','redwood','socotra','willow','brimwood','cobalt']
 const NC_WOODS = ['oak','spruce','birch','jungle','acacia','dark_oak','mangrove','cherry','bamboo','crimson','warped']
 
+// --- PPM73/PPM74 (0.4.9): closest vanilla wood look for each RU wood, pale oak and RU painted planks (Nifty Carts, 11 woods).
+// Mirror of dev.councilcraft.rules.WoodLookMap.CART (Release049RulesTest keeps them equal).
+const WOOD_LOOK = {
+  alpha: 'oak', cypress: 'oak', maple: 'oak', pine: 'oak', baobab: 'cherry',
+  blackwood: 'dark_oak', brimwood: 'dark_oak', dead: 'dark_oak',
+  eucalyptus: 'jungle', joshua: 'jungle', kapok: 'jungle', socotra: 'jungle', larch: 'jungle',
+  magnolia: 'mangrove', redwood: 'acacia', palm: 'birch', willow: 'birch', pale_oak: 'birch',
+  yellow_bioshroom: 'bamboo', green_bioshroom: 'bamboo', mauve: 'crimson', pink_bioshroom: 'crimson',
+  blue_bioshroom: 'warped', cobalt: 'crimson',
+  black_painted: 'dark_oak', blue_painted: 'crimson', brown_painted: 'dark_oak', cyan_painted: 'warped',
+  gray_painted: 'warped', green_painted: 'warped', light_blue_painted: 'warped', light_gray_painted: 'warped',
+  lime_painted: 'bamboo', magenta_painted: 'crimson', orange_painted: 'acacia', pink_painted: 'crimson',
+  purple_painted: 'crimson', red_painted: 'mangrove', white_painted: 'cherry', yellow_painted: 'oak'
+}
+const woodLookPlanks = w => (w === 'pale_oak' ? 'minecraft:' : 'regions_unexplored:') + w + '_planks'
+const woodLookStripped = w => w === 'pale_oak' ? 'minecraft:stripped_pale_oak_log'
+  : w.endsWith('_painted') || w === 'alpha' ? null
+  : 'regions_unexplored:stripped_' + w + (w.endsWith('_bioshroom') ? '_stem' : '_log')
+const vanillaStripped = v => 'minecraft:stripped_' + v + (v === 'bamboo' ? '_block' : v === 'crimson' || v === 'warped' ? '_stem' : '_log')
+// Nifty Carts recipe ingredient -> wood-look tag (vanilla planks / stripped log of that wood plus every RU wood mapped to it)
+const woodLookKey = ing => {
+  if (!ing || !ing.item) return ing
+  for (let i = 0; i < NC_WOODS.length; i++) {
+    const v = NC_WOODS[i]
+    if (ing.item === 'minecraft:' + v + '_planks') return { tag: 'councilcraft:wood_look/' + v + '_planks' }
+    if (ing.item === vanillaStripped(v)) return { tag: 'councilcraft:wood_look/' + v + '_stripped_logs' }
+  }
+  return ing
+}
+
 ServerEvents.recipes(event => {
   // ---- Illager Invasion / Paragliders / Mutant Monsters trims (S82, S149, S154/S156, S213) ----
   event.remove({ output: 'illagerinvasion:imbuing_table' })
@@ -88,14 +118,26 @@ ServerEvents.recipes(event => {
   event.custom({ type: 'create:pressing', ingredients: [{ item: 'illagerinvasion:platinum_chunk' }], results: [{ item: 'illagerinvasion:platinum_sheet' }] }).id('councilcraft:platinum_sheet_pressing')
 
   // ---- Nifty Carts heavy carts (plow/reaper/seed drill): mechanical crafter, sticks -> Create shafts (S114) ----
+  // PPM74: planks / stripped logs become the PPM73 wood-look tags, so RU and painted woods craft the closest vanilla variant
   NC_WOODS.forEach(w => {
     ;['plow', 'reaper', 'seed_drill'].forEach(kind => {
       const rid = 'niftycarts:' + w + '_' + kind
       event.forEachRecipe({ id: rid }, r => {
         const j = JSON.parse(r.json.toString())
         if (j.type !== 'minecraft:crafting_shaped') return
-        Object.keys(j.key).forEach(k => { if (j.key[k].item === 'minecraft:stick') j.key[k] = { item: 'create:shaft' } })
+        Object.keys(j.key).forEach(k => { j.key[k] = j.key[k].item === 'minecraft:stick' ? { item: 'create:shaft' } : woodLookKey(j.key[k]) })
         event.custom({ type: 'create:mechanical_crafting', pattern: j.pattern, key: j.key, result: j.result, acceptMirrored: true }).id('councilcraft:niftycarts_' + w + '_' + kind)
+      })
+      event.remove({ id: rid })
+    })
+    // PPM74: supply cart, animal cart and wagon stay on the crafting table with wood-look tags
+    ;['supply_cart', 'animal_cart', 'wagon'].forEach(kind => {
+      const rid = 'niftycarts:' + w + '_' + kind
+      event.forEachRecipe({ id: rid }, r => {
+        const j = JSON.parse(r.json.toString())
+        if (j.type !== 'minecraft:crafting_shaped') return
+        Object.keys(j.key).forEach(k => { j.key[k] = woodLookKey(j.key[k]) })
+        event.custom(j).id('councilcraft:niftycarts_' + w + '_' + kind)
       })
       event.remove({ id: rid })
     })
@@ -204,6 +246,16 @@ ServerEvents.recipes(event => {
 })
 
 ServerEvents.tags('item', event => {
+  // PPM73/PPM74: Nifty Carts wood-look tags (vanilla wood + every RU / painted / pale oak wood mapped to it)
+  NC_WOODS.forEach(v => {
+    event.add('councilcraft:wood_look/' + v + '_planks', 'minecraft:' + v + '_planks')
+    event.add('councilcraft:wood_look/' + v + '_stripped_logs', vanillaStripped(v))
+  })
+  Object.keys(WOOD_LOOK).forEach(w => {
+    const v = WOOD_LOOK[w], planks = woodLookPlanks(w), stripped = woodLookStripped(w)
+    if (Item.exists(planks)) event.add('councilcraft:wood_look/' + v + '_planks', planks)
+    if (stripped && Item.exists(stripped)) event.add('councilcraft:wood_look/' + v + '_stripped_logs', stripped)
+  })
   // S244 F8 / S245
   ;['c:eggs', 'forge:eggs'].forEach(t => { event.remove(t, 'naturalist:alligator_egg'); event.remove(t, 'naturalist:tortoise_egg') })
   event.add('c:ashes', 'supplementaries:ash')

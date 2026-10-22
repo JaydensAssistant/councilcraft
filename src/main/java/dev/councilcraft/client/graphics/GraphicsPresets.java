@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -39,6 +40,7 @@ public final class GraphicsPresets {
         "me.jellysquid.mods.sodium.client.gui.SodiumOptionsGUI",
         "me.flashyreese.mods.reeses_sodium_options.client.gui.SodiumVideoOptionsScreen"
     };
+    private static final String RSO_SCREEN = VIDEO_SCREENS[1];
     private static boolean checkedThisSession;
 
     private GraphicsPresets() {
@@ -51,12 +53,29 @@ public final class GraphicsPresets {
                 onFirstTitleScreen(client, screen);
             }
             if (isVideoSettings(screen)) {
-                Screens.getButtons(screen).add(ButtonWidget.builder(Text.translatable("councilcraft.graphics.button"),
+                ButtonWidget presetButton = ButtonWidget.builder(Text.translatable("councilcraft.graphics.button"),
                         button -> client.setScreen(new GraphicsPresetScreen(screen)))
                     .dimensions(6, height - 26, 120, 20)
-                    .build());
+                    .build();
+                if (RSO_SCREEN.equals(screen.getClass().getName())) {
+                    drawOutsideWidgets(screen, presetButton);
+                } else {
+                    Screens.getButtons(screen).add(presetButton);
+                }
             }
         });
+    }
+
+    /**
+     * PPM76. Reese's Sodium Options renders only its own frame, never the screen's widget list, so the button is drawn
+     * after the screen and gets its clicks before the screen does. Fabric renews these per-screen events on every
+     * init, so a resize or RSO's own rebuild never stacks a second button.
+     */
+    private static void drawOutsideWidgets(Screen screen, ButtonWidget button) {
+        ScreenEvents.afterRender(screen).register((s, context, mouseX, mouseY, delta) ->
+            button.render(context, mouseX, mouseY, delta));
+        ScreenMouseEvents.allowMouseClick(screen).register((s, mouseX, mouseY, mouseButton) ->
+            !button.mouseClicked(mouseX, mouseY, mouseButton));
     }
 
     private static void onFirstTitleScreen(MinecraftClient client, Screen title) {

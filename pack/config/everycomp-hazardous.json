@@ -1,0 +1,25 @@
+{
+  "#README": "This config file does not support comments. To see them configure it in-game using YACL or Cloth Config",
+  "woodtype": {
+    "blacklist": [
+      "betterend:.*"
+    ]
+  },
+  "leavestype": {
+    "blacklist": []
+  },
+  "block": {
+    "blacklist": []
+  },
+  "entryset": {
+    "blacklist": []
+  },
+  "module": {
+    "blacklist": [
+      "regions_unexplored"
+    ]
+  },
+  "other": {
+    "include_all_wood_modules": true
+  }
+}

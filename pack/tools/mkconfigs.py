@@ -105,7 +105,12 @@ js('forgottengraves.json', [('experience/percentage',50),('server/graveRobbing',
 # --- S168 Hardcore Revival
 toml('hardcorerevival-common.toml', [(None,'continueTimerWhileOffline',True)])
 # --- S107/S139 Immersive Portals
-js('immersive_portals.json', [('enableAlternateDimensions',False)])
+# PPM83 (0.4.9): the client copy is a yosbr first-install default (players' own IP settings survive updates);
+# PPM10 warning / update / crouch-lighting values and PPM82 render limits. The server reads only
+# config/immersive_portals.json, so the dedicated server ships a forced copy from server-only/config/ (same values).
+_ip = [('enableAlternateDimensions',False),('shaderpackWarning',False),('enableWarning',False),('enableUpdateNotification',False),
+    ('checkModInfoFromInternet',False),('lightVanillaNetherPortalWhenCrouching',False),('portalRenderLimit',2),('maxPortalLayer',2)]
+js('yosbr/config/immersive_portals.json', _ip, base='immersive_portals.json')
 # --- S60/S134/S172 Vanilla Backport (common)
 toml('vanillabackport-common.toml', [(None,'dried_ghasts',False),(None,'do_sulfur_cubes_explode',False),(None,'do_geysers_erupt',True)])
 # --- S205 Farmer's Delight

@@ -1,6 +1,6 @@
 {
   "check_the_wiki_for_more_information": "https://qouteall.fun/immptl/wiki/Config-Options",
-  "maxPortalLayer": 5,
+  "maxPortalLayer": 2,
   "lagAttackProof": true,
   "compatibilityRenderMode": false,
   "enableMirrorCreation": true,
@@ -19,7 +19,7 @@
   "visibilityPrediction": true,
   "useDepthClampForPortalRendering": true,
   "enableCrossPortalView": true,
-  "portalRenderLimit": 200,
+  "portalRenderLimit": 2,
   "doCheckGlError": false,
   "shaderpackWarning": false,
   "portalWandCursorAlignment": 2,
