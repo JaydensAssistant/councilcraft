@@ -1214,3 +1214,10 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - Mount hint: append "<key> to attach a cart" (live Nifty Carts key) to the vanilla dismount line on cart-pulling mounts.
   Still open: Inventorio sword/axe slot handling (cancel the attack swap vs remove the slots), and the cicadas (intermittent and quieter, plus whether RU biomes get remapped in Ambient Sounds).
 - PPM68 (2026-10-22 03:06 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.7; resolves the PPM67 Inventorio item] Inventorio tool belt: remove the sword slot (councilcraft mixin strips "sword" from Inventorio's tool-belt slot list after registration, identically on client and server). The belt becomes pickaxe, axe, shovel, hoe. The axe slot stays, keeping automatic axe selection for wood, but Inventorio's attack swap and forced-full attack indicator are cancelled, so attacks always use the real main-hand item (Better Combat compat). There's a one-time save migration for the belt's positional storage: old 0→0, 2→1, 3→2, 4→3. The old belt sword moves to the main inventory (or drops if it's full), and a version marker makes this run once.
+- PPM69 (2026-10-22 03:08 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.7; resolves the PPM67 cicadas item] Ambient Sounds region overrides as a client resource override in pack/kubejs/assets/ambientsounds/basic/regions/, using full copies of the jar files with only these edits:
+  - grass.json: cicadas-night gets volume 0.6, length 300–600 ticks, pause 400–1200 ticks, temperature min 0.55, and bad-regions taiga, forest.cold and cold.
+  - plains.json: night cicadas get the same length/pause and temperature min 0.55.
+  - highland.json: add pine_slopes and rocky_meadow.
+  - jungle.json: add bamboo_forest.
+  - taiga.json: add bad-biomes temperate_grove and alpha_grove.
+  Other ambience (birds, crows, wind) is unchanged.
