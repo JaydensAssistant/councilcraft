@@ -56,8 +56,8 @@ PASSIVES = json.load(open(os.path.join(os.path.dirname(__file__), 'passives.json
 
 # --- S248(a) deadlock fix
 props('modernfix-mixins.properties', [('mixin.perf.reduce_blockstate_cache_rebuilds', 'false')])
-# --- S148/S244 G1/G2 Paragliders
-toml('paraglider-server.toml', [(None,'ascendingWinds',False),(None,'paragliderDurability',384),
+# --- S148/S244 G1/G2 Paragliders (PPM67: durability 5760 = 15x 384, about 4.8 min of gliding)
+toml('paraglider-server.toml', [(None,'ascendingWinds',False),(None,'paragliderDurability',5760),
     ('spiritOrbs','spiritOrbLoots',False),('spiritOrbs','spawnerSpiritOrbDrops',0),('spiritOrbs','raidGivesVessel',False),
     ('spiritOrbs','enderDragonDropsVessel',False)])
 toml('paraglider-server.toml', [(None,'maxStamina',1200),(None,'startingStamina',1200),(None,'maxStaminaVessels',0),
@@ -150,8 +150,6 @@ fe = bl['forbiddenEntities'] + [n+':*' for n in ns if n+':*' not in bl['forbidde
 js('carryon-common.json', [('settings/pickupPlayers',False),('blacklist/forbiddenTiles',ft),('blacklist/forbiddenEntities',fe)])
 # --- S123 Numismatics defaultCoin (key lives in common, audit/config-review.md)
 toml('numismatics-common.toml', [(None,'defaultCoin','SPUR')])
-# --- S246 Ponderer lockdown (server)
-toml('ponderer-server.toml', [(None,'enableBlueprintItem',False),(None,'enableProjector',False)])
 
 # --- S170 updaters/telemetry off; DCIntegration Discord /stop and /kill removed
 toml('Discord-Integration.toml', [('general','enableUpdateChecker',False),('bstats','sendAddonStats',False)])
@@ -204,6 +202,7 @@ toml('yosbr/config/exposure-client.toml', [('render','photograph_renders_in_item
 rd2 = json.load(open(out('rpgdifficulty.json')))
 js('rpgdifficulty.json', [('excludedEntity', PASSIVES)])
 np2 = json.load(open(out('nameplate.json')))
-js('nameplate.json', [('excludedEntities', [e for e in np2['excludedEntities'] if e not in ('mutantmonsters:spider_pig', 'minecraft:ender_dragon', 'minecraft:wither')]  # PPM57: dragon + wither get plates + [p for p in PASSIVES if p not in np2['excludedEntities']])])
+# PPM57: dragon + wither get plates
+js('nameplate.json', [('excludedEntities', [e for e in np2['excludedEntities'] if e not in ('mutantmonsters:spider_pig', 'minecraft:ender_dragon', 'minecraft:wither')] + [p for p in PASSIVES if p not in np2['excludedEntities']])])
 
 print('\n'.join(log)); print(len(log), 'settings')

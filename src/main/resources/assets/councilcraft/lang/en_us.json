@@ -8,7 +8,8 @@
   "item.councilcraft.sun_mold": "Diamond Dollar Mold",
   "effect.councilcraft.reborn": "Reborn",
   "effect.councilcraft.reborn.line1": "Grows up after 6 hours of active play.",
-  "effect.councilcraft.reborn.now": "Now: %s%% size, %s%% speed, %s%% strength, %s%% HP",
+  "effect.councilcraft.reborn.now": "Now: %s%% size, %s%% speed, %s%% strength, %s%% HP, %s%% hunger",
+  "effect.councilcraft.reborn.hunger": "Gets hungry faster: %s%% at first, easing to normal over the 6 hours.",
   "command.councilcraft.reborn.cleared": "Cleared Reborn for %s",
   "command.councilcraft.reborn.absent": "%s is not Reborn",
   "command.councilcraft.reborn.status": "%s: %s active minutes credited. Last window: %s",
@@ -19,6 +20,8 @@
   "councilcraft.coins.diamonds": "%s Diamonds",
   "item.councilcraft.antique_atlas": "Antique Atlas",
   "effect.councilcraft.growth_spurt": "Growth Spurt",
+  "effect.councilcraft.growth_spurt.desc": "Fed by a friend: grows up %sx as fast. Can't be fed again until this ends.",
+  "councilcraft.feed.refused.spurt": "%s is in a Growth Spurt. Feed again in %s.",
   "councilcraft.feed.tooltip": "Feeds a baby for %s minutes",
   "councilcraft.feed.tooltip.one": "Feeds a baby for %s minute",
   "councilcraft.horseshoes.tooltip.header": "When on a horse:",
@@ -39,5 +42,8 @@
   "councilcraft.graphics.preset.medium": "Medium",
   "councilcraft.graphics.preset.medium.hint": "Older gaming PC or decent laptop, about GTX 1060 / 1650, 8-16 GB RAM",
   "councilcraft.graphics.preset.low": "Low",
-  "councilcraft.graphics.preset.low.hint": "Most laptops and office PCs, built-in graphics OK, 8 GB RAM"
+  "councilcraft.graphics.preset.low.hint": "Most laptops and office PCs, built-in graphics OK, 8 GB RAM",
+  "key.categories.councilcraft": "CouncilCraft",
+  "key.councilcraft.utility_scroll": "Scroll Utility Belt (hold)",
+  "councilcraft.mount.cart_hint": "%s to attach a cart"
 }

@@ -1,5 +1,6 @@
 package dev.councilcraft.mixin;
 
+import dev.councilcraft.compat.Zebras;
 import dev.councilcraft.rules.HorseFall;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.DonkeyEntity;
@@ -20,7 +21,8 @@ public abstract class HorseFallMixin {
     @Inject(method = "computeFallDamage", at = @At("HEAD"), cancellable = true)
     private void councilcraft$jumpAwareFall(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
         AbstractHorseEntity horse = (AbstractHorseEntity) (Object) this;
-        if (horse instanceof HorseEntity || horse instanceof DonkeyEntity || horse instanceof MuleEntity) {
+        if (horse instanceof HorseEntity || horse instanceof DonkeyEntity || horse instanceof MuleEntity
+            || Zebras.isZebra(horse)) {
             cir.setReturnValue(HorseFall.damage(fallDistance, damageMultiplier, horse.getJumpStrength()));
         }
     }

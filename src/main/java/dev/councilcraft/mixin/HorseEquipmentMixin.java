@@ -83,7 +83,7 @@ public abstract class HorseEquipmentMixin {
         jump.addTemporaryModifier(new EntityAttributeModifier(
             CouncilCraftRules.HORSE_JUMP_UUID,
             "CouncilCraft horse jump",
-            HorseJump.strength(base, shoeBlocks) - base,
+            HorseJump.strength(Zebras.isZebra(horse) ? HorseJump.zebraEquivalentStrength(base) : base, shoeBlocks) - base,
             EntityAttributeModifier.Operation.ADDITION
         ));
     }

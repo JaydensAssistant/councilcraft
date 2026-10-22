@@ -96,6 +96,10 @@ public final class RebornStatusEffect extends StatusEffect {
 
     private static void scale(ServerPlayerEntity player, float scale) {
         set(ScaleTypes.BASE.getScaleData(player), scale);
+        // PPM67: Pehkui divides fall distance by the size (FALLING is a motion-divisor type), so a
+        // 60% baby took the damage of a 1.67x longer fall. FALLING at the same scale cancels that
+        // and falls hurt like an adult's. clear() sets every type back to 1.
+        set(ScaleTypes.FALLING.getScaleData(player), scale);
         // PM24: size, speed, strength and HP stay nerfed; jump apex and step height stay vanilla.
         set(ScaleTypes.JUMP_HEIGHT.getScaleData(player), RebornJump.jumpScale(scale));
         set(ScaleTypes.STEP_HEIGHT.getScaleData(player), RebornJump.stepScale(scale));

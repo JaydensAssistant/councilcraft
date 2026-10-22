@@ -122,15 +122,7 @@ hash = "277bcdf9c44d69b66b4581710770f10d15b8cd9df60a33d92cc640889ed2c95f"
 
 [[files]]
 file = "config/paraglider-server.toml"
-hash = "e42abf94054acac172c31863fa1d382ff948bd369fcddc660764327e32ec6dfa"
-
-[[files]]
-file = "config/ponderer-server.toml"
-hash = "5ab27ff4c13baba4066359155952a33c56c561f3751af38a3eafb4325bae2248"
-
-[[files]]
-file = "config/ponderer/.initialized"
-hash = "19559f1ac8c25bffec023f60f8042a8eebd57f3bf6005b70c140df7127ebb07d"
+hash = "0c2c919c711013f22b3f49d13b4693490a133f3f2dc38d2523a2ec41e078ef14"
 
 [[files]]
 file = "config/rpgdifficulty.json"
@@ -201,10 +193,6 @@ file = "config/yosbr/config/iris.properties"
 hash = "173e8a65bfadf40a2e4ad414f9f4a0c3d1000dbe43f8f7255ecdcb7fb50df2b5"
 
 [[files]]
-file = "config/yosbr/config/ponderer-client.toml"
-hash = "47231c9e20adb072453a46524450c6094a94df2be0f334482bd1febc28efa1a5"
-
-[[files]]
 file = "config/yosbr/config/vanillabackport-client.toml"
 hash = "5dec9932a01d8289bdf435729820d4547eca82b2484577709c2ca5374262c46c"
 
@@ -218,11 +206,35 @@ hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "bf1375918eb1ec8ca4af5eedb3bb82436dac3eee177488fd5bbb8db1bfa96cf3"
+hash = "a9ceea1e947e603d5c4d35fc420e9f0a1804bc686b38e4d96306d30976f84c93"
 
 [[files]]
 file = "credits.txt"
-hash = "be972fe70d4b5d0d0b493f5a774636fb6385e0f4b921a520dd1db03ccbb64c54"
+hash = "90c4d80be17eb0acaade954bc85647cb2b5b1a3549dc4ce34224843c8e7010ad"
+
+[[files]]
+file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
+hash = "709c0d32ea147e53a45c169fde167d0559ac4717244d0aa8f69e17945e8cff67"
+
+[[files]]
+file = "kubejs/assets/ambientsounds/basic/regions/highland.json"
+hash = "443a42d35a69315c0c727c102a1589701ca6d3aac01b8096a677cd207b4a0dcd"
+
+[[files]]
+file = "kubejs/assets/ambientsounds/basic/regions/jungle.json"
+hash = "f187d48116f308e74f334f91ffb4a10129f98f586f754a2d47d74a66b3d1e35d"
+
+[[files]]
+file = "kubejs/assets/ambientsounds/basic/regions/plains.json"
+hash = "52bc1765be188ab50d1f26304a66ea832414dd8881f49c5bc2766240c3b1baef"
+
+[[files]]
+file = "kubejs/assets/ambientsounds/basic/regions/taiga.json"
+hash = "f3962c0fb332f33fab6ac2b75540dbd472d9814244aa4bb05f0453711a23a831"
+
+[[files]]
+file = "kubejs/assets/controlify/controllers/default_bind/default.json"
+hash = "7d97b806a5fb8539e485af6be0a3e9611fd0d9e2c465692f695c4992ae20e98d"
 
 [[files]]
 file = "kubejs/assets/councilcraft/lang/en_us.json"
@@ -230,7 +242,7 @@ hash = "0cf27440a0a3d098c10eba4e7e7dbc3c1467e8e36c4c3d7a4bb34dc01a1ef478"
 
 [[files]]
 file = "kubejs/assets/emi/index/stacks/councilcraft_hidden.json"
-hash = "0aac1c775aeaa047a66ac051477c808cfa417089057e5087280c6312e88683b1"
+hash = "2ac7840596a0cb7ceffadf5dd88509d89e5ca6ec27f70480dea12d7110d3a603"
 
 [[files]]
 file = "kubejs/assets/emi/recipe/additions/councilcraft_exposure_film.json"
@@ -401,6 +413,11 @@ metafile = true
 [[files]]
 file = "mods/cloth-config.pw.toml"
 hash = "41a3dc271859b118417946d2fdb2408523563b2f4f49048073672a342fb1aebf"
+metafile = true
+
+[[files]]
+file = "mods/connected-paths-mod.pw.toml"
+hash = "52b34c986d062802008afd5e60e74e57130a410c17a221cc99b7a544148102b5"
 metafile = true
 
 [[files]]
@@ -976,11 +993,6 @@ metafile = true
 [[files]]
 file = "mods/terrablender.pw.toml"
 hash = "ed83bb78d1d849e5e94d2bc0fdce9122107a4c2cc9ae3a724ffbd83cbe3ca42f"
-metafile = true
-
-[[files]]
-file = "mods/the-ponderer.pw.toml"
-hash = "99882eb52c8e2b46b71e2d06e2c3b5f5f335b0582c80f9c206eefc110ac591c8"
 metafile = true
 
 [[files]]
@@ -1642,11 +1654,7 @@ hash = "bc03a2bc8f9fb0fd6df68d27de56c9be30e86453de4975415896eaede41645ff"
 
 [[files]]
 file = "resourcepacks/councilcraft-bettergrass-ru.zip"
-hash = "957090490ab3c41a3b075c59669e35e2d089ec520291f334485c85e2bb33d0dc"
-
-[[files]]
-file = "resourcepacks/councilcraft-blending.zip"
-hash = "36bb57712771986faaf8313483d99f68179b695a812c405166326816821a6d79"
+hash = "c84c93b790369a82cd96271415ba566267ba4ecd66899f61b9a40279df595e35"
 
 [[files]]
 file = "resourcepacks/councilcraft-connected-glass.zip"

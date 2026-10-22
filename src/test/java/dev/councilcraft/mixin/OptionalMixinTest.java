@@ -34,6 +34,22 @@ class OptionalMixinTest {
     }
 
     @Test
+    void release047HooksNeedTheirMods() {
+        for (String m : new String[] {"InventorioSwordSlotMixin", "InventorioAttackSwapMixin", "InventorioToolBeltSaveMixin", "client.UtilityScrollMixin"}) {
+            assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin." + m, Set.of("inventorio")::contains), m);
+            assertFalse(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin." + m, Set.<String>of()::contains), m);
+        }
+        for (String m : new String[] {"ConnectedPathsConfigMixin", "ConnectedPathsPropertiesMixin", "ConnectedPathsStateMixin"}) {
+            assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.client." + m, Set.of("connectedpaths")::contains), m);
+            assertFalse(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.client." + m, Set.<String>of()::contains), m);
+        }
+        assertFalse(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.client.ControllerRadialDefaultsMixin", Set.<String>of()::contains));
+        // Vanilla-only hooks are never gated.
+        assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.client.SharedKeyMixin", Set.<String>of()::contains));
+        assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.client.MountCartHintMixin", Set.<String>of()::contains));
+    }
+
+    @Test
     void otherMixinsAreNotGated() {
         assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.SackNestingMixin", Set.<String>of()::contains));
     }

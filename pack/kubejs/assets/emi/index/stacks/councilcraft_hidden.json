@@ -65,7 +65,6 @@
     "/^supplementaries:(bomb|bomb_blue|bomb_spiky)(_projectile)?$/",
     "/^supplementaries:(safe|key|lock_block|wrench|cog_block|pulley_block|spring_launcher|bubble_blower|bubble_block|altimeter|cannon|cannonball|bamboo_spikes_tipped|end_stone_lamp)$/",
     "/^paraglider:(heart_container|stamina_vessel|spirit_orb|essence|anti_vessel)$/",
-    "/^ponderer:(blueprint|miniature_projector|life_size_projector)$/",
     "/^illagerinvasion:primal_essence$/",
     "/^create_enchantment_industry:blazes_enchanting_handbook$/",
     "/^minecraft:end_stone(_bricks|_brick_slab|_brick_stairs|_brick_wall)?$/",

@@ -80,9 +80,12 @@ for ns, wood, jar, tex in FENCES:
              'textures': {'texture': f'councilcraft:block/fence/{base}_{p}'}}, indent=2).encode()
     files[f'assets/{ns}/bettergrass/data/{wood}_fence.json'] = json.dumps(
         multipart(f'councilcraft:block/fence/{base}'), indent=2).encode()
+    # PPM67: LambdaBetterGrass only reads data for blocks that have a states file (same shape as its own oak_fence.json)
+    files[f'assets/{ns}/bettergrass/states/{wood}_fence.json'] = json.dumps(
+        {'type': 'layer', 'variants': {'waterlogged=false': {'data': f'{ns}:bettergrass/data/{wood}_fence'}}}, indent=2).encode()
 files['README.txt'] = (b'CouncilCraft LambdaBetterGrass data for Regions Unexplored.\n'
                        b'Grass/path data loads textures from Regions Unexplored, Minecraft and LambdaBetterGrass.\n'
-                       b'Snowy fences (22 RU fences + pale_oak_fence, tools/mklbgfences.py): each wood\'s planks texture with\n'
+                       b'Snowy fences (22 RU fences + pale_oak_fence, states + data, tools/mklbgfences.py): each wood\'s planks texture with\n'
                        b'vanilla snow pixels on a fixed cap-and-drip mask. Models reference LambdaBetterGrass (LambdAurora)\n'
                        b'snowy fence templates by name; no LambdaBetterGrass files are included.\n')
 with zipfile.ZipFile(PACK, 'w', zipfile.ZIP_DEFLATED) as z:

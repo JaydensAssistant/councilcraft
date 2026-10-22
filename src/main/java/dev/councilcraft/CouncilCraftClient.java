@@ -22,6 +22,10 @@ public final class CouncilCraftClient implements ClientModInitializer {
         // PPM61. Graphics preset picker (first title screen) and the Video Settings button.
         dev.councilcraft.client.graphics.GraphicsPresets.register();
         FabricLoader loader = FabricLoader.getInstance();
+        if (loader.isModLoaded("inventorio")) {
+            // PPM67. Hold Left Alt (rebindable) and scroll to cycle the utility belt.
+            dev.councilcraft.client.input.UtilityBeltScroll.register();
+        }
         if (loader.isModLoaded("distanthorizons") && loader.isModLoaded("imm_ptl_core")) {
             // PM21. Separate class so DH and IP types load only when both mods are present.
             dev.councilcraft.compat.DhPortalDeferredFix.register();

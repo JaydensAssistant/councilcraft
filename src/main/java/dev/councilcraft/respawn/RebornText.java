@@ -5,16 +5,21 @@ import java.util.List;
 import net.minecraft.text.Text;
 
 /**
- * The Reborn hover is two lines. The first is a fixed sentence. The second is
- * the live size, speed, strength and HP. There is no floor-stats line.
+ * The Reborn hover is three lines. The first is a fixed sentence. The second is
+ * the live size, speed, strength, HP and hunger. The third (PPM67) states the extra
+ * hunger: 1.5x at the start, easing to 1.0 over the 6 hours of active play.
  *
- * <p>Order is size, speed, strength, HP. Strength is the melee multiplier.
- * HP is the stepped hit points over a vanilla 20, so 12 points is 60% HP.
+ * <p>Order is size, speed, strength, HP, hunger. Strength is the melee multiplier.
+ * HP is the stepped hit points over a vanilla 20, so 12 points is 60% HP. Hunger is
+ * the exhaustion multiplier, so 150% means food drains half again as fast.
  */
 public final class RebornText {
     public static final String LINE1 = "effect.councilcraft.reborn.line1";
     public static final String NOW = "effect.councilcraft.reborn.now";
     public static final String NAME = "effect.councilcraft.reborn";
+    public static final String HUNGER = "effect.councilcraft.reborn.hunger";
+    public static final String SPURT_NAME = "effect.councilcraft.growth_spurt";
+    public static final String SPURT_DESC = "effect.councilcraft.growth_spurt.desc";
 
     private RebornText() {
     }
@@ -48,17 +53,55 @@ public final class RebornText {
         };
     }
 
+    /** PPM67. The live hunger multiplier as a percent (150 at the start, 100 when grown). */
+    public static int hungerPercent(RebornStats stats) {
+        return percent(stats.hunger);
+    }
+
+    /** PPM67. Hunger at the start of the penalty, for the hunger line. */
+    public static int startingHungerPercent() {
+        return percent(CouncilCraftRules.REBORN_HUNGER);
+    }
+
     public static Text line1() {
         return Text.translatable(LINE1);
     }
 
     public static Text now(RebornStats stats) {
         int[] percents = nowPercents(stats);
-        return Text.translatable(NOW, percents[0], percents[1], percents[2], percents[3]);
+        return Text.translatable(NOW, percents[0], percents[1], percents[2], percents[3], hungerPercent(stats));
+    }
+
+    public static Text hunger() {
+        return Text.translatable(HUNGER, startingHungerPercent());
     }
 
     public static List<Text> hover(RebornStats stats) {
-        return List.of(line1(), now(stats));
+        return List.of(line1(), now(stats), hunger());
+    }
+
+    /** True when this tooltip line is the Growth Spurt effect's own name. */
+    public static boolean isGrowthSpurtName(Text line) {
+        return line != null && line.getString().equals(Text.translatable(SPURT_NAME).getString());
+    }
+
+    /** PPM67. The Growth Spurt description line, appended under its name and time. */
+    public static Text growthSpurtDescription() {
+        return Text.translatable(SPURT_DESC, dev.councilcraft.rules.FeedingRules.RECOVERY_MULTIPLIER);
+    }
+
+    /**
+     * PPM67. The Growth Spurt tooltip with its description appended once. Vanilla's list passes through
+     * two hooks, so a list that already ends in the description is returned as it is.
+     */
+    public static List<Text> withGrowthSpurtDescription(List<Text> existing) {
+        String desc = growthSpurtDescription().getString();
+        if (existing.get(existing.size() - 1).getString().equals(desc)) {
+            return existing;
+        }
+        List<Text> lines = new java.util.ArrayList<>(existing);
+        lines.add(growthSpurtDescription());
+        return lines;
     }
 
     /** True when this tooltip line is the Reborn effect's own name. */

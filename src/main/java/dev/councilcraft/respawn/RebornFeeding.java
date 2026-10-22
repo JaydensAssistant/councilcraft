@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffectUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FoodComponent;
 import net.minecraft.item.Item;
@@ -30,6 +31,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -51,6 +53,8 @@ public final class RebornFeeding {
     public static final Identifier REBORN_PLAYERS = new Identifier(CouncilCraftRules.MOD_ID, "reborn_players");
     /** Entity id of a feeder and whether it is feeding now, for the use pose and effects. */
     public static final Identifier FEEDING = new Identifier(CouncilCraftRules.MOD_ID, "feeding");
+    /** PPM67. Action-bar line when the baby is still in a Growth Spurt. */
+    public static final String REFUSED_SPURT = "councilcraft.feed.refused.spurt";
 
     private record Feed(ServerPlayerEntity target, Hand hand, Item item, Vec3d feederStart, Vec3d targetStart) {
     }
@@ -120,8 +124,18 @@ public final class RebornFeeding {
         }
         ItemStack stack = feeder.getStackInHand(hand);
         if (feeder == target || feeder.isSpectator() || target.isSpectator() || !Reborn.running(target)
-            || minutes(stack) <= 0 || !canTake(target, stack)
+            || minutes(stack) <= 0
             || feeder.squaredDistanceTo(target) > FeedingRules.MAX_DISTANCE * FeedingRules.MAX_DISTANCE) {
+            return ActionResult.PASS;
+        }
+        StatusEffectInstance spurt = target.getStatusEffect(GrowthSpurtEffect.EFFECT);
+        if (spurt != null && !FeedingRules.canFeedAgain(spurt.getDuration())) {
+            // PPM67. Say why on the action bar, and consume the click so the feeder does not eat it.
+            feeder.sendMessage(Text.translatable(REFUSED_SPURT, target.getDisplayName(),
+                StatusEffectUtil.getDurationText(spurt, 1.0f)), true);
+            return ActionResult.CONSUME;
+        }
+        if (!canTake(target, stack)) {
             return ActionResult.PASS;
         }
         FEEDS.put(feeder, new Feed(target, hand, stack.getItem(), feeder.getPos(), target.getPos()));

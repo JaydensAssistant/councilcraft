@@ -97,6 +97,12 @@ public final class CouncilCraft implements ModInitializer {
                 "net.mehvahdjukaar.supplementaries.common.utils.fabric.ItemsUtilImpl",
                 "sack weight in Inventorio slots"
             );
+            requireClass(
+                "de.rubixdev.inventorio.player.PlayerAddonSerializer",
+                "4-slot tool belt and its save migration (PPM68)"
+            );
+            // PPM68. Old belt swords that did not fit the main inventory drop once the player has joined.
+            dev.councilcraft.compat.InventorioToolBelt.register();
         }
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }

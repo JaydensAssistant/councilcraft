@@ -1,0 +1,16 @@
+{
+  "defaults": {
+    "fabric-key-binding-api-v1:inventorio.keys.prev_utility": {
+      "button": "controlify:button/dpad_left"
+    },
+    "fabric-key-binding-api-v1:inventorio.keys.next_utility": {
+      "button": "controlify:button/dpad_right"
+    },
+    "controlify:pick_block": {
+      "type": "empty"
+    },
+    "controlify:radial_menu": {
+      "button": "controlify:button/east"
+    }
+  }
+}

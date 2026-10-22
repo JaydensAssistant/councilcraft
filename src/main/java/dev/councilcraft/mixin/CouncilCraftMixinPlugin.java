@@ -45,7 +45,15 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.StaminaXpBarMixin", "paraglider"},
         {"dev.councilcraft.mixin.client.AntiqueAtlasItemMixin", "antique_atlas"},
         {"dev.councilcraft.mixin.client.IrisDhPortalDepthMixin", "iris", "distanthorizons", "imm_ptl_core"},
-        {"dev.councilcraft.mixin.client.IrisPortalHandMixin", "iris", "imm_ptl_core"}
+        {"dev.councilcraft.mixin.client.IrisPortalHandMixin", "iris", "imm_ptl_core"},
+        {"dev.councilcraft.mixin.InventorioSwordSlotMixin", "inventorio"},
+        {"dev.councilcraft.mixin.InventorioAttackSwapMixin", "inventorio"},
+        {"dev.councilcraft.mixin.InventorioToolBeltSaveMixin", "inventorio"},
+        {"dev.councilcraft.mixin.client.UtilityScrollMixin", "inventorio"},
+        {"dev.councilcraft.mixin.client.ConnectedPathsConfigMixin", "connectedpaths"},
+        {"dev.councilcraft.mixin.client.ConnectedPathsPropertiesMixin", "connectedpaths"},
+        {"dev.councilcraft.mixin.client.ConnectedPathsStateMixin", "connectedpaths"},
+        {"dev.councilcraft.mixin.client.ControllerRadialDefaultsMixin", "controlify"}
     };
 
     @Override

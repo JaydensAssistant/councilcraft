@@ -76,6 +76,23 @@ public final class HorseJump {
         return OFFSET + SCALE * apex(vanillaStrength);
     }
 
+    /** Naturalist zebras roll their bred jump strength in 0.4 to 0.5 ({@code Zebra.generateRandomJumpStrength}). */
+    public static final double ZEBRA_MIN_STRENGTH = 0.4;
+    public static final double ZEBRA_MAX_STRENGTH = 0.5;
+    /** Vanilla horses roll 0.4 to 1.0. */
+    public static final double HORSE_MIN_STRENGTH = 0.4;
+
+    /**
+     * PPM67. A zebra's bred jump strength mapped linearly onto the horse band, so the worst zebra
+     * jumps like the worst horse (0.4), the average zebra (0.45) like the average horse (0.7) and
+     * the best (0.5) like the best horse (1.0). Out-of-range values (commands, other mods) clamp.
+     */
+    public static double zebraEquivalentStrength(double zebraStrength) {
+        double clamped = Math.max(ZEBRA_MIN_STRENGTH, Math.min(ZEBRA_MAX_STRENGTH, zebraStrength));
+        double t = (clamped - ZEBRA_MIN_STRENGTH) / (ZEBRA_MAX_STRENGTH - ZEBRA_MIN_STRENGTH);
+        return HORSE_MIN_STRENGTH + t * (VANILLA_BEST_STRENGTH - HORSE_MIN_STRENGTH);
+    }
+
     /** Jump strength for a horse with this vanilla strength wearing shoes that add {@code shoeBlocks}. */
     public static double strength(double vanillaStrength, float shoeBlocks) {
         return strengthFor(buffedApex(vanillaStrength) + Math.max(0.0f, shoeBlocks));

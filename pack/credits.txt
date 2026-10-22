@@ -4,7 +4,7 @@ Complementary Shaders - Unbound by EminGT (Complementary Development), enabled b
 Motschen's Better Leaves by Motschen (MIT): https://modrinth.com/resourcepack/better-leaves
 Antique Atlas 4 Compat by xR4YM0ND (CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/): https://modrinth.com/resourcepack/antique-atlas-4-compat
 CouncilCraft Antique Atlas biome mapping (resourcepacks/councilcraft-atlas-ru.zip), built on Antique Atlas 4 Compat, licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/
-CouncilCraft blending pack (resourcepacks/councilcraft-blending.zip, CC BY-NC-SA 4.0, https://creativecommons.org/licenses/by-nc-sa/4.0/): overlay art from Connected Paths by Jacosvaldo (CC BY-NC-SA 4.0), re-sliced with our own pairings and procedural recolors for newly covered blocks: https://modrinth.com/mod/connected-paths-mod
+Connected Paths Mod by Jacosvaldo (generates the Connected Rocks, Bricks and Paths packs on first launch): https://modrinth.com/mod/connected-paths-mod
 Multi World Borders by Potatoboy9999 (MIT), per-dimension world borders: https://modrinth.com/mod/worldborderfix
 BetterEnd and BCLib by Quiqueck and paulevs (MIT; some BetterEnd assets CC BY-NC-SA 4.0), shipped inert until the End opens: https://modrinth.com/mod/betterend
 Nullscape by Stardust Labs (Stardust Labs License), shipped inert until the End opens: https://modrinth.com/mod/nullscape

@@ -59,6 +59,9 @@ dependencies {
     // reads its Deep Pockets, utility belt and tool belt stacks, and is applied only when
     // Inventorio is loaded. Not packed into our jar.
     modCompileOnly("maven.modrinth:inventorio:11nerhMX") { transitive = false }
+    // Connected Paths Mod 1.0.2 Fabric (connected-paths-mod / g2nakYrI), client only: PPM67 config-load,
+    // properties and regeneration hooks. Compile-time only; the pack ships the mod.
+    modCompileOnly("maven.modrinth:connected-paths-mod:g2nakYrI") { transitive = false }
     // Create Fabric 6.0.8.1+build.1744-mc1.20.1 (Xbc0uyRg / HAqwA6X1). Compile only.
     // Loom remaps inherited Minecraft calls (BasinBlockEntity.getWorld -> method_10997)
     // only when the real class and its superinterfaces are on the remap classpath.

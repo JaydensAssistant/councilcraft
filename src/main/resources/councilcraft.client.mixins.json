@@ -6,12 +6,18 @@
   "plugin": "dev.councilcraft.mixin.CouncilCraftMixinPlugin",
   "client": [
     "AntiqueAtlasItemMixin",
+    "ConnectedPathsConfigMixin",
+    "ConnectedPathsPropertiesMixin",
+    "ConnectedPathsStateMixin",
+    "ControllerRadialDefaultsMixin",
     "FeedFirstPersonMixin",
     "FeedPoseMixin",
     "GeoNameplateMixin",
     "HandledScreenAccess",
     "IrisDhPortalDepthMixin",
     "IrisPortalHandMixin",
+    "KeyBindingAccess",
+    "MountCartHintMixin",
     "MutantNameplateMixin",
     "NumismaticsCoinValueTextMixin",
     "NumismaticsLimitTextMixin",
@@ -21,7 +27,9 @@
     "ParagliderWheelMixin",
     "RebornEffectTooltipMixin",
     "RebornTooltipDrawMixin",
-    "StaminaXpBarMixin"
+    "SharedKeyMixin",
+    "StaminaXpBarMixin",
+    "UtilityScrollMixin"
   ],
   "injectors": {
     "defaultRequire": 0

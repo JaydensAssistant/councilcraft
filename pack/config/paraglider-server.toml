@@ -13,7 +13,7 @@ windSources = ["fire", "soul_fire", "campfire#lit=true", "soul_campfire#lit=true
 paraglidingSpeed = 1.0
 #Durability of Paragliders. Set to zero to disable durability.
 #Range: > 0
-paragliderDurability = 384
+paragliderDurability = 5760
 #Configurable option for Towers of the Wild compat feature. Can be ignored if Towers of the Wild is not installed.
 #DEFAULT: Default option, spawn Deku Leaf in ocean tower chests and Paraglider in normal tower chests
 #DISABLE: Don't spawn anything
