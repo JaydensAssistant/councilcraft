@@ -1,5 +1,5 @@
 version:3465
-resourcePacks:["fabric","continuity:default","file/councilcraft-printed-copies.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","file/Connected-Paths.zip","file/Connected-Bricks.zip","file/Connected-Rocks.zip","file/councilcraft-connected-glass.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
+resourcePacks:["fabric","continuity:default","file/councilcraft-printed-copies.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","punchy:punchy","file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip","minecraft:supporteatinganimation","file/FreshAnimations_v1.11.1_1.20+.zip","vanillabackport:freshly_animated","file/5.0 FA Illager Mod Compats.zip","file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip","file/Connected-Paths.zip","file/Connected-Bricks.zip","file/Connected-Rocks.zip","file/councilcraft-connected-glass.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
 incompatibleResourcePacks:["file/Antique_Atlas_4_Compat_v1.4.zip"]
 renderDistance:8
 simulationDistance:8

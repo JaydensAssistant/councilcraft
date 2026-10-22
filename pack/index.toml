@@ -177,12 +177,24 @@ file = "config/yosbr/config/enhanced_bes.properties"
 hash = "fe464e53b09693cbae398ec9585f056c00fcbe36a65c2b8ddb7b6f5edb5067d0"
 
 [[files]]
+file = "config/yosbr/config/entity_model_features.json"
+hash = "84d065a6ed554d6d4c1082251f85a8c0ffa589bcb0c297f55829eb424f13e1f9"
+
+[[files]]
+file = "config/yosbr/config/entity_texture_features.json"
+hash = "751cec8b6f1456d0bf10127a40c264063ba4f1dffd6edcc2c552aebf87a7e188"
+
+[[files]]
 file = "config/yosbr/config/exposure-client.toml"
 hash = "51607364819e931433f43e94f86ccb68d8077ef231e985a7e21a7027a6585d25"
 
 [[files]]
 file = "config/yosbr/config/horseman-client.toml"
 hash = "01edad9b39cbfc214c483577ea6f28b55e1a121df4317ee1819c715e78b12064"
+
+[[files]]
+file = "config/yosbr/config/inventorio.json"
+hash = "a8da7f28d0a318ce64a262cdb00f480159724e8c0b0ba0b982ba2375dd3b8ccb"
 
 [[files]]
 file = "config/yosbr/config/inventory_particles.json5"
@@ -206,11 +218,11 @@ hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "a9ceea1e947e603d5c4d35fc420e9f0a1804bc686b38e4d96306d30976f84c93"
+hash = "7bd9f7fc920ca85cdd4ff6d62be6d33ab769696d95e8d8e6cf0e73bd147ce10a"
 
 [[files]]
 file = "credits.txt"
-hash = "90c4d80be17eb0acaade954bc85647cb2b5b1a3549dc4ce34224843c8e7010ad"
+hash = "1e86570085988ba5a7c93ec2bab1827f0a0a0a900a1c1ec1588189424ab4d78c"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -491,6 +503,11 @@ hash = "084a056c8eca61bdfcb53d7a9ae05693e27ea856256d783cd7757612df125ee5"
 metafile = true
 
 [[files]]
+file = "mods/dont-punch-my-tacz.pw.toml"
+hash = "87b7ea3264faf89893b6efaf3fee4d524a1d4a05ad7d165ee7937a1bb4e042e7"
+metafile = true
+
+[[files]]
 file = "mods/dragonlib.pw.toml"
 hash = "1eb13c37d9d3a0d46d5fac90dc354aa2fe2d6f537d54df6a1f196e3cff73f31c"
 metafile = true
@@ -508,6 +525,11 @@ metafile = true
 [[files]]
 file = "mods/easy-anvils.pw.toml"
 hash = "e9ba6ffa1109ca957fef061ef4b41a46300b3cfb382ef4ae24f96c54309fd31f"
+metafile = true
+
+[[files]]
+file = "mods/eating-animation.pw.toml"
+hash = "5af1714d668d18cf7c500218ad61a9e904fbfce74884c5ae5364434a6c9dc43f"
 metafile = true
 
 [[files]]
@@ -883,6 +905,11 @@ metafile = true
 [[files]]
 file = "mods/presence-footsteps.pw.toml"
 hash = "a9769ced0531122518321833966d375196753db1c3a47b975aed4bb6837fae7a"
+metafile = true
+
+[[files]]
+file = "mods/punchy-fpa.pw.toml"
+hash = "13b267f9abbea730846eee38175de9a5569e12989f1b04d824781112e550e8ba"
 metafile = true
 
 [[files]]
@@ -1654,7 +1681,7 @@ hash = "bc03a2bc8f9fb0fd6df68d27de56c9be30e86453de4975415896eaede41645ff"
 
 [[files]]
 file = "resourcepacks/councilcraft-bettergrass-ru.zip"
-hash = "c84c93b790369a82cd96271415ba566267ba4ecd66899f61b9a40279df595e35"
+hash = "246017ad5b13875d055157d1330b12ff10a164b37a6200d41f6a0c11e0b011c1"
 
 [[files]]
 file = "resourcepacks/councilcraft-connected-glass.zip"
@@ -1663,6 +1690,26 @@ hash = "4efc78aa32cce9db3fa30f8eeb267eb7f2809618c02e7a900734b3a9e29b3319"
 [[files]]
 file = "resourcepacks/councilcraft-printed-copies.zip"
 hash = "ddbeb14cb9031b81a8e20d5d149b3c4e4686a3d41c7b9125267a611bb7ac37f3"
+
+[[files]]
+file = "resourcepacks/fresh-animations.pw.toml"
+hash = "174dfc4e2332878c681272c43ed881f963ec34f9560a8f7e858eb1927c99fa51"
+metafile = true
+
+[[files]]
+file = "resourcepacks/fresh-illager-mod-compats.pw.toml"
+hash = "f1ca1474a66d90d26d2d3a7fce082b9edde42cb4816da2d1bc2addd8071c27b2"
+metafile = true
+
+[[files]]
+file = "resourcepacks/punchy-compatibility.pw.toml"
+hash = "8615f79702012abd1b1d60aaaf5c2932f2372d54f5b1c3260628f8d70dc03893"
+metafile = true
+
+[[files]]
+file = "resourcepacks/tras-fresh-player.pw.toml"
+hash = "32fe0fe8941110f8fba07ce7768faa1797de6b28e961ab65b483c380fc0a365a"
+metafile = true
 
 [[files]]
 file = "resourcepacks/vanillatweaks-councilcraft.zip"

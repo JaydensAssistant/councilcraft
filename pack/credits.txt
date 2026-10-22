@@ -9,4 +9,12 @@ Multi World Borders by Potatoboy9999 (MIT), per-dimension world borders: https:/
 BetterEnd and BCLib by Quiqueck and paulevs (MIT; some BetterEnd assets CC BY-NC-SA 4.0), shipped inert until the End opens: https://modrinth.com/mod/betterend
 Nullscape by Stardust Labs (Stardust Labs License), shipped inert until the End opens: https://modrinth.com/mod/nullscape
 CouncilCraft connected prismaglass (resourcepacks/councilcraft-connected-glass.zip): vanilla glass with joined edges opened in the tile layout of Continuity's default connected glass by PepperCode1 (LGPL-3.0): https://modrinth.com/mod/continuity
-CouncilCraft snowy fences (resourcepacks/councilcraft-bettergrass-ru.zip): planks textures with vanilla snow, using the snowy fence templates of LambdaBetterGrass by LambdAurora: https://modrinth.com/mod/lambdabettergrass
+CouncilCraft snowy fences (resourcepacks/councilcraft-bettergrass-ru.zip): Regions Unexplored and pale oak planks under the snow overlay of LambdaBetterGrass's snowy fence textures by LambdAurora, taken from the MIT-licensed legacy/mit branch (Copyright (c) 2021-2023 LambdAurora; notice in the zip): https://github.com/LambdAurora/LambdaBetterGrass/tree/legacy/mit
+Client animations, downloaded from Modrinth on install (not redistributed by CouncilCraft):
+Punchy! by Punchy Guys Studios (All Rights Reserved): https://modrinth.com/mod/punchy-fpa
+Don't Punch My TaCZ by lloy9d (GPL-3.0): https://modrinth.com/mod/dont-punch-my-tacz
+Modded Swords x Punchy! Compatibility by arwonll (All Rights Reserved): https://modrinth.com/resourcepack/punchy-compatibility
+Eating Animation by PinkGoosik and theoness1 (MIT): https://modrinth.com/mod/eating-animation
+Fresh Animations by FreshLX (see its Terms of Use): https://modrinth.com/resourcepack/fresh-animations
+Fresh Illager Mod Compats by Epyllager (All Rights Reserved): https://modrinth.com/resourcepack/fresh-illager-mod-compats
+Fresh Moves by IthanMendoza (CC BY-NC-SA 4.0): https://modrinth.com/resourcepack/tras-fresh-player

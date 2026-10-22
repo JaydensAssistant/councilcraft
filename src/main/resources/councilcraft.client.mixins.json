@@ -24,6 +24,7 @@
     "NumismaticsSalepointPriceMixin",
     "NumismaticsScreenPriceMixin",
     "NumismaticsTooltipPriceMixin",
+    "ParagliderOffhandPoseMixin",
     "ParagliderWheelMixin",
     "RebornEffectTooltipMixin",
     "RebornTooltipDrawMixin",

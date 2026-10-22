@@ -1246,3 +1246,28 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - Snowy fences: replace our tools/mklbgfences.py look by overlaying LambdaBetterGrass's own snowy fence overlay pixels onto every other fence (RU fences and pale oak), so all fences match Lambda's look.
   Still open: tool-belt swap while holding a sword (sword-only vs whenever a belt tool mines faster), with a switch back to the held weapon on entity attack so Better Combat never swings the belt tool.
 - PPM71 (2026-10-22 16:52 EDT) [LOCKED, Jayden; resolves PPM70's open item; no code change] Tool belt with a sword in the main hand: NO swap (Inventorio's current behavior stays), so Better Combat always swings the sword. PPM70 is now fully locked; 0.4.8 = PPM70 + PPM71, NOT BUILT.
+
+## BUILT in 0.4.8 (2026-10-22 17:22 EDT, branch cursor/cc-0.4.5, tag v0.4.8 local only; not pushed, no GitHub release) = PPM70 + PPM71
+- Files (dist/0.4.8/):
+  - councilcraft-0.4.8.jar: SHA-1 5423c78ad0e72072de0ce53b8a2720c4ef2012aa, 278141 bytes
+  - CouncilCraft-0.4.8-no-cc.mrpack: SHA-1 7f91349eb711d80783fdf999266b6f0286469cb8, 679752 bytes
+  - CouncilCraft-0.4.8.mrpack (no-cc pack + jar at overrides/mods/): SHA-1 3a6612b19362c92ef293b882959a0555312058d2, 898353 bytes
+- Tests: `./gradlew --offline test build`: 99 tests, 0 failures (92 existing + 7 in Release048RulesTest: paraglider hand pick (main wins, offhand, none, flagged), PPM70 resource-pack order + every pack present, Fresh Moves/Inventorio yosbr configs, LambdaBetterGrass notice + 46 fence textures). checkUnmappedYarn passed.
+- Per item:
+  - Client-only Modrinth downloads (client required / server unsupported): Punchy 2.8g, Don't Punch My TaCZ 0.5.2, Modded Swords x Punchy 1.5b, Fresh Illager Mod Compats 5.0, Fresh Animations 1.11.1, Eating Animation 1.9.61, TRAS Fresh Player (Fresh Moves 3.1). Credits updated.
+  - Fresh Moves configs: yosbr config/entity_texture_features.json (skinTransparencyMode ALL) and config/entity_model_features.json (preventFirstPersonHandAnimating true). Fresh installs only.
+  - Eating: Punchy eat animation + Eating Animation both kept. FeedFirstPersonMixin (Reborn feeding pose) is unchanged; no hide.
+  - vanillabackport:freshly_animated enabled by default via yosbr options.txt, in the PPM70 order.
+  - Paraglider offhand: ParagliderHand (pure rule) + ParagliderHands/InventorioParagliders. Mixins at glide start, movement (durability + Paragliding flag), wind, and client arm pose. "Offhand" vs "belt only": with Inventorio, vanilla getOffHandStack IS the selected utility-belt slot, so only the main hand and that slot are ever checked. The rest of the belt is never searched, and stale Paragliding flags on non-selected belt stacks are cleared. Main hand wins when both hands hold one.
+  - Inventorio SkipEmptyUtilitySlots=false via a complete yosbr config/inventorio.json.
+  - Eating while full, magma, and belt swap with a sword (PPM71): NO CHANGE.
+  - Snowy fences: tools/mklbgfences.py now derives LambdaBetterGrass's own snowy overlay procedurally (pixels that differ from the reconstructed plain fence in all 10 LBG woods and are identical across them; post 27 px, side 48 px). It self-checks by rebuilding all 20 LBG textures, then applies the overlay to the 22 RU fences + pale oak (pale oak reads: cyan-tinted snow over pink planks). No new art. LBG source is pinned to commit 05428aa (MIT, (c) 2021-2023 LambdAurora). LICENSE-LambdaBetterGrass.txt + README are inside councilcraft-bettergrass-ru.zip, and credits are updated.
+- Smoke (box only, test048, -Xmx2560m both sides, about 8 minutes total, all processes killed afterward):
+  - Server booted (the first boot crashed: the setParagliding @At descriptor needed remap = true for ItemStack; fixed, tests and dist rebuilt). The client launched and joined.
+  - yosbr applied the ETF, EMF, Inventorio configs and options.txt; the live values were ALL / true / false.
+  - Resource-pack reload order matched PPM70 exactly. Pack ids confirmed: punchy:punchy, minecraft:supporteatinganimation, vanillabackport:freshly_animated (enabled).
+  - Punchy vs FeedFirstPersonMixin: the mixin-export of HeldItemRenderer (class_759) contains redirect$...$councilcraft$feedPose next to Punchy's handlers, so both applied. No councilcraft mixin errors.
+  - Offhand glide: stone in main hand + paraglider in offhand gave {Damage 6, Paragliding 1b} → Damage 157 with slow descent, and the third-person screenshot showed the glide pose. With a paraglider in both hands, the main hand got the flag and durability, and the offhand's flag was cleared and its damage frozen. With no paraglider the player fell normally.
+- Unverified: the wind mixin in practice; belt-only (a non-selected slot) in game (unit test only); feeding pose visuals with Punchy (only the mixin application was confirmed).
+  - New EMF log line "model attempted creation more than 64 times {minecraft:player_head#main}". EMF ignores that model, so player heads render vanilla. It was not seen in the 0.4.7 log and is cosmetic.
+- Process note: once, `./gradlew compileJava` ran while the crashed 0.4.8 server JVM was still alive (a breach of "never run Gradle alongside the game"). It was killed before the full test/build.

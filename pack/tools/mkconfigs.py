@@ -27,8 +27,8 @@ def toml(path, changes):
         assert hit, f'{path}: key {sec}.{key} not found in generated default'
         log.append(f'{path} [{sec or ""}] {key} = {lit(val)}')
     open(out(path), 'w').write('\n'.join(txt))
-def js(path, changes, cfgform=False):
-    p = out(path) if os.path.exists(out(path)) else src(path)
+def js(path, changes, cfgform=False, base=None):
+    p = out(path) if os.path.exists(out(path)) else src(base or path)
     d = json.load(open(p))
     for keypath, val in changes:
         o = d; ks = keypath.split('/')
@@ -204,5 +204,9 @@ js('rpgdifficulty.json', [('excludedEntity', PASSIVES)])
 np2 = json.load(open(out('nameplate.json')))
 # PPM57: dragon + wither get plates
 js('nameplate.json', [('excludedEntities', [e for e in np2['excludedEntities'] if e not in ('mutantmonsters:spider_pig', 'minecraft:ender_dragon', 'minecraft:wither')] + [p for p in PASSIVES if p not in np2['excludedEntities']])])
+# --- PPM70: Fresh Moves needs ETF "All skins" transparency and EMF's still first-person hand; Inventorio keeps empty utility slots (fresh installs, yosbr)
+js('yosbr/config/entity_texture_features.json', [('skinTransparencyMode','ALL')], base='entity_texture_features.json')
+js('yosbr/config/entity_model_features.json', [('preventFirstPersonHandAnimating',True)], base='entity_model_features.json')
+js('yosbr/config/inventorio.json', [('SkipEmptyUtilitySlots',False)], base='inventorio.json')
 
 print('\n'.join(log)); print(len(log), 'settings')

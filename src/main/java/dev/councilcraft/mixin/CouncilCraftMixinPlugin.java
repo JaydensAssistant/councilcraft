@@ -24,7 +24,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
     private static final String[][] REQUIRED_MODS = {
         {"horseshoes", "horseshoe tiers, ridden step height and shift-click equip (S230 / PPM3 / PPM4)"},
         {"mutantmonsters", "mutant creeper / minion no block damage (S224)"},
-        {"paraglider", "paraglider repair with phantom membrane (S244)"},
+        {"paraglider", "paraglider repair with phantom membrane (S244) and offhand paraglider (PPM70)"},
         {"supplementaries", "sacks barred from bundles and toolboxes (S236)"},
         {"create", "toolbox whitelist (S234) and basin minting"},
         {"numismatics", "coin values (S123)"},

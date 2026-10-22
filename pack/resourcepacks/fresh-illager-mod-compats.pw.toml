@@ -1,0 +1,13 @@
+name = "Fresh Illager Mod Compats"
+filename = "5.0 FA Illager Mod Compats.zip"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/LcyJHdDB/versions/WszsRxtW/5.0%20FA%20Illager%20Mod%20Compats.zip"
+hash-format = "sha512"
+hash = "841766c0c3e785e53817023344e4a9432572219dc4f162602497976a1ddb4fcbf269b5a0f98736e45121dfef99beb23f4be38524f8a2197e1c4bcbea2819ce28"
+
+[update]
+[update.modrinth]
+mod-id = "LcyJHdDB"
+version = "WszsRxtW"

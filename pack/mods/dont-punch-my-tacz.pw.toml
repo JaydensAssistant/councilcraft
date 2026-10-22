@@ -1,0 +1,13 @@
+name = "Don't Punch My TACZ"
+filename = "dont-punch-my-tacz-v0.5.2-1.20.1-fabric.jar"
+side = "client"
+
+[download]
+url = "https://cdn.modrinth.com/data/BdT7bXL2/versions/BFo9ktBT/dont-punch-my-tacz-v0.5.2-1.20.1-fabric.jar"
+hash-format = "sha512"
+hash = "04df0c7d2240105450a78cb6282f68ac9478c86ed49f05e42dcbfc467b78b2ec540a7c10ed1905a35e657ff45f13b358d16658e24b44eb7a927511301cd2da0e"
+
+[update]
+[update.modrinth]
+mod-id = "BdT7bXL2"
+version = "BFo9ktBT"
