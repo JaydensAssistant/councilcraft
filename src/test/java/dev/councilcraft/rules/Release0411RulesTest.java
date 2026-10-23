@@ -76,10 +76,4 @@ class Release0411RulesTest {
         assertTrue(jei.contains("pin = true"));
         assertTrue(jei.contains("version = \"dI7d5ZeA\""));
     }
-
-    @Test
-    void versionIs0411() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.11\n"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.11\""));
-    }
 }

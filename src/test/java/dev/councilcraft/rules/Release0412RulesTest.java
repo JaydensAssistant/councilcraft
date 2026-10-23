@@ -151,4 +151,10 @@ class Release0412RulesTest {
         assertTrue(js.contains("if (!ccKnockedOut(p)) p.persistentData.remove(CC_KO_KEY)"));
         assertTrue(js.contains("CcNbtUtils.writeGameProfile(new CcCompoundTag(), victim.getGameProfile())"));
     }
+
+    @Test
+    void versionIs0412() throws IOException {
+        assertTrue(read("gradle.properties").contains("mod_version=0.4.12\n"));
+        assertTrue(read("pack/pack.toml").contains("version = \"0.4.12\""));
+    }
 }
