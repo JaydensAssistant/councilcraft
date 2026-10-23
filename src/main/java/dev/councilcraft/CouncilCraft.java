@@ -104,6 +104,16 @@ public final class CouncilCraft implements ModInitializer {
             // PPM68. Old belt swords that did not fit the main inventory drop once the player has joined.
             dev.councilcraft.compat.InventorioToolBelt.register();
         }
+        if (FabricLoader.getInstance().isModLoaded("imm_ptl_core") && FabricLoader.getInstance().isModLoaded("surveyor")) {
+            requireClass(
+                "qouteall.imm_ptl.core.chunk_loading.NewChunkTrackingGraph",
+                "Surveyor exploration for chunks sent by Immersive Portals (PPM100)"
+            );
+            // PPM100. Separate class so Immersive Portals and Surveyor types load only when both mods are present.
+            dev.councilcraft.compat.SurveyorPortalExploration.register();
+        }
+        // PPM102. Donor badges and government roles (server side; the client needs nothing).
+        dev.councilcraft.supporter.Supporters.register();
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 

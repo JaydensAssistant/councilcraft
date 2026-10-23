@@ -22,6 +22,15 @@ public final class CouncilCraftClient implements ClientModInitializer {
         // PPM61. Graphics preset picker (first title screen) and the Video Settings button.
         dev.councilcraft.client.graphics.GraphicsPresets.register();
         FabricLoader loader = FabricLoader.getInstance();
+        if (loader.isModLoaded("punchy")) {
+            // PPM101. One-time sync: a player who already has the Vanilla look on gets Punchy turned off. At
+            // CLIENT_STARTED, after Punchy has loaded its config and the resource packs are known.
+            net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+                if (dev.councilcraft.client.graphics.VanillaLookApplier.isOn(client)) {
+                    dev.councilcraft.client.graphics.VanillaLookApplier.syncPunchy(true);
+                }
+            });
+        }
         if (loader.isModLoaded("inventorio")) {
             // PPM67. Hold Left Alt (rebindable) and scroll to cycle the utility belt.
             dev.councilcraft.client.input.UtilityBeltScroll.register();

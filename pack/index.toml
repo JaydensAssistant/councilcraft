@@ -321,6 +321,10 @@ file = "kubejs/server_scripts/councilcraft_end.js"
 hash = "7375515bc0e5c2fb7eb06cde38fcf83faf3c017a8f6b8117395f852f59995bfa"
 
 [[files]]
+file = "kubejs/server_scripts/councilcraft_heads.js"
+hash = "ffc8868a154ba60cdf5848c283709955e5c69fc98f5f2634f172a237e6025659"
+
+[[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
 hash = "548081affd939dc58598d30e4a7c2df2cefb570b03d5c91156f85cc7dac1b207"
 
@@ -922,7 +926,7 @@ metafile = true
 
 [[files]]
 file = "mods/punchy-fpa.pw.toml"
-hash = "13b267f9abbea730846eee38175de9a5569e12989f1b04d824781112e550e8ba"
+hash = "ef45062b803f4900e474714f3c7af6215f17b74319858c7e6fecc8cd729ce2c2"
 metafile = true
 
 [[files]]

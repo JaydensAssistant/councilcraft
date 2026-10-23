@@ -59,6 +59,8 @@
     "SackEncumbranceMixin",
     "SackNestingMixin",
     "SmithingPrintedCopyMixin",
+    "SupporterDisplayNameMixin",
+    "SupporterListNameMixin",
     "ToolboxInsertMixin",
     "TridentRiptideMixin",
     "ZebraInventoryMixin",

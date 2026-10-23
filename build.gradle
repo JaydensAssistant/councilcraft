@@ -122,6 +122,11 @@ dependencies {
     // Fabric Language Kotlin, which Inventorio requires at runtime.
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 
+    // 0.4.12 compat targets, stubs only (not packed into our jar; each is used only when its mod is loaded).
+    // Surveyor 1.2.4+1.20 (6Wx9cnqi): PPM100 SurveyorExploration. Built with a newer Loom than ours, so a stub.
+    // Immersive Portals' NewChunkTrackingGraph / DimensionalChunkPos / SignalBiArged live in nested jars: stubs.
+    // Punchy 2.8g (oHLgDk4y): PPM101 PunchyConfig, a stub (only snapshot/applyAndSave/enableMod are used).
+
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
     // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).
