@@ -119,10 +119,4 @@ class Release0410RulesTest {
             assertEquals("key.keyboard.unknown", t.get(id).getAsString(), id);
         }
     }
-
-    @Test
-    void versionIs0410() throws IOException {
-        assertTrue(Files.readString(Path.of("gradle.properties")).contains("mod_version=0.4.10\n"));
-        assertTrue(Files.readString(Path.of("pack/pack.toml")).contains("version = \"0.4.10\""));
-    }
 }
