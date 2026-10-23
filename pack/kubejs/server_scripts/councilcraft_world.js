@@ -66,22 +66,42 @@ PlayerEvents.tick(event => {
   p.setStatusMessage(Text.gold('The Nether roof is off limits. You have been moved below it.'))
 })
 
-// ---- World borders (S165/S242, PM8/PM41, PPM46). Multi World Borders 1.6.2 gives every dimension its own border,
+// ---- World borders (S165/S242, PM8/PM41, PPM46, PPM98). Multi World Borders 1.6.2 gives every dimension its own border,
 // and /worldborder acts on the command source's dimension, so each dimension is set with `execute in`.
-// Overworld + Nether: start 10000, +50 width per real day, cap 17500 (kept equal, S244 G6).
+// Overworld + Nether: start 10000, +50 width per real day while growing, cap 17500 (kept equal, S244 G6).
+// PPM98: Overworld/Nether growth starts PAUSED (cc_border_growing, default false, also for worlds that already have
+// cc_border_day). While paused the day counter still moves to today on each check, so resuming never catches up.
+// Ops control it with /ccborder reset|pause|resume|status.
 // End: start 5000, cap 17500. Growth is OFF until an op runs `/endborder start` (the End is sealed at launch).
 const CC_BORDER_START = 10000, CC_BORDER_CAP = 17500, CC_BORDER_STEP = 50
 const CC_END_BORDER_START = 5000, CC_END_BORDER_CAP = 17500
 function ccSetBorder(server, dim, w, secs) {
   server.runCommandSilent('execute in ' + dim + ' run worldborder set ' + w + (secs ? ' ' + secs : ''))
 }
+function ccToday() { return Math.floor(Date.now() / 86400000) }
+// Pure step (PPM98): given stored widths/flags, the last counted day and today, the widths after growth.
+function ccBorderStep(w, we, growing, endGrowing, last, day) {
+  if (day <= last) return { w: w, we: we, changed: false }
+  const n = day - last
+  return {
+    w: growing ? Math.min(CC_BORDER_CAP, w + CC_BORDER_STEP * n) : w,
+    we: endGrowing ? Math.min(CC_END_BORDER_CAP, we + CC_BORDER_STEP * n) : we,
+    changed: true
+  }
+}
+function ccApplyBorders(server, w, we, secs) {
+  ccSetBorder(server, 'minecraft:overworld', w, secs)
+  ccSetBorder(server, 'minecraft:the_nether', w, secs)
+  ccSetBorder(server, 'minecraft:the_end', we, secs)
+}
 function ccBorder(server) {
-  const day = Math.floor(Date.now() / 86400000)
+  const day = ccToday()
   const d = server.persistentData
   if (!d.contains('cc_border_day')) {
     d.putInt('cc_border_day', day)
     d.putInt('cc_border_width', CC_BORDER_START)
   }
+  if (!d.contains('cc_border_growing')) d.putBoolean('cc_border_growing', false)
   if (!d.contains('cc_end_border_width')) {
     d.putInt('cc_end_border_width', CC_END_BORDER_START)
     d.putBoolean('cc_end_border_growing', false)
@@ -90,20 +110,19 @@ function ccBorder(server) {
     ;['minecraft:overworld', 'minecraft:the_nether', 'minecraft:the_end'].forEach(dim => server.runCommandSilent('execute in ' + dim + ' run worldborder center 0 0'))
     d.putBoolean('cc_border_centered_v2', true)
   }
-  const last = d.getInt('cc_border_day')
-  let w = d.getInt('cc_border_width'), we = d.getInt('cc_end_border_width'), secs = 0
-  if (day > last) {
-    w = Math.min(CC_BORDER_CAP, w + CC_BORDER_STEP * (day - last))
-    if (d.getBoolean('cc_end_border_growing')) we = Math.min(CC_END_BORDER_CAP, we + CC_BORDER_STEP * (day - last))
+  const w0 = d.getInt('cc_border_width'), we0 = d.getInt('cc_end_border_width')
+  const r = ccBorderStep(w0, we0, d.getBoolean('cc_border_growing'), d.getBoolean('cc_end_border_growing'), d.getInt('cc_border_day'), day)
+  if (r.changed) {
     d.putInt('cc_border_day', day)
-    d.putInt('cc_border_width', w)
-    d.putInt('cc_end_border_width', we)
-    secs = 60
+    d.putInt('cc_border_width', r.w)
+    d.putInt('cc_end_border_width', r.we)
   }
-  // Idempotent: re-applying the stored width is a no-op when it already matches.
-  ccSetBorder(server, 'minecraft:overworld', w, secs)
-  ccSetBorder(server, 'minecraft:the_nether', w, secs)
-  ccSetBorder(server, 'minecraft:the_end', we, secs)
+  // Idempotent: re-applying the stored width is a no-op when it already matches. Ease over 60 s only when a width grew.
+  ccApplyBorders(server, r.w, r.we, (r.w !== w0 || r.we !== we0) ? 60 : 0)
+}
+function ccBorderStatus(d) {
+  return 'Overworld/Nether border ' + d.getInt('cc_border_width') + ' wide, growth ' + (d.getBoolean('cc_border_growing') ? 'on' : 'off (paused)') +
+    '. End border ' + d.getInt('cc_end_border_width') + ' wide, growth ' + (d.getBoolean('cc_end_border_growing') ? 'on' : 'off') + '.'
 }
 ServerEvents.commandRegistry(event => {
   const { commands: Commands } = event
@@ -117,6 +136,36 @@ ServerEvents.commandRegistry(event => {
     .then(Commands.literal('status').executes(ctx => {
       const d = ctx.source.server.persistentData
       ctx.source.sendSuccess(Text.of('End border ' + d.getInt('cc_end_border_width') + ' wide, growth ' + (d.getBoolean('cc_end_border_growing') ? 'on' : 'off') + '. Overworld/Nether ' + d.getInt('cc_border_width') + '.'), false)
+      return 1
+    })))
+  // PPM98: Overworld + Nether border control. Ops only (permission 2).
+  event.register(Commands.literal('ccborder').requires(src => src.hasPermission(2))
+    .then(Commands.literal('reset').executes(ctx => {
+      const server = ctx.source.server, d = server.persistentData
+      ccBorder(server)
+      d.putInt('cc_border_width', CC_BORDER_START)
+      d.putInt('cc_border_day', ccToday())
+      ccApplyBorders(server, CC_BORDER_START, d.getInt('cc_end_border_width'), 0)
+      ctx.source.sendSuccess(Text.of('Overworld/Nether border reset to ' + CC_BORDER_START + '. Growth is still ' + (d.getBoolean('cc_border_growing') ? 'on' : 'paused') + '.'), true)
+      return 1
+    }))
+    .then(Commands.literal('pause').executes(ctx => {
+      const server = ctx.source.server, d = server.persistentData
+      ccBorder(server)
+      d.putBoolean('cc_border_growing', false)
+      ctx.source.sendSuccess(Text.of('Overworld/Nether border growth paused at ' + d.getInt('cc_border_width') + '.'), true)
+      return 1
+    }))
+    .then(Commands.literal('resume').executes(ctx => {
+      const server = ctx.source.server, d = server.persistentData
+      ccBorder(server)
+      d.putBoolean('cc_border_growing', true)
+      d.putInt('cc_border_day', ccToday())
+      ctx.source.sendSuccess(Text.of('Overworld/Nether border growth resumed: +' + CC_BORDER_STEP + ' width per day from ' + d.getInt('cc_border_width') + ' (counting from today), cap ' + CC_BORDER_CAP + '.'), true)
+      return 1
+    }))
+    .then(Commands.literal('status').executes(ctx => {
+      ctx.source.sendSuccess(Text.of(ccBorderStatus(ctx.source.server.persistentData)), false)
       return 1
     })))
 })

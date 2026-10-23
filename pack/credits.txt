@@ -9,7 +9,7 @@ Multi World Borders by Potatoboy9999 (MIT), per-dimension world borders: https:/
 BetterEnd and BCLib by Quiqueck and paulevs (MIT; some BetterEnd assets CC BY-NC-SA 4.0), shipped inert until the End opens: https://modrinth.com/mod/betterend
 Nullscape by Stardust Labs (Stardust Labs License), shipped inert until the End opens: https://modrinth.com/mod/nullscape
 CouncilCraft connected prismaglass (resourcepacks/councilcraft-connected-glass.zip): vanilla glass with joined edges opened in the tile layout of Continuity's default connected glass by PepperCode1 (LGPL-3.0): https://modrinth.com/mod/continuity
-CouncilCraft snowy fences (resourcepacks/councilcraft-bettergrass-ru.zip): Regions Unexplored and pale oak planks under the snow overlay of LambdaBetterGrass's snowy fence textures by LambdAurora, taken from the MIT-licensed legacy/mit branch (Copyright (c) 2021-2023 LambdAurora; notice in the zip): https://github.com/LambdAurora/LambdaBetterGrass/tree/legacy/mit
+CouncilCraft snowy fences (resourcepacks/councilcraft-bettergrass-ru.zip): block models that lay the snow overlay of LambdaBetterGrass's snowy fence textures by LambdAurora over the installed Regions Unexplored and Vanilla Backport planks textures (no planks art shipped), overlay taken from the MIT-licensed legacy/mit branch (Copyright (c) 2021-2023 LambdAurora; notice in the zip): https://github.com/LambdAurora/LambdaBetterGrass/tree/legacy/mit
 Client animations, downloaded from Modrinth on install (not redistributed by CouncilCraft):
 Punchy! by Punchy Guys Studios (All Rights Reserved): https://modrinth.com/mod/punchy-fpa
 Don't Punch My TaCZ by lloy9d (GPL-3.0): https://modrinth.com/mod/dont-punch-my-tacz
@@ -22,3 +22,4 @@ Drigo 3D Lanterns x Punchy by Drigo (All Rights Reserved): https://modrinth.com/
 Bibliophilia | Enchanted Books by PareidoliaG (Apache-2.0), downloaded from Modrinth on install: https://modrinth.com/resourcepack/bibliophilia
 CouncilCraft book cover priority (resourcepacks/councilcraft-book-priority.zip): CIT rules only, pointing at Bibliophilia's own textures (no art copied)
 Every Compat (Wood Good) by MehVahdJukaar, xelbayria and Plantkillable (All Rights Reserved), downloaded from Modrinth on install: https://modrinth.com/mod/every-compat
+RU Expansion 1.0.1 by DropoutGuy (MIT), modified for CouncilCraft (repackaged as a data-only datapack, fallen tree features removed; moonlight-global-datapacks/ru-expansion-1.0.1-councilcraft.zip, license in the zip): https://modrinth.com/mod/regions-unexplored-expansion

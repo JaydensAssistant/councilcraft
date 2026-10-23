@@ -203,8 +203,13 @@ def spawns(name, biomes, sp, why):
 catb = ['minecraft:plains', 'minecraft:sunflower_plains', 'minecraft:meadow', 'minecraft:forest', 'minecraft:flower_forest', 'minecraft:birch_forest'] + \
        sorted(b for b, a in ANALOG.items() if a in ('minecraft:plains', 'minecraft:forest', 'minecraft:meadow'))
 spawns('cats_rare', catb, [{'type': 'minecraft:cat', 'weight': 1, 'minCount': 1, 'maxCount': 1}], 'S242 rare natural cats')
-spawns('camels_rare', ['minecraft:desert', 'regions_unexplored:joshua_desert', 'regions_unexplored:saguaro_desert', 'regions_unexplored:outback'],
-       [{'type': 'minecraft:camel', 'weight': 1, 'minCount': 1, 'maxCount': 1}], 'S244 G4 rare desert camels')
+# PPM94: camels_rare removed; Vanilla Backport's camel_spawns=true is the only natural camel source
+# PPM96: pale garden stays empty. Naturalist 5.0pre4 Fabric never reads its blacklist/* biome tags (defined, unused) and adds
+# its spawns through Fabric BiomeModifications at MinecraftServer.<init>; Lithostitched removals run later (initServer, before
+# loadLevel), so strip every Naturalist spawn plus Naturalist's is_forest rabbit/fox from minecraft:pale_garden here.
+NAT_SPAWNS = ['bear', 'deer', 'snail', 'firefly', 'butterfly', 'snake', 'rattlesnake', 'coral_snake', 'bluejay', 'canary', 'cardinal', 'robin', 'finch', 'sparrow', 'rhino', 'lion', 'elephant', 'zebra', 'giraffe', 'hippo', 'vulture', 'boar', 'dragonfly', 'catfish', 'alligator', 'bass', 'lizard', 'tortoise', 'duck']
+w('councilcraft/lithostitched/worldgen_modifier/pale_garden_no_naturalist.json', {'type': 'lithostitched:remove_biome_spawns', 'biomes': 'minecraft:pale_garden',
+  'mobs': ['naturalist:' + n for n in NAT_SPAWNS] + ['minecraft:rabbit', 'minecraft:fox']}, 'PPM96 pale garden: no Naturalist fauna (vanilla pale garden has no creatures)')
 spawns('turtles_beach', '#minecraft:is_beach', [{'type': 'minecraft:turtle', 'weight': 5, 'minCount': 2, 'maxCount': 5}], 'S244 F2 beach turtles')
 spawns('evokers_natural', ['minecraft:dark_forest', 'regions_unexplored:blackwood_taiga', 'regions_unexplored:ashen_woodland', 'regions_unexplored:mauve_hills'],
        [{'type': 'minecraft:evoker', 'weight': 2, 'minCount': 1, 'maxCount': 1}], 'S119/S121/S122 natural evokers weight 2')

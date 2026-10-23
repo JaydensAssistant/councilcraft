@@ -230,7 +230,7 @@ hash = "8172775db380fc689291191cb8e93acf38aa0fc413a6c0817412332f9877e1e4"
 
 [[files]]
 file = "credits.txt"
-hash = "f6d0895c44119c517640e2ea6ed09f2f8b6682598de0d2e301b3b761bc5619bb"
+hash = "6081da9c0355fd8fdcf0de5293815d39c0bdab0e6b078ebd804684f2afb5b77e"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -322,7 +322,7 @@ hash = "7375515bc0e5c2fb7eb06cde38fcf83faf3c017a8f6b8117395f852f59995bfa"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "e0f43b7b135cd1461e4ee16fad04a6ee24e9367151973ad3202e3ae86bd624d0"
+hash = "548081affd939dc58598d30e4a7c2df2cefb570b03d5c91156f85cc7dac1b207"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"
@@ -330,7 +330,7 @@ hash = "6c89779a9343b1536a1afe1fcaaa9456dfd95e6e04e56f3c7ee8112ae8b486c3"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_world.js"
-hash = "d14f1fa91a4210a72a0496969ad58213d784762640e2b990aab2a455ec367775"
+hash = "bd85f3b60237d9e1988552c5af769f39c97ef7da0a2cd8d39ca8c50d2bdaa9ff"
 
 [[files]]
 file = "kubejs/server_scripts/end_disable.js"
@@ -707,7 +707,7 @@ metafile = true
 
 [[files]]
 file = "mods/jei.pw.toml"
-hash = "1e4701cca170a460425c93996567c0a98192971299ef7c5a8704a63c32a0d63b"
+hash = "906547b3130cc4f988c439c4cc7325f860cef51930a63c60cd669e37cab1c9ad"
 metafile = true
 
 [[files]]
@@ -1132,7 +1132,7 @@ metafile = true
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/CONTENTS.md"
-hash = "09e90afa1f79950d5d225cac1f938a51d3413317336acdfe58910c84e7bed893"
+hash = "0b83329d44147f31b97ddbfa1d8bd2e4fd33a378660cc18d5f6829ed0d104652"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/bclib/worldgen/world_preset/amplified.json"
@@ -1347,16 +1347,16 @@ file = "moonlight-global-datapacks/councilcraft-data/data/betterstrongholds/tags
 hash = "7c32fdf024717e26060f1e5647aa6839a361ad9730ca42f52a8d2c0574da29a2"
 
 [[files]]
-file = "moonlight-global-datapacks/councilcraft-data/data/councilcraft/lithostitched/worldgen_modifier/camels_rare.json"
-hash = "0a3aba51925f19e9df8b6ac2a73e0363ec1a5d2239ff34ee2463167952a8852f"
-
-[[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/councilcraft/lithostitched/worldgen_modifier/cats_rare.json"
 hash = "93c567a43aef6d257b6eb96757aabf6d4b287ff7eda66cba2aabbf70307b9700"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/councilcraft/lithostitched/worldgen_modifier/evokers_natural.json"
 hash = "6d17e0c2de1658ee3b9d5acd44cb38f56670c050c6578b645d8864a96f01af53"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/councilcraft/lithostitched/worldgen_modifier/pale_garden_no_naturalist.json"
+hash = "84c3e1bc2c6d10ff2d71dfa20ee1656ced6c8a06979712286d82351ce98fa5b7"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/councilcraft/lithostitched/worldgen_modifier/turtles_beach.json"
@@ -1672,7 +1672,7 @@ hash = "d8fa76c11e7fb696033fa52baf6a0ba2cbfd59d502c8e060202a53df94ad0edc"
 
 [[files]]
 file = "moonlight-global-datapacks/ru-expansion-1.0.1-councilcraft.zip"
-hash = "7fc1ab5d57b084b6f5222ddaa624ead7f2ff4ffeba71171616104a8ec3896e10"
+hash = "34aaffc3a9ef26a7d8a08553e15731a2b19e0e12aa23559dd33dfc32c720b6d2"
 
 [[files]]
 file = "moonlight-global-datapacks/ru-tectonic-altitude-biomes.zip"
@@ -1699,7 +1699,7 @@ hash = "bc03a2bc8f9fb0fd6df68d27de56c9be30e86453de4975415896eaede41645ff"
 
 [[files]]
 file = "resourcepacks/councilcraft-bettergrass-ru.zip"
-hash = "246017ad5b13875d055157d1330b12ff10a164b37a6200d41f6a0c11e0b011c1"
+hash = "aac3089025de7ff632e116c1c5c80c325a1a9d39392796871fe2761d64e45522"
 
 [[files]]
 file = "resourcepacks/councilcraft-book-priority.zip"

@@ -54,6 +54,10 @@ ServerEvents.recipes(event => {
     acceptMirrored: false
   }).id('councilcraft:paraglider_mechanical_crafting')
 
+  // ---- Vanilla Backport happy ghast harnesses disabled (PPM93): all 16 wool-coloured harness recipes
+  // out; EMI hides /^minecraft:[a-z_]+_harness$/ too. No loot table gives a harness, so no inventory cleanup. ----
+  event.remove({ output: /^minecraft:[a-z_]+_harness$/ })
+
   // ---- Horseshoes (S114/S221/S230; PPM4 brings gold back): iron, gold and diamond via sequenced assembly only ----
   event.remove({ output: /^horseshoes:/ })
   event.custom({
@@ -142,6 +146,12 @@ ServerEvents.recipes(event => {
       event.remove({ id: rid })
     })
   })
+
+  // ---- Just Enough Breeding pages that show villager / trader llama spawn eggs (PPM95): villagers are removed (S69),
+  // so drop the villager->witch lightning page and both trader llama pages. These are every JEB 3.1.1 recipe that names a
+  // villager, zombie villager, wandering trader or trader llama; all other JEB pages stay. ----
+  ;['transformation/minecraft/witch', 'breeding/minecraft/trader_llama', 'temper/minecraft/trader_llama']
+    .forEach(r => event.remove({ id: 'justenoughbreeding:' + r }))
 
   // ---- Coin melting (S128): Create crushing, 80% value in diamonds, no 1-coin recipe (PM32: the 20 coin is now the 25 Diamond Quarter) ----
   ;[['bevel', 4], ['sprocket', 8], ['cog', 20], ['crown', 40], ['sun', 80]].forEach(c => {

@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 /**
  * Client only. Jayden: this is one of the client tooltip files.
  *
- * <p>The hover is three lines: the sentence, the live "Now" line and the hunger line.
+ * <p>The hover is two lines: the sentence and the live "Now" line (PPM97 dropped the hunger line).
  * A Growth Spurt tooltip keeps its lines and gets a description line (PPM67).
  * An existing effect tooltip whose first line is the Reborn name is replaced
  * with those two lines, so a second tooltip is not drawn on top.

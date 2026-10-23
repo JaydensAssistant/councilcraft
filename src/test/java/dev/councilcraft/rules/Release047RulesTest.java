@@ -51,7 +51,8 @@ class Release047RulesTest {
         assertTrue(halfway > 100 && halfway < 150, "halfway hunger " + halfway);
         String lang = Files.readString(Path.of("src/main/resources/assets/councilcraft/lang/en_us.json"));
         assertTrue(lang.contains("\"effect.councilcraft.reborn.now\": \"Now: %s%% size, %s%% speed, %s%% strength, %s%% HP, %s%% hunger\""));
-        assertTrue(lang.contains("\"" + RebornText.HUNGER + "\""));
+        // PPM97: the long hunger line and its lang key are gone; the Now line's "150% hunger" is the only hunger text.
+        assertFalse(lang.contains("\"effect.councilcraft.reborn.hunger\""));
         assertTrue(lang.contains("\"" + RebornText.SPURT_DESC + "\""));
         assertTrue(lang.contains("\"councilcraft.feed.refused.spurt\""));
         assertTrue(lang.contains("\"councilcraft.mount.cart_hint\": \"%s to attach a cart\""));

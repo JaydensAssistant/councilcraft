@@ -83,8 +83,15 @@ class Release048RulesTest {
     @Test
     void snowyFencesCarryTheLambdaBetterGrassNotice() throws IOException {
         try (var zip = new java.util.zip.ZipFile("pack/resourcepacks/councilcraft-bettergrass-ru.zip")) {
-            long textures = zip.stream().filter(e -> e.getName().startsWith("assets/councilcraft/textures/block/fence/snowy_")).count();
-            assertEquals(46, textures); // 22 Regions Unexplored woods + pale oak, post and side
+            // PPM90: only LambdaBetterGrass's MIT snow overlay ships (post + side); no Regions Unexplored / pale oak pixels
+            java.util.List<String> pngs = zip.stream().map(java.util.zip.ZipEntry::getName).filter(n -> n.endsWith(".png")).toList();
+            assertEquals(java.util.List.of("assets/councilcraft/textures/block/fence/snowy_fence_overlay_post.png",
+                "assets/councilcraft/textures/block/fence/snowy_fence_overlay_side.png"), pngs);
+            long models = zip.stream().filter(e -> e.getName().matches("assets/councilcraft/models/block/fence/snowy_.*_fence_(post|side)\\.json")).count();
+            assertEquals(46, models); // 22 Regions Unexplored woods + pale oak, post and side
+            String baobab = new String(zip.getInputStream(zip.getEntry(
+                "assets/councilcraft/models/block/fence/snowy_regions_unexplored_baobab_fence_post.json")).readAllBytes());
+            assertTrue(baobab.contains("regions_unexplored:block/baobab_planks"));
             String license = new String(zip.getInputStream(zip.getEntry("LICENSE-LambdaBetterGrass.txt")).readAllBytes());
             assertTrue(license.contains("MIT") && license.contains("LambdAurora"));
         }

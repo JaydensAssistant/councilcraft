@@ -5,9 +5,10 @@ import java.util.List;
 import net.minecraft.text.Text;
 
 /**
- * The Reborn hover is three lines. The first is a fixed sentence. The second is
- * the live size, speed, strength, HP and hunger. The third (PPM67) states the extra
- * hunger: 1.5x at the start, easing to 1.0 over the 6 hours of active play.
+ * The Reborn hover is two lines. The first is a fixed sentence. The second is
+ * the live size, speed, strength, HP and hunger (PPM67 added hunger there). PPM97
+ * removed PPM67's separate explanatory hunger line; the short "150% hunger" in the
+ * Now line is the only hunger text, like the other stats.
  *
  * <p>Order is size, speed, strength, HP, hunger. Strength is the melee multiplier.
  * HP is the stepped hit points over a vanilla 20, so 12 points is 60% HP. Hunger is
@@ -17,7 +18,6 @@ public final class RebornText {
     public static final String LINE1 = "effect.councilcraft.reborn.line1";
     public static final String NOW = "effect.councilcraft.reborn.now";
     public static final String NAME = "effect.councilcraft.reborn";
-    public static final String HUNGER = "effect.councilcraft.reborn.hunger";
     public static final String SPURT_NAME = "effect.councilcraft.growth_spurt";
     public static final String SPURT_DESC = "effect.councilcraft.growth_spurt.desc";
 
@@ -58,7 +58,7 @@ public final class RebornText {
         return percent(stats.hunger);
     }
 
-    /** PPM67. Hunger at the start of the penalty, for the hunger line. */
+    /** PPM67. Hunger at the start of the penalty (150). */
     public static int startingHungerPercent() {
         return percent(CouncilCraftRules.REBORN_HUNGER);
     }
@@ -72,12 +72,8 @@ public final class RebornText {
         return Text.translatable(NOW, percents[0], percents[1], percents[2], percents[3], hungerPercent(stats));
     }
 
-    public static Text hunger() {
-        return Text.translatable(HUNGER, startingHungerPercent());
-    }
-
     public static List<Text> hover(RebornStats stats) {
-        return List.of(line1(), now(stats), hunger());
+        return List.of(line1(), now(stats));
     }
 
     /** True when this tooltip line is the Growth Spurt effect's own name. */
