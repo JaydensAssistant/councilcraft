@@ -25,6 +25,8 @@ public final class CouncilCraftClient implements ClientModInitializer {
         if (loader.isModLoaded("inventorio")) {
             // PPM67. Hold Left Alt (rebindable) and scroll to cycle the utility belt.
             dev.councilcraft.client.input.UtilityBeltScroll.register();
+            // PPM88. Belt switch hints: one-time toast and empty-slot tooltip in Inventorio's screen.
+            dev.councilcraft.client.input.UtilityBeltHints.register();
         }
         if (loader.isModLoaded("distanthorizons") && loader.isModLoaded("imm_ptl_core")) {
             // PM21. Separate class so DH and IP types load only when both mods are present.

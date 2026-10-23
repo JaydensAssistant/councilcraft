@@ -10,7 +10,10 @@
       "type": "empty"
     },
     "controlify:radial_menu": {
-      "button": "controlify:button/east"
+      "button": "controlify:button/dpad_up"
+    },
+    "controlify:open_chat": {
+      "type": "empty"
     }
   }
 }

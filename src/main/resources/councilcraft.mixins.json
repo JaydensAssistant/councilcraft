@@ -23,6 +23,7 @@
     "HorseshoeQuickMoveMixin",
     "HorseshoeStatsMixin",
     "InventorioAttackSwapMixin",
+    "InventorioSwapHandsMixin",
     "InventorioSwordSlotMixin",
     "InventorioToolBeltSaveMixin",
     "ItemEntityMoldMixin",

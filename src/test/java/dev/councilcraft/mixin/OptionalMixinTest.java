@@ -3,6 +3,7 @@ package dev.councilcraft.mixin;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Map;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
@@ -52,5 +53,31 @@ class OptionalMixinTest {
     @Test
     void otherMixinsAreNotGated() {
         assertTrue(CouncilCraftMixinPlugin.shouldApply("dev.councilcraft.mixin.SackNestingMixin", Set.<String>of()::contains));
+    }
+
+    // ---- 0.4.10 ----
+
+    @Test
+    void release0410HooksNeedTheirMods() {
+        String swap = "dev.councilcraft.mixin.InventorioSwapHandsMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(swap, Set.of("inventorio")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(swap, Set.of("controlify")::contains));
+        String screen = "dev.councilcraft.mixin.client.ControllerInventorioScreenMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(screen, Set.of("controlify", "inventorio")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(screen, Set.of("controlify")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(screen, Set.of("inventorio")::contains));
+        String keyboard = "dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(keyboard, Set.of("controlify")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(keyboard, Set.<String>of()::contains));
+    }
+
+    @Test
+    void keyboardShaderFixIsPinnedToControlify204() {
+        String keyboard = "dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin";
+        assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches(keyboard, Map.of("controlify", "2.0.4+1.20.1-fabric")::get));
+        assertFalse(CouncilCraftMixinPlugin.pinnedVersionMatches(keyboard, Map.of("controlify", "2.0.5+1.20.1-fabric")::get));
+        // Unpinned mixins ignore versions.
+        assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches("dev.councilcraft.mixin.client.ControllerInventorioScreenMixin",
+            Map.of("controlify", "9.9.9")::get));
     }
 }

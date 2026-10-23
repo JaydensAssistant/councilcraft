@@ -9,6 +9,8 @@
     "ConnectedPathsConfigMixin",
     "ConnectedPathsPropertiesMixin",
     "ConnectedPathsStateMixin",
+    "ControllerInventorioScreenMixin",
+    "ControllerKeyboardShaderMixin",
     "ControllerRadialDefaultsMixin",
     "DockyardWoodPreselectMixin",
     "FeedFirstPersonMixin",

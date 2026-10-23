@@ -2,6 +2,7 @@ package dev.councilcraft.mixin;
 
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
@@ -57,7 +58,19 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.DockyardWoodPreselectMixin", "smallships"},
         {"dev.councilcraft.mixin.client.WakesRemoteTickMixin", "wakes"},
         {"dev.councilcraft.mixin.client.WakeHandlerAccess", "wakes"},
-        {"dev.councilcraft.mixin.client.WakesOtherWorldMixin", "wakes"}
+        {"dev.councilcraft.mixin.client.WakesOtherWorldMixin", "wakes"},
+        {"dev.councilcraft.mixin.InventorioSwapHandsMixin", "inventorio"},
+        {"dev.councilcraft.mixin.client.ControllerInventorioScreenMixin", "controlify", "inventorio"},
+        {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify"}
+    };
+
+    /**
+     * Mixins written against one exact build of their mod: mixin class name, mod id, version.
+     * Another build of that mod skips the mixin (with a warning) instead of patching a different method.
+     */
+    private static final String[][] PINNED_MIXINS = {
+        // PPM87. Targets a compiler-named lambda (lambda$static$0) in Controlify's ExtraRenderTypes.
+        {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify", "2.0.4+1.20.1-fabric"}
     };
 
     @Override
@@ -91,7 +104,28 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return shouldApply(mixinClassName, FabricLoader.getInstance()::isModLoaded);
+        FabricLoader loader = FabricLoader.getInstance();
+        if (!shouldApply(mixinClassName, loader::isModLoaded)) {
+            return false;
+        }
+        Function<String, String> versionOf = id -> loader.getModContainer(id)
+            .map(mod -> mod.getMetadata().getVersion().getFriendlyString()).orElse(null);
+        if (!pinnedVersionMatches(mixinClassName, versionOf)) {
+            LOGGER.warn("CouncilCraft: {} skipped, it is written for another version of its mod.", mixinClassName);
+            return false;
+        }
+        return true;
+    }
+
+    /** False only for a version-pinned mixin whose mod is present in another version. */
+    static boolean pinnedVersionMatches(String mixinClassName, Function<String, String> versionOf) {
+        for (String[] pinned : PINNED_MIXINS) {
+            if (pinned[0].equals(mixinClassName)) {
+                String version = versionOf.apply(pinned[1]);
+                return version == null || version.equals(pinned[2]);
+            }
+        }
+        return true;
     }
 
     /** False only for an optional-mod mixin whose mods are not all loaded. */

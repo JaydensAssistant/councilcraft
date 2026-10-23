@@ -1,6 +1,7 @@
 package dev.councilcraft.mixin.client;
 
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
@@ -18,4 +19,8 @@ public interface HandledScreenAccess {
 
     @Accessor("backgroundWidth")
     int councilcraft$backgroundWidth();
+
+    /** PPM88. The slot under the mouse, or null. */
+    @Accessor("focusedSlot")
+    Slot councilcraft$focusedSlot();
 }

@@ -43,11 +43,11 @@ key_key.dynamic_fps.toggle_disabled:key.keyboard.unknown
 key_key.createrailwaysnavigator.route_overlay_options:key.keyboard.unknown
 key_key.fabrishot.screenshot:key.keyboard.f9
 key_inventorio.keys.use_utility:key.keyboard.unknown
-key_inventorio.keys.next_utility:key.mouse.4
-key_inventorio.keys.prev_utility:key.mouse.5
+key_inventorio.keys.next_utility:key.keyboard.unknown
+key_inventorio.keys.prev_utility:key.keyboard.unknown
 key_inventorio.keys.empty_utility:key.keyboard.h
 key_inventorio.keys.rocket_boost:key.keyboard.unknown
-key_inventorio.keys.open_player_settings:key.keyboard.i
+key_inventorio.keys.open_player_settings:key.keyboard.unknown
 key_inventorio.keys.open_global_settings:key.keyboard.unknown
 key_key.antique_atlas.open:key.keyboard.m
 key_keybinds.bettercombat.feint:key.keyboard.unknown
@@ -59,7 +59,7 @@ key_create.keyinfo.rotate_menu:key.keyboard.unknown
 key_key.entityculling.toggle:key.keyboard.unknown
 key_key.exposure.camera_controls:key.keyboard.unknown
 key_key.fabricskyboxes.toggle:key.keyboard.unknown
-key_key.fabricskyboxes.toggle.debug_hud:key.keyboard.f12
+key_key.fabricskyboxes.toggle.debug_hud:key.keyboard.unknown
 key_key.jei.toggleOverlay:key.keyboard.unknown
 key_key.jei.focusSearch:key.keyboard.unknown
 key_key.jei.previousPage:key.keyboard.unknown
@@ -126,5 +126,11 @@ key_iris.keybind.toggleShaders:key.keyboard.k
 key_iris.keybind.shaderPackSelection:key.keyboard.unknown
 key_iris.keybind.wireframe:key.keyboard.unknown
 key_lambdynlights.key.toggle_fps_dynamic_lighting:key.keyboard.unknown
+key_key.punchy.inspect:key.keyboard.i
+key_key.punchy.open_main_menu:key.keyboard.unknown
+key_key.punchy.triggerable.sword_inspect_old:key.keyboard.unknown
+key_key.punchy.triggerable.sword_inspect_rework:key.keyboard.unknown
+key_key.punchy.triggerable.punchy_sword_inspect_old:key.keyboard.unknown
+key_key.punchy.triggerable.punchy_sword_inspect_rework:key.keyboard.unknown
 soundCategory_music:0.3
 soundCategory_ambient:0.3

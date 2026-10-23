@@ -209,6 +209,10 @@ file = "config/yosbr/config/iris.properties"
 hash = "173e8a65bfadf40a2e4ad414f9f4a0c3d1000dbe43f8f7255ecdcb7fb50df2b5"
 
 [[files]]
+file = "config/yosbr/config/punchy/triggerable-keybindings.json"
+hash = "d15a5e97d4ca3a189c6eb67f77a3d449d8ea6621930f3b4337d80213d0abd961"
+
+[[files]]
 file = "config/yosbr/config/vanillabackport-client.toml"
 hash = "5dec9932a01d8289bdf435729820d4547eca82b2484577709c2ca5374262c46c"
 
@@ -222,7 +226,7 @@ hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "88ed731945f859f1ba511b773c3c61aada65eefa3ccffd055e926792c064ecc7"
+hash = "8172775db380fc689291191cb8e93acf38aa0fc413a6c0817412332f9877e1e4"
 
 [[files]]
 file = "credits.txt"
@@ -250,7 +254,7 @@ hash = "f3962c0fb332f33fab6ac2b75540dbd472d9814244aa4bb05f0453711a23a831"
 
 [[files]]
 file = "kubejs/assets/controlify/controllers/default_bind/default.json"
-hash = "7d97b806a5fb8539e485af6be0a3e9611fd0d9e2c465692f695c4992ae20e98d"
+hash = "2104238e04a8a6f3d23598147f179f72ef004a3de4504c7bc12c0c573b57ff43"
 
 [[files]]
 file = "kubejs/assets/councilcraft/lang/en_us.json"

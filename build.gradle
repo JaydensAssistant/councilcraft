@@ -113,6 +113,15 @@ dependencies {
     modCompileOnly("maven.modrinth:small-ships:S6IU4Y5c") { transitive = false }
     modCompileOnly("maven.modrinth:wakes:hUOdfRBT") { transitive = false }
 
+    // 0.4.10 compat target, compile only and optional (see CouncilCraftMixinPlugin.OPTIONAL_MIXINS).
+    // Controlify 2.0.4+1.20.1 Fabric (DOUdJVEm / sDAshEPv): PPM88 reads the input mode and the
+    // binding glyphs through its API (ControlifyApi, BindingFontHelper). The PPM86 / PPM87 mixins are
+    // @Pseudo string targets.
+    modCompileOnly("maven.modrinth:controlify:sDAshEPv") { transitive = false }
+    // PPM88 reads Inventorio's utility-belt slot range, a Kotlin IntRange. Kotlin itself comes from
+    // Fabric Language Kotlin, which Inventorio requires at runtime.
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
     // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).

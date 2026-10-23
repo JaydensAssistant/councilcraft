@@ -55,6 +55,9 @@
   "councilcraft.guide.line6": "Voice chat: Right Alt opens its menu (mic, volumes, groups). Zoom: hold C, or Mods > Zoomify.",
   "councilcraft.guide.line7": "Texture and animation packs: Options > Resource Packs, or tick Vanilla look on the Graphics Preset screen.",
   "key.categories.councilcraft": "CouncilCraft",
-  "key.councilcraft.utility_scroll": "Scroll Utility Belt (hold)",
+  "key.councilcraft.utility_scroll": "Hold to scroll utility belt",
+  "councilcraft.hint.utility_belt.title": "Utility belt",
+  "councilcraft.hint.utility_belt.keyboard": "Hold %s + Scroll to switch belt tools",
+  "councilcraft.hint.utility_belt.controller": "%s / %s to switch belt tools",
   "councilcraft.mount.cart_hint": "%s to attach a cart"
 }

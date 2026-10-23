@@ -32,6 +32,11 @@ public final class UtilityBeltScroll {
             new KeyBinding(KEY, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_LEFT_ALT, CATEGORY));
     }
 
+    /** The modifier key as the player bound it (PPM88 hints name it), or null before registration. */
+    public static KeyBinding modifier() {
+        return modifier;
+    }
+
     /**
      * Called for a hotbar scroll. True when the modifier is held and the scroll went to the utility
      * belt instead; the hotbar then does not move. Direction matches Inventorio's "regular" mode.
