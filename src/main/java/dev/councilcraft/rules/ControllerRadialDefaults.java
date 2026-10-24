@@ -7,17 +7,21 @@ import java.util.Map;
  * stack, chat, swap hands, pick block, screenshot and player list. Pick block leaves the D-pad (now
  * the utility belt, pack/kubejs/assets/controlify/controllers/default_bind/default.json) and stays in
  * the radial; three slots become the pack's extra keys a controller otherwise cannot reach. Players can
- * still change every slot. Only a new controller config takes these defaults.
+ * still change every slot. Only a new controller config takes these defaults. PPM105: slot 7 was
+ * Supplementaries' quiver key, which a radial tap cannot use (it needs holding plus scrolling); it is
+ * now our own "Next quiver arrow" action (client/compat/ControlifyQuiverCycle).
  */
 public final class ControllerRadialDefaults {
-    /** Radial slot, then the key binding (translation key) it gets. */
-    public static final Map<Integer, String> EXTRAS = Map.of(
-        0, "key.niftycarts.action",
-        6, "key.smallships.ship_sail",
-        7, "supplementaries.keybind.quiver"
-    );
     /** Controlify registers every other mod's key binding under this namespace. */
     public static final String MODDED_NAMESPACE = "fabric-key-binding-api-v1";
+    /** PPM105. Our Controlify binding that selects the next arrow in a Supplementaries quiver. */
+    public static final String NEXT_QUIVER_ARROW = "councilcraft:next_quiver_arrow";
+    /** Radial slot, then the Controlify binding id it gets. */
+    public static final Map<Integer, String> EXTRAS = Map.of(
+        0, moddedKey("key.niftycarts.action"),
+        6, moddedKey("key.smallships.ship_sail"),
+        7, NEXT_QUIVER_ARROW
+    );
 
     private ControllerRadialDefaults() {
     }
@@ -27,7 +31,12 @@ public final class ControllerRadialDefaults {
         return translationKey.toLowerCase().replaceAll("[^a-z0-9/._-]", "_").trim();
     }
 
-    /** Translation key of the extra for this slot, or null to keep Controlify's default. */
+    /** Controlify's binding id for a modded key binding. */
+    public static String moddedKey(String translationKey) {
+        return MODDED_NAMESPACE + ":" + bindingPath(translationKey);
+    }
+
+    /** Controlify binding id of the extra for this slot, or null to keep Controlify's default. */
     public static String extraFor(int slot) {
         return EXTRAS.get(slot);
     }

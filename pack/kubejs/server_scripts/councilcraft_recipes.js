@@ -153,10 +153,12 @@ ServerEvents.recipes(event => {
   ;['transformation/minecraft/witch', 'breeding/minecraft/trader_llama', 'temper/minecraft/trader_llama']
     .forEach(r => event.remove({ id: 'justenoughbreeding:' + r }))
 
-  // ---- Coin melting (S128): Create crushing, 80% value in diamonds, no 1-coin recipe (PM32: the 20 coin is now the 25 Diamond Quarter) ----
+  // ---- Coin melting (S128): Create crushing, 80% value in diamonds (PM32: the 20 coin is now the 25 Diamond Quarter).
+  // PPM106: the 1-coin penny melts too, to 1 diamond at an 80% chance (the same 80% value). Tooltips: councilcraft_tooltips.js ----
   ;[['bevel', 4], ['sprocket', 8], ['cog', 20], ['crown', 40], ['sun', 80]].forEach(c => {
     event.custom({ type: 'create:crushing', ingredients: [{ item: 'numismatics:' + c[0] }], results: [{ item: 'minecraft:diamond', count: c[1] }], processingTime: 250 }).id('councilcraft:melt_' + c[0])
   })
+  event.custom({ type: 'create:crushing', ingredients: [{ item: 'numismatics:spur' }], results: [{ item: 'minecraft:diamond', count: 1, chance: 0.8 }], processingTime: 250 }).id('councilcraft:melt_spur')
 
   // ---- FD integration (S217) ----
   event.remove({ id: 'minecraft:bread' })

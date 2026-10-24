@@ -58,5 +58,7 @@
   "councilcraft.hint.utility_belt.title": "Utility belt",
   "councilcraft.hint.utility_belt.keyboard": "Hold %s + Scroll to switch belt tools",
   "councilcraft.hint.utility_belt.controller": "%s / %s to switch belt tools",
-  "councilcraft.mount.cart_hint": "%s to attach a cart"
+  "councilcraft.mount.cart_hint": "%s to attach a cart",
+  "councilcraft.controller.next_quiver_arrow": "Next quiver arrow",
+  "councilcraft.controller.next_quiver_arrow.desc": "Selects the next arrow in your quiver."
 }

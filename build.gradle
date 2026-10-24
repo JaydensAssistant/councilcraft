@@ -129,10 +129,11 @@ dependencies {
 
     // Libraries those mods require, so `./gradlew runServer` can boot. Not shipped in our jar.
     // Puzzles Lib v8.1.36 (QAGBst4M / QSW0oJPl), Forge Config API Port 8.0.3 (ohNO6lps / HvR3IdRE),
-    // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg).
+    // Moonlight 1.20-2.16.37 (twkfQtEc / UAIkz6Kg); also on the compile classpath for PPM105, which
+    // sends Supplementaries' quiver message through Moonlight's ChannelHandler.
     modRuntimeOnly "maven.modrinth:puzzles-lib:v8.1.36-1.20.1-Fabric"
     modRuntimeOnly "maven.modrinth:forge-config-api-port:v8.0.3-1.20.1-Fabric"
-    modRuntimeOnly "maven.modrinth:moonlight:1.20-2.16.37-fabric"
+    modImplementation "maven.modrinth:moonlight:1.20-2.16.37-fabric"
 
     testImplementation "org.junit.jupiter:junit-jupiter:5.10.3"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"

@@ -16,6 +16,9 @@
     ],
     "client": [
       "dev.councilcraft.CouncilCraftClient"
+    ],
+    "controlify": [
+      "dev.councilcraft.client.compat.ControlifyQuiverCycle"
     ]
   },
   "mixins": [

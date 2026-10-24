@@ -10,8 +10,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * PPM102. Tab-list name: badge, prefix and colored name for donors and role holders. Vanilla returns null (the
- * client then shows the team-decorated name), and so does this for everyone else, or if another mod set a name.
+ * PPM102. Tab-list name: badge, prefix and colored name (PPM107: every player, at least the default blue name).
+ * Vanilla returns null (the client then shows the team-decorated name); this leaves a name another mod set
+ * alone, and returns null before the supporter data is loaded. Discord Integration relays this name.
  */
 @Mixin(ServerPlayerEntity.class)
 public abstract class SupporterListNameMixin {

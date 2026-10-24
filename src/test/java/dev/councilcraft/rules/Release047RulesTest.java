@@ -96,7 +96,9 @@ class Release047RulesTest {
         assertEquals("key.niftycarts.action", ControllerRadialDefaults.bindingPath("key.niftycarts.action"));
         assertEquals("supplementaries.keybind.quiver", ControllerRadialDefaults.bindingPath("supplementaries.keybind.quiver"));
         assertEquals("key.some_mod.do_thing_", ControllerRadialDefaults.bindingPath("key.Some Mod.do thing!"));
-        assertEquals(Map.of(0, "key.niftycarts.action", 6, "key.smallships.ship_sail", 7, "supplementaries.keybind.quiver"), ControllerRadialDefaults.EXTRAS);
+        // PPM105 (0.4.13): slot 7 is now the Next quiver arrow action; values are Controlify binding ids.
+        assertEquals(Map.of(0, "fabric-key-binding-api-v1:key.niftycarts.action", 6, "fabric-key-binding-api-v1:key.smallships.ship_sail",
+            7, "councilcraft:next_quiver_arrow"), ControllerRadialDefaults.EXTRAS);
         assertEquals(null, ControllerRadialDefaults.extraFor(5));
     }
 

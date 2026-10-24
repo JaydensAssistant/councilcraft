@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * PPM102. Server-side players' display name (used by chat, including No Chat Reports' system-message chat) gets
- * the donor ★ badge, role prefix and name color. Client-side player entities are untouched.
+ * the donor ★ badge, role prefix and name color (PPM107: every player). Client-side player entities are untouched.
  */
 @Mixin(PlayerEntity.class)
 public abstract class SupporterDisplayNameMixin {

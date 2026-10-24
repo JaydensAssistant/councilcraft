@@ -2,7 +2,6 @@ package dev.councilcraft.rules;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.OptionalInt;
 import org.junit.jupiter.api.Test;
 
 /** 0.4.12: PPM100-PPM104. */
@@ -63,44 +61,7 @@ class Release0412RulesTest {
         assertTrue(punchy.contains("filename = \"punchy-2.8g-fabric-1.20.1.jar\""));
     }
 
-    @Test
-    void tierColorsMatchTheSpec() {
-        assertEquals(List.of(2, 5, 10, 15, 20), SupporterRules.TIERS);
-        assertEquals("#55FF55", SupporterRules.hex(SupporterRules.tierColor(2)));
-        assertEquals("#55FFFF", SupporterRules.hex(SupporterRules.tierColor(5)));
-        assertEquals("#5599FF", SupporterRules.hex(SupporterRules.tierColor(10)));
-        assertEquals("#FF77AA", SupporterRules.hex(SupporterRules.tierColor(15)));
-        assertEquals("#FFAA00", SupporterRules.hex(SupporterRules.tierColor(20)));
-        assertFalse(SupporterRules.isTier(3));
-        assertThrows(IllegalArgumentException.class, () -> SupporterRules.tierColor(1));
-        assertEquals("\u2605", SupporterRules.BADGE);
-    }
-
-    @Test
-    void nameColorIsRoleThenGoldForTwentyThenDefault() {
-        assertEquals(OptionalInt.of(0x9B30FF), SupporterRules.nameColor(0x9B30FF, 20));
-        assertEquals(OptionalInt.of(0x9B30FF), SupporterRules.nameColor(0x9B30FF, null));
-        assertEquals(OptionalInt.of(0xFFAA00), SupporterRules.nameColor(null, 20));
-        assertEquals(OptionalInt.empty(), SupporterRules.nameColor(null, 15));
-        assertEquals(OptionalInt.empty(), SupporterRules.nameColor(null, null));
-    }
-
-    @Test
-    void roleSpecsAndIds() {
-        SupporterRules.RoleSpec spec = SupporterRules.parseRoleSpec("#9b30ff \"[President]\"");
-        assertEquals(0x9B30FF, spec.color());
-        assertEquals("[President]", spec.prefix());
-        assertEquals("", SupporterRules.parseRoleSpec("#00AA00").prefix());
-        assertThrows(IllegalArgumentException.class, () -> SupporterRules.parseRoleSpec("red \"[X]\""));
-        assertThrows(IllegalArgumentException.class, () -> SupporterRules.parseRoleSpec("#12345 \"[X]\""));
-        assertThrows(IllegalArgumentException.class, () -> SupporterRules.parseRoleSpec("#123456 \"\u00A7c[X]\""));
-        assertThrows(IllegalArgumentException.class, () -> SupporterRules.parseRoleSpec("#123456 \"" + "x".repeat(33) + "\""));
-        assertTrue(SupporterRules.isValidRoleId("vice_president"));
-        assertFalse(SupporterRules.isValidRoleId("President"));
-        assertFalse(SupporterRules.isValidRoleId(""));
-        assertEquals(OptionalInt.of(0xFFAA00), SupporterRules.parseHexColor("#ffaa00"));
-        assertEquals(OptionalInt.empty(), SupporterRules.parseHexColor("ffaa00"));
-    }
+    // Tier colors, name colors and role specs: superseded by PPM107 / PPM108, tested in Release0413RulesTest.
 
     @Test
     void footerListsTiersHighToLowAndHidesEmptyOnes() {

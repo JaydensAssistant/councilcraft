@@ -16,7 +16,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.OptionalInt;
 import java.util.UUID;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -37,8 +36,10 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * PPM102. Donor badges and government roles, server side only (players install nothing). A ★ badge in the tier
- * color, then the role prefix, then the name (role color, else gold for $20 donors) in chat and the tab list,
- * and a "Supporters" tab-list footer. Op-only /ccdonor and /ccrole; data saved with the world. Cosmetic only.
+ * color, then the role prefix, then the name in chat and the tab list, and a "Supporters" tab-list footer.
+ * Op-only /ccdonor and /ccrole; data saved with the world. Cosmetic only. PPM107: the name (and prefix) is the
+ * role color, else gold for $20 donors, else soft blue for everyone; $15 and $20 stars are bold. PPM108:
+ * {@code /ccrole create <Name> <color> ["<prefix>"]}, ids case-insensitive.
  */
 public final class Supporters {
     private static volatile SupporterState state;
@@ -61,8 +62,9 @@ public final class Supporters {
     }
 
     /**
-     * The decorated name for a player, or null when they have no badge and no role (the name is then untouched).
-     * Called from the display-name and tab-list-name mixins.
+     * The decorated name for a player (badge, prefix, colored name), or null before the supporter data is loaded
+     * (the name is then untouched). Every player gets at least the default name color (PPM107). Called from the
+     * display-name and tab-list-name mixins.
      */
     @Nullable
     public static Text decorate(UUID uuid, Text name) {
@@ -72,30 +74,27 @@ public final class Supporters {
         }
         Donor donor = s.donors.get(uuid);
         Role role = s.roleOf(uuid);
-        if (donor == null && role == null) {
-            return null;
-        }
         MutableText out = Text.empty();
         if (donor != null) {
-            out.append(colored(SupporterRules.BADGE + " ", SupporterRules.tierColor(donor.tier())));
+            out.append(badge(donor.tier(), SupporterRules.BADGE)).append(Text.literal(" "));
         }
         if (role != null && !role.prefix().isEmpty()) {
             out.append(colored(role.prefix() + " ", role.color()));
         }
-        MutableText coloredName = name.copy();
-        OptionalInt color = SupporterRules.nameColor(role == null ? null : role.color(),
-            donor == null ? null : donor.tier());
-        if (color.isPresent()) {
-            coloredName.styled(style -> style.withColor(TextColor.fromRgb(color.getAsInt())));
-        }
-        return out.append(coloredName);
+        int color = SupporterRules.nameColor(role == null ? null : role.color(), donor == null ? null : donor.tier());
+        return out.append(name.copy().styled(style -> style.withColor(TextColor.fromRgb(color))));
     }
 
     private static MutableText colored(String text, int rgb) {
         return Text.literal(text).styled(style -> style.withColor(TextColor.fromRgb(rgb)));
     }
 
-    /** "Supporters" in gold, then one line per tier, highest first: colored ★ and $ label, gray names. */
+    /** Text in the tier color, bold for $15 and $20. */
+    private static MutableText badge(int tier, String text) {
+        return colored(text, SupporterRules.tierColor(tier)).styled(style -> style.withBold(SupporterRules.boldBadge(tier)));
+    }
+
+    /** "Supporters" in gold, then one line per tier, highest first: ★ and $ label in the tier color, gray names. */
     static Text footer(SupporterState s) {
         Map<String, Integer> tiers = new HashMap<>();
         s.donors.values().forEach(d -> tiers.put(d.name(), d.tier()));
@@ -105,8 +104,8 @@ public final class Supporters {
         }
         MutableText footer = Text.literal("Supporters").formatted(Formatting.GOLD);
         lines.forEach((tier, names) -> footer.append(Text.literal("\n"))
-            .append(colored(SupporterRules.BADGE + " $" + tier + "  ", SupporterRules.tierColor(tier)))
-            .append(Text.literal(String.join(", ", names)).formatted(Formatting.GRAY)));
+            .append(badge(tier, SupporterRules.BADGE + " $" + tier))
+            .append(Text.literal("  " + String.join(", ", names)).formatted(Formatting.GRAY)));
         return footer;
     }
 
@@ -145,8 +144,10 @@ public final class Supporters {
 
         dispatcher.register(CommandManager.literal("ccrole").requires(src -> src.hasPermissionLevel(2))
             .then(CommandManager.literal("create")
-                .then(CommandManager.argument("id", StringArgumentType.word())
+                .then(CommandManager.argument("name", StringArgumentType.word())
+                    // One greedy argument: Brigadier's word() does not accept the # of a hex color.
                     .then(CommandManager.argument("color_and_prefix", StringArgumentType.greedyString())
+                        .suggests((ctx, b) -> CommandSource.suggestMatching(SupporterRules.NAMED_COLORS.keySet(), b))
                         .executes(ctx -> roleCreate(ctx)))))
             .then(CommandManager.literal("assign")
                 .then(CommandManager.argument("player", GameProfileArgumentType.gameProfile())
@@ -235,18 +236,15 @@ public final class Supporters {
 
     private static int roleCreate(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         SupporterState s = requireState();
-        String id = StringArgumentType.getString(ctx, "id");
-        if (!SupporterRules.isValidRoleId(id)) {
-            fail(ctx, "Role id must be 1-32 characters of a-z, 0-9 and _");
-            return 0;
-        }
         SupporterRules.RoleSpec spec;
         try {
-            spec = SupporterRules.parseRoleSpec(StringArgumentType.getString(ctx, "color_and_prefix"));
+            spec = SupporterRules.parseRoleSpec(StringArgumentType.getString(ctx, "name"),
+                StringArgumentType.getString(ctx, "color_and_prefix"));
         } catch (IllegalArgumentException e) {
             fail(ctx, e.getMessage());
             return 0;
         }
+        String id = spec.id();
         boolean existed = s.roles.containsKey(id);
         s.roles.put(id, new Role(spec.color(), spec.prefix()));
         changed(ctx, s, "Role " + id + (existed ? " updated: " : " created: ") + SupporterRules.hex(spec.color())
@@ -256,7 +254,7 @@ public final class Supporters {
 
     private static int roleAssign(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         SupporterState s = requireState();
-        String id = StringArgumentType.getString(ctx, "id");
+        String id = SupporterRules.roleId(StringArgumentType.getString(ctx, "id"));
         if (!s.roles.containsKey(id)) {
             fail(ctx, "No role " + id + " (see /ccrole list)");
             return 0;
@@ -286,7 +284,7 @@ public final class Supporters {
 
     private static int roleDelete(CommandContext<ServerCommandSource> ctx) throws CommandSyntaxException {
         SupporterState s = requireState();
-        String id = StringArgumentType.getString(ctx, "id");
+        String id = SupporterRules.roleId(StringArgumentType.getString(ctx, "id"));
         if (s.roles.remove(id) == null) {
             fail(ctx, "No role " + id);
             return 0;

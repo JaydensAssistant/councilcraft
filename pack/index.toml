@@ -314,7 +314,7 @@ hash = "fec6c7d0382cf85b9490cf8d7ddd15cee1bb6e9efb532ddff41e84254f0bcdf6"
 
 [[files]]
 file = "kubejs/client_scripts/councilcraft_tooltips.js"
-hash = "50d62cd56092803f317c2ab3f3f46e1620d8ef72aeaa4849687b0b1b62296bd9"
+hash = "01f72d4bb53506f9628037e1f610e3bd07d0438e558ab5961005f2429f264e18"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_end.js"
@@ -326,7 +326,7 @@ hash = "ffc8868a154ba60cdf5848c283709955e5c69fc98f5f2634f172a237e6025659"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "548081affd939dc58598d30e4a7c2df2cefb570b03d5c91156f85cc7dac1b207"
+hash = "687e23ea5c91da939e7f276114f35a976e28096503893f760d93d125b4a0f3a1"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"
