@@ -1446,3 +1446,27 @@ Numbering PPM1+. Same rules as the post-MVP section: later entries supersede ear
   - Client launched, joined 02:08:19 EDT ("SmokeTester joined the game"), no crash; KubeJS startup 1/1 and client 1/1, 0 errors. No new mixin or class-loading errors vs 0.4.11. The client idled ~4 min after join (0.4.11: ~30 s), so it also logged Distant Horizons "Unable to get a complete buffer" LOD retries and Immersive Portals "Memory not enough" (77% of 2560 MB) runtime warnings; the latter also appeared in the 0.4.10 smoke; neither is load-related.
   - All smoke processes killed 02:12 EDT; no java/portablemc/Xvfb :47 left. Gradle not run during the smoke.
 - Unverified (in game): Atlas fill through portals/after IP chunk sends, Punchy toggle, /ccdonor and /ccrole, chat/tab display and footer, saving, PvP head drops and Hardcore Revival knockout heads.
+
+## 0.4.13 decisions (2026-10-24, LOCKED by Jayden, NOT BUILT)
+- PPM105 (2026-10-24 00:43 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.13] Controller "Next quiver arrow" action. Problem: Controlify 2.0.4's radial menu only taps a bound key for ~2 ticks, while Supplementaries 3.1.44's quiver needs the key held plus scroll/mouse, so radial slot 7 "Use quiver" (ControllerRadialDefaults.EXTRAS, 7 -> "supplementaries.keybind.quiver") does nothing.
+  - Fix: add a councilcraft controller action "Next quiver arrow" that sends Supplementaries' own arrow-cycle (quiver slot select) packet/message, so one radial press selects the next arrow in the quiver. Registered only when FabricLoader.isModLoaded("controlify") && isModLoaded("supplementaries"); lives in an isolated compat class; calls guarded against LinkageError (logged on failure).
+  - Replace the dead radial slot 7 entry in ControllerRadialDefaults.EXTRAS with this action.
+  - Build check: verify the Supplementaries message class, constructor and fields with javap against the shipped 3.1.44 jar (and how it is sent client->server). This must be re-checked whenever Supplementaries is updated (not a stable API).
+- PPM106 (2026-10-24 00:43 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.13; amends S128; supersedes S128's "no 1-coin recipe" clause] Coin melt tooltips and penny melting.
+  - Tooltips: every coin (numismatics:spur/bevel/sprocket/cog/crown/sun) gets a tooltip line stating its melt yield via Create crushing: Penny "Melts to: 1 diamond (80% chance)", Nickel "Melts to: 4 diamonds", Dime 8, Quarter 20, Half Dollar 40, Dollar 80 diamonds. In pack/kubejs/client_scripts/councilcraft_tooltips.js, following the existing tooltip styling.
+  - Penny recipe: create:crushing numismatics:spur -> 1 minecraft:diamond with chance 0.8 (exactly 80% value), in pack/kubejs/server_scripts/councilcraft_recipes.js beside the existing councilcraft:melt_* recipes (id councilcraft:melt_spur); update that block's "no 1-coin recipe" comment.
+  - S128's Netherite-minted coin rules unchanged.
+  - Note: EMI shows these recipes under U (uses) on a coin and R (recipes) on a diamond.
+- PPM107 (2026-10-24 00:43 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.13; amends PPM102; supersedes PPM102's badge colors and its "default white" name color] Name colors and badge ladder.
+  - Default name color: every player's name is soft blue #7FB2FF (chat and tab list).
+  - Donor ★ badge colors become a material ladder: $2 copper #D9814C, $5 iron #D8D8D8, $10 emerald #3DDC6E, $15 diamond #4DE8E0 with a BOLD star, $20 gold #FFAA00 with a BOLD star.
+  - $20 donors' names are gold #FFAA00, NOT bold.
+  - Role color strictly beats everything: if a player has a role, the role color applies to both the prefix and the name, overriding the default blue and the $20 gold name, in every place names are decorated (chat, tab list, death/advancement messages, Discord relay text). Only the badge keeps its tier color. Order: badge, prefix, name.
+  - Supporters tab footer: each tier's ★ and $ label in the tier color (bold for $15/$20); names gray.
+  - Mockup: copy /workspace/minecraft/mockups/flashy-names-A.png to docs/mockups/flashy-names-A.png. Note: the $20 name in the mockup is bold; this lock says NOT bold.
+  - Tests must cover the name-color priority: role > $20 gold > default blue.
+- PPM108 (2026-10-24 00:43 EDT) [LOCKED, Jayden; NOT BUILT; 0.4.13; amends PPM102] Simpler /ccrole create.
+  - New form: `/ccrole create <Name> <color> ["<prefix>"]`. color = a Minecraft named color (black, dark_blue, dark_green, dark_aqua, dark_red, dark_purple, gold, gray, dark_gray, blue, green, aqua, red, light_purple, yellow, white), a few extras such as purple / royal_purple (#9B30FF), or a #hex (#RRGGBB).
+  - The role id is the lowercase Name; the prefix is generated automatically as "[Name]". The optional third quoted argument overrides the prefix.
+  - assign/remove/delete/list unchanged; they take the id case-insensitively.
+  - Tab completion suggests the color names.
