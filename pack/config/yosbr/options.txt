@@ -1,5 +1,5 @@
 version:3465
-resourcePacks:["fabric","continuity:default","file/Bibliophilia 1.17 (1.20.1).zip","file/councilcraft-printed-copies.zip","file/councilcraft-book-priority.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","punchy:punchy","file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip","file/Drigo-3D-Lanterns-x-Punchy.zip","minecraft:supporteatinganimation","file/FreshAnimations_v1.11.1_1.20+.zip","vanillabackport:freshly_animated","file/5.0 FA Illager Mod Compats.zip","file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip","file/Connected-Paths.zip","file/Connected-Bricks.zip","file/Connected-Rocks.zip","file/councilcraft-connected-glass.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
+resourcePacks:["fabric","continuity:default","file/Bibliophilia 1.17 (1.20.1).zip","file/councilcraft-printed-copies.zip","file/councilcraft-book-priority.zip","file/vanillatweaks-councilcraft.zip","file/Better-Leaves-9.6.zip","file/Antique_Atlas_4_Compat_v1.4.zip","file/councilcraft-atlas-ru.zip","punchy:punchy","file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip","file/Drigo-3D-Lanterns-x-Punchy.zip","minecraft:supporteatinganimation","file/FreshAnimations_v1.11.1_1.20+.zip","vanillabackport:freshly_animated_legacy","vanillabackport:freshly_animated","file/5.0 FA Illager Mod Compats.zip","file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip","file/Connected-Paths.zip","file/Connected-Bricks.zip","file/Connected-Rocks.zip","file/councilcraft-connected-glass.zip","file/councilcraft-bettergrass-ru.zip","lambdabettergrass:default"]
 incompatibleResourcePacks:["file/Antique_Atlas_4_Compat_v1.4.zip","file/Drigo-3D-Lanterns-x-Punchy.zip"]
 renderDistance:8
 simulationDistance:8
@@ -114,7 +114,7 @@ key_key.whisper:key.keyboard.unknown
 key_key.mute_microphone:key.keyboard.unknown
 key_key.disable_voice_chat:key.keyboard.unknown
 key_key.hide_icons:key.keyboard.unknown
-key_key.voice_chat:key.keyboard.right.alt
+key_key.voice_chat:key.keyboard.v
 key_key.voice_chat_settings:key.keyboard.unknown
 key_key.voice_chat_group:key.keyboard.unknown
 key_key.voice_chat_toggle_recording:key.keyboard.unknown

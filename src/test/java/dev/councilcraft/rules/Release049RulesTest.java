@@ -127,7 +127,7 @@ class Release049RulesTest {
         assertEquals(List.of("fabric", "file/Bibliophilia 1.17 (1.20.1).zip", "file/councilcraft-book-priority.zip",
             "file/MyPack.zip", "file/vanillatweaks-councilcraft.zip", "file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip",
             "file/Drigo-3D-Lanterns-x-Punchy.zip", "minecraft:supporteatinganimation", "file/FreshAnimations_v1.11.1_1.20+.zip",
-            "vanillabackport:freshly_animated", "file/5.0 FA Illager Mod Compats.zip",
+            "vanillabackport:freshly_animated_legacy", "vanillabackport:freshly_animated", "file/5.0 FA Illager Mod Compats.zip",
             "file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip", "file/Connected-Paths.zip", "file/Connected-Bricks.zip",
             "file/Connected-Rocks.zip", "file/councilcraft-connected-glass.zip", "file/councilcraft-bettergrass-ru.zip",
             "lambdabettergrass:default"), off);
@@ -191,15 +191,14 @@ class Release049RulesTest {
     }
 
     @Test
-    void immersivePortalsDefaultsAreFirstInstallOnlyAndTheServerKeepsNoAlternateDimensions() throws IOException {
-        assertFalse(Files.exists(Path.of("pack/config/immersive_portals.json")));
-        JsonObject client = JsonParser.parseString(Files.readString(
-            Path.of("pack/config/yosbr/config/immersive_portals.json"))).getAsJsonObject();
-        assertEquals(2, client.get("portalRenderLimit").getAsInt());
-        assertEquals(2, client.get("maxPortalLayer").getAsInt());
-        JsonObject server = JsonParser.parseString(Files.readString(
-            Path.of("pack/server-only/config/immersive_portals.json"))).getAsJsonObject();
-        assertFalse(server.get("enableAlternateDimensions").getAsBoolean());
-        assertEquals(2, server.get("portalRenderLimit").getAsInt());
+    void immersivePortalsConfigShipsAsOneDirectOverrideWithNoAlternateDimensions() throws IOException {
+        // 0.4.14 (PT2): one direct override for both sides; the yosbr and server-only copies are gone.
+        assertFalse(Files.exists(Path.of("pack/config/yosbr/config/immersive_portals.json")));
+        assertFalse(Files.exists(Path.of("pack/server-only/config/immersive_portals.json")));
+        JsonObject ip = JsonParser.parseString(Files.readString(
+            Path.of("pack/config/immersive_portals.json"))).getAsJsonObject();
+        assertEquals(2, ip.get("portalRenderLimit").getAsInt());
+        assertEquals(2, ip.get("maxPortalLayer").getAsInt());
+        assertFalse(ip.get("enableAlternateDimensions").getAsBoolean());
     }
 }

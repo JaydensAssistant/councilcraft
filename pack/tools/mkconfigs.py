@@ -105,12 +105,12 @@ js('forgottengraves.json', [('experience/percentage',50),('server/graveRobbing',
 # --- S168 Hardcore Revival
 toml('hardcorerevival-common.toml', [(None,'continueTimerWhileOffline',True)])
 # --- S107/S139 Immersive Portals
-# PPM83 (0.4.9): the client copy is a yosbr first-install default (players' own IP settings survive updates);
-# PPM10 warning / update / crouch-lighting values and PPM82 render limits. The server reads only
-# config/immersive_portals.json, so the dedicated server ships a forced copy from server-only/config/ (same values).
+# PPM10 warning / update / crouch-lighting values and PPM82 render limits. PT2 (0.4.14): shipped as a direct
+# config/immersive_portals.json override (both sides; yosbr is client-only, so a Modrinth server import never got the
+# old yosbr copy). Replaces the PPM83 yosbr default and the server-only/config/ copy (one source of truth).
 _ip = [('enableAlternateDimensions',False),('shaderpackWarning',False),('enableWarning',False),('enableUpdateNotification',False),
     ('checkModInfoFromInternet',False),('lightVanillaNetherPortalWhenCrouching',False),('portalRenderLimit',2),('maxPortalLayer',2)]
-js('yosbr/config/immersive_portals.json', _ip, base='immersive_portals.json')
+js('immersive_portals.json', _ip)
 # --- S60/S134/S172 Vanilla Backport (common)
 toml('vanillabackport-common.toml', [(None,'dried_ghasts',False),(None,'do_sulfur_cubes_explode',False),(None,'do_geysers_erupt',True)])
 # --- S205 Farmer's Delight
@@ -119,8 +119,8 @@ toml('farmersdelight-common.toml', [(None,'enableVanillaCropCrates',True),(None,
 toml('create-server.toml', [(None,'trainTopSpeed',36.0),(None,'poweredTrainTopSpeed',48.0)])
 # --- S93 Horseman
 toml('horseman-common.toml', [(None,'increase_horse_airborne_speed',False)])
-# --- S183 SVC (stock value, locked explicitly)
-props('voicechat/voicechat-server.properties', [('allow_recording','true')])
+# --- S183 SVC: allow_recording=true is SVC's stock value. PT9 (0.4.14): voicechat-server.properties is no longer
+# shipped (an override reset the host's voice port on every update); SVC writes its own defaults on first start.
 # --- S178 Surveyor
 toml('surveyor.toml', [('networking','globalSharing',False),('networking','waypoints','SOLO'),('networking','positions','SOLO'),
     ('networking','terrain','SOLO'),('networking','structures','SOLO'),('networking','landmarks','SOLO')])

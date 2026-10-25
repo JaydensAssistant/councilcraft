@@ -9,7 +9,10 @@ import java.util.Map;
  * the radial; three slots become the pack's extra keys a controller otherwise cannot reach. Players can
  * still change every slot. Only a new controller config takes these defaults. PPM105: slot 7 was
  * Supplementaries' quiver key, which a radial tap cannot use (it needs holding plus scrolling); it is
- * now our own "Next quiver arrow" action (client/compat/ControlifyQuiverCycle).
+ * now our own "Next quiver arrow" action (client/compat/ControlifyQuiverCycle). PT7 (0.4.14): slot 5
+ * (pick block) becomes Simple Voice Chat's menu key, which a controller otherwise cannot reach; drop
+ * stack (slot 2) stays. Final radial: 0 Nifty Carts action, 1 perspective, 2 drop stack, 3 chat,
+ * 4 swap hands, 5 voice chat menu, 6 Small Ships sail, 7 Next quiver arrow.
  */
 public final class ControllerRadialDefaults {
     /** Controlify registers every other mod's key binding under this namespace. */
@@ -19,6 +22,7 @@ public final class ControllerRadialDefaults {
     /** Radial slot, then the Controlify binding id it gets. */
     public static final Map<Integer, String> EXTRAS = Map.of(
         0, moddedKey("key.niftycarts.action"),
+        5, moddedKey("key.voice_chat"),
         6, moddedKey("key.smallships.ship_sail"),
         7, NEXT_QUIVER_ARROW
     );

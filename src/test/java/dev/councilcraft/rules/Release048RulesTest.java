@@ -55,9 +55,9 @@ class Release048RulesTest {
             "vanillabackport:freshly_animated", "file/5.0 FA Illager Mod Compats.zip", "file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip",
             "file/Connected-Paths.zip", "file/Connected-Bricks.zip", "file/Connected-Rocks.zip", "file/councilcraft-connected-glass.zip",
             "file/councilcraft-bettergrass-ru.zip", "lambdabettergrass:default"), packs.stream()
-            // 0.4.9 (PPM77 / PPM78) inserts packs; the PPM70 packs keep their relative order.
+            // 0.4.9 (PPM77 / PPM78) and 0.4.14 (PT4) insert packs; the PPM70 packs keep their relative order.
             .filter(p -> !p.startsWith("file/Bibliophilia") && !p.equals("file/councilcraft-book-priority.zip")
-                && !p.equals("file/Drigo-3D-Lanterns-x-Punchy.zip")).toList());
+                && !p.equals("file/Drigo-3D-Lanterns-x-Punchy.zip") && !p.equals("vanillabackport:freshly_animated_legacy")).toList());
         java.util.Set<String> shipped = new java.util.HashSet<>();
         try (var files = Files.list(Path.of("pack/resourcepacks"))) {
             for (Path f : files.toList()) {

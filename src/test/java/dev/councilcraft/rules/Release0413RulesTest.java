@@ -171,10 +171,4 @@ class Release0413RulesTest {
             assertTrue(s.contains("CommandManager.literal(\"" + sub + "\")"), sub);
         }
     }
-
-    @Test
-    void versionIs0413() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.13\n"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.13\""));
-    }
 }

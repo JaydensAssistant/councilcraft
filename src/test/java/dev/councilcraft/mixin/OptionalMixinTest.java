@@ -80,4 +80,19 @@ class OptionalMixinTest {
         assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches("dev.councilcraft.mixin.client.ControllerInventorioScreenMixin",
             Map.of("controlify", "9.9.9")::get));
     }
+
+    // ---- 0.4.14 ----
+
+    @Test
+    void netherPortalRatioNeedsImmersivePortals520() {
+        String ratio = "dev.councilcraft.mixin.NetherPortalRatioMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(ratio, Set.of("immersive_portals")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(ratio, Set.of("imm_ptl_core")::contains));
+        assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches(ratio, Map.of("immersive_portals", "5.2.0")::get));
+        assertFalse(CouncilCraftMixinPlugin.pinnedVersionMatches(ratio, Map.of("immersive_portals", "5.2.1")::get));
+        // A wrong version is an ERROR naming what breaks, not a quiet warning.
+        String[] pin = CouncilCraftMixinPlugin.pinFor(ratio);
+        assertTrue(pin.length == 4 && pin[3].contains("CC-5"));
+        assertTrue(CouncilCraftMixinPlugin.pinFor("dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin").length == 3);
+    }
 }

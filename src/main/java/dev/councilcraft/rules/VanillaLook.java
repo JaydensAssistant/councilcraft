@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 
 /**
  * PPM78. The "Vanilla look" box on the Graphics Preset screen: it turns off the animation and texture extras
- * (Fresh Animations and its compats, Punchy and its packs, Eating Animation's mod-support pack, Drigo's lanterns,
+ * (Fresh Animations and its compats, incl. Vanilla Backport's freshly_animated and freshly_animated_legacy (PT4), Punchy and its packs, Eating Animation's mod-support pack, Drigo's lanterns,
  * Connected Paths, better grass, connected glass and Bibliophilia with our book priority rules). Vanilla Tweaks,
  * Better Leaves, the atlas packs and printed copies stay on. Unticking puts the packs back in the shipped order.
  */
@@ -21,7 +21,8 @@ public final class VanillaLook {
         "file/councilcraft-book-priority.zip", "file/vanillatweaks-councilcraft.zip", "file/Better-Leaves-9.6.zip",
         "file/Antique_Atlas_4_Compat_v1.4.zip", "file/councilcraft-atlas-ru.zip", "punchy:punchy",
         "file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip", "file/Drigo-3D-Lanterns-x-Punchy.zip",
-        "minecraft:supporteatinganimation", "file/FreshAnimations_v1.11.1_1.20+.zip", "vanillabackport:freshly_animated",
+        "minecraft:supporteatinganimation", "file/FreshAnimations_v1.11.1_1.20+.zip", "vanillabackport:freshly_animated_legacy",
+        "vanillabackport:freshly_animated",
         "file/5.0 FA Illager Mod Compats.zip", "file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip",
         "file/Connected-Paths.zip", "file/Connected-Bricks.zip", "file/Connected-Rocks.zip",
         "file/councilcraft-connected-glass.zip", "file/councilcraft-bettergrass-ru.zip", "lambdabettergrass:default");
@@ -29,7 +30,8 @@ public final class VanillaLook {
     /** Packs the Vanilla look turns off. */
     public static final Set<String> OFF = Set.of(
         "punchy:punchy", "file/Modded Swords x Punchy! 1.20.1 - 1.21.1 v1.5.zip", "file/Drigo-3D-Lanterns-x-Punchy.zip",
-        "minecraft:supporteatinganimation", "file/FreshAnimations_v1.11.1_1.20+.zip", "vanillabackport:freshly_animated",
+        "minecraft:supporteatinganimation", "file/FreshAnimations_v1.11.1_1.20+.zip", "vanillabackport:freshly_animated_legacy",
+        "vanillabackport:freshly_animated",
         "file/5.0 FA Illager Mod Compats.zip", "file/-1.21.2 Fresh Moves v3.1 (With Animated Eyes).zip",
         "file/Connected-Paths.zip", "file/Connected-Bricks.zip", "file/Connected-Rocks.zip",
         "file/councilcraft-connected-glass.zip", "file/councilcraft-bettergrass-ru.zip", "lambdabettergrass:default",

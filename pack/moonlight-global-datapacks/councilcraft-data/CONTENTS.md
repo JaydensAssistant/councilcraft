@@ -67,6 +67,7 @@
 - illagerinvasion/tags/worldgen/biome/has_structure/sorcerer_hut.json  # S138 Illager Invasion structure RU match (+1 RU)
 - illagerinvasion/tags/worldgen/biome/has_structure/illusioner_tower.json  # S138 Illager Invasion structure RU match (+10 RU)
 - friendsandfoes/tags/worldgen/biome/has_crab.json  # S138 F&F mob spawn RU match (+3 RU)
+- friendsandfoes/tags/worldgen/biome/has_moobloom/buttercup.json  # PT3 mooblooms in RU Flower Fields + Magnolia Woodland (+2 RU)
 - councilcraft/lithostitched/worldgen_modifier/cats_rare.json  # S242 rare natural cats
 - councilcraft/lithostitched/worldgen_modifier/pale_garden_no_naturalist.json  # PPM96 pale garden: no Naturalist fauna (vanilla pale garden has no creatures)
 - councilcraft/lithostitched/worldgen_modifier/turtles_beach.json  # S244 F2 beach turtles

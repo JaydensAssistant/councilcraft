@@ -97,9 +97,11 @@ class Release047RulesTest {
         assertEquals("supplementaries.keybind.quiver", ControllerRadialDefaults.bindingPath("supplementaries.keybind.quiver"));
         assertEquals("key.some_mod.do_thing_", ControllerRadialDefaults.bindingPath("key.Some Mod.do thing!"));
         // PPM105 (0.4.13): slot 7 is now the Next quiver arrow action; values are Controlify binding ids.
-        assertEquals(Map.of(0, "fabric-key-binding-api-v1:key.niftycarts.action", 6, "fabric-key-binding-api-v1:key.smallships.ship_sail",
-            7, "councilcraft:next_quiver_arrow"), ControllerRadialDefaults.EXTRAS);
-        assertEquals(null, ControllerRadialDefaults.extraFor(5));
+        // PT7 amendment (0.4.14): slot 5 (pick block) is now Simple Voice Chat's menu key; drop stack (slot 2) stays.
+        assertEquals(Map.of(0, "fabric-key-binding-api-v1:key.niftycarts.action", 5, "fabric-key-binding-api-v1:key.voice_chat",
+            6, "fabric-key-binding-api-v1:key.smallships.ship_sail", 7, "councilcraft:next_quiver_arrow"), ControllerRadialDefaults.EXTRAS);
+        assertEquals("fabric-key-binding-api-v1:key.voice_chat", ControllerRadialDefaults.extraFor(5));
+        assertEquals(null, ControllerRadialDefaults.extraFor(2));
     }
 
     @Test

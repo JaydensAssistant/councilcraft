@@ -81,6 +81,10 @@ file = "config/illagerinvasion-server.toml"
 hash = "47751187492401dbe731fc07104c69f861273dd82577ec88051f3f2da2954d78"
 
 [[files]]
+file = "config/immersive_portals.json"
+hash = "202d04a96615154703e3812de8772c0183069ed8e8591ff39c8d8609926ed891"
+
+[[files]]
 file = "config/improvedmobs/client.json"
 hash = "ca014144818d5ce9e66a9dcae1cf1414e1002747d9781616148311e682a2649f"
 
@@ -153,10 +157,6 @@ file = "config/vanillabackport-common.toml"
 hash = "4eff02df48ed6d54156104fc84489016285d79b611cb744e33444c7ec67a5cd8"
 
 [[files]]
-file = "config/voicechat/voicechat-server.properties"
-hash = "44e28ca45bf8648f18a9363105a7faa363d254ed8ace91ff523193b60786968d"
-
-[[files]]
 file = "config/watut-server.toml"
 hash = "22f52952b18e5785fe6bd0c4f12cd1a2223c54f19b3f0914b2b0066dcb0e4131"
 
@@ -193,10 +193,6 @@ file = "config/yosbr/config/horseman-client.toml"
 hash = "01edad9b39cbfc214c483577ea6f28b55e1a121df4317ee1819c715e78b12064"
 
 [[files]]
-file = "config/yosbr/config/immersive_portals.json"
-hash = "202d04a96615154703e3812de8772c0183069ed8e8591ff39c8d8609926ed891"
-
-[[files]]
 file = "config/yosbr/config/inventorio.json"
 hash = "a8da7f28d0a318ce64a262cdb00f480159724e8c0b0ba0b982ba2375dd3b8ccb"
 
@@ -226,7 +222,7 @@ hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "8172775db380fc689291191cb8e93acf38aa0fc413a6c0817412332f9877e1e4"
+hash = "b37b627c5c7a937044085333125d98c7394ff3526542f3ee1931ce5761880cd4"
 
 [[files]]
 file = "credits.txt"
@@ -322,7 +318,7 @@ hash = "7375515bc0e5c2fb7eb06cde38fcf83faf3c017a8f6b8117395f852f59995bfa"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_heads.js"
-hash = "ffc8868a154ba60cdf5848c283709955e5c69fc98f5f2634f172a237e6025659"
+hash = "418b4882a2cff5f750db99f8cd3dcaf1a5c1ccd31e3126cf9afabb1f021c842b"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
@@ -502,6 +498,11 @@ metafile = true
 [[files]]
 file = "mods/cut-through.pw.toml"
 hash = "119642cc64a5790f42738939121ea5a08100eb0c3867d7f64ead1a4d0eb8a163"
+metafile = true
+
+[[files]]
+file = "mods/dcintegration.pw.toml"
+hash = "a3f54d4b294683dbfe027dc01f9172bd828769afb435bb965f167e205640e7c3"
 metafile = true
 
 [[files]]
@@ -742,6 +743,11 @@ metafile = true
 [[files]]
 file = "mods/leaf-me-alone.pw.toml"
 hash = "443ec5c37984c9f0076b2059543f2113a43d1f029aaa9a5e20c59dfa804b965d"
+metafile = true
+
+[[files]]
+file = "mods/ledger.pw.toml"
+hash = "3acf17c3380c84a6db100135ad803864eb7f61ad4c5492427381c2129cbb72ac"
 metafile = true
 
 [[files]]
@@ -1015,6 +1021,11 @@ hash = "5cd3420078c7c24bf7414c7243a69b2d2a21c3c5e29150444697b11a001c44d8"
 metafile = true
 
 [[files]]
+file = "mods/spark.pw.toml"
+hash = "44c52091b8a96fb3bed74aaa62715db45d60adeb7ba54364b452e6202fdd812a"
+metafile = true
+
+[[files]]
 file = "mods/supplementaries.pw.toml"
 hash = "ab4f9a533f36e85c91d4180f4f063f1fe7d42a90e32dcffca44b523e123284fb"
 metafile = true
@@ -1052,6 +1063,11 @@ metafile = true
 [[files]]
 file = "mods/wakes.pw.toml"
 hash = "24cfa457173f8fd0aec773a4437c86dc22a9ef41c73514a2237160b514ff837d"
+metafile = true
+
+[[files]]
+file = "mods/wavey-capes.pw.toml"
+hash = "b3ba5489b8aa1dbf8bd82f954eb601f9c32710ce264350b81483b23723fae5d1"
 metafile = true
 
 [[files]]
@@ -1136,7 +1152,7 @@ metafile = true
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/CONTENTS.md"
-hash = "0b83329d44147f31b97ddbfa1d8bd2e4fd33a378660cc18d5f6829ed0d104652"
+hash = "3c28064070e5499f4fe86631796ddef98b17b133a35f76d7c8acc945b489dc28"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/bclib/worldgen/world_preset/amplified.json"
@@ -1457,6 +1473,10 @@ hash = "a1f12854a99afe55e894d0d6246bd38382d1a5e6c75fe18dece596683bc82f01"
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/friendsandfoes/tags/worldgen/biome/has_crab.json"
 hash = "fd81c39fb8ba4f90b54b640b9234002d69bffbbe09c575459533a12d004e7783"
+
+[[files]]
+file = "moonlight-global-datapacks/councilcraft-data/data/friendsandfoes/tags/worldgen/biome/has_moobloom/buttercup.json"
+hash = "c455e9c2ee55714a04fd4440d795f1a1c0acddfc063bade415c11adf452375a3"
 
 [[files]]
 file = "moonlight-global-datapacks/councilcraft-data/data/illagerinvasion/loot_tables/chests/labyrinth_map.json"

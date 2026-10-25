@@ -15,11 +15,13 @@ const CC_HR_EXPIRED = Platform.isLoaded('hardcorerevival')
 const CC_KO_KEY = 'cc_ko_by'
 
 // The killing player for a direct PvP hit, or null (mobs, environment, TNT, self-inflicted).
+// KubeJS 6 (1.20.1) exposes DamageSource#getEntity as getActual() and #getDirectEntity as getImmediate();
+// the vanilla names are not visible to scripts (0.4.14 fix).
 function ccDirectPvpKiller(victim, source) {
-  const attacker = source.getEntity()
+  const attacker = source.getActual()
   if (attacker == null || !attacker.isPlayer()) return null
   if (String(attacker.getUUID()) === String(victim.getUUID())) return null
-  const direct = source.getDirectEntity()
+  const direct = source.getImmediate()
   if (direct == null) return null
   if (String(direct.getUUID()) === String(attacker.getUUID())) return attacker
   return direct instanceof CcProjectile ? attacker : null
@@ -52,7 +54,7 @@ EntityEvents.hurt('minecraft:player', event => {
   if (CC_HR == null) return
   const victim = event.entity
   if (ccKnockedOut(victim)) return
-  const attacker = event.source.getEntity()
+  const attacker = event.source.getActual()
   if (attacker == null || !attacker.isPlayer() || String(attacker.getUUID()) === String(victim.getUUID())) return
   const rec = new CcCompoundTag()
   rec.putString('uuid', String(attacker.getUUID()))

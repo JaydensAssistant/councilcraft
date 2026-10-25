@@ -61,16 +61,21 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.WakesOtherWorldMixin", "wakes"},
         {"dev.councilcraft.mixin.InventorioSwapHandsMixin", "inventorio"},
         {"dev.councilcraft.mixin.client.ControllerInventorioScreenMixin", "controlify", "inventorio"},
-        {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify"}
+        {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify"},
+        {"dev.councilcraft.mixin.NetherPortalRatioMixin", "immersive_portals"}
     };
 
     /**
-     * Mixins written against one exact build of their mod: mixin class name, mod id, version.
-     * Another build of that mod skips the mixin (with a warning) instead of patching a different method.
+     * Mixins written against one exact build of their mod: mixin class name, mod id, version, and optionally
+     * the behaviour that breaks without it. Another build of that mod skips the mixin instead of patching a
+     * different method: with a warning, or with an ERROR naming the broken behaviour when one is given.
      */
     private static final String[][] PINNED_MIXINS = {
         // PPM87. Targets a compiler-named lambda (lambda$static$0) in Controlify's ExtraRenderTypes.
-        {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify", "2.0.4+1.20.1-fabric"}
+        {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify", "2.0.4+1.20.1-fabric"},
+        // CC-5. Targets the hardcoded 8:1 in IntrinsicPortalGeneration's class initializer.
+        {"dev.councilcraft.mixin.NetherPortalRatioMixin", "immersive_portals", "5.2.0",
+            "1:1 Nether portals (CC-5); nether portals will link 1:8"}
     };
 
     @Override
@@ -111,7 +116,13 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         Function<String, String> versionOf = id -> loader.getModContainer(id)
             .map(mod -> mod.getMetadata().getVersion().getFriendlyString()).orElse(null);
         if (!pinnedVersionMatches(mixinClassName, versionOf)) {
-            LOGGER.warn("CouncilCraft: {} skipped, it is written for another version of its mod.", mixinClassName);
+            String[] pin = pinFor(mixinClassName);
+            if (pin.length > 3) {
+                LOGGER.error("CouncilCraft hook failed: {}. {} is written for {} {}, but {} is loaded; the hook is skipped."
+                    + " Update the mixin for this version.", pin[3], mixinClassName, pin[1], pin[2], versionOf.apply(pin[1]));
+            } else {
+                LOGGER.warn("CouncilCraft: {} skipped, it is written for another version of its mod.", mixinClassName);
+            }
             return false;
         }
         return true;
@@ -119,13 +130,22 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
 
     /** False only for a version-pinned mixin whose mod is present in another version. */
     static boolean pinnedVersionMatches(String mixinClassName, Function<String, String> versionOf) {
+        String[] pinned = pinFor(mixinClassName);
+        if (pinned == null) {
+            return true;
+        }
+        String version = versionOf.apply(pinned[1]);
+        return version == null || version.equals(pinned[2]);
+    }
+
+    /** The {@link #PINNED_MIXINS} row for this mixin, or null. */
+    static String[] pinFor(String mixinClassName) {
         for (String[] pinned : PINNED_MIXINS) {
             if (pinned[0].equals(mixinClassName)) {
-                String version = versionOf.apply(pinned[1]);
-                return version == null || version.equals(pinned[2]);
+                return pinned;
             }
         }
-        return true;
+        return null;
     }
 
     /** False only for an optional-mod mixin whose mods are not all loaded. */

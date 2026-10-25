@@ -36,6 +36,7 @@
     "MutantSpawnRampMixin",
     "MutatedExplosionGriefMixin",
     "NameplateExcludedNbtMixin",
+    "NetherPortalRatioMixin",
     "NumismaticsVendorChangeMixin",
     "ParagliderOffhandMovementMixin",
     "ParagliderOffhandStartMixin",
