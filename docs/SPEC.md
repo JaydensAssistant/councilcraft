@@ -1867,3 +1867,66 @@ Jayden locked this on 2026-10-26 at 2:46 PM EDT. Antique Atlas 4 (`antique_atlas
   - Distant Horizons LODs show far terrain but aren't a map.
   - No other pack mod adds a minimap HUD (checked the client mod list for map/atlas/waypoint/hud names).
 - Build check: the config lists all 19 IDs above. Joining with Xaero's Minimap or JourneyMap is rejected. Joining with the stock pack (Antique Atlas + Surveyor) still works.
+
+## PT35 — LOCKED 2026-10-26 14:37 EDT (NOT BUILT, for 0.4.18) — Remove impossible advancements (amends S244 G7; amends PT37's End tab)
+Jayden locked this on 2026-10-26 at 2:37 PM EDT ("look into all the achievements that are impossible with our modpack ... and lock to spec to remove each"). Audit source: the 0.4.17 .mrpack, every mod jar's data/*/advancements, the vanilla 1.20.1 jar, KubeJS, and councilcraft-data. A runtime dump on a 0.4.17 test server gave 6360 loaded advancements, 404 with a display. Every ID below is a real ID from that dump or the jars. Tags: [checked] = verified against config/data/code; [inferred] = reasoned from config, confirm in game.
+- Mechanism (all removals):
+  - For each ID, councilcraft-data ships a file at the same path whose only content is `{"fabric:load_conditions":[{"condition":"fabric:not","value":{"condition":"fabric:all_mods_loaded","values":["minecraft"]}}]}` (an always-false Fabric resource condition, fabric-resource-conditions-api 2.3.9). The advancement loader then skips the ID entirely, so it is gone from the screen, from /advancement, and from the advancementinfo client mod.
+  - Why not impossible+hidden (S244 G7)? A hidden advancement still exists, counts toward totals and shows up in advancementinfo. A real removal is cleaner.
+  - Runtime proof on the test server: this override on minecraft:end/root removed it. Its children then logged "Couldn't load advancement" (missing parent) and the count dropped 6370 -> 6360. So every child of a removed advancement must be removed too or re-parented (below).
+  - These files replace the S244 G7 impossible+hidden overrides at the same paths. voluntary_exile keeps its G7 file (see NOT locked).
+  - When the End opens (PM7), delete the End/BetterEnd/Nullscape files from this entry, and the PT37 End-tab plan applies again.
+- REMOVE: End is disabled (S39/S242):
+  - minecraft:end/root, minecraft:end/dragon_breath, minecraft:end/dragon_egg, minecraft:end/elytra, minecraft:end/enter_end_gateway, minecraft:end/find_end_city, minecraft:end/kill_dragon, minecraft:end/levitate, minecraft:end/respawn_dragon [checked]
+  - minecraft:story/enter_the_end [checked]
+  - nullscape:root [checked]
+  - minecraft:adventure/spyglass_at_dragon (needs the ender dragon) [checked]
+  - minecraft:adventure/kill_all_mobs (needs shulker and ender dragon) [checked]
+  - minecraft:nether/all_effects (needs levitation, which only shulkers give) [checked]
+  - minecraft:adventure/trim_with_all_exclusive_armor_patterns (needs the spire template, which is only in end_city_treasure) [checked]
+  - minecraft:husbandry/balanced_diet (needs chorus fruit: End only; no jar/KubeJS recipe or loot outside BetterEnd/CDP, and the CDP Ending path is cut) [checked]
+  - farmersdelight:main/plant_all_crops (one requirement is placing a minecraft:chorus_flower, which is End only) [checked]
+  - exposure:adventure/void (photograph in the End) [checked]
+  - BetterEnd's whole display set: betterend:root, enter_end, all_the_biomes, village, portal, portal_on, portal_travel, infusion, infusion_finished, hammer, all_elytras, all_the_templates; aeternium_anvil/armor/hammer/hammer_head/plate/tool/tool_head; terminite_anvil/armor/plate/tool/tool_head; thallasium_anvil/armor/plate/tool/tool_head [checked: End-only materials, and 25 of them already have G7 impossible overrides]. betterend:root itself is earnable (any location), but PT37 parents it under minecraft:end/root, which is removed here. It would be a contentless tab, so it goes too. BetterEnd recipe-unlock advancements (no display) are NOT touched.
+- REMOVE: villagers/villages removed (S69/S81/S206, S244 B2):
+  - minecraft:adventure/trade, minecraft:adventure/trade_at_world_height [checked: no villagers, and wandering traders are off]
+  - minecraft:adventure/lightning_rod_with_villager_no_fire, minecraft:adventure/very_very_frightening [checked]
+  - minecraft:story/cure_zombie_villager [checked]
+  - exposure:adventure/exposed_paparazzi (flash-photograph a villager) [checked]
+  - nova_structures:adventure/find_swamp_village (nova_structures:village_swamp has no biomes per S244 B2/S248(c)) [checked]
+  - nova_structures:adventure/find_all_illager_structures (requires village_swamp, and its parent is hero_of_the_village) [checked]
+  - supplementaries:adventure/way_sign (enter a supplementaries:way_sign structure). Supplementaries places way signs only between villages, and S244 C5 turns them off [inferred]
+- REMOVE: raids are off (S95 disableRaids): minecraft:adventure/hero_of_the_village [checked]
+- REMOVE: removed items/blocks/mobs:
+  - minecraft:story/enchant_item: enchanting table recipe removed (PM2a), the D&T manor tables are swapped to bookshelves, and no mod fires the enchanted_item trigger [checked]
+  - create_enchantment_industry:blaze_enchantery, create_enchantment_industry:blazing_enchantment, create_enchantment_industry:sigil_forging, create_enchantment_industry:thousand_runes: Blaze Enchanter and Classic Blaze Enchanter recipes removed [checked]
+  - create_enchantment_industry:probability_spike: its trigger only exists in BlazeEnchanterBlockEntity [checked in code]
+  - create_enchantment_industry:paradox_fusion: needs incompatible enchantments together, but ignoreEnchantmentCompatibility=false [inferred]
+  - mutantmonsters:hulk_smash: needs a Hulk Hammer kill; the hammer is removed (S156) [checked]
+  - mutantmonsters:you_da_bomby: tame a creeper minion; eggs/shard removed (S156) [checked]
+  - exposure:adventure/piercing_gaze: Interplanar Projector removed (PM26) [checked]
+  - friendsandfoes:adventure/kill_illusioner and friendsandfoes:adventure/the_magicians (needs evoker + iceologer + illusioner): F&F enableIllusioner=false, so no spawns, raids or shacks [checked]
+  - paraglider:statues_bargain, paraglider:pray_to_the_goddess, paraglider:all_vessels: statues are emptied (S149/S244 B1); heartContainers=false, staminaVessels=false, spiritOrbGens=false [checked]
+  - minecraft:niftycarts/hand_cart_one_k: hand carts removed (councilcraft_recipes.js); the RU add-on has none [checked]
+  - minecraft:husbandry/place_dried_ghast_in_water: VB dried_ghasts=false [checked]
+  - Already absent at runtime (mod conditions), no action: CEI legacy_ignition and thousandfold_everchant; supplementaries husbandry/wrench and story/unenchanter.
+- RE-PARENT (full jar JSON copy plus the new "parent", same path in councilcraft-data):
+  - minecraft:adventure/summon_iron_golem -> minecraft:adventure/root
+  - supplementaries:adventure/globe -> minecraft:adventure/root (a code-granted placeholder; globe is craftable)
+  - exposure:adventure/unforeseen_consequences -> exposure:adventure/lights_up (photos_of_spider_man stays under it)
+  - nova_structures:adventure/find_illager_mansion, find_illager_manor, find_pillager_outpost, find_witch_villa, loot_illager_hideout, conquer_miner_outpost -> minecraft:adventure/root
+  - create_enchantment_industry:transcendent_overclock -> create_enchantment_industry:lightning_catalysis (Blaze Forger can still fire it with a mutant above-max book, S177)
+  - create_enchantment_industry:omni_enchanter -> create_enchantment_industry:transcendent_overclock (super_enchant stat also counts Blaze Forger super forging)
+- Checked and KEPT (no action): mutantmonsters:no_bones_about_it (crossbow kill in any 4 armor pieces); supplementaries turn_table/goblet/globe (code-granted, features on); husbandry/complete_catalogue (cats_rare + all_black); husbandry/bred_all_animals (VB camels); exposure:adventure/wildlife_archivist; farmersdelight:main/master_chef; F&F kill_iceologer and other mobs (enabled).
+- PT37 amendment: no End tab. PT37's tab-root set becomes {minecraft:story/root, minecraft:adventure/root, minecraft:husbandry/root, minecraft:nether/root, create:root}. When the End opens, PT37's End tab returns.
+- Build checks:
+  - 0 "Couldn't load advancement" lines in the server log.
+  - None of the REMOVE IDs exist (`/advancement grant @s only <id>` fails).
+  - The re-parented IDs show under their new parents.
+  - Re-run the audit on every mod update.
+- NOT locked — needs Jayden:
+  - minecraft:adventure/voluntary_exile: earnable by killing a patrol/outpost captain, but it currently has a G7 impossible override. Restore or remove? kill_iceologer stays under it either way.
+  - minecraft:nether/fast_travel (Subspace Bubble, 7 km of overworld distance via the Nether): possible at 1:1 inside the 20k border, but it means a 7 km Nether trip.
+  - Biome-completion ones (minecraft:adventure/adventuring_time, minecraft:husbandry/whole_pack, regions_unexplored pioneer/regions_explored/spelunker/eternal_expedition): these depend on every biome generating inside the border with the RU/Tectonic datapacks. A /locate sweep was too slow on the test server and was not completed.
+  - create:train_portal (train through a portal; Immersive Portals interplay untested).
+  - create_enchantment_industry:paradox_fusion is locked above as [inferred]; drop it from REMOVE if an in-game test shows the Forger can fuse incompatible enchants.
