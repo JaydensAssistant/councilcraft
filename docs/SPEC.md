@@ -1741,3 +1741,9 @@ Locked by Jayden as proposed, with two changes: clear duration T = 3.5 s (not 2.
   - Nether: when LODs load, and whether the ~1 s hold covers it.
   - The 3.5 s feel.
 - PT31 amendment (Jayden, 2026-10-26 ~14:16 EDT; NOT BUILT): clear duration T = 5.0 s, replacing 3.5 s. u = clamp(t / 5.0 s, 0, 1). The in-game feel check is now for 5.0 s. Everything else in PT31 is unchanged, including the ~1 s destination hold before the clear starts.
+
+## PT32 — LOCKED 2026-10-26 14:18 EDT (NOT BUILT, for 0.4.18) — copy-cost tooltip prefix (amends PT27/PT28)
+- On cost lines, the PT27/PT28 prefix "Copy: " becomes "Printing cost: ". Examples: "Printing cost: 200 mB Black Dye", "Printing cost: 1,250 mB Process Ink", "Printing cost: 1,250 mB Liquid Experience (1,250 XP)". Same grey style and same computation; numbers keep the PT29 thousands separators; strings stay in en_us.json.
+- Reason: "Copy:" could imply the original item is itself a copy.
+- Unchanged for now (Jayden may revisit): "Can't be copied" and "Copy: locked until signed".
+- Build check: harness tooltips on a photo, a signed album and an enchanted book show "Printing cost: …"; the unsigned album and blocked or printed items keep their existing lines.
