@@ -1747,3 +1747,4 @@ Locked by Jayden as proposed, with two changes: clear duration T = 3.5 s (not 2.
 - Reason: "Copy:" could imply the original item is itself a copy.
 - Unchanged for now (Jayden may revisit): "Can't be copied" and "Copy: locked until signed".
 - Build check: harness tooltips on a photo, a signed album and an enchanted book show "Printing cost: …"; the unsigned album and blocked or printed items keep their existing lines.
+- PT32 amendment (Jayden, 2026-10-26 14:18 EDT; NOT BUILT, 0.4.18): the unsigned album tooltip "Copy: locked until signed" becomes "Printing locked until signed" (same grey style, en_us.json). "Can't be copied" stays.
