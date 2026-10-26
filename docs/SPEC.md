@@ -1755,3 +1755,18 @@ Locked by Jayden as proposed, with two changes: clear duration T = 3.5 s (not 2.
 - Stock Exposure 1.9.22 (decompiled AlbumScreen): in adding mode updateWidgetVisibility hides all note widgets and empty photo frames on both pages; drawBackground draws the inventory panel and a highlighted empty frame on the page being added to; nothing dims or re-lays-out a page.
 - Implementation: AlbumTextPageMixin l.100 → `full = blocked` (drop `!adding`). When adding && full, keep the text box visible but inactive and unfocused (override Exposure's visible = false after updateWidgetVisibility; active = false; setFocused(false)). Alternatively draw the note read-only in our render hook if Exposure's picker-mode mouseClicked/keyPressed handling makes that cleaner. Stays pinned to Exposure 1.9.22; no new mixin targets.
 - In-game checks: the facing text page looks unchanged while the picker is open; the note can't be focused or typed into during the picker; the add-target page's highlighted frame still shows; no flicker or re-fade when the picker closes.
+
+## PT34 — LOCKED 2026-10-26 14:34 EDT (NOT BUILT, for 0.4.18) — EMI/JEI Printing recipe tooltips and fluid unit (amends PT14/PT16/PT26/PT27)
+- (a) Output slot line: remove "Each copy is one generation older" (`gui.councilcraft.jei.printing.generation`, en_us.json l.75; CouncilCraftJeiPlugin l.103 and l.141). Replace it with "Printed copy" on all three printing recipes (B&W photo, color photo, signed album). Reason: printed copies carry `councilcraft:printed` and can't be printed again, so the generation line suggested a copy chain that can't happen.
+- (b) Example stacks. Today the album slots use a bare `new ItemStack(exposure:signed_album)` with no NBT (l.121, l.140), and the photo examples have only `photograph_type`. PT27's CopyCostTooltip therefore gets an "invalid" result from create() and shows "Can't be copied" on the input example.
+  - Example input stacks get a display-only `councilcraft:recipe_example` tag. CopyCostTooltip.line() returns null for it, so no cost line shows. The input album reads just "Any original signed album" (per-page cost stays on the ink slot, PT26).
+  - Example output stacks get the real `councilcraft:printed` tag (PrintedCopies.mark), so "Can't be copied" is truthful.
+  - Same for the photo recipes.
+- (c) Ship an EMI config that sets the fluid unit to millibuckets. "Cost per batch: 200 L" becomes "200mB".
+  - The amount is already correct: 200 mB × 81 droplets. EMI 1.1.24 defaults to Liters on Fabric (EmiConfig `ui.fluid-unit`; FluidUnit divides by 81).
+  - Verify the exact config file and syntax (config/emi.css) at build time.
+- Build check: EMI Printing tab, all three recipes.
+  - Input examples show no "Can't be copied" or cost line.
+  - Outputs show "Printed copy" and "Can't be copied".
+  - The fluid cost reads in mB.
+  - Real items' PT27/PT32 tooltips are unchanged.
