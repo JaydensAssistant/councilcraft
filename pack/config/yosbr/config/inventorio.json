@@ -7,6 +7,6 @@
   "SkipEmptyUtilitySlots": false,
   "SwappedHands": false,
   "AggressiveButtonRemoval": false,
-  "ToggleButton": true,
+  "ToggleButton": false,
   "CenteredScreen": false
 }
