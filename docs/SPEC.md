@@ -1634,3 +1634,12 @@ Overrides PT14 / PT14 amendment where they differ.
   - Same pre-existing JEI errors as 0.4.15 (CEIJeiPlugin line 95 item_application category, ExposureJeiPlugin NoSuchMethodError); none from councilcraft. DCI NPE on player leave (S252) as before.
   - All smoke processes killed 01:19 EDT.
 - Unverified (in game): EMI Printing tab entries and the written book next to them; process ink mixing recipe card in EMI; Printer goggles text; copy images rendering the same; fade feel; signed-album lectern view; a Modrinth-hosted install.
+
+## PT13 amendment — LOCKED 2026-10-26 02:44 EDT (NOT BUILT)
+- Jayden's 0.4.15 feedback (clips): the crossing "flashbangs" — through the portal the far terrain looks clear, then on stepping through a haze suddenly covers it and a fog color much darker than the surrounding fog flashes before fading; entering the Overworld reads as terrain slowly appearing rather than fog clearing; worse entering the Nether (Complementary scales Nether fog with render distance, so pulling the distance in squeezes it into a dark wall). Wants it a bit slower and the fog more pronounced.
+- New fade shape (replaces the 3.0 s 1 - smoothstep):
+  1. Start at roughly the distance the portal view just showed (no jump on crossing), ease the fog in from there over ~0.5 s.
+  2. Hold ~0.5 s so the new dimension's fog color settles before the fog thickens (no dark flash).
+  3. Partial dip only: pull the fog distance about halfway in, not to the vanilla chunk edge; shallower in the Nether.
+  4. Clear back out to the normal DH distance over ~4.5 s (~5.5 s total), using an ease-out curve on the distance: the fog edge moves fast through far terrain and slows as it nears the player, so the nearest areas clear slowest.
+- Same mechanism as PT13 (Iris dhRenderDistance mixin + DH fog listener with shaders off); curve and timings tunable. Nothing new added.
