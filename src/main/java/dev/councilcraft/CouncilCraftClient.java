@@ -23,6 +23,11 @@ public final class CouncilCraftClient implements ClientModInitializer {
             dev.councilcraft.print.ProcessInk.FLOWING,
             net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler.coloredWater(dev.councilcraft.print.ProcessInk.TINT)
         );
+        // PT15. The bucket uses Create Dragons Plus's dye bucket model; its layer 0 (the liquid) takes the ink tint.
+        net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry.ITEM.register(
+            (stack, layer) -> layer == 0 ? 0xFF000000 | dev.councilcraft.print.ProcessInk.TINT : -1,
+            dev.councilcraft.print.ProcessInk.BUCKET
+        );
         // PPPM3. Zebras render horse armor.
         dev.councilcraft.compat.client.ZebraArmorFeatureRenderer.register();
         // PPM61. Graphics preset picker (first title screen) and the Video Settings button.

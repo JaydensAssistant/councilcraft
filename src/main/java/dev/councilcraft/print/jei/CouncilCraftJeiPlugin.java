@@ -92,6 +92,9 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
             } else {
                 blackDye(slot, droplets);
             }
+            // PT16. Say which ink this photo type takes.
+            String ink = this.color ? "gui.councilcraft.printer.needs_process_ink" : "gui.councilcraft.printer.needs_black_dye";
+            slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray(ink)));
         }
 
         @Override

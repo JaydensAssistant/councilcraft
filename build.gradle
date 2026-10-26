@@ -68,6 +68,22 @@ dependencies {
     // A stub left that call named getWorld, and every basin crashed with NoSuchMethodError.
     // Ponder and Porting Lib are the versions nested in that Create jar. Not packed into ours.
     modCompileOnly("maven.modrinth:create-fabric:6.0.8.1+build.1744-mc1.20.1") { transitive = false }
+    // Registrate Fabric 1.3.79 (MPL-2.0) is nested in that Create jar and is not on a reachable maven.
+    // ProcessInk's fluid extends VirtualFluid -> SimpleFlowableFluid, so Loom needs the real class to remap
+    // the getBucketItem override (0.4.17: a stub left it unmapped and Create's bucket fill voided the ink).
+    // Copied out of the Create jar into .gradle/nested once. Compile only; not packed into our jar.
+    def registrateJar = file(".gradle/nested/Registrate-1.3.79-MC1.20.1.jar")
+    if (!registrateJar.exists()) {
+        def createJar = configurations.detachedConfiguration(
+                dependencies.create("maven.modrinth:create-fabric:6.0.8.1+build.1744-mc1.20.1") { transitive = false }).singleFile
+        copy {
+            from(zipTree(createJar)) { include "META-INF/jars/Registrate-1.3.79-MC1.20.1.jar" }
+            eachFile { it.path = it.name }
+            includeEmptyDirs = false
+            into registrateJar.parentFile
+        }
+    }
+    modCompileOnly files(registrateJar)
     modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.20.1:1.0.91") { transitive = false }
     modCompileOnly("dev.engine-room.flywheel:flywheel-fabric-1.20.1:1.0.5-264") { transitive = false }
     def portingLib = "2.3.13+1.20.1"

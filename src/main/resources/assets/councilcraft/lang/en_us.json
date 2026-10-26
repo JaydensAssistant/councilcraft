@@ -21,6 +21,8 @@
   "effect.councilcraft.growth_spurt": "Growth Spurt",
   "effect.councilcraft.growth_spurt.desc": "Fed by a friend: grows up %sx as fast. Can't be fed again until this ends.",
   "councilcraft.feed.refused.spurt": "%s is in a Growth Spurt. Feed again in %s.",
+  "councilcraft.feed.refused.too_far": "Too far to feed %s. Get within 3 blocks.",
+  "councilcraft.feed.refused.full": "%s is full.",
   "councilcraft.feed.tooltip": "Feeds a baby for %s minutes",
   "councilcraft.feed.tooltip.one": "Feeds a baby for %s minute",
   "councilcraft.horseshoes.tooltip.header": "When on a horse:",
@@ -78,5 +80,11 @@
   "gui.councilcraft.album.hint.add_photo": "Click to add photo",
   "gui.councilcraft.album.hint.keep_writing": "Keep writing for a",
   "gui.councilcraft.album.hint.full_text_page": "full text page",
-  "gui.councilcraft.album.hint.shorten_for_photo": "Shorten the note to 3 lines to add a photo"
+  "gui.councilcraft.album.hint.shorten_for_photo": "Shorten the note to 3 lines to add a photo",
+  "item.councilcraft.process_ink_bucket": "Process Ink Bucket",
+  "gui.councilcraft.printer.photo_inks.header": "Photo inks:",
+  "gui.councilcraft.printer.photo_inks.black_and_white": "Black Dye: black-and-white photos",
+  "gui.councilcraft.printer.photo_inks.color": "Process Ink: color photos and albums",
+  "gui.councilcraft.printer.photo_inks.slot": "Photo inks: Black Dye (B&W), Process Ink (color)",
+  "councilcraft.carry.cooldown": "Can't pick them up for %s"
 }

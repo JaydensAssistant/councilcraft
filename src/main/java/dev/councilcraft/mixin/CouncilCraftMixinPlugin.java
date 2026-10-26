@@ -64,7 +64,12 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.InventorioSwapHandsMixin", "inventorio"},
         {"dev.councilcraft.mixin.client.ControllerInventorioScreenMixin", "controlify", "inventorio"},
         {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify"},
-        {"dev.councilcraft.mixin.NetherPortalRatioMixin", "immersive_portals"}
+        {"dev.councilcraft.mixin.NetherPortalRatioMixin", "immersive_portals"},
+        {"dev.councilcraft.mixin.DciLeaveGuardMixin", "dcintegration-fabric"},
+        {"dev.councilcraft.mixin.DciCommandGuardMixin", "dcintegration-fabric"},
+        {"dev.councilcraft.mixin.client.CarriedHeadJitterMixin", "carryon"},
+        {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon"},
+        {"dev.councilcraft.mixin.CarryEscapeMixin", "carryon"}
     };
 
     /**
@@ -89,7 +94,15 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.AlbumPhotoSlotMixin", "exposure", "1.9.22",
             "album frame fade and hint (PT14); empty album frames show no hint"},
         {"dev.councilcraft.mixin.client.AlbumViewTextPageMixin", "exposure", "1.9.22",
-            "full-page notes in signed albums (PT14); note-only pages show Exposure's layout"}
+            "full-page notes in signed albums (PT14); note-only pages show Exposure's layout"},
+        // PT18. Raises DCI's own "stopped" flag around its leave hook, and targets lambda$new$2 in McCommandDiscord.
+        {"dev.councilcraft.mixin.DciLeaveGuardMixin", "dcintegration-fabric", "3.0.7",
+            "Discord Integration guard (PT18); without a running bot, leaving players will crash the server"},
+        {"dev.councilcraft.mixin.DciCommandGuardMixin", "dcintegration-fabric", "3.0.7",
+            "Discord Integration guard (PT18); without a running bot, joining players will be kicked"},
+        // PT23. Carry On's CarryRenderHelper / CarriedObjectRender internals (as upstream PR #997).
+        {"dev.councilcraft.mixin.client.CarriedHeadJitterMixin", "carryon", "2.1.2.7"},
+        {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon", "2.1.2.7"}
     };
 
     @Override

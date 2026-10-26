@@ -16,14 +16,16 @@ const CC_KO_KEY = 'cc_ko_by'
 
 // The killing player for a direct PvP hit, or null (mobs, environment, TNT, self-inflicted).
 // KubeJS 6 (1.20.1) exposes DamageSource#getEntity as getActual() and #getDirectEntity as getImmediate();
-// the vanilla names are not visible to scripts (0.4.14 fix).
+// the vanilla names are not visible to scripts (0.4.14 fix). Entity#getUUID is not visible either (0.4.17, PT24:
+// "Cannot find function getUUID"), so entities are compared with equals (the same entity object) and a player's
+// UUID is read from its GameProfile.
 function ccDirectPvpKiller(victim, source) {
   const attacker = source.getActual()
   if (attacker == null || !attacker.isPlayer()) return null
-  if (String(attacker.getUUID()) === String(victim.getUUID())) return null
+  if (attacker.equals(victim)) return null
   const direct = source.getImmediate()
   if (direct == null) return null
-  if (String(direct.getUUID()) === String(attacker.getUUID())) return attacker
+  if (direct.equals(attacker)) return attacker
   return direct instanceof CcProjectile ? attacker : null
 }
 
@@ -55,9 +57,9 @@ EntityEvents.hurt('minecraft:player', event => {
   const victim = event.entity
   if (ccKnockedOut(victim)) return
   const attacker = event.source.getActual()
-  if (attacker == null || !attacker.isPlayer() || String(attacker.getUUID()) === String(victim.getUUID())) return
+  if (attacker == null || !attacker.isPlayer() || attacker.equals(victim)) return
   const rec = new CcCompoundTag()
-  rec.putString('uuid', String(attacker.getUUID()))
+  rec.putString('uuid', String(attacker.getGameProfile().getId()))
   rec.putString('name', String(attacker.getGameProfile().getName()))
   rec.putBoolean('direct', ccDirectPvpKiller(victim, event.source) != null)
   victim.persistentData.put(CC_KO_KEY, rec)

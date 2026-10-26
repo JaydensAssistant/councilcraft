@@ -118,10 +118,4 @@ class Release0416RulesTest {
         assertTrue(lang.contains("\"gui.councilcraft.album.hint.add_photo\": \"Click to add photo\""));
         assertFalse(lang.contains("warning"));
     }
-
-    @Test
-    void versionIs0416() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.16\n"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.16\""));
-    }
 }

@@ -52,7 +52,7 @@
       "minecraft:oak_trapdoor[half]"
     ],
     "//pickupPlayers": "Whether Players can be picked up. Creative players can't be picked up in Survival Mode",
-    "pickupPlayers": false,
+    "pickupPlayers": true,
     "//pickupUnbreakableBlocks": "Whether players in Survival Mode can pick up unbreakable blocks. Creative players always can.",
     "pickupUnbreakableBlocks": false
   },

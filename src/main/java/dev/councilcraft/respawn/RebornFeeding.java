@@ -55,6 +55,10 @@ public final class RebornFeeding {
     public static final Identifier FEEDING = new Identifier(CouncilCraftRules.MOD_ID, "feeding");
     /** PPM67. Action-bar line when the baby is still in a Growth Spurt. */
     public static final String REFUSED_SPURT = "councilcraft.feed.refused.spurt";
+    /** PT21. Action-bar line when the feeder is farther than FeedingRules.MAX_DISTANCE. */
+    public static final String REFUSED_TOO_FAR = "councilcraft.feed.refused.too_far";
+    /** PT21. Action-bar line when the baby is full (and the food is not edible while full). */
+    public static final String REFUSED_FULL = "councilcraft.feed.refused.full";
 
     private record Feed(ServerPlayerEntity target, Hand hand, Item item, Vec3d feederStart, Vec3d targetStart) {
     }
@@ -124,8 +128,7 @@ public final class RebornFeeding {
         }
         ItemStack stack = feeder.getStackInHand(hand);
         if (feeder == target || feeder.isSpectator() || target.isSpectator() || !Reborn.running(target)
-            || minutes(stack) <= 0
-            || feeder.squaredDistanceTo(target) > FeedingRules.MAX_DISTANCE * FeedingRules.MAX_DISTANCE) {
+            || minutes(stack) <= 0) {
             return ActionResult.PASS;
         }
         StatusEffectInstance spurt = target.getStatusEffect(GrowthSpurtEffect.EFFECT);
@@ -135,8 +138,14 @@ public final class RebornFeeding {
                 StatusEffectUtil.getDurationText(spurt, 1.0f)), true);
             return ActionResult.CONSUME;
         }
+        // PT21. Too far or full: same treatment, an action-bar reason and the click is consumed.
+        if (feeder.squaredDistanceTo(target) > FeedingRules.MAX_DISTANCE * FeedingRules.MAX_DISTANCE) {
+            feeder.sendMessage(Text.translatable(REFUSED_TOO_FAR, target.getDisplayName()), true);
+            return ActionResult.CONSUME;
+        }
         if (!canTake(target, stack)) {
-            return ActionResult.PASS;
+            feeder.sendMessage(Text.translatable(REFUSED_FULL, target.getDisplayName()), true);
+            return ActionResult.CONSUME;
         }
         FEEDS.put(feeder, new Feed(target, hand, stack.getItem(), feeder.getPos(), target.getPos()));
         feeder.setCurrentHand(hand);

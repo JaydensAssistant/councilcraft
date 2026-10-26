@@ -92,6 +92,10 @@ public final class CouncilCraft implements ModInitializer {
                 "Carry On weight as Overencumbered (PPM35)"
             );
         }
+        if (FabricLoader.getInstance().isModLoaded("carryon")) {
+            requireClass("tschipp.carryon.common.carry.PlacementHandler", "baby-only player carrying (PT22)");
+            dev.councilcraft.carry.BabyCarry.register();
+        }
         if (FabricLoader.getInstance().isModLoaded("inventorio")) {
             requireClass(
                 "net.mehvahdjukaar.supplementaries.common.utils.fabric.ItemsUtilImpl",

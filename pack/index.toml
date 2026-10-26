@@ -34,7 +34,7 @@ hash = "507aa13edaa287f38f0d6531cf3617c3935f9ece9b8dfce6c5e03cffc7b042c0"
 
 [[files]]
 file = "config/carryon-common.json"
-hash = "3d3faf9f2138716d024868532f6137b35fe59b3dc48d63a5f8547a37358d3d51"
+hash = "03d7f96fdc211d02c90703044466204eaa0564e5a5ce24136c26230d01d6edfa"
 
 [[files]]
 file = "config/create-server.toml"
@@ -322,7 +322,7 @@ hash = "7375515bc0e5c2fb7eb06cde38fcf83faf3c017a8f6b8117395f852f59995bfa"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_heads.js"
-hash = "418b4882a2cff5f750db99f8cd3dcaf1a5c1ccd31e3126cf9afabb1f021c842b"
+hash = "78bc3d691a3ea272da55e99a12bb8f81a1b814e4c2a5cfa9e429f591f17ace57"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"

@@ -102,7 +102,7 @@ class Release0412RulesTest {
     void pvpHeadsDropBesideTheGraveIncludingHardcoreRevivalKnockouts() throws IOException {
         // PPM103 / PPM104.
         String js = read("pack/kubejs/server_scripts/councilcraft_heads.js");
-        assertTrue(js.contains("if (String(attacker.getUUID()) === String(victim.getUUID())) return null"));
+        assertTrue(js.contains("if (attacker.equals(victim)) return null")); // 0.4.17 PT24: getUUID is not visible to Rhino
         assertTrue(js.contains("return direct instanceof CcProjectile ? attacker : null"));
         assertTrue(js.contains("'Slain by ' + killerName"));
         assertTrue(js.contains("victim.drop(head, true, false)"));

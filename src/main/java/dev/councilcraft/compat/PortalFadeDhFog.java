@@ -8,9 +8,9 @@ import dev.councilcraft.compat.client.PortalDhDepth;
 import dev.councilcraft.compat.client.PortalFade;
 
 /**
- * PT13, shaders off. During the portal fade, Distant Horizons' far fog moves toward full fog (the values DH
- * itself uses for blindness/lava: start 0, end 1, thickness 1, density 1) and back to the player's settings
- * as the fade ends. Client only, loaded only when Distant Horizons and Immersive Portals are both present.
+ * PT13, shaders off. During the portal fade, Distant Horizons' far fog moves part way (by the fade, at most
+ * the dip) toward full fog (the values DH itself uses for blindness/lava: start 0, end 1, thickness 1,
+ * density 1) and back to the player's settings as the fade ends. Client only, loaded only when Distant Horizons and Immersive Portals are both present.
  */
 public final class PortalFadeDhFog extends DhApiBeforeFogRenderEvent {
     private PortalFadeDhFog() {
