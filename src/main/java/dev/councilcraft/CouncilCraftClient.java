@@ -17,6 +17,7 @@ public final class CouncilCraftClient implements ClientModInitializer {
         RebornClient.register();
         dev.councilcraft.respawn.RebornFeedingClient.register();
         HorseshoeTooltip.register();
+        dev.councilcraft.print.CopyCostTooltip.register();
         // PT14. Process ink is drawn with the vanilla water texture, tinted.
         net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry.INSTANCE.register(
             dev.councilcraft.print.ProcessInk.STILL,

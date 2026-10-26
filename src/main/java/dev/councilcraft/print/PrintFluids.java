@@ -41,7 +41,7 @@ final class PrintFluids {
             return true;
         }
         OptionalInt c = cost(fluid, color, cost);
-        return c.isPresent() && c.getAsInt() <= capacityMb(tank);
+        return c.isPresent() && PrintPricing.fitsPrinter(c.getAsInt(), capacityMb(tank));
     }
 
     static long droplets(FluidStack fluid, boolean color, int cost) {
@@ -52,7 +52,7 @@ final class PrintFluids {
         return new LangBuilder("create_enchantment_industry");
     }
 
-    /** Same layout as CEI's written-book goggles: header, title, author, cost or wrong-liquid warning. */
+    /** Same layout as CEI's written-book goggles: header, title, author, ink, wrong-liquid warning, cost. */
     static void goggles(List<Text> tooltip, SmartFluidTankBehaviour tank, Text title, String author, boolean color, int cost) {
         cei().translate("gui.goggles.printing").forGoggles(tooltip);
         cei().add(title.copy()).style(Formatting.GRAY).forGoggles(tooltip, 1);
@@ -61,19 +61,15 @@ final class PrintFluids {
         }
         cei().add(Text.translatable(color ? "gui.councilcraft.printer.needs_process_ink" : "gui.councilcraft.printer.needs_black_dye"))
             .style(Formatting.GRAY).forGoggles(tooltip, 1);
+        // PT25. The cost line shows whatever the tank holds. Green or red says whether one copy fits in the
+        // printer's tank, which is true for an empty tank too; the wrong ink adds CEI's red warning above it.
         FluidStack fluid = tank.getPrimaryHandler().getFluid();
-        if (fluid.isEmpty()) {
-            return;
-        }
-        OptionalInt c = cost(fluid, color, cost);
-        if (c.isEmpty()) {
+        if (!fluid.isEmpty() && cost(fluid, color, cost).isEmpty()) {
             cei().translate("gui.goggles.printing.incorrect_liquid").style(Formatting.RED).forGoggles(tooltip);
-            return;
         }
-        int cap = capacityMb(tank);
         cei().translate("gui.goggles.printing.cost",
-                CreateLang.number(c.getAsInt()).add(CreateLang.translate("generic.unit.millibuckets")))
-            .style(c.getAsInt() <= cap ? Formatting.GREEN : Formatting.RED)
+                CreateLang.number(cost).add(CreateLang.translate("generic.unit.millibuckets")))
+            .style(PrintPricing.fitsPrinter(cost, capacityMb(tank)) ? Formatting.GREEN : Formatting.RED)
             .forGoggles(tooltip, 1);
     }
 }

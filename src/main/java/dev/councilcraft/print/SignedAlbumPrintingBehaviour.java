@@ -137,6 +137,16 @@ public final class SignedAlbumPrintingBehaviour implements PrintingBehaviour {
         return true;
     }
 
+    /** PT27. Whether this copy is paid in process ink (else black dye). */
+    boolean printsInColor() {
+        return this.color;
+    }
+
+    /** PT27. The cost of one copy in mB, the same number the printer charges. */
+    int copyCostMb() {
+        return this.cost;
+    }
+
     @Override
     public boolean isValid() {
         return PrintFluids.isValid(this.tank, this.color, this.cost);

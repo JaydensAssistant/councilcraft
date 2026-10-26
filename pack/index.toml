@@ -314,7 +314,7 @@ hash = "fec6c7d0382cf85b9490cf8d7ddd15cee1bb6e9efb532ddff41e84254f0bcdf6"
 
 [[files]]
 file = "kubejs/client_scripts/councilcraft_tooltips.js"
-hash = "01f72d4bb53506f9628037e1f610e3bd07d0438e558ab5961005f2429f264e18"
+hash = "9d5322e0f8853e07ea7578d8168426daf43f3eb23da4b9d539083e925d161d2f"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_end.js"

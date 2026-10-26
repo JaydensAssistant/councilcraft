@@ -83,6 +83,16 @@ public final class PhotoPrintingBehaviour implements PrintingBehaviour {
         return Optional.of(DataResult.success(new PhotoPrintingBehaviour(tank, result, isColor(tag), photographer(tag))));
     }
 
+    /** PT27. Whether this copy is paid in process ink (else black dye). */
+    boolean printsInColor() {
+        return this.color;
+    }
+
+    /** PT27. The cost of one copy in mB, the same number the printer charges. */
+    int copyCostMb() {
+        return PrintPricing.PHOTO_MB;
+    }
+
     @Override
     public boolean isValid() {
         return PrintFluids.isValid(this.tank, this.color, PrintPricing.PHOTO_MB);

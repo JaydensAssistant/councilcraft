@@ -127,8 +127,10 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
             long droplets = PrintPricing.PHOTO_MB * DROPLETS_PER_MB;
             blackDye(slot, droplets);
             slot.addFluidStack(ProcessInk.STILL, droplets);
+            // PT26. The slot shows one photo page's ink, so say so: the album total depends on its pages.
             slot.addRichTooltipCallback((view, tooltip) -> {
-                tooltip.add(gray("gui.councilcraft.jei.printing.album_cost"));
+                tooltip.add(Text.translatable("gui.councilcraft.jei.printing.album_cost",
+                    PrintPricing.format(PrintPricing.PHOTO_MB), PrintPricing.format(PrintPricing.NOTE_MB)).formatted(Formatting.GRAY));
                 tooltip.add(gray("gui.councilcraft.jei.printing.album_ink"));
             });
         }

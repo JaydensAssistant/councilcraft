@@ -69,7 +69,8 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.DciCommandGuardMixin", "dcintegration-fabric"},
         {"dev.councilcraft.mixin.client.CarriedHeadJitterMixin", "carryon"},
         {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon"},
-        {"dev.councilcraft.mixin.CarryEscapeMixin", "carryon"}
+        {"dev.councilcraft.mixin.CarryEscapeMixin", "carryon"},
+        {"dev.councilcraft.mixin.client.PunchyAlbumEquipMixin", "punchy"}
     };
 
     /**
@@ -102,7 +103,9 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
             "Discord Integration guard (PT18); without a running bot, joining players will be kicked"},
         // PT23. Carry On's CarryRenderHelper / CarriedObjectRender internals (as upstream PR #997).
         {"dev.councilcraft.mixin.client.CarriedHeadJitterMixin", "carryon", "2.1.2.7"},
-        {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon", "2.1.2.7"}
+        {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon", "2.1.2.7"},
+        // PT17. Punchy's private HandEquipStateMachine.hasItemChanged(ItemStack, ItemStack).
+        {"dev.councilcraft.mixin.client.PunchyAlbumEquipMixin", "punchy", "2.8g"}
     };
 
     @Override

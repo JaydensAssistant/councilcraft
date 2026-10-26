@@ -116,4 +116,17 @@ class OptionalMixinTest {
         assertTrue(pin.length == 4 && pin[3].contains("PT13"));
         assertTrue(CouncilCraftMixinPlugin.pinFor(ip).length == 3);
     }
+
+    // ---- 0.4.17 ----
+
+    @Test
+    void punchyAlbumEquipNeedsPunchy28g() {
+        String punchy = "dev.councilcraft.mixin.client.PunchyAlbumEquipMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(punchy, Set.of("punchy")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(punchy, Set.of()::contains));
+        assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches(punchy, Map.of("punchy", "2.8g")::get));
+        assertFalse(CouncilCraftMixinPlugin.pinnedVersionMatches(punchy, Map.of("punchy", "2.8h")::get));
+        // Another Punchy only warns: the album bob comes back, nothing else breaks.
+        assertTrue(CouncilCraftMixinPlugin.pinFor(punchy).length == 3);
+    }
 }

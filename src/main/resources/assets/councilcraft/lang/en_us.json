@@ -75,7 +75,7 @@
   "gui.councilcraft.jei.printing.generation": "Each copy is one generation older",
   "gui.councilcraft.jei.printing.album_base": "An empty album",
   "gui.councilcraft.jei.printing.album_template": "Any original signed album",
-  "gui.councilcraft.jei.printing.album_cost": "200 mB per page with a photo, plus 10 mB per page with a note",
+  "gui.councilcraft.jei.printing.album_cost": "%s mB per photo page, plus %s mB per note page",
   "gui.councilcraft.jei.printing.album_ink": "Black Dye for black-and-white albums; Process Ink if any photo is in color",
   "gui.councilcraft.album.hint.add_photo": "Click to add photo",
   "gui.councilcraft.album.hint.keep_writing": "Keep writing for a",
@@ -86,5 +86,10 @@
   "gui.councilcraft.printer.photo_inks.black_and_white": "Black Dye: black-and-white photos",
   "gui.councilcraft.printer.photo_inks.color": "Process Ink: color photos and albums",
   "gui.councilcraft.printer.photo_inks.slot": "Photo inks: Black Dye (B&W), Process Ink (color)",
+  "tooltip.councilcraft.copy.black_dye": "Copy: %s mB Black Dye",
+  "tooltip.councilcraft.copy.process_ink": "Copy: %s mB Process Ink",
+  "tooltip.councilcraft.copy.experience": "Copy: %s mB Liquid Experience (%s XP)",
+  "tooltip.councilcraft.copy.cant": "Can't be copied",
+  "tooltip.councilcraft.copy.unsigned": "Copy: locked until signed",
   "councilcraft.carry.cooldown": "Can't pick them up for %s"
 }
