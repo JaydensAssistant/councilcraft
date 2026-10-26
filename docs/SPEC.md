@@ -1740,3 +1740,4 @@ Locked by Jayden as proposed, with two changes: clear duration T = 3.5 s (not 2.
   - client.world is already the destination when the IP hook fires (the tick backup covers it otherwise).
   - Nether: when LODs load, and whether the ~1 s hold covers it.
   - The 3.5 s feel.
+- PT31 amendment (Jayden, 2026-10-26 ~14:16 EDT; NOT BUILT): clear duration T = 5.0 s, replacing 3.5 s. u = clamp(t / 5.0 s, 0, 1). The in-game feel check is now for 5.0 s. Everything else in PT31 is unchanged, including the ~1 s destination hold before the clear starts.
