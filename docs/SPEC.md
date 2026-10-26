@@ -1770,3 +1770,57 @@ Locked by Jayden as proposed, with two changes: clear duration T = 3.5 s (not 2.
   - Outputs show "Printed copy" and "Can't be copied".
   - The fluid cost reads in mB.
   - Real items' PT27/PT32 tooltips are unchanged.
+
+## PT36 — LOCKED 2026-10-26 14:43 EDT (NOT BUILT, for 0.4.18) — CMYK Ink: rename, CMYK textures, real placeable fluid, Ponder scene (amends PT26/PT34)
+Jayden locked this on 2026-10-26 at 2:43 PM EDT. Registry IDs are unchanged (`councilcraft:process_ink`, `councilcraft:process_ink_bucket`).
+- (a) Rename. The display name "Process Ink" becomes "CMYK Ink", and the bucket becomes "Bucket of CMYK Ink".
+  - Update every "Process Ink" string:
+    - src/main/resources/assets/councilcraft/lang/en_us.json (l.66, 68, 79, 84, 87, 88, 90 as of 0d355ee);
+    - pack/kubejs/assets/councilcraft/lang/en_us.json (EMI info text);
+    - the comment or text in pack/kubejs/server_scripts/councilcraft_recipes.js;
+    - the assertions in src/test/java/dev/councilcraft/rules/Release0417RulesTest.java.
+  - Add a block lang key for the new fluid block.
+- (b) Textures. Use vertical C/M/Y/K bands: #00B4EF / #EC108C / #FFE81A / #3A3A44. Source: /workspace/minecraft/mockups/cmyk/make_cmyk.py ("vertical" variant).
+  - Still and flowing textures are animated, with .mcmeta files.
+  - The bucket item texture gets matching bands.
+  - The textures replace the current tint (TINT 0x2B2A4C / CouncilCraftClient tinting). The fluid renders untinted.
+- (c) Make it a real placeable fluid. Replace the VirtualFluid with SimpleFlowableFluid Source and Flowing.
+  - Add a FluidBlock `councilcraft:process_ink` with a blockstate.
+  - The bucket places the fluid: remove the placeFluid override that returns false (ProcessInkBucketItem l.41–45).
+  - Use the translucent render layer.
+  - This also fixes EMI. Create's EMI plugin removes VirtualFluid stacks from the index, which is why the process_ink_mixing recipe doesn't show today. As a real fluid, the mixing recipe shows on R and U.
+- (d) Ponder scene in our mod. Register a PonderPlugin from CouncilCraftClient (Ponder-Fabric is already compileOnly). The scene:
+  - basin + mixer: black dye fluid plus C, M and Y dyes make CMYK Ink;
+  - a pipe carries it into the CEI Printer, which makes a color photo copy;
+  - optional beat: a placed pool of the ink.
+  - Ship it as an .nbt structure with lang keys. Show it on the CMYK Ink bucket the way Create Dragons Plus does for its dye fluids.
+- Build checks (in game):
+  - Bucket placement and pickup.
+  - EMI R/U on the fluid and bucket, with the mixing recipe visible.
+  - Ponder scene pacing.
+  - Textures in tanks, pipes, the basin and the printer.
+  - Tests updated for the new strings.
+
+## PT37 — LOCKED 2026-10-26 14:43 EDT (NOT BUILT, for 0.4.18) — Themed advancement tabs (build together with PT35)
+Jayden locked this on 2026-10-26 at 2:43 PM EDT. It merges the 17 advancement tabs in 0.4.17 into themed tabs, so the pack reads as one game. Method: root overrides in pack/moonlight-global-datapacks/councilcraft-data. This pack loads after the `fabric` mod-jar pack, so the overrides win.
+- Each folded mod root is overridden by the same path, as a full copy of the jar JSON plus a `"parent"`. Only roots are overridden; children keep pointing at their own root. Vanilla positions the tree automatically (AdvancementPositioner).
+- Engineering = `create:root`, retitled "Engineering" via a CouncilCraft lang key. Folded in:
+  - create_enchantment_industry:root
+  - numismatics:root
+  - railways:root
+  - minecraft:niftycarts/root
+- Adventure (minecraft:adventure/root). Folded in:
+  - mutantmonsters:root
+  - betterdungeons:root
+  - betterdeserttemples:root
+  - regions_unexplored:parent
+  - paraglider:root
+- Husbandry (minecraft:husbandry/root). Folded in: farmersdelight:main/root.
+- Story and Nether are unchanged.
+- End (minecraft:end/root) stays hidden and takes betterend:root.
+- Visible tabs afterwards: Story, Adventure, Husbandry, Nether, Engineering. End stays hidden.
+- Build-time test:
+  - The set of advancement tab roots (displayed advancements with no parent) must equal exactly {minecraft:story/root, minecraft:adventure/root, minecraft:husbandry/root, minecraft:nether/root, minecraft:end/root, create:root}.
+  - The server log must have 0 "Couldn't load advancement" errors (0 in the 0.4.17 baseline).
+  - Re-run on every mod update. A renamed mod root would otherwise bring its tab back silently.
+- Build together with PT35 (impossible advancements), because they touch overlapping betterend/end files.
