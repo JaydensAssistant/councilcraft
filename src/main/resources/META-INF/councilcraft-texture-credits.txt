@@ -56,3 +56,38 @@ assets/councilcraft/textures/mob_effect/reborn.png is original CouncilCraft
 art. It is an 18x18 baby face, hand-pixeled for this mod. It is not a recolor
 and it has no third-party source. No AI-generated art. Vanilla uses this one
 texture for both the HUD icon and the inventory effect icon.
+
+Blank album page texture (PT14)
+
+assets/councilcraft/textures/gui/album_blank_page.png is a modified copy of
+Exposure 1.9.22's assets/exposure/textures/gui/album.png. The note lines were
+removed and the photo frame area was filled from the page's own paper colours
+by tools/album_blank_page.py in the CouncilCraft source. No new pixels were
+drawn and no AI image generation was used.
+Source: Exposure 1.9.22 (1.20.1-1.9-backport branch of
+https://github.com/mortuusars/Exposure)
+Author: mortuusars
+Licence: MIT. The copyright notice and permission notice below are included
+because this file is a modified copy of that texture.
+
+MIT License
+
+Copyright (c) 2025 mortuusars
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

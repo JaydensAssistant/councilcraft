@@ -82,7 +82,14 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.IrisPortalFadeUniformMixin", "iris", "1.7.6+mc1.20.1",
             "portal fog fade-in with shaders (PT13); distant terrain will pop in after portal crossings"},
         // PT13. Starts the fade at the end of IP's ClientTeleportationManager.changePlayerDimension.
-        {"dev.councilcraft.mixin.client.IpDimensionChangeFadeMixin", "immersive_portals", "5.2.0"}
+        {"dev.councilcraft.mixin.client.IpDimensionChangeFadeMixin", "immersive_portals", "5.2.0"},
+        // PT14. Text-only album pages: Exposure's AlbumScreen, PhotographSlotWidget and AlbumViewScreen internals.
+        {"dev.councilcraft.mixin.client.AlbumTextPageMixin", "exposure", "1.9.22",
+            "text-only album pages (PT14); album notes keep Exposure's 3-line layout"},
+        {"dev.councilcraft.mixin.client.AlbumPhotoSlotMixin", "exposure", "1.9.22",
+            "album frame fade and hint (PT14); empty album frames show no hint"},
+        {"dev.councilcraft.mixin.client.AlbumViewTextPageMixin", "exposure", "1.9.22",
+            "full-page notes in signed albums (PT14); note-only pages show Exposure's layout"}
     };
 
     @Override

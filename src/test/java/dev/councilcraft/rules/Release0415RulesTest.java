@@ -80,10 +80,4 @@ class Release0415RulesTest {
         assertFalse(iris.contains("method = \"getRenderDistance"));
         assertFalse(iris.contains("DHCompat\""));
     }
-
-    @Test
-    void versionIs0415() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.15\n"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.15\""));
-    }
 }

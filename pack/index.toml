@@ -230,7 +230,7 @@ hash = "b37b627c5c7a937044085333125d98c7394ff3526542f3ee1931ce5761880cd4"
 
 [[files]]
 file = "credits.txt"
-hash = "a05ab0f4d95477514484318df9d6e99e1356bb03aa73d819f57c750f02573b03"
+hash = "766979c8d4f7728319faa2c7d04aa4901647b2d5f1c76e41927e919fc05652b0"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -258,7 +258,7 @@ hash = "2104238e04a8a6f3d23598147f179f72ef004a3de4504c7bc12c0c573b57ff43"
 
 [[files]]
 file = "kubejs/assets/councilcraft/lang/en_us.json"
-hash = "0cf27440a0a3d098c10eba4e7e7dbc3c1467e8e36c4c3d7a4bb34dc01a1ef478"
+hash = "e0300b186daaf5c6ffa689d139023319a0998e1e63114a41151b3083b10e7bd3"
 
 [[files]]
 file = "kubejs/assets/emi/index/stacks/councilcraft_hidden.json"
@@ -326,7 +326,7 @@ hash = "418b4882a2cff5f750db99f8cd3dcaf1a5c1ccd31e3126cf9afabb1f021c842b"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "687e23ea5c91da939e7f276114f35a976e28096503893f760d93d125b4a0f3a1"
+hash = "41fc7ea9dbf7264a40ea792f6e16bf331e34e67572f85352a60783a1b867339a"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"

@@ -112,6 +112,8 @@ public final class CouncilCraft implements ModInitializer {
             // PPM100. Separate class so Immersive Portals and Surveyor types load only when both mods are present.
             dev.councilcraft.compat.SurveyorPortalExploration.register();
         }
+        // PT14. Photo and signed-album printing through CEI's public printing-behaviour registry, and process ink.
+        dev.councilcraft.print.CouncilCraftPrinting.register();
         // PPM102. Donor badges and government roles (server side; the client needs nothing).
         dev.councilcraft.supporter.Supporters.register();
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());

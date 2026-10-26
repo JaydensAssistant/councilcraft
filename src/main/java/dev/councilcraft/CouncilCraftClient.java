@@ -17,6 +17,12 @@ public final class CouncilCraftClient implements ClientModInitializer {
         RebornClient.register();
         dev.councilcraft.respawn.RebornFeedingClient.register();
         HorseshoeTooltip.register();
+        // PT14. Process ink is drawn with the vanilla water texture, tinted.
+        net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry.INSTANCE.register(
+            dev.councilcraft.print.ProcessInk.STILL,
+            dev.councilcraft.print.ProcessInk.FLOWING,
+            net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler.coloredWater(dev.councilcraft.print.ProcessInk.TINT)
+        );
         // PPPM3. Zebras render horse armor.
         dev.councilcraft.compat.client.ZebraArmorFeatureRenderer.register();
         // PPM61. Graphics preset picker (first title screen) and the Video Settings button.

@@ -19,6 +19,9 @@
     ],
     "controlify": [
       "dev.councilcraft.client.compat.ControlifyQuiverCycle"
+    ],
+    "jei_mod_plugin": [
+      "dev.councilcraft.print.jei.CouncilCraftJeiPlugin"
     ]
   },
   "mixins": [

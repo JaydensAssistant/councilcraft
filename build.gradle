@@ -118,6 +118,9 @@ dependencies {
     // binding glyphs through its API (ControlifyApi, BindingFontHelper). The PPM86 / PPM87 mixins are
     // @Pseudo string targets.
     modCompileOnly("maven.modrinth:controlify:sDAshEPv") { transitive = false }
+    // 0.4.16 (PT14), compile only: JEI 15.20.0.132 Fabric (u6dRKJwZ / dI7d5ZeA) API for the photo and album
+    // entries in CEI's Printing category (EMI shows them through JEMI). Used only when CEI and JEI are loaded.
+    modCompileOnly("maven.modrinth:jei:dI7d5ZeA") { transitive = false }
     // PPM88 reads Inventorio's utility-belt slot range, a Kotlin IntRange. Kotlin itself comes from
     // Fabric Language Kotlin, which Inventorio requires at runtime.
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
