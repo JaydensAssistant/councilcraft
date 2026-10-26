@@ -1,6 +1,6 @@
 # CouncilCraft tips v3
 
-2026-10-26, revised 18:18 EDT per Jayden's edit list. **Total: 55 tips** (12 [N] newcomer). Every tip is ≤100 chars (script-checked; ⚑ and 🔗 markers not counted). Not installed; no repo or config changes.
+2026-10-26, revised 18:18 EDT per Jayden's edit list. **Total: 55 tips** (13 [N] newcomer). Every tip is ≤100 chars (script-checked; ⚑ and 🔗 markers not counted). Not installed; no repo or config changes.
 **[N]** = newcomer pool. ⚑ = check in game. 🔗 = could be clickable. Removed: draft #26 (PvP head), K shaders, C zoom; 17:50 removals: album, AFK, portals, vendor change, Vanilla look, Mod settings guide. 17:57: new Exposure, cannon, Supplementaries, vendor/bank, tool belt, Carry On, paraglider, Navigator tips. 18:18: cannon tips merged, vendor tips merged, Navigator removed, Create trains added.
 Tip on the world border goes stale once growth is resumed: see the border note at the end.
 
@@ -66,7 +66,7 @@ Tip on the world border goes stale once growth is resumed: see the border note a
 | 31 | **[N]** After dying you come back Reborn: small, weak and hungrier. Six hours of active play grows you up. | 98 | draft #21 (v2: + hunger) | S251 L819 |
 | 32 | Hold right-click on a Reborn friend with food, staying close and still, to give them a Growth Spurt. | 100 | draft #22 | PM24a L889; PPM34 L1085; RebornFeeding.java L41-44 (feed runs only while feeder keeps using the item) |
 | 33 | Adults can carry Reborn babies with an empty hand, but babies can wriggle free, so hold on tight. | 97 | v3 #28 + #29 (merged) | PT22 L1656; L1659/L1661 wriggle-free; built L1680; Carry On empty-hand pickup (CarryOnCommonClient: unbound carry key falls back to sneak) |
-| 34 | Downed? Friends have 2 minutes to revive you by holding right-click 2 seconds. Lava kills outright. ⚑ | 99 | v3 #30 + #31 (merged) | ticksUntilDeath 2400; rescueActionTicks 40; instantDeathSources minecraft:lava; SPEC L1428; ⚑ gesture is mod default |
+| 34 | **[N]** Downed? Friends have 2 minutes to revive you by holding right-click 2 seconds. Lava kills outright. ⚑ | 99 | v3 #30 + #31 (merged) | ticksUntilDeath 2400; rescueActionTicks 40; instantDeathSources minecraft:lava; SPEC L1428; ⚑ gesture is mod default |
 | 35 | Your grave holds your items and half your XP. Return to where you fell to collect them. | 87 | draft #25 (v2: no 'anyone can loot') | forgottengraves.json percentage 50 |
 
 ## Animals
@@ -105,8 +105,8 @@ Tip on the world border goes stale once growth is resumed: see the border note a
 |---|---|---|---|---|
 | 46 | A sack holds 9 stacks you can carry or set down. Lugging more than 2 slows you, and it gets worse. | 98 | added; 17:57 + 9 slots | supplementaries-common.json sack_penalty, sack_increment 2; PM29 L898; sack slots 9 |
 | 47 | A quiver holds 6 stacks of arrows. Keep it in your inventory and your bow fires the type you select. | 100 | added; v4 no keybind | supplementaries-common.json quiver slots 6, only_works_in_curio false; QuiverItem/SelectableContainerItem (3.1.44 jar); PPM105 L1451 |
-| 48 | Your tool belt holds a pickaxe, axe, shovel and hoe, and mining picks the right one for you. | 92 | new 17:57 | PPM68 L1216 (belt = pickaxe, axe, shovel, hoe; automatic tool selection kept) |
-| 49 | **[N]** Crouch and right-click with empty hands to carry chests, contents and all, or animals. It slows you. | 100 | new 17:57; 18:18 general Carry On | carryon-common.json: pickupHostileMobs false, heavyTiles/heavyEntities true, slowness 1.0, entity max 1.5w x 2.5h, blacklist smallships:*/armor stands/item frames etc.; players only Reborn babies (PT22 L1656); CarryOnCommonClient unbound key -> sneak; S164 L363 |
+| 48 | **[N]** Your tool belt holds a pickaxe, axe, shovel and hoe, and mining picks the right one for you. | 92 | new 17:57 | PPM68 L1216 (belt = pickaxe, axe, shovel, hoe; automatic tool selection kept) |
+| 49 | Crouch and right-click with empty hands to carry chests, contents and all, or animals. It slows you. | 100 | new 17:57; 18:18 general Carry On | carryon-common.json: pickupHostileMobs false, heavyTiles/heavyEntities true, slowness 1.0, entity max 1.5w x 2.5h, blacklist smallships:*/armor stands/item frames etc.; players only Reborn babies (PT22 L1656); CarryOnCommonClient unbound key -> sneak; S164 L363 |
 | 50 | A lunch basket holds 6 stacks of food. Switch it open and you can eat straight from it. ⚑ | 87 | new 17:57 | supplementaries-common.json lunch_basket slots 6; lang lunch_box.tooltip '[%s] to switch mode'; LunchBoxItem use(). ⚑ eat-from-open behaviour |
 
 ## Handy blocks
