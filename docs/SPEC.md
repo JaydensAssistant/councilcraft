@@ -1714,3 +1714,29 @@ Locked by Jayden ("Lock all of those bullet points").
 - PT30: The above-max book tooltip is gold "Apply with a Super Blaze Forger (Experience Cake)". In the harness it sits alongside "Can't be copied" on Protection V.
 - Needs Jayden in game: the feel of typing in a real album GUI (PT17), the goggles feel, and servers.dat in a real install.
 - SHA-1: jar fd0ebd7ec6760a0e977028f0fd6eef0de0e3df51; full mrpack 8c8fb4ec613e4eb008fec4719d69b58188fbb8b0; no-cc mrpack 91b303f82bea568bcb83a16b6eb674fdc8592010. These match the downloaded release assets.
+
+## PT31 — LOCKED 2026-10-26 ~14:15 EDT (NOT BUILT, for 0.4.18) — portal fog fade redesign (amends PT13 and the 0.4.17 PT13 amendment)
+Locked by Jayden as proposed, with two changes: clear duration T = 3.5 s (not 2.0 s), and the optional destination hold included.
+- Root cause of the 0.4.17 symptom (verified in code; the released 0.4.17 jar fd0ebd7e… matches source): PortalFade.fadeAt is a "dip". The fade is 0 at the crossing, so LODs render at the full DH distance at once. It then eases up to a dip by 0.5 s (IN_SECONDS), holds to 1.0 s (HOLD_END_SECONDS) and clears with an ease-out by 5.5 s; DIP 0.5, DIP_NETHER 0.3.
+  - Shaders on: Iris dhRenderDistance moves halfway from 4096 blocks toward the vanilla edge (~2100 blocks), so only far LODs (~100+ chunks) fade out and back in.
+  - Shaders off: PortalFadeDhFog lerps min thickness 0 -> 0.5 (and start -> 0), so every LOD fades out and back in.
+- PT13's wrong assumption: the 0.4.17 amendment ("start at roughly the distance the portal view just showed") assumed the portal view showed LODs. It shows none. DH 3.3.3's Immersive Portals compat cancels the LOD pass during portal rendering, and our DhPortalDeferredFix cancels the deferred pass. Only real chunks show through a portal: IP 5.2.0 ChunkVisibility loads at most min(server view distance, performance-level cap, indirectLoadingRadiusCap = 8) chunks around the destination portal, so <= 8 chunks.
+- Video evidence (Jayden, 0.4.17): shaders on, far LODs pop in at once, fade out over ~1–1.5 s, then come back by ~3.5 s. Shaders off, all LODs do the same. Entering the Nether, everything appears at once.
+- Design:
+  - V = 16 × min(clamped client view distance, server view distance, effective IP cap (normally 8)) blocks. This is the real-chunk edge seen through the portal.
+  - L = DH lodChunkRenderDistanceRadius × 16 blocks.
+  - u = clamp(t / 3.5 s, 0, 1), counted from the crossing. e = 1 − (1 − u)³ (ease-out). Monotonic: no fade-in, no hold, no dip.
+  - d(u) = V × (L / V)^e (log scale, so the edge recedes evenly).
+  - Destination hold: keep u = 0 until DH's level-load event fires for the destination level, capped at ~1 s; then start the 3.5 s clear. This applies to every crossing, the Nether included.
+  - Shaders on: dhRenderDistance = round(d), never above the real value.
+  - Shaders off (PortalFadeDhFog, per-frame DhApiBeforeFogRenderEvent override): far fog start = lerp(V/L, user start, e); far fog end = lerp(V/L + 0.02, user end, e); max thickness 1; min thickness and density untouched (user values).
+  - Delete IN_SECONDS, HOLD_END_SECONDS, DIP and DIP_NETHER. Keep the portal-view bypass (PortalRendering.isRendering), the IP changePlayerDimension hook and the end-tick backup.
+  - Fix the DistantHorizons.toml fog comments: far fog start/end are fractions of the DH LOD distance (GlDhFogShader scale = 1 / (lodChunkRenderDistanceRadius × 16)), not of the vanilla render distance. DH fog only affects LOD pixels; vanilla chunks are never fogged by it.
+  - Use the per-frame event override, not the DH config API; the config API persists to disk. Fog params apply instantly with no LOD reload. Do not touch lodChunkRenderDistanceRadius, which would trigger a reload.
+- In-game checks still needed (Jayden):
+  - Shaders on and off: on the first frame after crossing, no LODs show past the vanilla edge, and nothing fades out first.
+  - Complementary / E-LITE border fog on vanilla chunks when dhRenderDistance ≈ V.
+  - The real edge seen through the portal: IP cap 8, server view distance, and whether getClampedViewDistance is the right client input.
+  - client.world is already the destination when the IP hook fires (the tick backup covers it otherwise).
+  - Nether: when LODs load, and whether the ~1 s hold covers it.
+  - The 3.5 s feel.
