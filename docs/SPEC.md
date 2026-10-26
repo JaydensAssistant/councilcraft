@@ -1967,3 +1967,16 @@ Jayden decided on 2026-10-26 at 3:09 PM EDT. Same removal mechanism as PT35: an 
   (a) Border tip shows the live width. At broadcast time the tip reads "Our world border spans {width} blocks, centred on spawn.", where {width} is the current cc_border_width from server.persistentData (set by councilcraft_world.js PPM98 and shown by /ccborder status). If the key is absent, it falls back to CC_BORDER_START.
   (b) Delivery is a KubeJS server script, kubejs/server_scripts/councilcraft_tips.js, with no new mods. A tip goes out every 15 minutes, and only while players are online. Each eligible player gets their own tip in chat. Shuffle-bag order means no repeats until the pool is exhausted, and newcomers get the [N] tips first (amendment 1, tags as in amendment 2). A per-player /tips off and /tips on toggle persists in server.persistentData. The "[hide tips]" click runs /tips off.
   AFK players get no tip; their turn is skipped, not queued. AFK uses the SAME activity test as Reborn growth: the RebornMotion window of meaningful movement plus camera plus an interaction (S254/S256). At build time, the councilcraft mod tracks that activity for every player, not just Reborn players, and exposes a server-side "active in the current window" check that KubeJS can read. That check is a tag or persistentData flag updated by the mod, and the exact mechanism is decided at build. Reborn growth behaviour must not change.
+- PT42 LOCKED 2026-10-26 18:33 EDT (Jayden, in chat "lock"; NOT BUILT, for 0.4.18): 11 custom CouncilCraft advancements. Each one points at a feature players might miss. This is the reworked list (one per system), with Party Line replaced by Testing, Testing at Jayden's request:
+  1. Not On My Watch: revive a downed friend before their time runs out.
+  2. Here Comes the Airplane: feed a Reborn friend so they get a Growth Spurt.
+  3. Read the Fine Print: find an enchanted book. This replaces vanilla "Enchanter" (story/enchant_item), which can't be earned in this pack.
+  4. No Shortcuts: travel 1,000 blocks through the Nether, where 1 block = 1 block.
+  5. Keep the Change: overpay a vendor and get change back.
+  6. Here Be Mutants: go 2,500 blocks from spawn, where mutants start appearing.
+  7. Shared Horizons: share your atlas with a friend.
+  8. Set Sail: board a ship built at a Dockyard (Small Ships has no advancements of its own).
+  9. Coffee Table Book: print a copy of a signed album.
+  10. Double Saddle: ride a horse with a friend.
+  11. Testing, Testing: speak in Simple Voice Chat proximity chat for the first time. Needs a small Simple Voice Chat API hook in the councilcraft mod.
+  Build notes: each advancement goes in its matching PT37 themed tab and follows PT35/PT37 (no End tab). Where possible, use a data pack or KubeJS with vanilla or mod triggers. Where none exists, add a small custom criterion in the councilcraft mod. Before building, verify each trigger is actually achievable in game; if one isn't, flag it to Jayden rather than substituting another. Titles and descriptions use the wording above, tidied only for length. Use only real item IDs for icons, verified against the jars.
