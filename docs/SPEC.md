@@ -1824,3 +1824,46 @@ Jayden locked this on 2026-10-26 at 2:43 PM EDT. It merges the 17 advancement ta
   - The server log must have 0 "Couldn't load advancement" errors (0 in the 0.4.17 baseline).
   - Re-run on every mod update. A renamed mod root would otherwise bring its tab back silently.
 - Build together with PT35 (impossible advancements), because they touch overlapping betterend/end files.
+
+## PT38 — LOCKED 2026-10-26 14:46 EDT (NOT BUILT, for 0.4.18) — Antique Atlas 4 is the only map: block client map mods (amends S185)
+Jayden locked this on 2026-10-26 at 2:46 PM EDT. Antique Atlas 4 (`antique_atlas`, backend Surveyor `surveyor`) must be the only map. At build time, add the IDs below to `CLIENT_MOD_BLACKLIST` in pack/config/mod_whitelist-config.json (BLACKLIST mode per S185). The config was not edited at lock time.
+- How IDs were verified (2026-10-26): every ID is the `id` from fabric.mod.json, read from the actual Fabric 1.20.1 jar.
+  - Jars came from the newest Modrinth version with loader=fabric and game version 1.20.1. FTB Chunks came from maven.ftb.dev, since it isn't on Modrinth.
+  - Jars are cached in /workspace/maps-pt38/.
+  - Format below: mod — Modrinth slug — id — jar checked.
+- Checks: none of these IDs is used by any pack mod (337 IDs scanned in test0417 client+server mods, including nested jars and `provides`). None is already in the blacklist or whitelist.
+- Base minimaps and world maps:
+  - Xaero's Minimap — xaeros-minimap — `xaerominimap` — xaerominimap-fabric-1.20.1-26.6.0.jar
+  - Xaero's Minimap (Fair-Play) — xaeros-minimap-fair — `xaerominimapfair` — Xaeros_Minimap_FP24.2.0_Fabric_1.20.jar
+  - Xaero's World Map — xaeros-world-map — `xaeroworldmap` — xaeroworldmap-fabric-1.20.1-1.47.0.jar
+  - JourneyMap — journeymap — `journeymap` — journeymap-fabric-1.20.1-6.0.7.jar (same mod on CurseForge)
+  - VoxelMap-Updated — voxelmap-updated — `voxelmap` — voxelmap-1.20.1-1.12.13.jar
+  - FTB Chunks (has a minimap and world map) — not on Modrinth; CurseForge / maven.ftb.dev — `ftbchunks` — ftb-chunks-fabric-2001.3.8.jar (depends on minecraft ~1.20.1)
+  - Map Atlases (minimap from vanilla maps) — map-atlases — `map_atlases` — map_atlases-1.20-6.0.20-fabric.jar
+  - Hoofprint (a world-map front end for Surveyor) — hoofprint — `hoofprint` — hoofprint-1.3.0+1.20.jar. Blocking `hoofprint` does NOT block `surveyor`, which Antique Atlas needs.
+  - Immersive Minimaps — immersive-minimaps — `immersiveminimaps` — immersiveminimaps-1.2.4+1.20.1-fabric.jar
+  - AxolotlClient Waypoints (minimap) — axolotlclient-waypoints — `axolotlclient-waypoints` — AxolotlClient-Waypoints-0.0.4+3.2.0+1.20.1.jar
+  - Remnants Advanced Minimap — remnants-minimap — `remnantminimaps` — remnantminimaps-fabric-1.20.1-2.0.0.jar
+  - Velorise Simple Map — velorise-simple-map — `simplemap` — simplemap-1.20.1-fabric-2.0.1.jar
+  - Conflux Map — conflux-map — `confluxmap` — confluxmap-1.20.1-0.1.13.jar
+  - WhyMap (in-browser world map of the client's own exploration) — whymap — `whymap` — whymap-1.7.2.jar
+  - Flower Map (minimap-style overlay) — flowermap — `flowermap` — flowermap-1.3.0.jar
+- Add-ons. They need a base map, so they're redundant, but blocking them is harmless belt-and-braces:
+  - XaeroPlus — xaeroplus — `xaeroplus` — XaeroPlus-2.37.2+fabric-1.20.1-WM1.47.0-MM26.6.0.jar
+  - MapFrontiers (JourneyMap) — mapfrontiers — `mapfrontiers` — MapFrontiers-1.20.1-fabric-3.0.0-beta.13.jar
+  - JourneyMap Web Map — journeymap-web-map — `journeymap_webmap` — journeymap-webmap-fabric-1.20.1-1.0.12.jar
+  - Map Link — maplink — `maplink` — maplink-fabric-4.4.0-1.20-1.20.1.jar
+- Excluded on purpose:
+  - Server-side web maps (dynmap, BlueMap, squaremap, Pl3xMap `pl3xmap`): they run on the server, not on clients, so a client blacklist doesn't apply. We don't install them.
+  - World Preview: shows a seed only on the new-world screen, so it's useless against our server world.
+  - Vanilla map-item helpers (map-tooltip, map-in-slot, client-maps, etc.): they only render vanilla map items.
+  - Xaero add-ons for waypoints or sync, which need Xaero.
+  - Not verified: CurseForge-only map mods without a Modrinth page. The original VoxelMap was not checked; it is believed to have no Fabric 1.20.1 build (VoxelMap-Updated covers that).
+- Limits: Mod Whitelist trusts the mod IDs the client reports, so a renamed jar or ID gets through (spoofable, as noted in S185). This is a deterrent, not anti-cheat.
+- Pack features that act like a map:
+  - Antique Atlas 4 + Surveyor (the intended map).
+  - Vanilla paper maps are not removed by any KubeJS script and still work. Supplementaries adds map markers to them (inferred).
+  - Create's own train-map overlay only works with Xaero, JourneyMap or FTB Chunks, so blocking those removes it too (inferred).
+  - Distant Horizons LODs show far terrain but aren't a map.
+  - No other pack mod adds a minimap HUD (checked the client mod list for map/atlas/waypoint/hud names).
+- Build check: the config lists all 19 IDs above. Joining with Xaero's Minimap or JourneyMap is rejected. Joining with the stock pack (Antique Atlas + Surveyor) still works.
