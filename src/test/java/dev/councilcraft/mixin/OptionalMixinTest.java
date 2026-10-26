@@ -95,4 +95,25 @@ class OptionalMixinTest {
         assertTrue(pin.length == 4 && pin[3].contains("CC-5"));
         assertTrue(CouncilCraftMixinPlugin.pinFor("dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin").length == 3);
     }
+
+    // ---- 0.4.15 ----
+
+    @Test
+    void portalFadeHooksNeedTheirModsAndVersions() {
+        String iris = "dev.councilcraft.mixin.client.IrisPortalFadeUniformMixin";
+        String ip = "dev.councilcraft.mixin.client.IpDimensionChangeFadeMixin";
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(iris, Set.of("iris", "distanthorizons", "imm_ptl_core")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(iris, Set.of("iris", "imm_ptl_core")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(iris, Set.of("distanthorizons", "imm_ptl_core")::contains));
+        assertTrue(CouncilCraftMixinPlugin.shouldApply(ip, Set.of("distanthorizons", "imm_ptl_core")::contains));
+        assertFalse(CouncilCraftMixinPlugin.shouldApply(ip, Set.of("imm_ptl_core")::contains));
+        assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches(iris, Map.of("iris", "1.7.6+mc1.20.1")::get));
+        assertFalse(CouncilCraftMixinPlugin.pinnedVersionMatches(iris, Map.of("iris", "1.7.7+mc1.20.1")::get));
+        assertTrue(CouncilCraftMixinPlugin.pinnedVersionMatches(ip, Map.of("immersive_portals", "5.2.0")::get));
+        assertFalse(CouncilCraftMixinPlugin.pinnedVersionMatches(ip, Map.of("immersive_portals", "5.2.1")::get));
+        // The shader hook names what breaks; the IP trigger only warns (the tick fallback still starts the fade).
+        String[] pin = CouncilCraftMixinPlugin.pinFor(iris);
+        assertTrue(pin.length == 4 && pin[3].contains("PT13"));
+        assertTrue(CouncilCraftMixinPlugin.pinFor(ip).length == 3);
+    }
 }

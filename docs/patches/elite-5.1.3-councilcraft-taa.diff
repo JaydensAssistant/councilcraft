@@ -1,0 +1,375 @@
+--- a/CHANGES-CouncilCraft.txt
++++ b/CHANGES-CouncilCraft.txt
+@@ -0,0 +1,59 @@
++E-LITE shaders 5.1.3 - CouncilCraft edit
++=========================================
++
++This is a MODIFIED copy of E-LITE shaders 5.1.3 (MakeUp edit). It is not an
++official E-LITE or MakeUp release; please report problems with it to
++CouncilCraft (https://github.com/JaydensAssistant/councilcraft), not to the
++original authors.
++
++Original work:
++- MakeUp - Ultra Fast by Javier Garduño
++  https://github.com/javiergcim/MakeUpUltraFast
++- E-LITE shaders (MakeUp edit) by Entokito
++  https://modrinth.com/shader/lite-shaders
++License: GNU Lesser General Public License v3.0 or later, unchanged (see
++LICENSE). All original files, notices and credits (Credits, "Credits by
++Entokito", README.md) are kept as they were.
++
++Modified by: CouncilCraft, 2026-10-25 (shipped in CouncilCraft 0.4.15 as the
++"Medium" graphics preset).
++
++Why: in Immersive Portals portal views the stock TAA history belongs to
++another view (IP renders portal views through the same Iris pipeline), which
++left pale blue/white halos around foliage edges. This edit rewrites the TAA
++history rejection; everything else is stock E-LITE 5.1.3.
++
++Modified files (all changes marked "CouncilCraft patch"):
++- shaders/lib/fast_taa.glsl
++    fast_taa() and fast_taa_depth() (Denoise, TAA and Sharp TAA, with and
++    without DOF) share cc_taa_resolve():
++    * history clipped to a tight 3x3 min/max box intersected with a variance
++      box in YCoCg (stock: loose sphere around 4 neighbours);
++    * 3x3 depth-discontinuity check on VANILLA depth only (depthtex1,
++      linearised with gbufferProjectionInverse); sky and DH terrain count as
++      "very far", the same way stock composite2 sees them -> much less
++      history on depth edges, less again while the camera moves;
++    * LESS history at high-contrast colour edges (stock used more);
++    * history weight scaled down when it had to be clipped far, and dropped
++      for off-screen reprojection, NaN/huge values, or a camera jump > 8
++      blocks per frame.
++    * with Distant Horizons, pixels whose whole 3x3 is at or
++      beyond the vanilla->DH fade band (or sky) blend smoothly back to the
++      STOCK resolve (60%..85% of the fade start). The fade band is a temporal
++      dither (vanilla fragments discarded by shifted_dither13) that needs the
++      stock TAA to average it out.
++- shaders/common/composite2_fragment.glsl
++    * declares far + dhNearPlane when DISTANT_HORIZONS (fade-band start).
++    * DH terrain is reprojected exactly like stock.
++
++No options, option lists, defaults, buffers or formats were changed, so
++existing settings files (e.g. AA_TYPE=3) still import. History depth is not
++stored in colortex3 alpha (R11F_G11F_B10F with HDR; alpha used by DOF).
++
++The AABB history clip (cc_clip_aabb) is the well-known clip from Playdead's
++INSIDE temporal reprojection (https://github.com/playdeadgames/temporal, MIT).
++No code from other shader packs is included.
++
++The complete change is the patch docs/patches/elite-5.1.3-councilcraft-taa.diff
++in the CouncilCraft repository; applying it to the stock E-LITE 5.1.3 zip from
++Modrinth gives this pack.
+--- a/shaders/common/composite2_fragment.glsl
++++ b/shaders/common/composite2_fragment.glsl
+@@ -32,6 +32,14 @@
+     uniform float frameTime;
+ #endif
+ 
++#if AA_TYPE > 0 && defined DISTANT_HORIZONS
++    // CouncilCraft patch v2a: TAA needs the DH fade-band start
++    // (same formula as solid_blocks_fragment.glsl). DH terrain itself is
++    // reprojected exactly like stock (as sky / far plane).
++    uniform float far;
++    uniform float dhNearPlane;
++#endif
++
+ // == Varyings
+ varying vec2 texcoord;
+ 
+--- a/shaders/lib/fast_taa.glsl
++++ b/shaders/lib/fast_taa.glsl
+@@ -2,110 +2,204 @@
+ Temporal antialiasing functions.
+ 
+ Javier Garduño - GNU Lesser General Public License v3.0
++
++CouncilCraft patch v2a (2026-10-25, LGPL-3.0): history rejection rewrite.
++Immersive Portals renders portal views through the same Iris pipeline, so the
++TAA history (colortex3) and previous-frame matrices can belong to a different
++view. The stock resolve (loose sphere clamp around 4 neighbours, more history
++at high-contrast edges, no depth test) let that stale history leak in as pale
++halos around foliage. This version, modelled on Complementary's taa.glsl:
++  - clips history to a tight 3x3 min/max box intersected with a variance box
++    (YCoCg, same colour space as stock),
++  - detects depth discontinuities in the current 3x3 (vanilla depth only,
++    sky / Distant Horizons count as "very far", exactly like stock sees them)
++    and uses much less history there,
++  - uses LESS history at high-contrast edges (stock used more),
++  - drops history that had to be clipped far, that reprojects off screen,
++    is NaN/Inf, or when the camera "teleported" between frames.
++v2a: with Distant Horizons, pixels whose whole 3x3 lies in or beyond the
++vanilla->DH dithered fade band (or sky) use the STOCK resolve again. That band
++is a per-frame dither (solid_blocks_fragment.glsl discards vanilla fragments
++with shifted_dither13) that only looks smooth because TAA averages it; the v1
++depth/clip rejection refused to average it and showed the raw dither.
++v2a also linearises vanilla depth with gbufferProjectionInverse (v1 used the
++`far` uniform, which is the render distance, not the real 4x far plane).
++Requires (declared in composite2_fragment.glsl): colortex1, colortex3,
++depthtex1, gbufferProjectionInverse, cameraPosition, previousCameraPosition,
++viewWidth, viewHeight, pixelSizeX, pixelSizeY, and far + dhNearPlane when
++DISTANT_HORIZONS.
+ */
+ 
+ /* ---------------*/
+ 
+-vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
+-    if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
+-        return current_color;
+-    } else {
+-        vec3 previous = texture2DLod(colortex3, texcoord_past, 0.0).rgb;
+-
+-        vec3 near_color0 = texture2DLod(colortex1, texcoord + vec2(-pixelSizeX, 0.0) * RENDER_SCALE, 0.0).rgb;
+-        vec3 near_color1 = texture2DLod(colortex1, texcoord + vec2(pixelSizeX, 0.0) * RENDER_SCALE, 0.0).rgb;
+-        vec3 near_color2 = texture2DLod(colortex1, texcoord + vec2(0.0, -pixelSizeY) * RENDER_SCALE, 0.0).rgb;
+-        vec3 near_color3 = texture2DLod(colortex1, texcoord + vec2(0.0, pixelSizeY) * RENDER_SCALE, 0.0).rgb;
+-
+-        vec3 edge_color = -near_color0;
+-        edge_color -= near_color1;
+-        edge_color += current_color * 4.0;
+-        edge_color -= near_color2;
+-        edge_color -= near_color3;
+-
+-        edge_color = edge_color / (current_color * 2.0);
+-        float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);
+-        edge = smoothstep(0.25, 0.75, edge);
+-
+-        vec3 current_ycocg = rgbToYcocg(current_color);
+-        vec3 previous_ycocg = rgbToYcocg(previous);
+-
+-        vec3 near0_ycocg = rgbToYcocg(near_color0);
+-        vec3 near1_ycocg = rgbToYcocg(near_color1);
+-        vec3 near2_ycocg = rgbToYcocg(near_color2);
+-        vec3 near3_ycocg = rgbToYcocg(near_color3);
+-
+-        vec3 nmin =
+-            min(current_ycocg, min(near0_ycocg, min(near1_ycocg, min(near2_ycocg, near3_ycocg))));
+-        vec3 nmax =
+-            max(current_ycocg, max(near0_ycocg, max(near1_ycocg, max(near2_ycocg, near3_ycocg))));
++// CouncilCraft patch: tuning constants (plain consts, NOT #defines, so they
++// never show up as shader options and existing settings files still import).
++const float CC_TAA_BLEND_FLAT        = 0.80;  // history weight on flat areas (stock 0.65)
++const float CC_TAA_BLEND_DEPTH_EDGE  = 0.50;  // history weight on depth / sky edges (camera still)
++const float CC_TAA_BLEND_MOVING_EDGE = 0.10;  // ... on depth edges while the camera moves
++const float CC_TAA_COLOR_EDGE_DROP   = 0.10;  // less history on high-contrast colour edges
++const float CC_TAA_VARIANCE_GAMMA    = 1.25;  // variance clip width (sigmas)
++const float CC_TAA_DEPTH_REL_EDGE    = 0.12;  // relative depth jump that counts as an edge
++const float CC_TAA_TELEPORT_DIST     = 8.0;   // blocks/frame; above this history is dropped
++const float CC_SKY_DIST              = 65536.0; // pseudo distance for sky (and DH) pixels
++// v2a: stock resolve is faded in between these fractions of the DH fade start
++// (the distance where vanilla chunks start being dithered away).
++const float CC_DH_BAND_LO            = 0.60;
++const float CC_DH_BAND_HI            = 0.85;
++
++// CouncilCraft patch v2a: view-space distance in blocks of the opaque VANILLA
++// depth at uv (same measure as gl_FogFragCoord in position_vertex.glsl).
++// Sky - and Distant Horizons terrain, which is not in depthtex1 - return
++// CC_SKY_DIST, i.e. they are treated the way stock composite2 treats them.
++float cc_taa_view_dist(vec2 uv) {
++    float z = texture2DLod(depthtex1, uv, 0.0).r;
++    if (z >= 1.0) {
++        return CC_SKY_DIST;
++    }
++    vec4 view_pos = gbufferProjectionInverse * vec4(vec3(uv, z) * 2.0 - 1.0, 1.0);
++    return length(view_pos.xyz / view_pos.w);
++}
+ 
+-        vec3 center = (nmin + nmax) * 0.5;
+-        float radio = length(nmax - center);
++// CouncilCraft patch: clip q towards the centre of an AABB (Complementary/Playdead style).
++vec3 cc_clip_aabb(vec3 q, vec3 aabb_min, vec3 aabb_max) {
++    vec3 p_clip = 0.5 * (aabb_max + aabb_min);
++    vec3 e_clip = 0.5 * (aabb_max - aabb_min) + 0.00000001;
++    vec3 v_clip = q - p_clip;
++    vec3 a_unit = abs(v_clip / e_clip);
++    float ma_unit = max(a_unit.x, max(a_unit.y, a_unit.z));
++    return (ma_unit > 1.0) ? p_clip + v_clip / ma_unit : q;
++}
+ 
+-        vec3 color_vector = previous_ycocg - center;
+-        float color_dist = length(color_vector);
++// CouncilCraft patch: shared resolve. Returns vec4(resolved rgb, effective
++// history weight); the weight is reused for the DOF alpha channel.
++vec4 cc_taa_resolve(vec3 current_color, vec2 texcoord_past, vec3 previous_rgb) {
++    // Reprojection off screen -> no valid history (stock did the same).
++    if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
++        return vec4(current_color, 0.0);
++    }
++    // Uninitialised / corrupt history.
++    if (any(notEqual(previous_rgb, previous_rgb)) || any(greaterThan(abs(previous_rgb), vec3(60000.0)))) {
++        return vec4(current_color, 0.0);
++    }
++    // Camera jumped (teleport, or a portal pass seeing another camera's history).
++    float cam_move = length(cameraPosition - previousCameraPosition);
++    if (cam_move > CC_TAA_TELEPORT_DIST) {
++        return vec4(current_color, 0.0);
++    }
+ 
+-        float factor = 1.0;
+-        if (color_dist > radio) {
+-            factor = radio / color_dist;
++    vec3 current_ycocg = rgbToYcocg(current_color);
++    float center_dist = cc_taa_view_dist(texcoord);
++    float min_dist = center_dist;
++
++    // 3x3 neighbourhood: min/max box, mean/variance, and depth discontinuity.
++    vec3 nmin = current_ycocg;
++    vec3 nmax = current_ycocg;
++    vec3 m1 = current_ycocg;
++    vec3 m2 = current_ycocg * current_ycocg;
++    vec3 cross_sum = vec3(0.0);       // 4-neighbour sum for the colour-edge term
++    vec3 cross_min = current_ycocg;   // stock 5-tap box (for the stock fallback)
++    vec3 cross_max = current_ycocg;
++    float depth_edge = 0.0;
++
++    for (int y = -1; y <= 1; y++) {
++        for (int x = -1; x <= 1; x++) {
++            if (x == 0 && y == 0) continue;
++            vec2 offset = vec2(float(x) * pixelSizeX, float(y) * pixelSizeY);
++            vec3 near_rgb = texture2DLod(colortex1, texcoord + offset * RENDER_SCALE, 0.0).rgb;
++            vec3 near_ycocg = rgbToYcocg(near_rgb);
++            nmin = min(nmin, near_ycocg);
++            nmax = max(nmax, near_ycocg);
++            m1 += near_ycocg;
++            m2 += near_ycocg * near_ycocg;
++            if (x == 0 || y == 0) {
++                cross_sum += near_rgb;
++                cross_min = min(cross_min, near_ycocg);
++                cross_max = max(cross_max, near_ycocg);
++            }
++
++            float near_dist = cc_taa_view_dist(texcoord + offset);
++            min_dist = min(min_dist, near_dist);
++            float rel = abs(near_dist - center_dist) / max(min(near_dist, center_dist), 0.05);
++            depth_edge = max(depth_edge, step(CC_TAA_DEPTH_REL_EDGE, rel));
+         }
+-        vec3 clamped_ycocg = center + (color_vector * factor);
+-
+-        previous = ycocgToRgb(clamped_ycocg);
+-
+-        return mix(current_color, previous, 0.65 + (edge * 0.25));
+     }
+-}
+-
+-vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
+-    if (clamp(texcoord_past, 0.0, 1.0) != texcoord_past) {
+-        return current_color;
+-    } else {
+-        vec4 previous = texture2DLod(colortex3, texcoord_past, 0.0);
+-
+-        vec4 near_color0 = texture2DLod(colortex1, texcoord + vec2(-pixelSizeX, 0.0), 0.0);
+-        vec4 near_color1 = texture2DLod(colortex1, texcoord + vec2(pixelSizeX, 0.0), 0.0);
+-        vec4 near_color2 = texture2DLod(colortex1, texcoord + vec2(0.0, -pixelSizeY), 0.0);
+-        vec4 near_color3 = texture2DLod(colortex1, texcoord + vec2(0.0, pixelSizeY), 0.0);
+-
+-        vec3 edge_color = -near_color0.rgb;
+-        edge_color -= near_color1.rgb;
+-        edge_color += current_color.rgb * 4.0;
+-        edge_color -= near_color2.rgb;
+-        edge_color -= near_color3.rgb;
+-
+-        edge_color = edge_color / (current_color.rgb * 2.0);
+-        float edge = clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0);
+-        edge = smoothstep(0.25, 0.75, edge);
+-
+-        vec3 current_ycocg = rgbToYcocg(current_color.rgb);
+-        vec3 previous_ycocg = rgbToYcocg(previous.rgb);
+-
+-        vec3 near0_ycocg = rgbToYcocg(near_color0.rgb);
+-        vec3 near1_ycocg = rgbToYcocg(near_color1.rgb);
+-        vec3 near2_ycocg = rgbToYcocg(near_color2.rgb);
+-        vec3 near3_ycocg = rgbToYcocg(near_color3.rgb);
+-
+-        vec3 nmin =
+-            min(current_ycocg, min(near0_ycocg, min(near1_ycocg, min(near2_ycocg, near3_ycocg))));
+-        vec3 nmax =
+-            max(current_ycocg, max(near0_ycocg, max(near1_ycocg, max(near2_ycocg, near3_ycocg))));
+ 
+-        vec3 center = (nmin + nmax) * 0.5;
+-        float radio = length(nmax - center);
++    vec3 previous_ycocg = rgbToYcocg(previous_rgb);
+ 
++    // Colour edge (stock Laplacian metric).
++    vec3 edge_color = (current_color * 4.0 - cross_sum) / max(current_color * 2.0, vec3(0.0001));
++    float color_edge = smoothstep(0.25, 0.75, clamp(length(edge_color) * 0.5773502691896258, 0.0, 1.0));
++
++    // --- Patched resolve -------------------------------------------------
++    // Variance box intersected with the min/max box (tighter than either alone).
++    vec3 mean = m1 / 9.0;
++    vec3 sigma = sqrt(max(m2 / 9.0 - mean * mean, vec3(0.0)));
++    vec3 box_min = max(nmin, mean - CC_TAA_VARIANCE_GAMMA * sigma);
++    vec3 box_max = min(nmax, mean + CC_TAA_VARIANCE_GAMMA * sigma);
++    box_min = min(box_min, current_ycocg);
++    box_max = max(box_max, current_ycocg);
++
++    vec3 clipped_ycocg = cc_clip_aabb(previous_ycocg, box_min, box_max);
++    vec3 patched_prev = ycocgToRgb(clipped_ycocg);
++
++    // How far outside the box history was, relative to the box size.
++    // Far outside = history from another view / disocclusion -> drop it.
++    float box_size = length(box_max - box_min) * 0.5 + 0.002;
++    float clip_amount = length(previous_ycocg - clipped_ycocg) / box_size;
++    float clip_reject = smoothstep(0.5, 2.0, clip_amount);
++
++    float moving = clamp(cam_move * 20.0, 0.0, 1.0);
++    vec2 velocity_px = (texcoord - texcoord_past) * vec2(viewWidth, viewHeight);
++    float velocity_drop = 0.10 * (1.0 - exp(-dot(velocity_px, velocity_px) * 0.5));
++
++    float edge_blend = mix(CC_TAA_BLEND_DEPTH_EDGE, CC_TAA_BLEND_MOVING_EDGE, moving);
++    float patched_blend = mix(CC_TAA_BLEND_FLAT, edge_blend, depth_edge);
++    patched_blend -= CC_TAA_COLOR_EDGE_DROP * color_edge + velocity_drop;
++    patched_blend *= 1.0 - clip_reject;
++    patched_blend = clamp(patched_blend, 0.0, 0.9);
++
++    vec3 patched_out = mix(current_color, patched_prev, patched_blend);
++
++    // --- Stock fallback in the DH fade band (v2a) --------------------------
++    float band_w = 0.0;
++    #ifdef DISTANT_HORIZONS
++        // Same distance where solid_blocks_fragment.glsl starts dithering
++        // vanilla fragments away (umbral > dither -> discard).
++        float fade_start = max(dhNearPlane + (far - dhNearPlane) * TRANSITION_DH_INF, 16.0);
++        band_w = smoothstep(CC_DH_BAND_LO * fade_start, CC_DH_BAND_HI * fade_start, min_dist);
++    #endif
++
++    if (band_w > 0.0) {
++        // Stock E-LITE resolve: loose sphere clamp around the 5-tap cross,
++        // MORE history on colour edges (that is what averages the dither).
++        vec3 center = (cross_min + cross_max) * 0.5;
++        float radio = length(cross_max - center);
+         vec3 color_vector = previous_ycocg - center;
+         float color_dist = length(color_vector);
+-
+         float factor = 1.0;
+         if (color_dist > radio) {
+             factor = radio / color_dist;
+         }
+-        vec3 clamped_ycocg = center + (color_vector * factor);
++        vec3 stock_prev = ycocgToRgb(center + (color_vector * factor));
++        float stock_blend = 0.65 + (color_edge * 0.25);
++        vec3 stock_out = mix(current_color, stock_prev, stock_blend);
+ 
+-        previous = vec4(ycocgToRgb(clamped_ycocg), previous.a);
+-
+-        return mix(current_color, previous, 0.65 + (edge * 0.25));
++        return vec4(mix(patched_out, stock_out, band_w), mix(patched_blend, stock_blend, band_w));
+     }
+-}
+\ No newline at end of file
++
++    return vec4(patched_out, patched_blend);
++}
++
++vec3 fast_taa(vec3 current_color, vec2 texcoord_past) {
++    // CouncilCraft patch: was loose sphere clamp + mix(current, previous, 0.65 + edge * 0.25).
++    vec3 previous = texture2DLod(colortex3, texcoord_past, 0.0).rgb;
++    return cc_taa_resolve(current_color, texcoord_past, previous).rgb;
++}
++
++vec4 fast_taa_depth(vec4 current_color, vec2 texcoord_past) {
++    // CouncilCraft patch: DOF variant, same resolve; alpha keeps stock behaviour
++    // (history alpha blended with the same weight).
++    vec4 previous = texture2DLod(colortex3, texcoord_past, 0.0);
++    vec4 resolved = cc_taa_resolve(current_color.rgb, texcoord_past, previous.rgb);
++    return vec4(resolved.rgb, mix(current_color.a, previous.a, resolved.a));
++}

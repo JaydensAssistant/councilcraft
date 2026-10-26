@@ -141,6 +141,10 @@ file = "config/smallships-server.toml"
 hash = "9cef7a74545e24c4b09a458f8bd79795a34f52366847d89129d9f63476d3128b"
 
 [[files]]
+file = "config/sodium-mixins.properties"
+hash = "09fea7446aa7d03e6f4f61e58247032df74aa781def194d46e0dace9885dbefc"
+
+[[files]]
 file = "config/supplementaries-common.json"
 hash = "76f822873993c533ac815cb686d9420ec5fa5ae6dab088f1fea5ba482545b449"
 
@@ -226,7 +230,7 @@ hash = "b37b627c5c7a937044085333125d98c7394ff3526542f3ee1931ce5761880cd4"
 
 [[files]]
 file = "credits.txt"
-hash = "6081da9c0355fd8fdcf0de5293815d39c0bdab0e6b078ebd804684f2afb5b77e"
+hash = "a05ab0f4d95477514484318df9d6e99e1356bb03aa73d819f57c750f02573b03"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -1771,11 +1775,14 @@ file = "shaderpacks/ComplementaryUnbound_r5.9.3.zip.txt"
 hash = "f15396112df95310bc5aa26eac3136f6d1c401cccfc52fee66886a19fa34ed0f"
 
 [[files]]
-file = "shaderpacks/complementary-unbound.pw.toml"
-hash = "1a3d3663c44dc21e227c39c42ea9b5e3c4f3b2e3b5272ed55b45da9e247a46d7"
-metafile = true
+file = "shaderpacks/E-LITE shaders 5.1.3 CouncilCraft.zip"
+hash = "018f78dc07c89e177c135b234937e7cddd2650dcb0326d8deb52114612259d91"
 
 [[files]]
-file = "shaderpacks/lite-shaders.pw.toml"
-hash = "4b148c9c406875b0f75a5b35fd552cb78a5e199a4b3f53e5081fd752b8c6c629"
+file = "shaderpacks/E-LITE shaders 5.1.3 CouncilCraft.zip.txt"
+hash = "9e5bd149dbbbf7de9fc89a77cf819fade7398501bff21a2c2ab2d8a5e8a36543"
+
+[[files]]
+file = "shaderpacks/complementary-unbound.pw.toml"
+hash = "1a3d3663c44dc21e227c39c42ea9b5e3c4f3b2e3b5272ed55b45da9e247a46d7"
 metafile = true

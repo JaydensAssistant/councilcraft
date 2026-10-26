@@ -127,10 +127,4 @@ class Release0414RulesTest {
         assertTrue(js.contains("const direct = source.getImmediate()"));
         assertTrue(js.contains("const attacker = event.source.getActual()"));
     }
-
-    @Test
-    void versionIs0414() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.14\n"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.14\""));
-    }
 }

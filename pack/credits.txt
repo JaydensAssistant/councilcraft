@@ -1,6 +1,7 @@
 Credits:
 Vanilla Tweaks: https://vanillatweaks.net/
 Complementary Shaders - Unbound by EminGT (Complementary Development), enabled by default: https://modrinth.com/shader/complementary-unbound
+E-LITE shaders 5.1.3 (MakeUp edit) by Entokito, based on MakeUp - Ultra Fast by Javier Garduño (LGPL-3.0-or-later), the Medium graphics preset. Shipped as shaderpacks/E-LITE shaders 5.1.3 CouncilCraft.zip, modified by CouncilCraft (TAA fix for Immersive Portals views; changes listed in CHANGES-CouncilCraft.txt inside the zip, patch in docs/patches/ of https://github.com/JaydensAssistant/councilcraft): https://modrinth.com/shader/lite-shaders and https://github.com/javiergcim/MakeUpUltraFast
 Motschen's Better Leaves by Motschen (MIT): https://modrinth.com/resourcepack/better-leaves
 Antique Atlas 4 Compat by xR4YM0ND (CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/): https://modrinth.com/resourcepack/antique-atlas-4-compat
 CouncilCraft Antique Atlas biome mapping (resourcepacks/councilcraft-atlas-ru.zip), built on Antique Atlas 4 Compat, licensed CC BY-SA 4.0: https://creativecommons.org/licenses/by-sa/4.0/

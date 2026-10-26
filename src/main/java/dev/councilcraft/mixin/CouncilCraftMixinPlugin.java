@@ -47,6 +47,8 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.AntiqueAtlasItemMixin", "antique_atlas"},
         {"dev.councilcraft.mixin.client.IrisDhPortalDepthMixin", "iris", "distanthorizons", "imm_ptl_core"},
         {"dev.councilcraft.mixin.client.IrisPortalHandMixin", "iris", "imm_ptl_core"},
+        {"dev.councilcraft.mixin.client.IrisPortalFadeUniformMixin", "iris", "distanthorizons", "imm_ptl_core"},
+        {"dev.councilcraft.mixin.client.IpDimensionChangeFadeMixin", "distanthorizons", "imm_ptl_core"},
         {"dev.councilcraft.mixin.InventorioSwordSlotMixin", "inventorio"},
         {"dev.councilcraft.mixin.InventorioAttackSwapMixin", "inventorio"},
         {"dev.councilcraft.mixin.InventorioToolBeltSaveMixin", "inventorio"},
@@ -75,7 +77,12 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.ControllerKeyboardShaderMixin", "controlify", "2.0.4+1.20.1-fabric"},
         // CC-5. Targets the hardcoded 8:1 in IntrinsicPortalGeneration's class initializer.
         {"dev.councilcraft.mixin.NetherPortalRatioMixin", "immersive_portals", "5.2.0",
-            "1:1 Nether portals (CC-5); nether portals will link 1:8"}
+            "1:1 Nether portals (CC-5); nether portals will link 1:8"},
+        // PT13. Swaps the supplier of the last uniform1i call in Iris' CommonUniforms.generalCommonUniforms.
+        {"dev.councilcraft.mixin.client.IrisPortalFadeUniformMixin", "iris", "1.7.6+mc1.20.1",
+            "portal fog fade-in with shaders (PT13); distant terrain will pop in after portal crossings"},
+        // PT13. Starts the fade at the end of IP's ClientTeleportationManager.changePlayerDimension.
+        {"dev.councilcraft.mixin.client.IpDimensionChangeFadeMixin", "immersive_portals", "5.2.0"}
     };
 
     @Override

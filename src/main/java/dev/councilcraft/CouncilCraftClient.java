@@ -40,6 +40,10 @@ public final class CouncilCraftClient implements ClientModInitializer {
         if (loader.isModLoaded("distanthorizons") && loader.isModLoaded("imm_ptl_core")) {
             // PM21. Separate class so DH and IP types load only when both mods are present.
             dev.councilcraft.compat.DhPortalDeferredFix.register();
+            // PT13. Portal fog fade-in: DH fog without shaders, and the per-tick dimension change fallback.
+            dev.councilcraft.compat.PortalFadeDhFog.register();
+            net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register(
+                dev.councilcraft.compat.client.PortalFade::onEndTick);
         }
         if (loader.isModLoaded("wakes")) {
             // PPM80 (B). Separate class so Wakes types load only when Wakes is present.
