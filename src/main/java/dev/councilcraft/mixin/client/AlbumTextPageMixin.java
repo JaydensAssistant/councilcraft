@@ -36,6 +36,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * and moves the note to the page body (x+22, y+21, 114 x 126, left-aligned); fewer lines fade the frame back.
  * A page with a photograph keeps Exposure's 3-line limit; a page without one can't take a photograph while its note
  * is over 3 lines (amendment 2). Non-editable pages with only a note are shown full-page.
+ * PT33: while the photo picker is open, a blocked page keeps its text layout; its note stays visible, read-only.
  * Method names are intermediary because Exposure's jar is not remapped by this project (remap = false).
  */
 @Pseudo
@@ -97,8 +98,21 @@ public abstract class AlbumTextPageMixin {
             if (box.isPresent()) {
                 TextBox textBox = box.get();
                 boolean blocked = AlbumTextPages.photoBlocked(hasPhoto, AlbumTextPages.noteLines(font, textBox.getText()));
-                boolean full = !adding && blocked;
+                // PT33. A blocked page keeps its text layout while the photo picker is open (no re-layout, no fade).
+                boolean full = blocked;
                 councilcraft$placeTextBox(textBox, page, top, full);
+                ClickableWidget note = (ClickableWidget) (Object) textBox;
+                boolean readOnly = adding && full;
+                if (readOnly) {
+                    // Exposure hides every note in adding mode; this one stays fully visible but read-only.
+                    note.visible = true;
+                    note.setFocused(false);
+                    Object screen = this;
+                    if (((net.minecraft.client.gui.screen.Screen) screen).getFocused() == note) {
+                        ((net.minecraft.client.gui.screen.Screen) screen).setFocused(null);
+                    }
+                }
+                note.active = !readOnly;
                 float target = full ? 0.0F : 1.0F;
                 this.councilcraft$progress[i] = snap ? target : AlbumTextPages.approach(this.councilcraft$progress[i], target, elapsed);
                 float alpha = AlbumTextPages.smooth(this.councilcraft$progress[i]);

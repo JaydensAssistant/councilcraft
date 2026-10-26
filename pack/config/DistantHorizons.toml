@@ -872,8 +872,8 @@ _version = 5
 				# At what distance should the far fog start? 
 				# 
 				# 0.0: Fog starts at the player's position. 
-				# 1.0: Fog starts at the closest edge of the vanilla render distance. 
-				# 1.414: Fog starts at the corner of the vanilla render distance.
+				# 1.0: Fog starts at the edge of the Distant Horizons LOD render distance. 
+				# 1.414: Fog starts at the corner of the Distant Horizons LOD render distance.
 				farFogStart = "0.4"
 				#
 				# What is the minimum fog thickness? 
@@ -901,8 +901,8 @@ _version = 5
 				# Where should the far fog end? 
 				# 
 				# 0.0: Fog ends at player's position.
-				# 1.0: Fog ends at the closest edge of the vanilla render distance. 
-				# 1.414: Fog ends at the corner of the vanilla render distance.
+				# 1.0: Fog ends at the edge of the Distant Horizons LOD render distance. 
+				# 1.414: Fog ends at the corner of the Distant Horizons LOD render distance.
 				farFogEnd = "1.0"
 
 				[client.advanced.graphics.fog.heightFog]

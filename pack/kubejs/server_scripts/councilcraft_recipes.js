@@ -263,7 +263,7 @@ ServerEvents.recipes(event => {
   // PT14: Album = Book and Quill + Leather (replaces Exposure's Book and Quill + Phantom Membrane).
   event.remove({ id: 'exposure:album' })
   event.shapeless('exposure:album', ['minecraft:writable_book', 'minecraft:leather']).id('councilcraft:exposure_album')
-  // PT14 amendment 2: Process Ink (color Printer copies) in a Create Mixer, unheated. Create's basin holds only
+  // PT14 amendment 2: CMYK Ink (color Printer copies) in a Create Mixer, unheated. Create's basin holds only
   // 2 input fluids, so black is the dye fluid and cyan/magenta/yellow are dye items: 4 dyes per 250 mB.
   // Create Fabric fluid amounts are in droplets (81 per mB): 250 mB = 20250.
   event.custom({

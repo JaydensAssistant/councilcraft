@@ -1,5 +1,7 @@
 package dev.councilcraft.print.jei;
 
+import dev.councilcraft.CouncilCraftRules;
+import dev.councilcraft.enchant.PrintedCopies;
 import dev.councilcraft.print.PrintPricing;
 import dev.councilcraft.print.ProcessInk;
 import java.util.ArrayList;
@@ -56,6 +58,18 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
         return stack;
     }
 
+    /** PT34. Input example: display-only tag, so CopyCostTooltip shows no cost or "Can't be copied" line. */
+    static ItemStack example(ItemStack stack) {
+        stack.getOrCreateNbt().putBoolean(CouncilCraftRules.RECIPE_EXAMPLE_NBT, true);
+        return stack;
+    }
+
+    /** PT34. Output example: the real printed flag, so "Can't be copied" is true. */
+    static ItemStack printed(ItemStack stack) {
+        PrintedCopies.mark(stack);
+        return stack;
+    }
+
     private static void blackDye(IRecipeSlotBuilder slot, long droplets) {
         for (RegistryEntry<Fluid> entry : Registries.FLUID.iterateEntries(BLACK_DYE)) {
             if (entry.value().getDefaultState().isStill()) {
@@ -80,7 +94,7 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
 
         @Override
         public void setTemplate(IRecipeSlotBuilder slot) {
-            slot.addItemStack(photo(this.color));
+            slot.addItemStack(example(photo(this.color)));
             slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray("gui.councilcraft.jei.printing.photograph_template")));
         }
 
@@ -99,8 +113,8 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
 
         @Override
         public void setOutput(IRecipeSlotBuilder slot) {
-            slot.addItemStack(photo(this.color));
-            slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray("gui.councilcraft.jei.printing.generation")));
+            slot.addItemStack(printed(photo(this.color)));
+            slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray("gui.councilcraft.jei.printing.printed_copy")));
         }
 
         @Override
@@ -118,7 +132,7 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
 
         @Override
         public void setTemplate(IRecipeSlotBuilder slot) {
-            slot.addItemStack(new ItemStack(item("exposure", "signed_album")));
+            slot.addItemStack(example(new ItemStack(item("exposure", "signed_album"))));
             slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray("gui.councilcraft.jei.printing.album_template")));
         }
 
@@ -137,8 +151,8 @@ public final class CouncilCraftJeiPlugin implements IModPlugin {
 
         @Override
         public void setOutput(IRecipeSlotBuilder slot) {
-            slot.addItemStack(new ItemStack(item("exposure", "signed_album")));
-            slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray("gui.councilcraft.jei.printing.generation")));
+            slot.addItemStack(printed(new ItemStack(item("exposure", "signed_album"))));
+            slot.addRichTooltipCallback((view, tooltip) -> tooltip.add(gray("gui.councilcraft.jei.printing.printed_copy")));
         }
 
         @Override

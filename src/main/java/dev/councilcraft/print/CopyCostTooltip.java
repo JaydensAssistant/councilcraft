@@ -25,7 +25,7 @@ import plus.dragons.createenchantmentindustry.config.CEIConfig;
 import plus.dragons.createenchantmentindustry.util.CEIFluidUnits;
 
 /**
- * PT27 / PT28 / PT29. One grey "Copy: ..." line on photographs, albums and enchanted books.
+ * PT27 / PT28 / PT29. One grey "Printing cost: ..." line (PT32 wording) on photographs, albums and enchanted books.
  * Photos and signed albums are priced by the same create() the printer runs (PrintPricing inside);
  * enchanted books by CEI's own EnchantedBookPrintingBehaviour, so the line always matches the printer.
  */
@@ -48,6 +48,10 @@ public final class CopyCostTooltip {
 
     static Text line(ItemStack stack) {
         if (stack.isEmpty()) {
+            return null;
+        }
+        // PT34. Recipe-viewer example inputs stand for "any original", so they carry no cost line.
+        if (isRecipeExample(stack)) {
             return null;
         }
         if (PhotoPrintingBehaviour.isPhotograph(stack)) {
@@ -120,6 +124,11 @@ public final class CopyCostTooltip {
             }
             return null;
         }
+    }
+
+    /** PT34. The display-only tag the Printing recipe examples carry. */
+    public static boolean isRecipeExample(ItemStack stack) {
+        return stack.hasNbt() && stack.getNbt().getBoolean(dev.councilcraft.CouncilCraftRules.RECIPE_EXAMPLE_NBT);
     }
 
     private static Text cant() {

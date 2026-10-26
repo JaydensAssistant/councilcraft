@@ -18,17 +18,18 @@ public final class CouncilCraftClient implements ClientModInitializer {
         dev.councilcraft.respawn.RebornFeedingClient.register();
         HorseshoeTooltip.register();
         dev.councilcraft.print.CopyCostTooltip.register();
-        // PT14. Process ink is drawn with the vanilla water texture, tinted.
+        // PT36. CMYK Ink: its own still/flowing CMYK-band textures, untinted, translucent like water. The bucket has
+        // its own CMYK texture (no tint).
         net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry.INSTANCE.register(
             dev.councilcraft.print.ProcessInk.STILL,
             dev.councilcraft.print.ProcessInk.FLOWING,
-            net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler.coloredWater(dev.councilcraft.print.ProcessInk.TINT)
+            new net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler(
+                new net.minecraft.util.Identifier("councilcraft", "block/process_ink_still"),
+                new net.minecraft.util.Identifier("councilcraft", "block/process_ink_flow"))
         );
-        // PT15. The bucket uses Create Dragons Plus's dye bucket model; its layer 0 (the liquid) takes the ink tint.
-        net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry.ITEM.register(
-            (stack, layer) -> layer == 0 ? 0xFF000000 | dev.councilcraft.print.ProcessInk.TINT : -1,
-            dev.councilcraft.print.ProcessInk.BUCKET
-        );
+        net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap.INSTANCE.putFluids(
+            net.minecraft.client.render.RenderLayer.getTranslucent(),
+            dev.councilcraft.print.ProcessInk.STILL, dev.councilcraft.print.ProcessInk.FLOWING);
         // PPPM3. Zebras render horse armor.
         dev.councilcraft.compat.client.ZebraArmorFeatureRenderer.register();
         // PPM61. Graphics preset picker (first title screen) and the Video Settings button.
@@ -56,6 +57,10 @@ public final class CouncilCraftClient implements ClientModInitializer {
             dev.councilcraft.compat.PortalFadeDhFog.register();
             net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents.END_CLIENT_TICK.register(
                 dev.councilcraft.compat.client.PortalFade::onEndTick);
+        }
+        if (loader.isModLoaded("create") && loader.isModLoaded("ponder")) {
+            // PT36 (d). CMYK Ink Ponder scene. Separate class so Ponder types load only when Ponder is present.
+            dev.councilcraft.print.ponder.CmykInkPonderPlugin.register();
         }
         if (loader.isModLoaded("wakes")) {
             // PPM80 (B). Separate class so Wakes types load only when Wakes is present.

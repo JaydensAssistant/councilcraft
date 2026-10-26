@@ -94,6 +94,25 @@
     "elytrafly",
     "fullbright",
     "gammautils",
-    "chunky"
+    "chunky",
+    "xaerominimap",
+    "xaerominimapfair",
+    "xaeroworldmap",
+    "journeymap",
+    "voxelmap",
+    "ftbchunks",
+    "map_atlases",
+    "hoofprint",
+    "immersiveminimaps",
+    "axolotlclient-waypoints",
+    "remnantminimaps",
+    "simplemap",
+    "confluxmap",
+    "whymap",
+    "flowermap",
+    "xaeroplus",
+    "mapfrontiers",
+    "journeymap_webmap",
+    "maplink"
   ]
 }

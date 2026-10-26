@@ -214,4 +214,13 @@ js('yosbr/config/entity_texture_features.json', [('skinTransparencyMode','ALL')]
 js('yosbr/config/entity_model_features.json', [('preventFirstPersonHandAnimating',True)], base='entity_model_features.json')
 js('yosbr/config/inventorio.json', [('SkipEmptyUtilitySlots',False)], base='inventorio.json')
 
+# === 0.4.18 (2026-10-26) ===
+# --- PT38: Antique Atlas 4 is the only map. 19 client map mod IDs (fabric.mod.json ids, read from the jars) on the blacklist
+PT38_MAPS = ['xaerominimap','xaerominimapfair','xaeroworldmap','journeymap','voxelmap','ftbchunks','map_atlases','hoofprint','immersiveminimaps','axolotlclient-waypoints',
+ 'remnantminimaps','simplemap','confluxmap','whymap','flowermap','xaeroplus','mapfrontiers','journeymap_webmap','maplink']
+mw = json.load(open(out('mod_whitelist-config.json')))
+js('mod_whitelist-config.json', [('CLIENT_MOD_BLACKLIST', mw['CLIENT_MOD_BLACKLIST'] + [m for m in PT38_MAPS if m not in mw['CLIENT_MOD_BLACKLIST']])])
+# --- PT40: Inventorio inventory-screen toggle button off (fresh installs, yosbr)
+js('yosbr/config/inventorio.json', [('ToggleButton',False)], base='inventorio.json')
+
 print('\n'.join(log)); print(len(log), 'settings')

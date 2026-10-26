@@ -46,9 +46,9 @@ class Release0417RulesTest {
     @Test
     void printerNamesBothPhotoInks() throws IOException {
         String lang = read("src/main/resources/assets/councilcraft/lang/en_us.json");
-        assertTrue(lang.contains("\"item.councilcraft.process_ink_bucket\": \"Process Ink Bucket\""));
+        assertTrue(lang.contains("\"item.councilcraft.process_ink_bucket\": \"Bucket of CMYK Ink\""));
         assertTrue(lang.contains("Black Dye: black-and-white photos"));
-        assertTrue(lang.contains("Process Ink: color photos and albums"));
+        assertTrue(lang.contains("CMYK Ink: color photos and albums"));
         assertFalse(lang.contains("warning"));
     }
 
@@ -66,12 +66,6 @@ class Release0417RulesTest {
         String mixin = read("src/main/java/dev/councilcraft/mixin/CarryEscapeMixin.java");
         assertTrue(mixin.contains("method = \"tickRiding\""));
         assertTrue(mixin.contains("if (carried && !self.hasVehicle())"));
-    }
-
-    @Test
-    void versionIs0417() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.17\n"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.17\""));
     }
 
     // PT29: thousands separators, independent of the JVM locale.
@@ -111,11 +105,11 @@ class Release0417RulesTest {
     @Test
     void copyCostTooltipStringsAndWiring() throws IOException {
         String lang = read("src/main/resources/assets/councilcraft/lang/en_us.json");
-        assertTrue(lang.contains("\"tooltip.councilcraft.copy.black_dye\": \"Copy: %s mB Black Dye\""));
-        assertTrue(lang.contains("\"tooltip.councilcraft.copy.process_ink\": \"Copy: %s mB Process Ink\""));
-        assertTrue(lang.contains("\"tooltip.councilcraft.copy.experience\": \"Copy: %s mB Liquid Experience (%s XP)\""));
+        assertTrue(lang.contains("\"tooltip.councilcraft.copy.black_dye\": \"Printing cost: %s mB Black Dye\""));
+        assertTrue(lang.contains("\"tooltip.councilcraft.copy.process_ink\": \"Printing cost: %s mB CMYK Ink\""));
+        assertTrue(lang.contains("\"tooltip.councilcraft.copy.experience\": \"Printing cost: %s mB Liquid Experience (%s XP)\""));
         assertTrue(lang.contains("\"tooltip.councilcraft.copy.cant\": \"Can't be copied\""));
-        assertTrue(lang.contains("\"tooltip.councilcraft.copy.unsigned\": \"Copy: locked until signed\""));
+        assertTrue(lang.contains("\"tooltip.councilcraft.copy.unsigned\": \"Printing locked until signed\""));
         assertTrue(lang.contains("\"gui.councilcraft.jei.printing.album_cost\": \"%s mB per photo page, plus %s mB per note page\""));
         assertTrue(read("src/main/java/dev/councilcraft/CouncilCraftClient.java").contains("dev.councilcraft.print.CopyCostTooltip.register();"));
         String tip = read("src/main/java/dev/councilcraft/print/CopyCostTooltip.java");

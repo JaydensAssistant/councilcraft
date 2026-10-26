@@ -16,7 +16,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -26,8 +25,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * PT15. Bucket of process ink. It is a {@link BucketItem} (and {@link ProcessInk}'s fluids name it as their bucket),
  * so Fabric's transfer API treats it like any modded fluid bucket: an empty bucket fills from a Create fluid tank,
- * basin, item drain or spout, and this bucket empties into them. Process ink is a virtual fluid with no block, so the
- * bucket never places fluid in the world. CEI's Printer has no bucket handling of its own; using this bucket on a
+ * basin, item drain or spout, and this bucket empties into them. PT36: CMYK Ink is a real fluid, so the bucket places
+ * it in the world and an empty bucket picks it back up (vanilla BucketItem behaviour). CEI's Printer has no bucket handling of its own; using this bucket on a
  * Printer pours 1000 mB into its ink tank when it fits.
  */
 public final class ProcessInkBucketItem extends BucketItem {
@@ -36,12 +35,6 @@ public final class ProcessInkBucketItem extends BucketItem {
 
     public ProcessInkBucketItem(Settings settings) {
         super(ProcessInk.STILL, settings);
-    }
-
-    /** No fluid block exists for process ink, so world placement always fails and the bucket is kept. */
-    @Override
-    public boolean placeFluid(@Nullable PlayerEntity player, World world, BlockPos pos, @Nullable BlockHitResult hit) {
-        return false;
     }
 
     @Override

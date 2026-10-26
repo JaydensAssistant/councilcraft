@@ -1,3 +1,6 @@
 {
-  "parent": "create_dragons_plus:item/dye_bucket"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "councilcraft:item/process_ink_bucket"
+  }
 }

@@ -261,6 +261,8 @@ public final class CouncilCraftRules {
      * The CIT look for copies is POST-MVP and is not in this mod.
      */
     public static final String PRINTED_NBT = "councilcraft:printed";
+    /** PT34. Display-only flag on EMI/JEI example input stacks: no copy-cost line. */
+    public static final String RECIPE_EXAMPLE_NBT = "councilcraft:recipe_example";
     public static final String PRINTED_LORE = "Printed Copy";
 
     /** PM38. Extra factor on the elevator pulley's input speed (Create already doubles it). */
