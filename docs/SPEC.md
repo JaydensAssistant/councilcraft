@@ -1930,3 +1930,23 @@ Jayden locked this on 2026-10-26 at 2:37 PM EDT ("look into all the achievements
   - Biome-completion ones (minecraft:adventure/adventuring_time, minecraft:husbandry/whole_pack, regions_unexplored pioneer/regions_explored/spelunker/eternal_expedition): these depend on every biome generating inside the border with the RU/Tectonic datapacks. A /locate sweep was too slow on the test server and was not completed.
   - create:train_portal (train through a portal; Immersive Portals interplay untested).
   - create_enchantment_industry:paradox_fusion is locked above as [inferred]; drop it from REMOVE if an in-game test shows the Forger can fuse incompatible enchants.
+
+## PT35 amendment — LOCKED 2026-10-26 15:09 EDT (NOT BUILT, for 0.4.18) — Jayden's decisions on PT35's NOT-locked items
+Jayden decided on 2026-10-26 at 3:09 PM EDT. Same removal mechanism as PT35: an always-false Fabric load-condition override at the same path in councilcraft-data. IDs were checked against the jars and the 0.4.17 runtime dump.
+- REMOVE (move from NOT locked to REMOVE):
+  - minecraft:nether/fast_travel (Subspace Bubble). A custom CouncilCraft "No Shortcuts" advancement will replace it. That advancement is specced separately; not part of this entry.
+  - minecraft:adventure/adventuring_time (biome checklist).
+  - minecraft:husbandry/whole_pack (wolf-variant checklist, one per biome).
+  - regions_unexplored:pioneer (61 RU biomes), regions_unexplored:regions_explored (71 biomes), regions_unexplored:spelunker (5 cave biomes), regions_unexplored:eternal_expedition (5 Nether biomes). All four are at data/regions_unexplored/advancements/<id>.json in RegionsUnexploredFabric-0.5.6+1.20.1.
+  - create_enchantment_industry:paradox_fusion: now confirmed impossible (was [inferred] in PT35).
+- RE-PARENT earnable children (full jar JSON copy plus new "parent"):
+  - regions_unexplored:every_bit_of_the_rainbow, regions_unexplored:from_the_tree_tops, regions_unexplored:light_as_a_frog (were under pioneer) -> regions_unexplored:parent
+  - regions_unexplored:blind_as_a_bat (was under spelunker) -> regions_unexplored:parent
+  - regions_unexplored:downer, regions_unexplored:light_snack (were under eternal_expedition) -> regions_unexplored:parent
+  - regions_explored is itself removed (it was pioneer's child).
+  - fast_travel, adventuring_time and whole_pack have no children.
+  - create_enchantment_industry:omni_enchanter is already re-parented to transcendent_overclock by PT35. No change.
+- Still NOT locked:
+  - minecraft:adventure/voluntary_exile (restore vs remove; asked Jayden).
+  - create:train_portal (Jayden will test in game).
+- Build checks: PT35's checks also cover these IDs (0 "Couldn't load advancement"; the removed IDs can't be granted; the 6 RU children show under the RU root).
