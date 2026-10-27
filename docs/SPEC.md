@@ -2087,3 +2087,13 @@ Append-only. This marks PT44 to PT50 BUILT in 0.4.20. Verification for this buil
 - PT49 BUILT (66de20e): PrintedTooltipFilter removes book.generation.* and Exposure's photograph generation lines on printed stacks only (tooltip only, NBT untouched), matched by translation key.
 - PT50 BUILT (a5ab526): pack/mods/advancementinfo.pw.toml and its index entry are removed; Cloth Config stays.
 - Version 0.4.20 (gradle.properties mod_version, pack/pack.toml). Release0420RulesTest covers the version, PT46, PT48, PT49, PT50 and PT45 rules.
+
+## PT51 — LOCKED 2026-10-27 ~12:51 AM EDT by Jayden ("yeah, lock those two things"), NOT BUILT, for the next build — E-LITE Nether sky matches its fog with Distant Horizons
+- Problem (Jayden's clip, E-LITE Medium - DH): in the Nether, both through a portal and in it, the sky is flat dark gray and terrain ends at a hard edge. Complementary is fine (sky and fog share the warm Nether color).
+- Cause: E-LITE 5.1.3 common/deferred_fragment.glsl paints Nether sky pixels with mix(fogColor * 0.5, vec3(1.0), -0.025) (the same color terrain fogs into in src/finalcolor.glsl / finalcolor_dh.glsl) only under `#if !defined DISTANT_HORIZONS`. With DH loaded the sky stays the near-black neutral color_utils_nether horizon/zenith color.
+- Fix: patch our E-LITE copy (pack/tools/mkelite.py + a docs/patches diff, LGPL notice in CHANGES-CouncilCraft.txt) so in the Nether with DH the sky is painted that same fog color where both the vanilla depth and DH depth (dhDepthTex0) are at the far plane (true sky only; never overwrite DH LOD terrain). Without DH, behavior unchanged. Overworld/End unchanged.
+- No volumetric haze added; goal is the distant terrain fading into a sky of the same color with no hard gray edge.
+- In-game check (Jayden): E-LITE Medium in the Nether and through a Nether portal: sky is warm fog-colored and terrain blends into it.
+
+## PT52 — LOCKED 2026-10-27 ~12:51 AM EDT by Jayden, NOT BUILT, for the next build — E-LITE night brightness 0.85
+- Set NIGHT_BRIGHT=0.85 in the shipped E-LITE settings (pack/shaderpacks/E-LITE shaders 5.1.3 CouncilCraft.zip.txt). Stock default is 0.75 (0.85 is a built-in slider value). Players' own saved settings take effect only if the shipped options file is how they get settings (same as other shipped E-LITE options).
