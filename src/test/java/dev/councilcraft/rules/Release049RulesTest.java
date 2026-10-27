@@ -141,19 +141,19 @@ class Release049RulesTest {
     // ---- PPM81 monster band ----
 
     @Test
-    void monsterBandIsSixtyFourBlocksClampedToTheWorld() {
-        assertEquals(64, MobBand.BAND);
-        assertEquals(88, MobBand.MONSTER_CAP);
-        org.junit.jupiter.api.Assertions.assertArrayEquals(new int[] {-64, 20}, MobBand.range(-44, -64, 90));
-        org.junit.jupiter.api.Assertions.assertArrayEquals(new int[] {6, 71}, MobBand.range(70, -64, 71));
-        org.junit.jupiter.api.Assertions.assertArrayEquals(new int[] {-30, 98}, MobBand.range(34, -64, 140));
+    void monsterBandIsOneHundredTwentyEightBlocksClampedToTheWorld() {
+        assertEquals(128, MobBand.BAND);
+        assertEquals(70, MobBand.MONSTER_CAP);
+        org.junit.jupiter.api.Assertions.assertArrayEquals(new int[] {-64, 84}, MobBand.range(-44, -64, 90));
+        org.junit.jupiter.api.Assertions.assertArrayEquals(new int[] {-58, 71}, MobBand.range(70, -64, 71));
+        org.junit.jupiter.api.Assertions.assertArrayEquals(new int[] {-64, 140}, MobBand.range(34, -64, 140));
     }
 
     @Test
     void monsterBandIsEmptyHighAboveTheSurface() {
         assertNull(MobBand.range(300, -64, 71));
         assertTrue(MobBand.inBand(10, 74));
-        assertFalse(MobBand.inBand(9.9, 74));
+        assertFalse(MobBand.inBand(-55, 74));
     }
 
     // ---- PPM72 Every Compat, PPM77 book priority, PPM79 guide, PPM82/83 Immersive Portals ----

@@ -124,7 +124,7 @@ class PlayerActivityTest {
         String reborn = read("src/main/java/dev/councilcraft/respawn/Reborn.java");
         String tick = reborn.substring(reborn.indexOf("    private static void tick(MinecraftServer server) {"),
             reborn.indexOf("    /** Sends the effect."));
-        assertEquals("177e0c71d1bb605fc708ee58a999b957f5f9d81a2abe4ac1eea1375f85096127", sha256(tick));
+        assertEquals("87c9576b133b9ea308a3a0fa3291a1019e955627aac0d8e6a0a73190fde394f9", sha256(tick));
         assertEquals("5697ff35f82062c56cc4110b08f32d0813889165834c3dc597e15db7140d89b6",
             sha256(read("src/main/java/dev/councilcraft/respawn/RebornWindow.java")));
         assertEquals("781d67b2287815975493cd7bfa0a41e37394c99bdf4255e13ef7f714d7a4e1a5",

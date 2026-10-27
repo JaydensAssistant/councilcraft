@@ -25,3 +25,13 @@ CouncilCraft book cover priority (resourcepacks/councilcraft-book-priority.zip):
 Every Compat (Wood Good) by MehVahdJukaar, xelbayria and Plantkillable (All Rights Reserved), downloaded from Modrinth on install: https://modrinth.com/mod/every-compat
 RU Expansion 1.0.1 by DropoutGuy (MIT), modified for CouncilCraft (repackaged as a data-only datapack, fallen tree features removed; moonlight-global-datapacks/ru-expansion-1.0.1-councilcraft.zip, license in the zip): https://modrinth.com/mod/regions-unexplored-expansion
 CouncilCraft blank album page (in the councilcraft mod jar, assets/councilcraft/textures/gui/album_blank_page.png): Exposure's own album page texture by mortuusars (MIT) with the note lines and photo frame removed (no new art); notice in META-INF/councilcraft-texture-credits.txt in the jar: https://modrinth.com/mod/exposure
+
+Inventory and camera helpers, downloaded from Modrinth on install (not redistributed by CouncilCraft):
+BetterF3 by comniemeer and others (MIT): https://modrinth.com/mod/betterf3
+Better Third Person by Socolio (All Rights Reserved): https://modrinth.com/mod/better-third-person
+Inventory Profiles Next by mirinimi / blackd (AGPL-3.0-or-later): https://modrinth.com/mod/inventory-profiles-next
+libIPN by mirinimi / blackd (AGPL-3.0-or-later): https://modrinth.com/mod/libipn
+Mouse Tweaks by YaLTeR (BSD-3-Clause): https://modrinth.com/mod/mouse-tweaks
+InvMove by NotRyken (LGPL-3.0-only): https://modrinth.com/mod/invmove
+InvMoveCompats by NotRyken (LGPL-3.0-only): https://modrinth.com/mod/invmovecompats
+Concurrent Chunk Management Engine (C2ME) by DreamingCodes / ishland (MIT), downloaded from Modrinth on install: https://modrinth.com/mod/c2me-fabric

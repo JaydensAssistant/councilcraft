@@ -46,9 +46,9 @@ class Release0421RulesTest {
     }
 
     @Test
-    void versionIs0421() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.21"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.21\""));
+    void versionIsAtLeast0421() throws IOException {
+        assertTrue(read("gradle.properties").matches("(?s).*mod_version=0\\.4\\.(2[1-9]|[3-9]\\d).*"));
+        assertTrue(read("pack/pack.toml").matches("(?s).*version = \"0\\.4\\.(2[1-9]|[3-9]\\d)\".*"));
     }
 
     // PT51 -------------------------------------------------------------------------------------------------------

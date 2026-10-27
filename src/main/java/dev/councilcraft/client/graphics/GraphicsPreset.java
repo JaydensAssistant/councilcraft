@@ -8,10 +8,10 @@ import org.jetbrains.annotations.Nullable;
  * is unlimited.
  */
 public enum GraphicsPreset {
-    /** Complementary Unbound r5.9.3 with the pack's settings file; DH Medium (PT11), 256 chunks. */
-    HIGH("ComplementaryUnbound_r5.9.3.zip", "MEDIUM", 256),
-    /** E-LITE 5.1.3 with CouncilCraft's TAA patch and the pack's settings file (PT12); DH Medium, 186 chunks. */
-    MEDIUM("E-LITE shaders 5.1.3 CouncilCraft.zip", "MEDIUM", 186),
+    /** Complementary Unbound r5.9.3 with the pack's settings file; DH Medium (PT11), 512 chunks (PT68). */
+    HIGH("ComplementaryUnbound_r5.9.3.zip", "MEDIUM", 512),
+    /** E-LITE 5.1.3 with CouncilCraft's TAA patch and the pack's settings file (PT12); DH Medium, 256 chunks (PT68). */
+    MEDIUM("E-LITE shaders 5.1.3 CouncilCraft.zip", "MEDIUM", 256),
     /** Shaders off; DH Low, 128 chunks. */
     LOW(null, "LOW", 128);
 

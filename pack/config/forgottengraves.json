@@ -22,7 +22,7 @@
     "sinkInLava": false,
     "sinkThroughBlocks": true,
     "replaceBlocks": true,
-    "giveDeathCompass": false,
+    "giveDeathCompass": true,
     "restrictedDimensions": []
   },
   "decay": {

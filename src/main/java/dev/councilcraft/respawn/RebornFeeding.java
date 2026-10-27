@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.WeakHashMap;
+import java.util.HashMap;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.UseEntityCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -59,11 +59,14 @@ public final class RebornFeeding {
     public static final String REFUSED_TOO_FAR = "councilcraft.feed.refused.too_far";
     /** PT21. Action-bar line when the baby is full (and the food is not edible while full). */
     public static final String REFUSED_FULL = "councilcraft.feed.refused.full";
+    /** PT57. Action-bar line when the target is not Reborn (right-click with food). */
+    public static final String REFUSED_NOT_REBORN = "councilcraft.feed.refused.not_reborn";
 
     private record Feed(ServerPlayerEntity target, Hand hand, Item item, Vec3d feederStart, Vec3d targetStart) {
     }
 
-    private static final Map<ServerPlayerEntity, Feed> FEEDS = new WeakHashMap<>();
+    /** PT57: keyed by feeder UUID across respawns. */
+    private static final Map<UUID, Feed> FEEDS = new HashMap<>();
     /** Client side: entity ids of players feeding now (from FEEDING packets). */
     public static final Set<Integer> CLIENT_FEEDERS = Collections.synchronizedSet(new HashSet<>());
 
@@ -85,7 +88,7 @@ public final class RebornFeeding {
         ServerTickEvents.END_SERVER_TICK.register(RebornFeeding::tick);
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> resend = true);
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
-            FEEDS.remove(handler.player);
+            FEEDS.remove(handler.player.getUuid());
             resend = true;
         });
     }
@@ -119,17 +122,21 @@ public final class RebornFeeding {
         if (entity.getWorld().isClient) {
             return CLIENT_FEEDERS.contains(entity.getId());
         }
-        return entity instanceof ServerPlayerEntity player && FEEDS.containsKey(player);
+        return entity instanceof ServerPlayerEntity player && FEEDS.containsKey(player.getUuid());
     }
 
     private static ActionResult start(ServerPlayerEntity feeder, ServerPlayerEntity target, Hand hand) {
-        if (FEEDS.containsKey(feeder)) {
+        if (FEEDS.containsKey(feeder.getUuid())) {
             return ActionResult.SUCCESS;
         }
         ItemStack stack = feeder.getStackInHand(hand);
-        if (feeder == target || feeder.isSpectator() || target.isSpectator() || !Reborn.running(target)
-            || minutes(stack) <= 0) {
+        if (feeder == target || feeder.isSpectator() || target.isSpectator() || minutes(stack) <= 0) {
             return ActionResult.PASS;
+        }
+        // PT57. Clear refusal when the target is not Reborn (food in hand, intentional feed attempt).
+        if (!Reborn.running(target)) {
+            feeder.sendMessage(Text.translatable(REFUSED_NOT_REBORN, target.getDisplayName()), true);
+            return ActionResult.CONSUME;
         }
         StatusEffectInstance spurt = target.getStatusEffect(GrowthSpurtEffect.EFFECT);
         if (spurt != null && !FeedingRules.canFeedAgain(spurt.getDuration())) {
@@ -147,18 +154,22 @@ public final class RebornFeeding {
             feeder.sendMessage(Text.translatable(REFUSED_FULL, target.getDisplayName()), true);
             return ActionResult.CONSUME;
         }
-        FEEDS.put(feeder, new Feed(target, hand, stack.getItem(), feeder.getPos(), target.getPos()));
+        FEEDS.put(feeder.getUuid(), new Feed(target, hand, stack.getItem(), feeder.getPos(), target.getPos()));
         feeder.setCurrentHand(hand);
         broadcast(feeder, true);
         return ActionResult.SUCCESS;
     }
 
     private static void tick(MinecraftServer server) {
-        Iterator<Map.Entry<ServerPlayerEntity, Feed>> it = FEEDS.entrySet().iterator();
+        Iterator<Map.Entry<UUID, Feed>> it = FEEDS.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<ServerPlayerEntity, Feed> entry = it.next();
-            ServerPlayerEntity feeder = entry.getKey();
+            Map.Entry<UUID, Feed> entry = it.next();
+            ServerPlayerEntity feeder = server.getPlayerManager().getPlayer(entry.getKey());
             Feed feed = entry.getValue();
+            if (feeder == null) {
+                it.remove();
+                continue;
+            }
             if (!stillValid(server, feeder, feed)) {
                 it.remove();
                 if (feeder.isUsingItem()) {
@@ -200,7 +211,7 @@ public final class RebornFeeding {
         if (!(feeder instanceof ServerPlayerEntity serverFeeder)) {
             return stack;
         }
-        Feed feed = FEEDS.remove(serverFeeder);
+        Feed feed = FEEDS.remove(serverFeeder.getUuid());
         broadcast(serverFeeder, false);
         if (feed == null || !stillValid(serverFeeder.getServer(), serverFeeder, feed)) {
             return stack;

@@ -54,7 +54,7 @@
   "maulerBadlandsSpawnMinGroupSize": 1,
   "maulerBadlandsSpawnMaxGroupSize": 1,
   "enableMaulerSpawnInSavanna": true,
-  "maulerSavannaSpawnWeight": 32,
+  "maulerSavannaSpawnWeight": 8,
   "maulerSavannaSpawnMinGroupSize": 1,
   "maulerSavannaSpawnMaxGroupSize": 1,
   "enableMoobloom": true,

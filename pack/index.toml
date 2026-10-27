@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "config/DistantHorizons.toml"
-hash = "ade6ba64e4c6fc4a522504e76fde8e9509710b47b9bce0fa4af619e7014d75e1"
+hash = "444006957ad63bba771b0f6c05dfd5d9bfef2b97b01d212f0a68f298003357c5"
 
 [[files]]
 file = "config/amendments-common.json"
@@ -34,7 +34,7 @@ hash = "507aa13edaa287f38f0d6531cf3617c3935f9ece9b8dfce6c5e03cffc7b042c0"
 
 [[files]]
 file = "config/carryon-common.json"
-hash = "03d7f96fdc211d02c90703044466204eaa0564e5a5ce24136c26230d01d6edfa"
+hash = "2e908b161a00ae3d4059c8a56ae0d1098e68c0f36258be246f876e1b67bdb023"
 
 [[files]]
 file = "config/create-server.toml"
@@ -62,11 +62,11 @@ hash = "d94d90e078b9ed03b2da2892410fc94d1feb1167cfc14c6838a2d4757f3f4781"
 
 [[files]]
 file = "config/forgottengraves.json"
-hash = "3c8e04ede6756a89626e4ff9b157416a48078fea05d7bb53cf376f5e6a2e81f0"
+hash = "d8dc63a214c814066a4ec28245e331f7545c24f473dc93667f4ba881d7714a1b"
 
 [[files]]
 file = "config/friendsandfoes.json"
-hash = "ba58422ebef243caacbe8f91f410722e8f9fc6c869ab3ecb74208344e493de6e"
+hash = "c837dab1d8cde61a0f2ea4417277c02fd453bd6cd7bf7d7c4992342012fd0857"
 
 [[files]]
 file = "config/hardcorerevival-common.toml"
@@ -109,6 +109,10 @@ file = "config/nameplate.json"
 hash = "77edab8e65349932f8a562621f764c1a1dceb740d2e0b5150a6689a0f69c4304"
 
 [[files]]
+file = "config/naturalist.json"
+hash = "e362515d2b1b990bbd651f4fba621e6801bcbc46dc95ea871fd777c24fdceaf6"
+
+[[files]]
 file = "config/netherite_horse_armor.json5"
 hash = "8936d646594716f495dde391e43b2b483452c6bf11bfc48d75081e674f648728"
 
@@ -127,6 +131,10 @@ hash = "277bcdf9c44d69b66b4581710770f10d15b8cd9df60a33d92cc640889ed2c95f"
 [[files]]
 file = "config/paraglider-server.toml"
 hash = "0c2c919c711013f22b3f49d13b4693490a133f3f2dc38d2523a2ec41e078ef14"
+
+[[files]]
+file = "config/pehkui/config.json"
+hash = "418a28b875a3e94e9ae33784be9fd6907b242814ebb678d207a06b944fa5d33a"
 
 [[files]]
 file = "config/rpgdifficulty.json"
@@ -209,12 +217,28 @@ file = "config/yosbr/config/inventory_particles.json5"
 hash = "fbd08cbb8fbc7606ccbec8ab7e084678ee433051c5329dad365a50cc0ba506c3"
 
 [[files]]
+file = "config/yosbr/config/inventoryprofilesnext/integrationHints/councilcraft.json"
+hash = "4b2f4b2b4684dcef6280a46bc739b2b09c305cbfa3c8a4f3253985669dcec7a1"
+
+[[files]]
+file = "config/yosbr/config/inventoryprofilesnext/inventoryprofiles.json"
+hash = "6836681a08fb3642bc398f48347d1426551871efcffd8a7498d14a05ee0d9169"
+
+[[files]]
+file = "config/yosbr/config/invmove/unrecognized.json"
+hash = "c02509d310a9ec6d004d5d4dbad2be164d5c9f11a2f581d37807c9e68a860367"
+
+[[files]]
 file = "config/yosbr/config/iris.properties"
 hash = "173e8a65bfadf40a2e4ad414f9f4a0c3d1000dbe43f8f7255ecdcb7fb50df2b5"
 
 [[files]]
 file = "config/yosbr/config/punchy/triggerable-keybindings.json"
 hash = "d15a5e97d4ca3a189c6eb67f77a3d449d8ea6621930f3b4337d80213d0abd961"
+
+[[files]]
+file = "config/yosbr/config/sodium-options.json"
+hash = "6f8d309c68a08389b0c65db7c50df9551e54a634dbdae3e4eb8fc190d09b4b97"
 
 [[files]]
 file = "config/yosbr/config/vanillabackport-client.toml"
@@ -230,11 +254,11 @@ hash = "c8af66d1d29373057f414796b09f427044dbbdd7f9fe877d2f4ab912c14958bc"
 
 [[files]]
 file = "config/yosbr/options.txt"
-hash = "b37b627c5c7a937044085333125d98c7394ff3526542f3ee1931ce5761880cd4"
+hash = "2d56d1470cc28cb17718dcef86b01e3f5ee382df700a3c63a76c2f1d4928670a"
 
 [[files]]
 file = "credits.txt"
-hash = "766979c8d4f7728319faa2c7d04aa4901647b2d5f1c76e41927e919fc05652b0"
+hash = "69519da3693bd47e40aaa99c3b47f58ad665d4e3beeb9d1b9197381a4bc7d96d"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -413,13 +437,28 @@ hash = "333dfa2b93c688ce5f9f685f77cb62e5df8b9c8d21a2c4dd4eb9232aa85dccff"
 metafile = true
 
 [[files]]
+file = "mods/better-third-person.pw.toml"
+hash = "6d7c5793f88c52421dc11f48b3bf12400e7a451b9297e80fe33b776cc2af2c1d"
+metafile = true
+
+[[files]]
 file = "mods/betterend.pw.toml"
 hash = "fdfce692e21fa05498c5243d1c39bf8a1128535dcdeb9e8db083ef88735d3034"
 metafile = true
 
 [[files]]
+file = "mods/betterf3.pw.toml"
+hash = "a1e024094c28068c99a6da1c5867cbd4e66a315718039659bfa533a138762d9e"
+metafile = true
+
+[[files]]
 file = "mods/borderless-mining.pw.toml"
 hash = "b7ad39c3b4094f76d4e31899c662a0295c851a89819fce7f47afbab5257b39d7"
+metafile = true
+
+[[files]]
+file = "mods/c2me.pw.toml"
+hash = "6cd9897e7bedb0f1d53ff765f4af6672703bcbc567742bd8cdc38c9f7734fe0b"
 metafile = true
 
 [[files]]
@@ -708,6 +747,21 @@ hash = "5535a2284510112184dcd63b91c650f9c76b3173d704ce2aeaee64ce5ce9b997"
 metafile = true
 
 [[files]]
+file = "mods/inventory-profiles-next.pw.toml"
+hash = "ce1e5e716166d72f41fc45950db9346934201c3522f333e08de13412d0588141"
+metafile = true
+
+[[files]]
+file = "mods/invmove-compats.pw.toml"
+hash = "8a8dd75f4e258a1cfb83c49e7d2b2530f93c7aaa9deb28fd38bb511eeeca0d9f"
+metafile = true
+
+[[files]]
+file = "mods/invmove.pw.toml"
+hash = "e9a8feb043bb0071198f4170d6484f30a6465ed73b2f2083549642e2ce7c4707"
+metafile = true
+
+[[files]]
 file = "mods/iris.pw.toml"
 hash = "99efc9e805ce2888680d3cacb9be65733c6d4a8cfcb77e1976205f758db24346"
 metafile = true
@@ -755,6 +809,11 @@ metafile = true
 [[files]]
 file = "mods/ledger.pw.toml"
 hash = "3acf17c3380c84a6db100135ad803864eb7f61ad4c5492427381c2129cbb72ac"
+metafile = true
+
+[[files]]
+file = "mods/libipn.pw.toml"
+hash = "cc298019c2d3a47a97e72363b942fe408e5ecb7ff476fe08155793f2f1578317"
 metafile = true
 
 [[files]]
@@ -840,6 +899,11 @@ metafile = true
 [[files]]
 file = "mods/mossylib.pw.toml"
 hash = "016b5784266d1131157eae5f5fc088e8474868fa398d9e8281115414c1b8ecf7"
+metafile = true
+
+[[files]]
+file = "mods/mouse-tweaks.pw.toml"
+hash = "b6685e98fce8f1f45868b9df3dbaa410ec23bb64896c826be596d98b01326116"
 metafile = true
 
 [[files]]

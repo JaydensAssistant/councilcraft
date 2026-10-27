@@ -4,15 +4,15 @@ package dev.councilcraft.rules;
  * PPM81. Tectonic's huge cave volume let the Overworld monster cap fill with mobs in caves far above or below every
  * player (vanilla picks the spawn Y anywhere from the world bottom to the surface). Overworld monster spawning now
  * picks Y within {@link #BAND} blocks of the horizontally nearest player, monsters outside that band of every player
- * despawn faster, and the monster cap goes from 70 to {@link #MONSTER_CAP}. Spawners are unaffected.
+ * despawn faster, and the monster cap is {@link #MONSTER_CAP} (vanilla; was 88 in PPM81). Spawners are unaffected.
  */
 public final class MobBand {
     private MobBand() {}
 
     /** Blocks above and below the player that Overworld monster spawn attempts may pick. */
-    public static final int BAND = 64;
+    public static final int BAND = 128;
     /** Monster mob cap (vanilla 70, about 1.25x). */
-    public static final int MONSTER_CAP = 88;
+    public static final int MONSTER_CAP = 70;
     /**
      * Per-tick despawn chance (1 in this) for a despawnable Overworld monster outside every player's band. Vanilla's
      * random despawn is 1 in 800 per tick, and only after 600 idle ticks.

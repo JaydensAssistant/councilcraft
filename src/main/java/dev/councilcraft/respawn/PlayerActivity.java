@@ -1,8 +1,9 @@
 package dev.councilcraft.respawn;
 
 import dev.councilcraft.CouncilCraftRules;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
+import java.util.UUID;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.server.MinecraftServer;
@@ -23,18 +24,19 @@ public final class PlayerActivity {
     /** Command (scoreboard) tag that KubeJS reads. */
     public static final String TAG = "cc_active";
 
-    private static final Map<ServerPlayerEntity, Clock> CLOCKS = new WeakHashMap<>();
+    /** PT57: keyed by UUID across respawns. */
+    private static final Map<UUID, Clock> CLOCKS = new HashMap<>();
 
     private PlayerActivity() {
     }
 
     public static void register() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            CLOCKS.remove(handler.player);
+            CLOCKS.remove(handler.player.getUuid());
             handler.player.removeScoreboardTag(TAG);
         });
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
-            CLOCKS.remove(handler.player);
+            CLOCKS.remove(handler.player.getUuid());
             handler.player.removeScoreboardTag(TAG);
         });
         ServerTickEvents.END_SERVER_TICK.register(PlayerActivity::tick);
@@ -42,10 +44,7 @@ public final class PlayerActivity {
 
     /** A respawn makes a new player object; carry the open window and last move over, as Reborn does for its own maps. */
     public static void copy(ServerPlayerEntity from, ServerPlayerEntity to) {
-        Clock clock = CLOCKS.get(from);
-        if (clock != null) {
-            CLOCKS.put(to, clock);
-        }
+        // Same UUID on respawn — clock already under to.getUuid().
         if (from.getCommandTags().contains(TAG)) {
             to.addCommandTag(TAG);
         }
@@ -78,7 +77,7 @@ public final class PlayerActivity {
     }
 
     private static Clock clock(ServerPlayerEntity player) {
-        return CLOCKS.computeIfAbsent(player, ignored -> new Clock());
+        return CLOCKS.computeIfAbsent(player.getUuid(), ignored -> new Clock());
     }
 
     private static void tick(MinecraftServer server) {

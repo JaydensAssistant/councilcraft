@@ -2405,3 +2405,49 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 
 - MAYBE LATER (Jayden 2026-10-27, not locked): Offgrid (https://modrinth.com/mod/offgrid, ARR, client+server required; Fabric 1.20.1 1.0.2 released 2026-10-27, 1.0.0 on 2026-10-23). Multi-block placement, mixed slabs, windowlogging, off-grid frames and paintings. Revisit after launch once it has matured. Concerns: it changes world block storage (removal risk), and is untested with DH, IP, Dynmap and shaders.
 - DROPPED (Jayden 2026-10-27): Ping Wheel.
+
+
+## Server settings for Season 3 (LOCKED 2026-10-27, Jayden)
+
+Locked by Jayden for 0.4.22 (PT19): ship and use these in server.properties wherever the pack or server-assets template carries them.
+
+- view-distance=8
+- simulation-distance=10
+- motd=CouncilCraft Season 3! 10-30-2026
+
+## PT80 amendment 2 — LOCKED 2026-10-27 ~3:12 PM EDT by Jayden, NOT BUILT, for 0.4.22 — Distant Horizons generatorPlan CHUNKS_ONLY (amends PT80)
+- Change: in pack/config/DistantHorizons.toml, [common.worldGenerator] generatorPlan = "CHUNKS_ONLY" (was "SURFACE_THEN_CHUNKS"). Leave chunkGeneratorMode at PRE_EXISTING_ONLY (PT80 amendment 1).
+- Reason: the launch world will be fully pregenerated with Chunky, so the fast surface estimate pass is pointless.
+- Note: DH's tooltip says generatorPlan applies in singleplayer, so it may not affect the dedicated server. Ship it anyway so singleplayer and any client-local DH generation match the pack intent.
+- Check: the shipped DistantHorizons.toml has generatorPlan = "CHUNKS_ONLY" and chunkGeneratorMode = "PRE_EXISTING_ONLY".
+
+
+## 0.4.22 BUILT NOTE (appended 2026-10-27 ~3:50 PM EDT)
+Append-only. This marks every LOCKED, for-0.4.22 item BUILT in CouncilCraft 0.4.22, including PT80 amendment 1 and PT80 amendment 2. PT61 stays ON HOLD (not locked, no code). Verification for this build is 292 unit tests, the build scans, a clean dedicated-server boot (Done), and a clean client launch to the title screen with the 0.4.22 pack. No in-game smoke or scenario tests were run, so every "In-game check" / "Check" above is still Jayden's to do.
+- Artifacts: dist/0.4.22/councilcraft-0.4.22.jar (SHA-1 772344d7d1a51ce812ee5ebaba6be5a909563a10), dist/0.4.22/CouncilCraft-0.4.22.mrpack (SHA-1 5c796b1c062cf8a373e87c5aca3580a8ec8b2e0b), dist/0.4.22/CouncilCraft-0.4.22-no-cc.mrpack (SHA-1 f9bbd62fe5f357ade0535d6ad7c8ff83dd2c5350). Discord-Integration.toml and CC_DISCORD_BOT_TOKEN untouched. server.properties is in server-assets/ only (not in the mrpack); MOTD/view-distance/simulation-distance match the Season 3 lock.
+- PT54 BUILT: baby-carry weight allows a one-block jump (CarryOnWeight / CarryWeight).
+- PT55 BUILT: KnockoutInventoryGuardMixin + InventorioKnockoutOpenMixin; E opens Hardcore Revival knockout while downed; inventory blocked. HCR stubs under src/stubs for compile.
+- PT56 BUILT: carryon-common.json blacklists player stacking (horse stays allowed per prior locks).
+- PT57 BUILT: Reborn / PlayerActivity / RebornFeeding keyed by UUID; feeding-failure messages in en_us.json.
+- PT58 BUILT: InventorioCraftingQuickMoveMixin (shift-click crafting result → hotbar first).
+- PT59 + PT64 BUILT: UtilityBeltSwapMixin (swap hands → selected utility belt; crafting-result swap no longer dupes).
+- PT60 BUILT: BetterF3 7.0.2 client-only via pack/mods/betterf3.pw.toml + credits.
+- PT62 + amendment 1 BUILT: FeedUseActionMixin for Punchy 2.8g first-person feeding pose.
+- PT63 BUILT: CarriedSuffocationMixin (carried Reborn baby takes no in-wall damage).
+- PT65 BUILT: yosbr sodium-options.json always_defer_chunk_updates_asynchronously = false.
+- PT66 BUILT: Better Third Person + BetterThirdPersonControllerMixin (camera off on controller).
+- PT67 + amendment 1 BUILT: forgottengraves giveDeathCompass on; GraveCompassIngredientMixin blocks recipe use.
+- PT68 BUILT: GraphicsPreset HIGH/MEDIUM/LOW DH radii 512/256/128.
+- PT69 BUILT: MobBand BAND=128, MONSTER_CAP=70.
+- PT70 BUILT: PunchySwimCarryMixin (no Punchy swim anim while carrying).
+- PT71 BUILT: BabyCarryLimits (carry capacity scales with Reborn growth).
+- PT72 + amendment 1 + PT74 + PT75 + PT76 BUILT: IPN + libIPN client mods; yosbr IPN defaults; sort-in-rows/columns hidden; IpnDisabledBeltMixin + IpnItemStorageBeltMixin keep tool/utility belts out of sorts; Deep Pockets rows remain sortable. Quarry owns further IPN integrationHints.
+- PT73 BUILT: InvMove + InvMoveCompats client-only; KnockoutScreen unrecognized so no walk while downed.
+- PT77 BUILT: Mouse Tweaks 2.26 client-only (Mouse Wheelie stays cancelled).
+- PT78 BUILT: naturalist.json spawn weights + friendsandfoes maulerSavannaSpawnWeight=8.
+- PT79 BUILT: C2ME fyt7FtgA shipped both-sides; no custom c2me.toml.
+- PT80 + amendment 1 + amendment 2 BUILT: DistantHorizons.toml chunkGeneratorMode = "PRE_EXISTING_ONLY", generatorPlan = "CHUNKS_ONLY". Note: DH's tooltip says generatorPlan applies in singleplayer, so it may not affect the dedicated server; shipped anyway for SP / client-local DH. Launch-world Chunky/DH INTERNAL_SERVER pregen remains Jayden's local workflow (not automated in this release).
+- PT81 BUILT: pack/config/pehkui/config.json scaledReach = false (forced override).
+- PT82 BUILT: yosbr options.txt key_railways.keyinfo.bogey_menu:key.keyboard.right.bracket.
+- PT83 BUILT: MouseTweaksDeepPocketsMixin pinned to mousetweaks fabric.mod.json version "2.26" (not the Modrinth version name "1.20-2.26-fabric") and inventorio; scroll push/pull on InventorioScreen targets Deep Pockets only. Client launch confirmed: no "hook is skipped" pin mismatch.
+- Season 3 server.properties template (PT19): server-assets/server.properties has view-distance=8, simulation-distance=10, motd=CouncilCraft Season 3! 10-30-2026.

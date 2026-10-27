@@ -105,7 +105,7 @@ key_key.paraglider.paragliderSettings:key.keyboard.unknown
 key_key.ponder.ponder:key.keyboard.w
 key_key.presencefootsteps.settings:key.keyboard.f10
 key_key.presencefootsteps.toggle:key.keyboard.unknown
-key_railways.keyinfo.bogey_menu:key.keyboard.unknown
+key_railways.keyinfo.bogey_menu:key.keyboard.right.bracket
 key_railways.keyinfo.cycle_menu:key.keyboard.unknown
 key_key.smallships.ship_sail:key.keyboard.z
 key_key.smallships.cannon_barrel_enter:key.keyboard.unknown

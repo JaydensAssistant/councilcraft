@@ -4,6 +4,8 @@ import dev.councilcraft.CouncilCraftRules;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
+import java.util.UUID;
 import java.util.WeakHashMap;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -37,17 +39,18 @@ import net.minecraft.text.Text;
  * boundary. There are no particles.
  */
 public final class Reborn {
-    private static final Map<ServerPlayerEntity, Long> MINUTES = new WeakHashMap<>();
-    private static final Map<ServerPlayerEntity, RebornWindow> WINDOWS = new WeakHashMap<>();
-    private static final Map<ServerPlayerEntity, WindowVerdict> LAST_WINDOW = new WeakHashMap<>();
+    /** PT57: keyed by UUID so respawn (new player object, same UUID) keeps Reborn state. */
+    private static final Map<UUID, Long> MINUTES = new HashMap<>();
+    private static final Map<UUID, RebornWindow> WINDOWS = new HashMap<>();
+    private static final Map<UUID, WindowVerdict> LAST_WINDOW = new HashMap<>();
     /** Server tick of the last walk, jump, swim, sneak or sprint. Not saved. */
-    private static final Map<ServerPlayerEntity, Long> LAST_MOVE = new WeakHashMap<>();
+    private static final Map<UUID, Long> LAST_MOVE = new HashMap<>();
     /** The effect packet has been sent since this player object joined. JOIN itself must not send it. */
     private static final Set<ServerPlayerEntity> EFFECT_SENT = Collections.newSetFromMap(new WeakHashMap<>());
     /** Effect removal that must wait until after JOIN, so the packet is not a raw registry id. */
     private static final Set<ServerPlayerEntity> EFFECT_CLEAR_AFTER_JOIN = Collections.newSetFromMap(new WeakHashMap<>());
     /** PM24a: ticks of the current window spent under Growth Spurt. Not saved, like the window. */
-    private static final Map<ServerPlayerEntity, Long> GROWTH_TICKS = new WeakHashMap<>();
+    private static final Map<UUID, Long> GROWTH_TICKS = new HashMap<>();
 
     /**
      * What a player joining may do. A status-effect packet carries a raw registry
@@ -103,10 +106,11 @@ public final class Reborn {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> syncJoined(handler.player));
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             // Minutes already saved stay. The unfinished window does not.
-            WINDOWS.remove(handler.player);
-            GROWTH_TICKS.remove(handler.player);
-            LAST_WINDOW.remove(handler.player);
-            LAST_MOVE.remove(handler.player);
+            UUID id = handler.player.getUuid();
+            WINDOWS.remove(id);
+            GROWTH_TICKS.remove(id);
+            LAST_WINDOW.remove(id);
+            LAST_MOVE.remove(id);
         });
         ServerTickEvents.END_SERVER_TICK.register(Reborn::tick);
         CommandRegistrationCallback.EVENT.register((dispatcher, registry, environment) ->
@@ -130,29 +134,29 @@ public final class Reborn {
     }
 
     public static long minutes(ServerPlayerEntity player) {
-        Long minutes = MINUTES.get(player);
+        Long minutes = MINUTES.get(player.getUuid());
         return minutes == null ? 0L : minutes;
     }
 
     public static boolean running(ServerPlayerEntity player) {
-        return MINUTES.containsKey(player);
+        return MINUTES.containsKey(player.getUuid());
     }
 
     /** Reads the saved active-minute count. Negative means the key was absent. */
     public static void load(ServerPlayerEntity player, long activeMinutes) {
         if (activeMinutes < 0L) {
-            MINUTES.remove(player);
+            MINUTES.remove(player.getUuid());
             return;
         }
-        MINUTES.put(player, activeMinutes);
+        MINUTES.put(player.getUuid(), activeMinutes);
     }
 
     public static void copy(ServerPlayerEntity from, ServerPlayerEntity to) {
         if (running(from)) {
-            MINUTES.put(to, minutes(from));
+            MINUTES.put(to.getUuid(), minutes(from));
         }
-        if (LAST_MOVE.containsKey(from)) {
-            LAST_MOVE.put(to, LAST_MOVE.get(from));
+        if (LAST_MOVE.containsKey(from.getUuid())) {
+            LAST_MOVE.put(to.getUuid(), LAST_MOVE.get(from.getUuid()));
         }
     }
 
@@ -162,14 +166,14 @@ public final class Reborn {
         if (player == null || !running(player) || player.getServer() == null) {
             return;
         }
-        LAST_MOVE.put(player, (long) player.getServer().getTicks());
+        LAST_MOVE.put(player.getUuid(), (long) player.getServer().getTicks());
     }
 
     public static void begin(ServerPlayerEntity player) {
-        MINUTES.put(player, 0L);
-        WINDOWS.put(player, new RebornWindow());
-        GROWTH_TICKS.remove(player);
-        LAST_WINDOW.remove(player);
+        MINUTES.put(player.getUuid(), 0L);
+        WINDOWS.put(player.getUuid(), new RebornWindow());
+        GROWTH_TICKS.remove(player.getUuid());
+        LAST_WINDOW.remove(player.getUuid());
         sync(player);
     }
 
@@ -192,7 +196,7 @@ public final class Reborn {
     }
 
     private static RebornWindow window(ServerPlayerEntity player) {
-        return WINDOWS.computeIfAbsent(player, ignored -> new RebornWindow());
+        return WINDOWS.computeIfAbsent(player.getUuid(), ignored -> new RebornWindow());
     }
 
     /**
@@ -211,8 +215,8 @@ public final class Reborn {
                 RebornSync.send(player);
             }
             case DEFER_EFFECT_CLEAR -> {
-                MINUTES.remove(player);
-                WINDOWS.remove(player);
+                MINUTES.remove(player.getUuid());
+                WINDOWS.remove(player.getUuid());
                 ((RebornStatusEffect) RebornStatusEffect.EFFECT).clear(player);
                 EFFECT_CLEAR_AFTER_JOIN.add(player);
                 RebornSync.send(player);
@@ -226,7 +230,7 @@ public final class Reborn {
                 player.removeStatusEffect(RebornStatusEffect.EFFECT);
             }
             if (!running(player)) {
-                WINDOWS.remove(player);
+                WINDOWS.remove(player.getUuid());
                 continue;
             }
             long accrued = minutes(player);
@@ -236,24 +240,24 @@ public final class Reborn {
             }
             RebornWindow window = window(player);
             if (player.hasStatusEffect(GrowthSpurtEffect.EFFECT)) {
-                GROWTH_TICKS.merge(player, 1L, Long::sum);
+                GROWTH_TICKS.merge(player.getUuid(), 1L, Long::sum);
             }
             boolean boundary = window.advance();
             if (boundary) {
                 long now = server.getTicks();
-                long lastMove = LAST_MOVE.containsKey(player) ? LAST_MOVE.get(player) : -1L;
+                long lastMove = LAST_MOVE.containsKey(player.getUuid()) ? LAST_MOVE.get(player.getUuid()) : -1L;
                 boolean credited = RebornMotion.credit(window.counts(), now, lastMove);
-                LAST_WINDOW.put(player, credited ? WindowVerdict.CREDITED : WindowVerdict.MISSED);
-                WINDOWS.put(player, new RebornWindow());
-                long growth = GROWTH_TICKS.getOrDefault(player, 0L);
-                GROWTH_TICKS.remove(player);
+                LAST_WINDOW.put(player.getUuid(), credited ? WindowVerdict.CREDITED : WindowVerdict.MISSED);
+                WINDOWS.put(player.getUuid(), new RebornWindow());
+                long growth = GROWTH_TICKS.getOrDefault(player.getUuid(), 0L);
+                GROWTH_TICKS.remove(player.getUuid());
                 if (credited) {
                     accrued = RebornProgress.credit(accrued, true);
                     // PM24a Growth Spurt: 3x for the part of the window it covered. AFK windows still add nothing.
                     long extra = dev.councilcraft.rules.FeedingRules.extraMinutes(
                         growth, CouncilCraftRules.REBORN_WINDOW_TICKS, CouncilCraftRules.REBORN_WINDOW_MINUTES);
                     accrued = Math.min(CouncilCraftRules.REBORN_ACTIVE_MINUTES, accrued + extra);
-                    MINUTES.put(player, accrued);
+                    MINUTES.put(player.getUuid(), accrued);
                 }
                 if (accrued >= CouncilCraftRules.REBORN_ACTIVE_MINUTES) {
                     finish(player);
@@ -297,7 +301,7 @@ public final class Reborn {
             return 0;
         }
         finish(player);
-        LAST_WINDOW.remove(player);
+        LAST_WINDOW.remove(player.getUuid());
         source.sendFeedback(
             () -> Text.translatable("command.councilcraft.reborn.cleared", player.getDisplayName()),
             true
@@ -311,7 +315,7 @@ public final class Reborn {
             return 0;
         }
         long minutes = minutes(player);
-        WindowVerdict verdict = LAST_WINDOW.getOrDefault(player, WindowVerdict.NONE);
+        WindowVerdict verdict = LAST_WINDOW.getOrDefault(player.getUuid(), WindowVerdict.NONE);
         String key = switch (verdict) {
             case CREDITED -> "command.councilcraft.reborn.window.credited";
             case MISSED -> "command.councilcraft.reborn.window.missed";
@@ -330,9 +334,9 @@ public final class Reborn {
     }
 
     private static void finish(ServerPlayerEntity player) {
-        MINUTES.remove(player);
-        WINDOWS.remove(player);
-        GROWTH_TICKS.remove(player);
+        MINUTES.remove(player.getUuid());
+        WINDOWS.remove(player.getUuid());
+        GROWTH_TICKS.remove(player.getUuid());
         if (player.hasStatusEffect(GrowthSpurtEffect.EFFECT)) {
             player.removeStatusEffect(GrowthSpurtEffect.EFFECT);
         }

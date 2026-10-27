@@ -75,6 +75,16 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.BannerableFlagMixin", "smallships"},
         {"dev.councilcraft.mixin.ShipDetachFlagMixin", "smallships"},
         {"dev.councilcraft.mixin.DockyardFlagMixin", "smallships"},
+        {"dev.councilcraft.mixin.InventorioCraftingQuickMoveMixin", "inventorio"},
+        {"dev.councilcraft.mixin.UtilityBeltSwapMixin", "inventorio"},
+        {"dev.councilcraft.mixin.InventorioKnockoutOpenMixin", "inventorio", "hardcorerevival"},
+        {"dev.councilcraft.mixin.client.KnockoutInventoryGuardMixin", "hardcorerevival"},
+        {"dev.councilcraft.mixin.client.FeedUseActionMixin", "punchy"},
+        {"dev.councilcraft.mixin.client.BetterThirdPersonControllerMixin", "betterthirdperson"},
+        {"dev.councilcraft.mixin.client.PunchySwimCarryMixin", "punchy", "carryon"},
+        {"dev.councilcraft.mixin.client.IpnDisabledBeltMixin", "inventoryprofilesnext", "inventorio"},
+        {"dev.councilcraft.mixin.client.IpnItemStorageBeltMixin", "inventoryprofilesnext", "inventorio"},
+        {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "inventorio"},
         {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships"}
     };
 
@@ -133,7 +143,23 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships", "2.0.1",
             "Supplementaries flags in the Small Ships Dockyard (PT43); flags will not be listed as banner choices"},
         {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "supplementaries", "1.20-3.1.44",
-            "Supplementaries flags in the Small Ships Dockyard (PT43); flags will not be listed as banner choices"}
+            "Supplementaries flags in the Small Ships Dockyard (PT43); flags will not be listed as banner choices"},
+        // PT66. Better Third Person ClientAdapter.isCameraOnPlayer.
+        {"dev.councilcraft.mixin.client.BetterThirdPersonControllerMixin", "betterthirdperson", "1.9.0",
+            "BTP camera off on controller (PT66); controller third person may use BTP camera"},
+        // PT70. Punchy SwimmingStateMachine.tick while carrying.
+        {"dev.councilcraft.mixin.client.PunchySwimCarryMixin", "punchy", "2.8g",
+            "no Punchy swim while carrying (PT70); swim strokes may play while carrying"},
+        // PT76. IPN AreaTypes disabled$1 / itemStorage$1.
+        {"dev.councilcraft.mixin.client.IpnDisabledBeltMixin", "inventoryprofilesnext", "1.10.20",
+            "IPN skips Inventorio belts (PT76); sort may touch tool/utility belt"},
+        {"dev.councilcraft.mixin.client.IpnItemStorageBeltMixin", "inventoryprofilesnext", "1.10.20",
+            "IPN skips Inventorio belts on container sort (PT76); sort may touch belts"},
+        // PT83. Mouse Tweaks findPushSlots / findPullSlot Deep Pockets filter.
+        {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "2.26",
+            "Mouse Tweaks Deep Pockets scroll (PT83); scroll may miss Deep Pockets"},
+        {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "inventorio", "1.10.4",
+            "Mouse Tweaks Deep Pockets scroll (PT83); scroll may miss Deep Pockets"},
     };
 
     @Override

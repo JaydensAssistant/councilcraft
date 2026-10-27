@@ -27,9 +27,9 @@ class Release0415RulesTest {
 
     @Test
     void highUsesDhMedium() throws IOException {
-        // PT11.
+        // PT11 quality; PT68 superseded radii (High 512 / Medium 256 / Low 128).
         String s = read("src/main/java/dev/councilcraft/client/graphics/GraphicsPreset.java");
-        assertTrue(s.contains("HIGH(\"ComplementaryUnbound_r5.9.3.zip\", \"MEDIUM\", 256),"));
+        assertTrue(s.contains("HIGH(\"ComplementaryUnbound_r5.9.3.zip\", \"MEDIUM\", 512),"));
         assertTrue(s.contains("DH Medium (PT11)"));
         assertFalse(s.contains("DH High"));
     }
@@ -38,7 +38,7 @@ class Release0415RulesTest {
     void mediumShipsThePatchedElite() throws IOException {
         // PT12.
         String s = read("src/main/java/dev/councilcraft/client/graphics/GraphicsPreset.java");
-        assertTrue(s.contains("MEDIUM(\"E-LITE shaders 5.1.3 CouncilCraft.zip\", \"MEDIUM\", 186),"));
+        assertTrue(s.contains("MEDIUM(\"E-LITE shaders 5.1.3 CouncilCraft.zip\", \"MEDIUM\", 256),")); // PT68
         assertFalse(Files.exists(Path.of("pack/shaderpacks/lite-shaders.pw.toml")));
         assertTrue(Files.exists(Path.of("docs/patches/elite-5.1.3-councilcraft-taa.diff")));
         try (ZipFile zip = new ZipFile(ELITE)) {

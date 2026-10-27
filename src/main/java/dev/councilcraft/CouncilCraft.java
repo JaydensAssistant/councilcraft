@@ -6,6 +6,7 @@ import dev.councilcraft.item.NetheriteHorseshoes;
 import dev.councilcraft.respawn.Reborn;
 import dev.councilcraft.world.DifficultyLock;
 import dev.councilcraft.world.VillagerRemoval;
+import dev.councilcraft.compat.CarryOnWeight;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
@@ -95,6 +96,7 @@ public final class CouncilCraft implements ModInitializer {
         if (FabricLoader.getInstance().isModLoaded("carryon")) {
             requireClass("tschipp.carryon.common.carry.PlacementHandler", "baby-only player carrying (PT22)");
             dev.councilcraft.carry.BabyCarry.register();
+            dev.councilcraft.carry.BabyCarryLimits.register();
         }
         if (FabricLoader.getInstance().isModLoaded("inventorio")) {
             requireClass(
@@ -127,6 +129,7 @@ public final class CouncilCraft implements ModInitializer {
             requireClass("net.blay09.mods.hardcorerevival.api.PlayerRescuedEvent", "Not On My Watch advancement (PT42)");
             // Separate class so Balm types load only when Hardcore Revival is present.
             dev.councilcraft.compat.HardcoreRevivalRescue.register();
+            CarryOnWeight.register();
         }
         // PT14. Photo and signed-album printing through CEI's public printing-behaviour registry, and process ink.
         dev.councilcraft.print.CouncilCraftPrinting.register();

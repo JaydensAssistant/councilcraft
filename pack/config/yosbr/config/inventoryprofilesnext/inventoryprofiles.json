@@ -1,0 +1,22 @@
+{
+  "ModSettings": {
+    "sort_order": "ACCUMULATED_COUNT_DESCENDING",
+    "highlight_foused_items": false
+  },
+  "GuiSettings": {
+    "show_sort_in_rows_button": false,
+    "show_sort_in_columns_button": false
+  },
+  "Hotkeys": {
+    "scroll_to_chest": {
+      "main": {
+        "keys": ""
+      }
+    },
+    "scroll_to_inventory": {
+      "main": {
+        "keys": ""
+      }
+    }
+  }
+}
