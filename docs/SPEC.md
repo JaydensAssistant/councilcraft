@@ -2192,3 +2192,15 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 - Setting: Sodium performance.always_defer_chunk_updates_v2 ships OFF (false) by default. Jayden confirmed in game that turning it off fixes the see-through sky flash when placing blocks while pillaring.
 - How: ship it through yosbr, using the pack's existing yosbr pattern (for example pack/config/yosbr/config/sodium-options.json). yosbr seeds new installs only, so existing players change it in Sodium's video settings (Performance). Players can still turn it on.
 - Check: the shipped yosbr file sets performance.always_defer_chunk_updates_v2 to false, changes no other Sodium setting, and a new install shows the option off. In-game check (Jayden): place blocks while pillaring: no see-through sky flash.
+
+## PT66 — LOCKED 2026-10-27 ~1:36 PM EDT by Jayden ("let's lock better third person and the controllerfy mixin"), NOT BUILT, for 0.4.22 — add Better Third Person, with our own mixin that turns its camera off on controller
+- Mod: Better Third Person, Modrinth project G1s2WpNo, Fabric 1.20.1 file v1.9.0 (2023-08-30), author Socolio, license All Rights Reserved.
+- How it ships: a Modrinth CDN download reference in the mrpack (a pack/mods pw.toml with the Modrinth download URL and hashes, plus its pack/index.toml entry). NEVER bundled in overrides, because the license is All Rights Reserved. Client-only.
+- Mixin: our own pinned @Pseudo client mixin in the councilcraft mod on io.socol.betterthirdperson.impl.ClientAdapter.isCameraOnPlayer that returns false while Controlify reports controller input in use (ControlifyHints.onController() or equivalent). With the BTP camera off, vanilla third person applies. Reason: Controlify issue #78 has no upstream fix.
+- Fail safe: if BTP's classes are missing or change (a different version, a renamed method), the mixin is skipped with a warning naming the broken behavior, and BTP simply behaves as it does on its own. Pin it to BTP 1.9.0. Our mixin contains none of BTP's code.
+- Test: a unit test of the gate (controller in use gives false; keyboard and mouse leaves BTP's own answer), the version pin and fail-safe behavior, and that every hook target exists in BTP 1.9.0; plus a clean client launch with BTP.
+- In-game check (Jayden): keyboard and mouse third person shows the BTP camera. Switch to a controller: vanilla third-person behavior, and the left stick turns the character. Switch back: the BTP camera returns.
+
+## NOTE 2026-10-27 ~1:36 PM EDT — C2ME / Noisiumed dropped for now (not a lock)
+- C2ME and Noisiumed are DROPPED for now per Jayden 2026-10-27 ("drop c2me for now"). Not for 0.4.22, no code.
+- Correction to the earlier conflict concern: Immersive Portals 5.2.0's fabric.mod.json does NOT list C2ME in breaks or conflicts. The old Immersive Portals issue #1036, "Incompatible with c2me", is closed. The remaining concern is that C2ME for 1.20.1 is alpha.
