@@ -2016,3 +2016,15 @@ Built: PT31 (fog fade, 5.0 s), PT32, PT33, PT34, PT35 + amendments 1–3, PT36 (
 - 4. Shaders off, Nether to Overworld portal view: no change now. If a hard edge shows on Low, add a vanilla setupFog clamp (fog end about V, destination color) in the portal pass, as a separate small item.
 - Keep: the portal-view depth bypass (IrisDhPortalDepthMixin), DhPortalDeferredFix, the IP changePlayerDimension hook and the end-tick backup, the pins, and fail-safe behaviour (a missing target means no fade, no crash).
 - In-game checks (Jayden): with Complementary, E-LITE and shaders off, Overworld to Nether and back. Check the portal-view edge fades into the destination fog color, there is no jump on crossing, the clear is slow-start over 3 s, and normal play is unchanged. Also check how it looks standing far from the portal.
+
+## PT46 — LOCKED 2026-10-26 ~11:37 PM EDT by Jayden ("Yes, lock that please"), NOT BUILT, for the next build — CMYK Ink looks like the pack's other dye fluids (amends PT36)
+- Problem (Jayden): the placed CMYK Ink is translucent and water-like, while every other liquid dye in the pack (Create Dragons Plus dye fluids) is an opaque, nearly flat color. Cause: process_ink_still/flow.png are 70% alpha (180/255) and carry water-style ripples and highlight specks. CouncilCraftClient puts the fluid in RenderLayer.getTranslucent().
+- Fix:
+  - Still texture: flat, fully opaque vertical bands of cyan, magenta, yellow and black in the current band colors and order (approx. C 0,116,154; M 152,10,90; Y 174,158,17; K 39,39,46). The only texture is the same faint grain as Create Dragons Plus's dye_still (a near-white base varying ~238–247, multiplied into each band). No ripples, no highlights.
+  - Flowing texture: the same treatment, following the style of Create Dragons Plus's dye_flow.
+  - Keep the frame count and the .mcmeta animation timing.
+  - Render as a solid fluid: remove the translucent BlockRenderLayerMap registration (or map it to solid); alpha 255 everywhere.
+- Licensing: generate our own textures with a pack/tools script that only matches CDP's near-flat style. Do not copy CDP's pixel files unless its license is confirmed to allow it, with credit.
+- Bucket, colors, names, recipes, Ponder and EMI are unchanged (re-check the Ponder pool scene and the EMI fluid icon look right).
+- Mockup approved: /workspace/scratch/inkmock/cmyk_ink_flat_mockup.png (middle panel).
+- In-game check (Jayden): a placed pool and flowing ink next to a Create Dragons Plus dye pool look consistent and opaque, with shaders on and off.
