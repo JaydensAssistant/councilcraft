@@ -16,6 +16,7 @@
     "ControllerInventorioScreenMixin",
     "ControllerKeyboardShaderMixin",
     "ControllerRadialDefaultsMixin",
+    "DockyardScreenFlagMixin",
     "DockyardWoodPreselectMixin",
     "EnchantedBookCostAccess",
     "FeedFirstPersonMixin",

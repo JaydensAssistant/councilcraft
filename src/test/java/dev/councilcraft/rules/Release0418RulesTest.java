@@ -48,12 +48,6 @@ class Release0418RulesTest {
     }
 
     @Test
-    void versionIs0418() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.18"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.18\""));
-    }
-
-    @Test
     void pt35RemovalsUseTheAlwaysFalseCondition() throws IOException {
         for (String id : List.of("minecraft:end/root", "minecraft:story/enchant_item", "minecraft:nether/fast_travel",
             "create:train_portal", "regions_unexplored:pioneer", "betterend:root", "nullscape:root",

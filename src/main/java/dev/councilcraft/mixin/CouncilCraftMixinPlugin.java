@@ -70,7 +70,12 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.CarriedHeadJitterMixin", "carryon"},
         {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon"},
         {"dev.councilcraft.mixin.CarryEscapeMixin", "carryon"},
-        {"dev.councilcraft.mixin.client.PunchyAlbumEquipMixin", "punchy"}
+        {"dev.councilcraft.mixin.client.PunchyAlbumEquipMixin", "punchy"},
+        {"dev.councilcraft.mixin.ShipFlagBannerMixin", "smallships"},
+        {"dev.councilcraft.mixin.BannerableFlagMixin", "smallships"},
+        {"dev.councilcraft.mixin.ShipDetachFlagMixin", "smallships"},
+        {"dev.councilcraft.mixin.DockyardFlagMixin", "smallships"},
+        {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships"}
     };
 
     /**
@@ -105,7 +110,30 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.CarriedHeadJitterMixin", "carryon", "2.1.2.7"},
         {"dev.councilcraft.mixin.client.CarriedFirstPersonJitterMixin", "carryon", "2.1.2.7"},
         // PT17. Punchy's private HandEquipStateMachine.hasItemChanged(ItemStack, ItemStack).
-        {"dev.councilcraft.mixin.client.PunchyAlbumEquipMixin", "punchy", "2.8g"}
+        {"dev.councilcraft.mixin.client.PunchyAlbumEquipMixin", "punchy", "2.8g"},
+        // PT43. Supplementaries flags on Small Ships: one pin row per mod, and every row must match. The mixins
+        // hook Ship.setData, Bannerable.interactBanner, ServerboundShipDetachPacket.giveBack, DockyardBlockEntity
+        // startModifyTask / finishModify and DockyardScreen addBannerOptions / buildOptionSignature.
+        {"dev.councilcraft.mixin.ShipFlagBannerMixin", "smallships", "2.0.1",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.ShipFlagBannerMixin", "supplementaries", "1.20-3.1.44",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.BannerableFlagMixin", "smallships", "2.0.1",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.BannerableFlagMixin", "supplementaries", "1.20-3.1.44",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.ShipDetachFlagMixin", "smallships", "2.0.1",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.ShipDetachFlagMixin", "supplementaries", "1.20-3.1.44",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.DockyardFlagMixin", "smallships", "2.0.1",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.DockyardFlagMixin", "supplementaries", "1.20-3.1.44",
+            "Supplementaries flags on Small Ships (PT43); flags will not be accepted as ship banners"},
+        {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships", "2.0.1",
+            "Supplementaries flags in the Small Ships Dockyard (PT43); flags will not be listed as banner choices"},
+        {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "supplementaries", "1.20-3.1.44",
+            "Supplementaries flags in the Small Ships Dockyard (PT43); flags will not be listed as banner choices"}
     };
 
     @Override
@@ -146,7 +174,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         Function<String, String> versionOf = id -> loader.getModContainer(id)
             .map(mod -> mod.getMetadata().getVersion().getFriendlyString()).orElse(null);
         if (!pinnedVersionMatches(mixinClassName, versionOf)) {
-            String[] pin = pinFor(mixinClassName);
+            String[] pin = mismatchedPin(mixinClassName, versionOf);
             if (pin.length > 3) {
                 LOGGER.error("CouncilCraft hook failed: {}. {} is written for {} {}, but {} is loaded; the hook is skipped."
                     + " Update the mixin for this version.", pin[3], mixinClassName, pin[1], pin[2], versionOf.apply(pin[1]));
@@ -160,12 +188,20 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
 
     /** False only for a version-pinned mixin whose mod is present in another version. */
     static boolean pinnedVersionMatches(String mixinClassName, Function<String, String> versionOf) {
-        String[] pinned = pinFor(mixinClassName);
-        if (pinned == null) {
-            return true;
+        return mismatchedPin(mixinClassName, versionOf) == null;
+    }
+
+    /** The first {@link #PINNED_MIXINS} row of this mixin whose mod is present in another version, or null. */
+    static String[] mismatchedPin(String mixinClassName, Function<String, String> versionOf) {
+        for (String[] pinned : PINNED_MIXINS) {
+            if (pinned[0].equals(mixinClassName)) {
+                String version = versionOf.apply(pinned[1]);
+                if (version != null && !version.equals(pinned[2])) {
+                    return pinned;
+                }
+            }
         }
-        String version = versionOf.apply(pinned[1]);
-        return version == null || version.equals(pinned[2]);
+        return null;
     }
 
     /** The {@link #PINNED_MIXINS} row for this mixin, or null. */

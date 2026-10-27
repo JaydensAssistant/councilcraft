@@ -213,6 +213,9 @@ java {
 
 test {
     useJUnitPlatform()
+    // The unmapped Minecraft jar on the test classpath lacks the access wideners Loom applies at runtime, so the
+    // verifier rejects MobEntity while Bootstrap runs. Skipping verification of library classes is test-only.
+    jvmArgs '-XX:+UnlockDiagnosticVMOptions', '-XX:-BytecodeVerificationRemote'
 }
 
 tasks.register("checkUnmappedYarn", JavaExec) {
