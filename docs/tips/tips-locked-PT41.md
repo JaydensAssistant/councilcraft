@@ -18,7 +18,7 @@ Tip on the world border goes stale once growth is resumed: see the border note a
 | 8 | An Antique Atlas (book, compass, antique ink) maps your travels. Carry one and press M to open it. | 98 | draft #7 (v2: + M key) | PM25 L891; options.txt key_key.antique_atlas.open:key.keyboard.m |
 | 9 | The End is sealed for now, so eyes of ender won't fit in portal frames. Elytra don't exist here. | 96 | added | S39 L56; S242 L458; PM7 L862 |
 | 10 | A single sleeping player skips the night. | 41 | added | S151 L339 |
-| 11 | Our world border spans 10,000 blocks, centred on spawn. | 55 | added | PPM98 L1397 (CC_BORDER_START 10000) |
+| 11 | Our world border spans 10,000 blocks, centered on spawn. | 55 | added | PPM98 L1397 (CC_BORDER_START 10000) |
 
 ## Create & travel
 
@@ -42,11 +42,11 @@ Tip on the world border goes stale once growth is resumed: see the border note a
 | # | Tip | Chars | Origin | Source |
 |---|---|---|---|---|
 | 19 | A Printer duplicates originals only: signed books, enchanted books, photos and albums, never copies. | 100 | draft #12 (v2: + enchanted books); v4 originals-only | PT28 L1702; S207 L421; CEI enableEnchantedBookPrinting=true |
-| 20 | For colour prints you need CMYK Ink: black dye fluid mixed with cyan, magenta and yellow. — 🔗 EMI link | 89 | draft #13 | [needs PT36/0.4.18] PT36 L1774 (a) rename, (d) L1797 recipe; LOCKED, NOT BUILT |
+| 20 | For color prints you need CMYK Ink: black dye fluid mixed with cyan, magenta and yellow. — 🔗 EMI link | 89 | draft #13 | [needs PT36/0.4.18] PT36 L1774 (a) rename, (d) L1797 recipe; LOCKED, NOT BUILT |
 | 21 | Wear Engineer's Goggles to check a Printer's ink cost in advance. | 65 | draft #14 | draft |
-| 22 | Film develops in a crafting grid: black-and-white with a water bottle, colour with three potions. — 🔗 EMI link | 97 | draft #16 | PM23a L887; EMI info lang L11 (Awkward, Thick, Mundane) |
+| 22 | Film develops in a crafting grid: black-and-white with a water bottle, color with three potions. — 🔗 EMI link | 97 | draft #16 | PM23a L887; EMI info lang L11 (Awkward, Thick, Mundane) |
 | 23 | Right-click a camera in your inventory to load film and add a lens, filter or flash. | 84 | new 17:57 | exposure-common/client right_click_hotswap true; lang gui.exposure.camera_attachments.* |
-| 24 | A roll holds 16 shots. Colour film needs gold and lapis, and black-and-white uses zinc. — 🔗 EMI link | 87 | new 17:57 | PM26b L894; councilcraft_recipes.js L239-242 (zinc nugget / gold nugget + lapis) |
+| 24 | A roll holds 16 shots. Color film needs gold and lapis, and black-and-white uses zinc. — 🔗 EMI link | 87 | new 17:57 | PM26b L894; councilcraft_recipes.js L239-242 (zinc nugget / gold nugget + lapis) |
 | 25 | Print photos in a Lightroom using developed film, paper and dye. It only works under bright light. | 98 | new 17:57 | Exposure lang L10; exposure-server.toml lightroom_light_requirement 13 (light just above) |
 | 26 | Photo frames come in 1x1, 2x2 and 3x3, hang on floors or ceilings, and glow with a glow ink sac. | 96 | new 17:57 | exposure lang exposure.jei.info.photograph_frame |
 
@@ -121,4 +121,4 @@ Tip on the world border goes stale once growth is resumed: see the border note a
 
 ## Border note
 
-PPM98 L1397: border starts at 10,000 wide with growth PAUSED until an op runs /ccborder resume; then +50/day to a 17,500 cap (S242 L754, S165 L364). The live width is in server.persistentData cc_border_width (councilcraft_world.js L117, shown by /ccborder status L124). The tips system is not built (options.md Tier 3 KubeJS sketch), so a {border} placeholder could be filled from that value at broadcast time. Fallback without a number: "The world border is centred on spawn and grows over time once an op starts it."
+PPM98 L1397: border starts at 10,000 wide with growth PAUSED until an op runs /ccborder resume; then +50/day to a 17,500 cap (S242 L754, S165 L364). The live width is in server.persistentData cc_border_width (councilcraft_world.js L117, shown by /ccborder status L124). The tips system is not built (options.md Tier 3 KubeJS sketch), so a {border} placeholder could be filled from that value at broadcast time. Fallback without a number: "The world border is centered on spawn and grows over time once an op starts it."

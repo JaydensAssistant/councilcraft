@@ -3,7 +3,16 @@ package dev.councilcraft.kubejs;
 import dev.latvian.mods.rhino.Context;
 import dev.latvian.mods.rhino.Scriptable;
 import dev.latvian.mods.rhino.ScriptableObject;
+import dev.latvian.mods.rhino.Node;
+import dev.latvian.mods.rhino.ast.AstNode;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.IdentityHashMap;
+import java.util.Set;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -58,5 +67,48 @@ final class RhinoKubeJs {
         try (Stream<Path> s = Files.walk(KUBEJS)) {
             return s.filter(p -> p.toString().endsWith(".js")).sorted().toList();
         }
+    }
+
+    /** Every AST node under root. This Rhino fork has no AstNode.visit, so walk the Node child links and the node fields. */
+    static List<Object> walk(AstNode root) {
+        Set<Object> seen = Collections.newSetFromMap(new IdentityHashMap<>());
+        List<Object> order = new ArrayList<>();
+        Deque<Object> todo = new ArrayDeque<>();
+        todo.add(root);
+        while (!todo.isEmpty()) {
+            Object n = todo.pop();
+            if (!seen.add(n)) {
+                continue;
+            }
+            order.add(n);
+            if (n instanceof Node node) {
+                for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {
+                    todo.push(c);
+                }
+            }
+            for (Class<?> k = n.getClass(); k != null && k != Object.class; k = k.getSuperclass()) {
+                for (Field f : k.getDeclaredFields()) {
+                    if (Modifier.isStatic(f.getModifiers()) || f.getName().equals("parent")) {
+                        continue;
+                    }
+                    try {
+                        f.setAccessible(true);
+                        Object v = f.get(n);
+                        if (v instanceof AstNode) {
+                            todo.push(v);
+                        } else if (v instanceof Iterable<?> it) {
+                            for (Object o : it) {
+                                if (o instanceof AstNode) {
+                                    todo.push(o);
+                                }
+                            }
+                        }
+                    } catch (ReflectiveOperationException | RuntimeException e) {
+                        // a field we cannot read holds no child we need
+                    }
+                }
+            }
+        }
+        return order;
     }
 }

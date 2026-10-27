@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MD = ROOT / 'docs/tips/tips-locked-PT41.md'
 JS = ROOT / 'pack/kubejs/server_scripts/councilcraft_tips.js'
-BORDER = 'Our world border spans 10,000 blocks, centred on spawn.'
+BORDER = 'Our world border spans 10,000 blocks, centered on spawn.'
 
 
 def tips():
@@ -27,7 +27,7 @@ def tips():
         text = text.removesuffix(' ⚑').strip()
         assert '⚑' not in text and '🔗' not in text and '[N]' not in text, text
         if text == BORDER:
-            text = 'Our world border spans {width} blocks, centred on spawn.'
+            text = 'Our world border spans {width} blocks, centered on spawn.'
         out.append((num, new, text))
     return out
 

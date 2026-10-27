@@ -101,56 +101,13 @@ class KubeJsConstLoopTest {
         env.initFromContext(cx);
         AstRoot root = new Parser(cx, env).parse(src, name, 1);
         List<String> out = new ArrayList<>();
-        for (Object node : walk(root)) {
+        for (Object node : RhinoKubeJs.walk(root)) {
             if (node instanceof VariableDeclaration d && d.isConst() && inLoopBody(d)) {
                 out.add(name + ":" + d.getLineno() + " const inside a loop body");
             }
         }
         out.sort(null);
         return out;
-    }
-
-    /** Every AST node under root. This Rhino fork has no AstNode.visit, so walk the Node child links and the node fields. */
-    private static List<Object> walk(AstNode root) {
-        Set<Object> seen = Collections.newSetFromMap(new IdentityHashMap<>());
-        List<Object> order = new ArrayList<>();
-        Deque<Object> todo = new ArrayDeque<>();
-        todo.add(root);
-        while (!todo.isEmpty()) {
-            Object n = todo.pop();
-            if (!seen.add(n)) {
-                continue;
-            }
-            order.add(n);
-            if (n instanceof Node node) {
-                for (Node c = node.getFirstChild(); c != null; c = c.getNext()) {
-                    todo.push(c);
-                }
-            }
-            for (Class<?> k = n.getClass(); k != null && k != Object.class; k = k.getSuperclass()) {
-                for (Field f : k.getDeclaredFields()) {
-                    if (Modifier.isStatic(f.getModifiers()) || f.getName().equals("parent")) {
-                        continue;
-                    }
-                    try {
-                        f.setAccessible(true);
-                        Object v = f.get(n);
-                        if (v instanceof AstNode) {
-                            todo.push(v);
-                        } else if (v instanceof Iterable<?> it) {
-                            for (Object o : it) {
-                                if (o instanceof AstNode) {
-                                    todo.push(o);
-                                }
-                            }
-                        }
-                    } catch (ReflectiveOperationException | RuntimeException e) {
-                        // a field we cannot read holds no child we need
-                    }
-                }
-            }
-        }
-        return order;
     }
 
     /** True when the declaration sits inside a loop's body (not its head) with no function boundary in between. */

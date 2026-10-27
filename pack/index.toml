@@ -358,11 +358,6 @@ hash = "1258580c99ee18d6e43004c164de3fcc320cd78c8774c7a9bad04a1d5f774803"
 metafile = true
 
 [[files]]
-file = "mods/advancementinfo.pw.toml"
-hash = "bb6c349471139b104a3d8001650ecaee747b596e1f5ca865157a8026e8182f61"
-metafile = true
-
-[[files]]
 file = "mods/ambientsounds.pw.toml"
 hash = "7c7c1354fc0e529c7c3d8f048623c56dd9f59b3d7ec5a4ab33695714f6c0d5d0"
 metafile = true

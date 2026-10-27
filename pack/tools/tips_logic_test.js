@@ -52,9 +52,9 @@ const mid = player('mid', 0, true); list.push(mid); fire(); fire(); mid.stats.pl
 assert.ok(CC_NEW_TIPS.indexOf(text(mid.got[2])) < 0)
 // border width: live value, then fallback
 function borderTip() { const p = player('b', CC_TIP_NEWCOMER_TICKS, true); p.persistentData.putString('cc_tips_bag_all', String(CC_TIPS.findIndex(s => s.indexOf('{width}') >= 0))); ccTipSend(server, p); return text(p.got[0]) }
-assert.equal(borderTip(), 'Our world border spans 10,000 blocks, centred on spawn.')
+assert.equal(borderTip(), 'Our world border spans 10,000 blocks, centered on spawn.')
 server.persistentData.putInt('cc_border_width', 12350)
-assert.equal(borderTip(), 'Our world border spans 12,350 blocks, centred on spawn.')
+assert.equal(borderTip(), 'Our world border spans 12,350 blocks, centered on spawn.')
 // markers stripped
 assert.ok(CC_NEW_TIPS.concat(CC_TIPS).every(s => !/⚑|🔗|\[N\]/.test(s) && s.length <= 100))
 // /tips on clears the flag
