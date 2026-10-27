@@ -50,9 +50,10 @@ class Release0415RulesTest {
             assertTrue(notice.contains("Javier"));
             assertTrue(notice.contains("Entokito"));
         }
+        // 0.4.21 (PT52) added NIGHT_BRIGHT, so 48 settings lines.
         String txt = read(ELITE + ".txt");
         assertTrue(txt.contains("\nAA_TYPE=3\n") || txt.startsWith("AA_TYPE=3\n"));
-        assertEquals(47, txt.lines().filter(l -> l.contains("=")).count());
+        assertEquals(48, txt.lines().filter(l -> l.contains("=")).count());
         String credits = read("pack/credits.txt");
         assertTrue(credits.contains("E-LITE shaders 5.1.3 (MakeUp edit) by Entokito, based on MakeUp - Ultra Fast by Javier Garduño (LGPL-3.0-or-later)"));
         assertTrue(credits.contains("modified by CouncilCraft"));

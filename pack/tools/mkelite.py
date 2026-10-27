@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """PT12 (0.4.15). Build pack/shaderpacks/E-LITE shaders 5.1.3 CouncilCraft.zip, the Medium preset's shader pack:
 stock E-LITE shaders 5.1.3 from Modrinth (LGPL-3.0-or-later, by Entokito, based on MakeUp by Javier Garduno)
-+ docs/patches/elite-5.1.3-councilcraft-taa.diff (TAA history rejection + CHANGES-CouncilCraft.txt notice).
++ docs/patches/elite-5.1.3-councilcraft-taa.diff (TAA history rejection + CHANGES-CouncilCraft.txt notice)
++ docs/patches/elite-5.1.3-councilcraft-nether-dh-sky.diff (0.4.21, PT51: Nether sky color with Distant Horizons;
+  applied second, it also extends the CHANGES-CouncilCraft.txt notice).
 Stock entries keep their order and timestamps; changed/added entries get a fixed date, so the output is
 reproducible. Needs Python 3 and GNU patch.
 Usage (from the repo root): python3 pack/tools/mkelite.py"""
@@ -10,7 +12,8 @@ import hashlib, os, subprocess, sys, tempfile, urllib.request, zipfile
 URL = 'https://cdn.modrinth.com/data/LTvf5Tji/versions/ChU59bMQ/%C2%A7lE-LITE%20shaders%205.1.3.zip'
 SHA512 = ('42d37790d19cf78a9e44e690d2b135ab6f0d5bb806b8570c6973115e336781fd'
           '3f80c1057682c02207341cd9cc446d36e4248d361501f403c72bcabe9689b973')
-PATCH = 'docs/patches/elite-5.1.3-councilcraft-taa.diff'
+PATCHES = ['docs/patches/elite-5.1.3-councilcraft-taa.diff',
+           'docs/patches/elite-5.1.3-councilcraft-nether-dh-sky.diff']
 OUT = 'pack/shaderpacks/E-LITE shaders 5.1.3 CouncilCraft.zip'
 DATE = (2026, 10, 25, 0, 0, 0)
 
@@ -23,8 +26,14 @@ with tempfile.TemporaryDirectory() as tmp:
     with zipfile.ZipFile(src) as z:
         z.extractall(tree)
         infos = z.infolist()
-    subprocess.run(['patch', '-p1', '-s', '-d', tree, '-i', os.path.abspath(PATCH)], check=True)
-    patched = [l.split()[1][2:] for l in open(PATCH, encoding='utf-8') if l.startswith('+++ ')]
+    patched = []
+    for patch in PATCHES:  # applied in order; the 2nd one edits files the 1st one created
+        subprocess.run(['patch', '-p1', '-s', '-d', tree, '-i', os.path.abspath(patch)], check=True)
+        for l in open(patch, encoding='utf-8'):
+            if l.startswith('+++ '):
+                name = l.split()[1][2:]
+                if name not in patched:
+                    patched.append(name)
     with zipfile.ZipFile(src) as zi, zipfile.ZipFile(OUT, 'w', zipfile.ZIP_DEFLATED) as zo:
         for info in infos:
             if info.filename in patched:

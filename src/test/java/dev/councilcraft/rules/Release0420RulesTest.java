@@ -30,9 +30,9 @@ class Release0420RulesTest {
     }
 
     @Test
-    void versionIs0420() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.20"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.20\""));
+    void versionIsAtLeast0420() throws IOException {
+        // The exact version is asserted by the newest release test (Release0421RulesTest).
+        assertTrue(read("gradle.properties").matches("(?s).*mod_version=0\\.4\\.[2-9]\\d.*"));
     }
 
     // PT46 -------------------------------------------------------------------------------------------------------
