@@ -18,6 +18,8 @@ public final class CouncilCraftClient implements ClientModInitializer {
         dev.councilcraft.respawn.RebornFeedingClient.register();
         HorseshoeTooltip.register();
         dev.councilcraft.print.CopyCostTooltip.register();
+        // PT49. Printed copies show only "Printed Copy", no generation line.
+        dev.councilcraft.print.PrintedTooltipFilter.register();
         // PT36. CMYK Ink: its own still/flowing CMYK-band textures, untinted, translucent like water. The bucket has
         // its own CMYK texture (no tint).
         net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry.INSTANCE.register(

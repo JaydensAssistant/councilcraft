@@ -161,23 +161,26 @@ dependencies {
 // PT44: KubeJS script tests run through the pack's own Rhino jar (the one KubeJS 2001.6.5 loads), so a const-in-loop
 // bug shows up the same way it does in game. The jar is the file named in pack/mods/rhino.pw.toml, downloaded once
 // into .gradle/rhino (sha-512 checked) and used only on the test classpath. Not packed into our jar.
-def rhinoJar = {
-    def toml = file("pack/mods/rhino.pw.toml").text
+def packJar = { String tomlName, String dir ->
+    def toml = file("pack/mods/" + tomlName).text
     def name = (toml =~ /filename = "([^"]+)"/)[0][1]
     def url = (toml =~ /url = "([^"]+)"/)[0][1]
     def sha512 = (toml =~ /hash = "([0-9a-f]{128})"/)[0][1]
-    def jar = file(".gradle/rhino/" + name)
+    def jar = file(".gradle/" + dir + "/" + name)
     if (!jar.exists()) {
         jar.parentFile.mkdirs()
         def bytes = new URL(url).openStream().withCloseable { it.bytes }
         def got = java.security.MessageDigest.getInstance("SHA-512").digest(bytes).encodeHex().toString()
         if (got != sha512) {
-            throw new GradleException("Rhino jar sha-512 mismatch: " + got)
+            throw new GradleException(tomlName + " sha-512 mismatch: " + got)
         }
         jar.bytes = bytes
     }
     return jar
-}.call()
+}
+def rhinoJar = packJar("rhino.pw.toml", "rhino")
+// PT49: the Exposure jar named in the pack, used by tests only to read its lang file (never on the classpath).
+def exposureJar = packJar("exposure.pw.toml", "packjars")
 dependencies {
     testImplementation files(rhinoJar)
 }
@@ -242,6 +245,8 @@ test {
     jvmArgs '-XX:+UnlockDiagnosticVMOptions', '-XX:-BytecodeVerificationRemote'
     // Tests read the pack files (KubeJS scripts, tips, resource packs): re-run when any of them changes.
     inputs.dir("pack")
+    systemProperty "cc.exposureJar", exposureJar.absolutePath
+    inputs.file(exposureJar)
 }
 
 tasks.register("checkUnmappedYarn", JavaExec) {
