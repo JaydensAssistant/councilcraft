@@ -2167,3 +2167,8 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 
 ## NOTE 2026-10-27 ~12:57 PM EDT — adult-player feeding is on hold (not a lock)
 - Adult-player feeding (hunger and food effects only, no Growth Spurt, triggered by sneak + right-click) is ON HOLD per Jayden 2026-10-27. It is recorded as open in PT61. It is not approved, not for 0.4.22, and has no code. Do not build until Jayden locks it.
+
+## PT62 amendment 1 — 2026-10-27 ~12:58 PM EDT (Jayden's lock was ~12:55 PM EDT; NOT BUILT, for 0.4.22)
+- Refs: PT21, PT17, PPM70 (the feeding pose and animation batch). Symptom as Jayden sees it: in first person with Punchy, the feeder appears to eat the food.
+- Behavior check replaces the PT62 in-game check: feed a baby in first person with Punchy. The hand holds the food out steady, with no eat animation and no crumbs at the feeder. Third person is unchanged (FeedPoseMixin unchanged). Eating and drinking normally still show Punchy's animation.
+- LivingEntity.isBlocking is unaffected because the hook is on ItemStack.getUseAction, not Item.getUseAction.
