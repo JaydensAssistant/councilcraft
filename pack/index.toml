@@ -218,7 +218,7 @@ hash = "fbd08cbb8fbc7606ccbec8ab7e084678ee433051c5329dad365a50cc0ba506c3"
 
 [[files]]
 file = "config/yosbr/config/inventoryprofilesnext/integrationHints/councilcraft.json"
-hash = "4b2f4b2b4684dcef6280a46bc739b2b09c305cbfa3c8a4f3253985669dcec7a1"
+hash = "741c0756cf8665d3d88817ad338b38e380190861a5af1736b603df63f2c0eb84"
 
 [[files]]
 file = "config/yosbr/config/inventoryprofilesnext/inventoryprofiles.json"
@@ -258,7 +258,7 @@ hash = "2d56d1470cc28cb17718dcef86b01e3f5ee382df700a3c63a76c2f1d4928670a"
 
 [[files]]
 file = "credits.txt"
-hash = "69519da3693bd47e40aaa99c3b47f58ad665d4e3beeb9d1b9197381a4bc7d96d"
+hash = "56fde87229720dfba795b8a72d72209d695e5f24ed8a7727a638990db97cab5a"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -1119,6 +1119,11 @@ metafile = true
 [[files]]
 file = "mods/terrablender.pw.toml"
 hash = "ed83bb78d1d849e5e94d2bc0fdce9122107a4c2cc9ae3a724ffbd83cbe3ca42f"
+metafile = true
+
+[[files]]
+file = "mods/toastbegone.pw.toml"
+hash = "4c9718dfae660a41c445a797c02055b28fe12305a11663c594c0744c74b04e8e"
 metafile = true
 
 [[files]]

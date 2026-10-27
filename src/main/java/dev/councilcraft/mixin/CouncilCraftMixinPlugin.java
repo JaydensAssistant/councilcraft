@@ -84,6 +84,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.PunchySwimCarryMixin", "punchy", "carryon"},
         {"dev.councilcraft.mixin.client.IpnDisabledBeltMixin", "inventoryprofilesnext", "inventorio"},
         {"dev.councilcraft.mixin.client.IpnItemStorageBeltMixin", "inventoryprofilesnext", "inventorio"},
+        {"dev.councilcraft.mixin.client.IpnHonorHideMixin", "inventoryprofilesnext"},
         {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "inventorio"},
         {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships"}
     };
@@ -150,11 +151,14 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         // PT70. Punchy SwimmingStateMachine.tick while carrying.
         {"dev.councilcraft.mixin.client.PunchySwimCarryMixin", "punchy", "2.8g",
             "no Punchy swim while carrying (PT70); swim strokes may play while carrying"},
-        // PT76. IPN AreaTypes disabled$1 / itemStorage$1.
+        // PT76 / PT85. IPN AreaTypes disabled$1 / fillSlots.
         {"dev.councilcraft.mixin.client.IpnDisabledBeltMixin", "inventoryprofilesnext", "1.10.20",
             "IPN skips Inventorio belts (PT76); sort may touch tool/utility belt"},
         {"dev.councilcraft.mixin.client.IpnItemStorageBeltMixin", "inventoryprofilesnext", "1.10.20",
-            "IPN skips Inventorio belts on container sort (PT76); sort may touch belts"},
+            "IPN skips Inventorio belts on container sort (PT76/PT85); sort may touch belts"},
+        // PT86. InitWidgets honors ButtonPositionHint.hide for move-all.
+        {"dev.councilcraft.mixin.client.IpnHonorHideMixin", "inventoryprofilesnext", "1.10.20",
+            "IPN honors hide for move-all buttons (PT86); Inventorio may show orphan move-matching"},
         // PT83. Mouse Tweaks findPushSlots / findPullSlot Deep Pockets filter.
         {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "2.26",
             "Mouse Tweaks Deep Pockets scroll (PT83); scroll may miss Deep Pockets"},

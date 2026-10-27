@@ -8,7 +8,8 @@
         "horizontalOffset": 10
       },
       "MOVE_TO_CONTAINER": {
-        "bottom": 2
+        "bottom": 2,
+        "hide": true
       }
     }
   },

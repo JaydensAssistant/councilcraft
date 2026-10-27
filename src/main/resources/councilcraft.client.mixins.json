@@ -29,6 +29,7 @@
     "HandledScreenAccess",
     "IpDimensionChangeFadeMixin",
     "IpnDisabledBeltMixin",
+    "IpnHonorHideMixin",
     "IpnItemStorageBeltMixin",
     "IrisDhPortalDepthMixin",
     "IrisPortalFadeUniformMixin",

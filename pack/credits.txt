@@ -28,6 +28,7 @@ CouncilCraft blank album page (in the councilcraft mod jar, assets/councilcraft/
 
 Inventory and camera helpers, downloaded from Modrinth on install (not redistributed by CouncilCraft):
 BetterF3 by comniemeer and others (MIT): https://modrinth.com/mod/betterf3
+Toast Begone by Raxdiam (GPL-3.0-only): https://modrinth.com/mod/toastbegone
 Better Third Person by Socolio (All Rights Reserved): https://modrinth.com/mod/better-third-person
 Inventory Profiles Next by mirinimi / blackd (AGPL-3.0-or-later): https://modrinth.com/mod/inventory-profiles-next
 libIPN by mirinimi / blackd (AGPL-3.0-or-later): https://modrinth.com/mod/libipn
