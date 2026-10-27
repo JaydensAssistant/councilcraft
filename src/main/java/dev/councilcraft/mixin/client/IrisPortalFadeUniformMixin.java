@@ -17,12 +17,14 @@ import org.spongepowered.asm.mixin.injection.Slice;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * PT13, shaders on. Iris 1.7.6 registers the per-frame dhRenderDistance uniform as the last call in
- * {@code CommonUniforms.generalCommonUniforms}; shader packs put their Distant Horizons border fog there. During
- * the portal fade that supplier returns {@link PortalFade#effectiveDhRenderDistance}, so the fog starts at the
- * vanilla chunk edge and rolls out to the real DH distance. DHCompat.getRenderDistance itself (shadows,
- * matrices) is unchanged. Also adds the uniform cc_portalFade (0..1) for shader packs that want it.
- * Applied only with Iris 1.7.6, Distant Horizons and Immersive Portals; pinned in CouncilCraftMixinPlugin.
+ * PT13 / PT45, shaders on. Iris 1.7.6 registers the per-frame dhRenderDistance uniform as the last call in
+ * {@code CommonUniforms.generalCommonUniforms}; shader packs put their Distant Horizons border fog there. The supplier
+ * returns {@link PortalFade#effectiveDhRenderDistance}: V (the real-chunk edge) while Immersive Portals renders a
+ * portal view, so the destination's own fog fades the portal-view terrain, and after a crossing a distance that
+ * recedes from V to the real DH distance over 3 s (cubic ease-in, no hold). DHCompat.getRenderDistance itself
+ * (shadows, matrices) is unchanged. Also adds the uniform cc_portalFade (0..1) for shader packs that want it.
+ * Applied only with Iris 1.7.6, Distant Horizons and Immersive Portals; pinned in CouncilCraftMixinPlugin. If the
+ * target is missing the mixin is skipped: no fade, no crash.
  */
 @Pseudo
 @Mixin(targets = "net.irisshaders.iris.uniforms.CommonUniforms", remap = false)
