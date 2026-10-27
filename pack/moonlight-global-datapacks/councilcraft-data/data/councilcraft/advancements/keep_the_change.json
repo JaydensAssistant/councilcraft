@@ -1,0 +1,31 @@
+{
+  "parent": "numismatics:root",
+  "display": {
+    "icon": {
+      "item": "numismatics:spur"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.keep_the_change.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.keep_the_change.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "keep_the_change": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "keep_the_change"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "keep_the_change"
+    ]
+  ]
+}

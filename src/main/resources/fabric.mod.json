@@ -22,6 +22,9 @@
     ],
     "jei_mod_plugin": [
       "dev.councilcraft.print.jei.CouncilCraftJeiPlugin"
+    ],
+    "voicechat": [
+      "dev.councilcraft.compat.CouncilCraftVoicechat"
     ]
   },
   "mixins": [
@@ -52,6 +55,9 @@
     "nameplate": "*",
     "geckolib": "*",
     "distanthorizons": "*",
-    "imm_ptl_core": "*"
+    "imm_ptl_core": "*",
+    "surveyor": "*",
+    "hardcorerevival": "*",
+    "voicechat": "*"
   }
 }

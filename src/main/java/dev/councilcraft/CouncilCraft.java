@@ -116,6 +116,18 @@ public final class CouncilCraft implements ModInitializer {
             // PPM100. Separate class so Immersive Portals and Surveyor types load only when both mods are present.
             dev.councilcraft.compat.SurveyorPortalExploration.register();
         }
+        // PT42. councilcraft:milestone criterion and its once-a-second poll (Here Be Mutants, Double Saddle).
+        dev.councilcraft.advancement.Milestones.register();
+        if (FabricLoader.getInstance().isModLoaded("surveyor")) {
+            requireClass("folk.sisby.surveyor.ServerSummary", "Shared Horizons advancement (PT42)");
+            // Separate class so Surveyor types load only when Surveyor is present.
+            dev.councilcraft.compat.SurveyorSharing.register();
+        }
+        if (FabricLoader.getInstance().isModLoaded("hardcorerevival")) {
+            requireClass("net.blay09.mods.hardcorerevival.api.PlayerRescuedEvent", "Not On My Watch advancement (PT42)");
+            // Separate class so Balm types load only when Hardcore Revival is present.
+            dev.councilcraft.compat.HardcoreRevivalRescue.register();
+        }
         // PT14. Photo and signed-album printing through CEI's public printing-behaviour registry, and process ink.
         dev.councilcraft.print.CouncilCraftPrinting.register();
         // PPM102. Donor badges and government roles (server side; the client needs nothing).

@@ -1,0 +1,41 @@
+{
+  "parent": "minecraft:adventure/root",
+  "display": {
+    "icon": {
+      "item": "smallships:oak_cog"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.set_sail.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.set_sail.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "set_sail": {
+      "trigger": "minecraft:started_riding",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "vehicle": {
+                "type": "#councilcraft:dockyard_ships"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "set_sail"
+    ]
+  ]
+}

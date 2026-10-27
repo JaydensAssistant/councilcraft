@@ -1,29 +1,13 @@
 {
-  "parent": "minecraft:story/follow_ender_eye",
-  "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "minecraft"
+        ]
+      }
     }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "description": {
-      "translate": "advancements.story.enter_the_end.description"
-    },
-    "frame": "task",
-    "hidden": true,
-    "icon": {
-      "item": "minecraft:end_stone"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.story.enter_the_end.title"
-    }
-  },
-  "requirements": [
-    [
-      "impossible"
-    ]
-  ],
-  "sends_telemetry_event": true
+  ]
 }

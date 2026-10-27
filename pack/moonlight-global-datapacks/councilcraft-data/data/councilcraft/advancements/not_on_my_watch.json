@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:adventure/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:golden_apple"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.not_on_my_watch.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.not_on_my_watch.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "not_on_my_watch": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "not_on_my_watch"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "not_on_my_watch"
+    ]
+  ]
+}

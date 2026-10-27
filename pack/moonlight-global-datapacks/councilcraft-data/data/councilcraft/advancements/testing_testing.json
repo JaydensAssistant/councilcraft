@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:story/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:note_block"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.testing_testing.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.testing_testing.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "testing_testing": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "testing_testing"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "testing_testing"
+    ]
+  ]
+}

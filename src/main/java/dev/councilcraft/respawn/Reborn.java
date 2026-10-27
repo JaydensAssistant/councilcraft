@@ -86,7 +86,12 @@ public final class Reborn {
     public static void register() {
         RebornStatusEffect.register();
         RebornActivity.register();
-        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> copy(oldPlayer, newPlayer));
+        // PT41 amendment 3: the same activity test for every player, for the tips AFK skip.
+        PlayerActivity.register();
+        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> {
+            copy(oldPlayer, newPlayer);
+            PlayerActivity.copy(oldPlayer, newPlayer);
+        });
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> {
             // alive is true for an end return. That is not a death, so the accrued time stays.
             if (!alive) {
@@ -153,6 +158,7 @@ public final class Reborn {
 
     /** A sneak, sprint, walk, jump or swim. Ignored unless this player is Reborn. */
     public static void selfMoved(ServerPlayerEntity player) {
+        PlayerActivity.selfMoved(player);
         if (player == null || !running(player) || player.getServer() == null) {
             return;
         }
@@ -169,6 +175,7 @@ public final class Reborn {
 
     /** A look packet. Ignored unless this player is Reborn. */
     public static void sampleLook(ServerPlayerEntity player) {
+        PlayerActivity.look(player);
         if (player == null || !running(player)) {
             return;
         }
@@ -177,6 +184,7 @@ public final class Reborn {
 
     /** One qualifying, or not qualifying, thing the player just did. */
     public static void note(ServerPlayerEntity player, RebornWindow.Action action, int target) {
+        PlayerActivity.note(player, action, target);
         if (player == null || !running(player) || player.getServer() == null) {
             return;
         }

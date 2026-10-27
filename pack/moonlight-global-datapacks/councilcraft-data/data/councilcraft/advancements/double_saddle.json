@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:saddle"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.double_saddle.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.double_saddle.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "double_saddle": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "double_saddle"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "double_saddle"
+    ]
+  ]
+}

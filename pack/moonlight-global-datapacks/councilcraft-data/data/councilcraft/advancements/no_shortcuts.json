@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:nether/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:compass"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.no_shortcuts.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.no_shortcuts.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "no_shortcuts": {
+      "trigger": "minecraft:nether_travel",
+      "conditions": {
+        "distance": {
+          "horizontal": {
+            "min": 1000.0
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "no_shortcuts"
+    ]
+  ]
+}

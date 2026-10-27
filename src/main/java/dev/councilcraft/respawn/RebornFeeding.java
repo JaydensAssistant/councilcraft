@@ -211,6 +211,10 @@ public final class RebornFeeding {
         ItemStack result = eat.apply(stack, target);
         int ticks = FeedingRules.spurtTicks(minutes);
         target.setStatusEffect(new StatusEffectInstance(GrowthSpurtEffect.EFFECT, ticks, 0, false, false, true), serverFeeder);
+        if (ticks > 0) {
+            // PT42 Here Comes the Airplane: the feeder gave a Reborn friend a Growth Spurt.
+            dev.councilcraft.advancement.Milestones.grant(serverFeeder, dev.councilcraft.advancement.MilestoneRules.HERE_COMES_THE_AIRPLANE);
+        }
         return result;
     }
 

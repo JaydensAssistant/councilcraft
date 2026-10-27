@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:adventure/root",
+  "display": {
+    "icon": {
+      "item": "councilcraft:antique_atlas"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.shared_horizons.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.shared_horizons.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "shared_horizons": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "shared_horizons"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "shared_horizons"
+    ]
+  ]
+}

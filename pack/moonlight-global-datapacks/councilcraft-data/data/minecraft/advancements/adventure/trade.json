@@ -1,29 +1,13 @@
 {
-  "parent": "minecraft:adventure/root",
-  "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "minecraft"
+        ]
+      }
     }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "description": {
-      "translate": "advancements.adventure.trade.description"
-    },
-    "frame": "task",
-    "hidden": true,
-    "icon": {
-      "item": "minecraft:emerald"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.adventure.trade.title"
-    }
-  },
-  "requirements": [
-    [
-      "impossible"
-    ]
-  ],
-  "sends_telemetry_event": true
+  ]
 }

@@ -1,29 +1,13 @@
 {
-  "parent": "minecraft:end/kill_dragon",
-  "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "minecraft"
+        ]
+      }
     }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "description": {
-      "translate": "advancements.end.enter_end_gateway.description"
-    },
-    "frame": "task",
-    "hidden": true,
-    "icon": {
-      "item": "minecraft:ender_pearl"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.end.enter_end_gateway.title"
-    }
-  },
-  "requirements": [
-    [
-      "impossible"
-    ]
-  ],
-  "sends_telemetry_event": true
+  ]
 }

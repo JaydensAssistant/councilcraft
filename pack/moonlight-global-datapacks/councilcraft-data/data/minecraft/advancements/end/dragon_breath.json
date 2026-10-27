@@ -1,29 +1,13 @@
 {
-  "parent": "minecraft:end/kill_dragon",
-  "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "minecraft"
+        ]
+      }
     }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "description": {
-      "translate": "advancements.end.dragon_breath.description"
-    },
-    "frame": "goal",
-    "hidden": true,
-    "icon": {
-      "item": "minecraft:dragon_breath"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.end.dragon_breath.title"
-    }
-  },
-  "requirements": [
-    [
-      "impossible"
-    ]
-  ],
-  "sends_telemetry_event": true
+  ]
 }

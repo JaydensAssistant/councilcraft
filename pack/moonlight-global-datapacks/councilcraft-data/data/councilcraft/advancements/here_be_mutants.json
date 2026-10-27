@@ -1,0 +1,31 @@
+{
+  "parent": "mutantmonsters:root",
+  "display": {
+    "icon": {
+      "item": "mutantmonsters:mutant_skeleton_skull"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.here_be_mutants.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.here_be_mutants.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "here_be_mutants": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "here_be_mutants"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "here_be_mutants"
+    ]
+  ]
+}

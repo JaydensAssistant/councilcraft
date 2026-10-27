@@ -79,6 +79,11 @@ public final class VendorChange {
                 left -= n;
             }
         }
+        if (player instanceof net.minecraft.server.network.ServerPlayerEntity serverPlayer
+            && dev.councilcraft.advancement.MilestoneRules.gotChange(change)) {
+            // PT42 Keep the Change: the vendor handed coins back.
+            dev.councilcraft.advancement.Milestones.grant(serverPlayer, dev.councilcraft.advancement.MilestoneRules.KEEP_THE_CHANGE);
+        }
         return true;
     }
 

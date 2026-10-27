@@ -1,0 +1,38 @@
+{
+  "parent": "create_enchantment_industry:root",
+  "display": {
+    "icon": {
+      "item": "exposure:signed_album"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.coffee_table_book.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.coffee_table_book.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "coffee_table_book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "exposure:signed_album"
+            ],
+            "nbt": "{\"councilcraft:printed\":1b}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "coffee_table_book"
+    ]
+  ]
+}

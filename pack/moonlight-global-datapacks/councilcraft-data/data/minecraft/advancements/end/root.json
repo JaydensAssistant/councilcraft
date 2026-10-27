@@ -1,29 +1,13 @@
 {
-  "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "minecraft"
+        ]
+      }
     }
-  },
-  "display": {
-    "announce_to_chat": false,
-    "background": "minecraft:textures/gui/advancements/backgrounds/end.png",
-    "description": {
-      "translate": "advancements.end.root.description"
-    },
-    "frame": "task",
-    "hidden": true,
-    "icon": {
-      "item": "minecraft:end_stone"
-    },
-    "show_toast": false,
-    "title": {
-      "translate": "advancements.end.root.title"
-    }
-  },
-  "requirements": [
-    [
-      "impossible"
-    ]
-  ],
-  "sends_telemetry_event": true
+  ]
 }

@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:husbandry/root",
+  "display": {
+    "icon": {
+      "item": "minecraft:mushroom_stew"
+    },
+    "title": {
+      "translate": "advancements.councilcraft.here_comes_the_airplane.title"
+    },
+    "description": {
+      "translate": "advancements.councilcraft.here_comes_the_airplane.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "here_comes_the_airplane": {
+      "trigger": "councilcraft:milestone",
+      "conditions": {
+        "milestone": "here_comes_the_airplane"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "here_comes_the_airplane"
+    ]
+  ]
+}
