@@ -2060,3 +2060,8 @@ Built: PT31 (fog fade, 5.0 s), PT32, PT33, PT34, PT35 + amendments 1–3, PT36 (
 - Originals and unprinted items keep their normal lines.
 - Test: tooltip unit/smoke checks for a printed signed book, printed photo and printed album (no generation line, "Printed Copy" present), plus an unprinted original (line still present).
 - In-game check (Jayden): hover a printed signed book, photo and album, and an original of each.
+
+## PT50 — LOCKED 2026-10-27 ~12:01 AM EDT by Jayden ("Remove AdvancementInfo entirely"), NOT BUILT, for the next build — remove AdvancementInfo
+- Why: its info panel lists raw criterion keys ("0", ids with underscores), which is useless to players. Jayden chose full removal over hiding the panel, accepting the loss of its advancement-screen search box and full-window view (back to vanilla's advancements screen).
+- Change: remove pack/mods/advancementinfo.pw.toml and its pack/index.toml entry (packwiz refresh). No config of ours references it. Keep Cloth Config (many other mods depend on it).
+- Check: the client launches clean, the vanilla advancements screen opens, and the custom advancements still show. The S244 removal note mentioning advancementinfo stays as history.
