@@ -2451,3 +2451,9 @@ Append-only. This marks every LOCKED, for-0.4.22 item BUILT in CouncilCraft 0.4.
 - PT82 BUILT: yosbr options.txt key_railways.keyinfo.bogey_menu:key.keyboard.right.bracket.
 - PT83 BUILT: MouseTweaksDeepPocketsMixin pinned to mousetweaks fabric.mod.json version "2.26" (not the Modrinth version name "1.20-2.26-fabric") and inventorio; scroll push/pull on InventorioScreen targets Deep Pockets only. Client launch confirmed: no "hook is skipped" pin mismatch.
 - Season 3 server.properties template (PT19): server-assets/server.properties has view-distance=8, simulation-distance=10, motd=CouncilCraft Season 3! 10-30-2026.
+
+## PT84 — LOCKED 2026-10-27 ~4:57 PM EDT by Jayden, NOT BUILT, for 0.4.23 — Toast Begone (hide recipe + tutorial toasts)
+- Add Toast Begone (Modrinth project g8reZf3x, version ixnLpbxR, `toastbegone-fabric-1.20-1.2.0.jar`, SHA-1 6c03e14ebc24b724d3c11a9d779b72821aeaf7a6, GPL-3.0). Client-only (server_side unsupported); env client in the mrpack. Bundles its own config lib (dawn-config) via jar-in-jar; Mod Menu optional.
+- Config: its defaults, i.e. blockTutorial=true, blockRecipe=true, blockAdvancement=false, blockAllSystemToasts=false, all systemToasts options false (blockTutorialHint=false keeps our UtilityBeltHints SystemToast TUTORIAL_HINT popup, PPM88). Ship defaults; only ship a config file if needed to pin these.
+- Why: Jayden wants recipe-discovery toasts hidden. Chosen over The Open Sauce Toast Killer (removes every toast, no config, would kill the belt hint and advancement toasts).
+- Test: mrpack contains the jar with env client, hash matches. In-game check (Jayden): unlock a recipe, no toast; earn an advancement, toast shows; first item into a utility-belt slot, belt hint toast still shows.
