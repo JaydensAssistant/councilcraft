@@ -2219,3 +2219,18 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 - Limits: DH 3.3.3 allows a maximum of 4096. The server's maxSyncOnLoadRequestDistance and maxGenerationRequestDistance of 640 cover 512. High is a strong-PC preset.
 - Test: update the Release0415RulesTest assertions to 512 / 256 / 128 and check the Javadoc and DhPresetApplier use the same values.
 - In-game check (Jayden): pick each preset in the graphics picker and confirm DH's render distance is 512 (High), 256 (Medium) and 128 (Low).
+
+## PT69 — LOCKED 2026-10-27 ~2:15 PM EDT by Jayden ("spawning: lock that change"), NOT BUILT, for 0.4.22 — mob spawn band ±128 and the vanilla monster cap (amends PPM81)
+- Change in MobBand.java: BAND 64 -> 128, so the spawn Y pick becomes [max(bottom, py-128), min(surface+1, py+128)] around the horizontally nearest player (Overworld MONSTER only, as in PPM81). MONSTER_CAP 88 -> 70 (vanilla). Update the Javadoc and the tests that assert these values.
+- Rationale: vanilla never spawns or keeps mobs more than 128 blocks away (SpawnHelper.canSpawn's immediate despawn range, with a minimum distance above 24), so ±128 equals vanilla's own effective vertical window. It only removes spawn attempts vanilla would waste on Tectonic's tall columns (surface ~900: about 13% of attempts usable, against about 78% in a normal world).
+- Expected result: about vanilla density on plains and oceans, and vanilla-like rather than starved under mountains.
+- The PPM81 out-of-band 1/40 despawn may stay (it is mostly redundant at 128). Spawners stay unaffected.
+- Test: the updated MobBand tests (BAND 128, MONSTER_CAP 70, band bounds clamped to bottom and surface+1).
+- Playtest REQUIRED (Jayden): compare hostile mob counts against 0.4.21 on plains and on a mountain.
+
+## PT67 amendment 1 — LOCKED 2026-10-27 ~2:15 PM EDT by Jayden ("death compass: sure"), NOT BUILT, for 0.4.22 — grave compasses cannot be used in recipes (amends PT67's "no recipe guard")
+- Reason: Forgotten Graves' DeathCompass.removeCompassFromInventory only scans the retrieving player's main inventory, so a Death Compass stashed in a chest persists. Repeated deaths would make it a compass farm.
+- Change: a pinned mixin on Ingredient.test(ItemStack) that returns false for minecraft:compass stacks carrying Forgotten Graves' GraveMarker NBT. A grave compass then cannot be used as a compass in any recipe: the crafting table, smithing, cartography, Create, the recovery compass, Antique Atlas, and EMI recipe fill. Pin it to Forgotten Graves 3.2.26 (the GraveMarker NBT key). Ordinary compasses and lodestone compasses without GraveMarker are unaffected.
+- Known rare gap: recipe types that override the ingredient test themselves are not covered.
+- Everything else in PT67 stands (giveDeathCompass true; no HUD).
+- Test: a unit test that Ingredient.test refuses a compass with GraveMarker NBT and accepts a plain compass. In-game check (Jayden): a grave compass is refused in the Antique Atlas and recovery compass recipes, and a normal compass works.
