@@ -2028,3 +2028,15 @@ Built: PT31 (fog fade, 5.0 s), PT32, PT33, PT34, PT35 + amendments 1–3, PT36 (
 - Bucket, colors, names, recipes, Ponder and EMI are unchanged (re-check the Ponder pool scene and the EMI fluid icon look right).
 - Mockup approved: /workspace/scratch/inkmock/cmyk_ink_flat_mockup.png (middle panel).
 - In-game check (Jayden): a placed pool and flowing ink next to a Create Dragons Plus dye pool look consistent and opaque, with shaders on and off.
+
+## PT47 — LOCKED 2026-10-26 ~11:43 PM EDT by Jayden ("Yes, lock that"), NOT BUILT, for the next build — American spelling in all player-facing text (amends PT41 tip text)
+- Standing rule from now on: all player-facing text CouncilCraft writes uses standard American spelling. That covers tips, lang/en_us.json, advancements, tooltips, Ponder, chat messages, the MOTD, release notes and the credits file.
+- Fixes (found by a scan on 2026-10-26; advancements, item names, tooltips and Ponder were already American):
+  - Tips (pack/kubejs/server_scripts/councilcraft_tips.js, pack/tools/mktips.py and docs/tips/tips-locked-PT41.md kept in sync):
+    - "centred on spawn" becomes "centered on spawn" (the border tip, in both the live {width} form and the fallback).
+    - "For colour prints you need CMYK Ink…" becomes "color".
+    - "…colour with three potions." becomes "color".
+    - "Colour film needs gold and lapis…" becomes "Color".
+  - src/main/resources/META-INF/councilcraft-texture-credits.txt: change our own "colour"/"colours" to "color"/"colors". Keep license titles verbatim as their authors wrote them (e.g. "Open Government Licence").
+- Out of scope: other mods' config comments and their own text, and code comments and identifiers (e.g. Create/CEI class names like PrintingBehaviour).
+- Build check: a test scans player-facing CouncilCraft text (en_us.json, KubeJS string literals, generated advancement JSON, tips, credits excluding license titles) for common British spellings (colour, behaviour, centre/centred, armour, favour, grey, -ise/-isation forms, travelled, licence/defence as words, whilst, etc.) and fails with the file and line. Keep an allowlist for proper names and license titles.
