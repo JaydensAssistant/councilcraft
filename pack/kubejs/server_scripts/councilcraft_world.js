@@ -36,7 +36,7 @@ function ccId(level, x, y, z) { return String(level.getBlock(x, y, z).id) } // J
 function ccSafeY(level, x, z) {
   for (let y = 240; y > 8; y--) {
     if (CC_AIR.indexOf(ccId(level, x, y, z)) < 0 || CC_AIR.indexOf(ccId(level, x, y + 1, z)) < 0) continue
-    const below = ccId(level, x, y - 1, z)
+    let below = ccId(level, x, y - 1, z)
     if (CC_AIR.indexOf(below) < 0 && CC_BAD_FLOOR.indexOf(below) < 0) return y
   }
   return -1

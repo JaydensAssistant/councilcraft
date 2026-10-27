@@ -8,8 +8,8 @@ ItemEvents.tooltip(event => {
     if (!nbt || !nbt.contains('StoredEnchantments')) return
     const list = nbt.getList('StoredEnchantments', 10)
     for (let i = 0; i < list.size(); i++) {
-      const tag = list.getCompound(i)
-      const ench = CC_Registries.ENCHANTMENT.get(new CC_RL(tag.getString('id')))
+      let tag = list.getCompound(i)
+      let ench = CC_Registries.ENCHANTMENT.get(new CC_RL(tag.getString('id')))
       if (ench && tag.getShort('lvl') > ench.getMaxLevel()) { text.add(Text.gold('Apply with a Super Blaze Forger (Experience Cake)')); return }
     }
   })

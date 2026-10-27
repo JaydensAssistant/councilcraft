@@ -27,7 +27,7 @@ const vanillaStripped = v => 'minecraft:stripped_' + v + (v === 'bamboo' ? '_blo
 const woodLookKey = ing => {
   if (!ing || !ing.item) return ing
   for (let i = 0; i < NC_WOODS.length; i++) {
-    const v = NC_WOODS[i]
+    let v = NC_WOODS[i]
     if (ing.item === 'minecraft:' + v + '_planks') return { tag: 'councilcraft:wood_look/' + v + '_planks' }
     if (ing.item === vanillaStripped(v)) return { tag: 'councilcraft:wood_look/' + v + '_stripped_logs' }
   }
