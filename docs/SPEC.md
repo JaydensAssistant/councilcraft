@@ -2255,3 +2255,24 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 - Priority: the PT22 BabyCarry "kids can't carry kids" refusal and its message still take priority. Carrying players is otherwise unchanged (see PT54, PT56).
 - Depends on PT57 (UUID-keyed Reborn state) for reliable growth reads.
 - Test: unit tests for the tier rules (each tier boundary, block and entity weights, empty chest is 0, the cap of 4, the BabyCarry message winning, adults unaffected). In-game check (Jayden): for each tier, try a level-0 block, a level-0 entity and a level-1 entity, and get the message where refused.
+
+## PT72 — LOCKED 2026-10-27 ~2:12 PM EDT by Jayden, NOT BUILT, for 0.4.22 — Inventory Profiles Next defaults via yosbr
+- Pack status checked 2026-10-27 ~2:20 PM EDT: Inventory Profiles Next (IPN 1.10.20) and libIPN 4.0.2 are NOT in the pack (no pack/mods pw.toml, no pack/index.toml entry, no IPN config) and are not mentioned anywhere earlier in this SPEC. Fabric Language Kotlin IS already in the pack (fabric-language-kotlin-1.14.2+kotlin.2.4.21, side both). So these defaults only take effect once IPN 1.10.20 and libIPN 4.0.2 are added. Their addition is not recorded as locked anywhere above; confirm with Jayden at build time.
+- Defaults, shipped as pack/config/yosbr/config/inventoryprofilesnext/inventoryprofiles.json:
+  - ModSettings sort_order = ACCUMULATED_COUNT_DESCENDING. The per-button sort orders stay GLOBAL (so they follow this setting).
+  - highlight_foused_items = false. The key really is spelled "foused" in the jar. This removes the green hover tint Jayden dislikes.
+- Build note: generate the file with IPN's own config screen and copy it, so the key names are exact. yosbr applies to fresh installs only; existing players change these in IPN's settings.
+- Check: the shipped file has these two values and nothing else changed from IPN's defaults. In-game check (Jayden): sorting puts the largest stacks first, and hovering an item shows no green tint.
+
+## PT73 — LOCKED 2026-10-27 ~2:12 PM EDT by Jayden, NOT BUILT, for 0.4.22 — add InvMove and InvMoveCompats (client-only); no walking while downed (relates to PT55)
+- Pack status checked 2026-10-27 ~2:20 PM EDT: neither InvMove nor InvMoveCompats is in the pack. Cloth Config, which InvMove needs, IS already in the pack (cloth-config-11.1.136-fabric, side both).
+- Add InvMove: Modrinth project REfW2AEX, file InvMove-0.9.3+1.20.1-Fabric.jar, version 66wsDJTD, LGPL-3.0-only, client-only, needs Cloth Config.
+- Add InvMoveCompats: Modrinth project 6IpcGP7T, file InvMoveCompats-0.5.0+1.20.4-Fabric.jar, version eRudauVi, LGPL-3.0-only, client-only.
+- Both as pack/mods pw.toml files with side=client plus their pack/index.toml entries (Modrinth download references). Credit them the way the pack credits other mods.
+- Config: ship pack/config/yosbr/config/invmove/unrecognized.json containing {"allowMovement":{"net.blay09.mods.hardcorerevival.client.KnockoutScreen":false}}, so a downed player cannot walk while Hardcore Revival's knockout screen is open (ties to PT55). yosbr seeds fresh installs only.
+- Test notes: crashes with Controlify + InvMove mixins were reported only on 1.21.5 (InvMove #90); check in game with Controlify on 1.20.1. Known issue InvMoveCompats #28: holding W while opening the inventory can trigger Create's Ponder. Noted, not fixed.
+- Check: the client launches clean with both mods and Controlify; the dedicated server pack is unchanged. In-game check (Jayden): walk with the inventory and other screens open; get downed and confirm you cannot walk while the knockout screen is open; try a controller.
+
+## NOTE 2026-10-27 ~2:20 PM EDT — Mouse Tweaks held, not locked
+- Jayden asked to lock Mouse Tweaks (Modrinth aC3cM3Vq, MouseTweaks-fabric-mc1.20-2.26.jar, BSD-3-Clause). It is HELD pending his answer and is NOT locked, NOT for 0.4.22 yet, with no code.
+- Reasons for the hold: the SPEC cancelled Mouse Tweaks earlier (the CANCELLED list at ~line 129 and Batch 8 at ~line 792; those lines stay as written). It also double-handles scroll moves together with IPN (IPN #314).
