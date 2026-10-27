@@ -2110,3 +2110,50 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 - PT52 BUILT: NIGHT_BRIGHT=0.85 in `E-LITE shaders 5.1.3 CouncilCraft.zip.txt`, in sorted order (the file now has 48 lines).
 - PT53 BUILT: FlagBanners.single/handBack, ShipFlagBannerMixin (funnel), ShipDetachFlagMixin (R1), BannerableFlagMixin (R2), Dockyard verified unchanged. Release0421RulesTest covers 16 flags and 16 vanilla banners (stored 1, returned 1, identical NBT, the player's stack untouched), the replace path, saved ships with a count above 1, the Dockyard path, empty and non-stack values unchanged. Release0419RulesTest now expects the detach hook to use FlagBanners.handBack.
 - Version 0.4.21 (gradle.properties mod_version, pack/pack.toml).
+
+## PT54 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden, NOT BUILT, locked for 0.4.22 — baby-carry weight lets the carrier jump a block (amends PPM35; relates to PT22)
+- Problem: when an adult carries a Reborn player (PT22), Carry On's level for a carried player maps through PPM35 to supplementaries:overencumbered amplifier 1, which means "no sprint and can't jump up a block". A carrier cannot clear a one-block step while carrying a baby.
+- Change: when the carried object is a player, the CarryOnWeightMixin / CarryOnWeight mapping (PPM35) uses overencumbered amplifier 0 (the lightest: no sprint, jumping a block still works) instead of 1. Every other carried thing keeps the PPM35 map unchanged (level 0 = amp 0, level 1 = amp 1, level 2 = amp 2, level 3-4 = amp 3).
+- Test: a unit test for the mapping (carried player gives amp 0; cow, sheep and part-full container still give amp 1; levels 2-4 unchanged).
+- In-game check (Jayden): carry a baby, jump up a one-block step; sprint is still blocked.
+
+## PT55 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden, NOT BUILT, locked for 0.4.22 — downed "press E to die" fix: E opens Hardcore Revival's knockout screen, inventory blocked while downed
+- Problem: while downed, pressing E does not open Hardcore Revival's knockout ("press E to die") screen. Inventorio takes over E (inventorioOpenReplacingScreen), so Hardcore Revival's instanceof InventoryScreen check fails and the inventory opens instead of the knockout screen.
+- Fix: while the player is downed, E opens Hardcore Revival's knockout screen, and the inventory is blocked while downed (it cannot be opened by E or by any Inventorio open path). When not downed, Inventorio's E behavior is unchanged.
+- Related: Hardcore Revival is the downed/revive mod (S168 continueTimerWhileOffline; PPM104 knockouts). Build check: how Hardcore Revival detects the key and opens its screen, and that the fix works with Inventorio's replacing-screen path on the pinned versions.
+- In-game check (Jayden): get downed, press E: the knockout screen opens and the inventory does not. Revived or not downed: E opens the inventory as usual.
+
+## PT56 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden ("just disable player stacking in general"), NOT BUILT, locked for 0.4.22 — no player stacking at all (amends PT22; extends S136)
+- Change: Carry On config blacklist.forbiddenStacking includes minecraft:player, so nothing can be stacked on players, babies included. Edit config/carryon-common.json only (alongside the S136 forbidden namespaces, which stay).
+- Optional belt-and-suspenders: the BabyCarry stacking refusal (UseEntityCallback returns FAIL on a baby stack onto an entity) is also fine to add if the config alone is not enough. Plain carrying of a Reborn player by an adult (PT22) is unchanged.
+- Test: config test that forbiddenStacking contains minecraft:player; if the BabyCarry refusal is added, a unit test that a stack attempt with a baby is refused.
+- In-game check (Jayden): try to stack a mob or player on a player, and a player onto a mob or another player: refused. Picking up a baby (adult carrier) still works.
+
+## PT57 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden, NOT BUILT, locked for 0.4.22 — Reborn tracking keyed by UUID, plus clear feeding-failure messages (amends PM24a/PM24b, PT21, PPM34)
+- Bug: Reborn.MINUTES (and the sibling maps, Reborn.WINDOWS and Reborn.LAST_WINDOW, and the same pattern in RebornFeeding.FEEDS, PlayerActivity.CLOCKS and CarryOnWeight.APPLIED) are WeakHashMap<ServerPlayerEntity, ...>. On respawn, copyFrom runs before setId, so the player's hashCode changes and the entry is lost after a second death. The player stays Pehkui-small but Reborn.running() is false, so feeding (PM24a, PPM34) fails.
+- Fix: key these maps by UUID (Map<UUID, ...>, not WeakHashMap<ServerPlayerEntity, ...>), with entries cleaned up on disconnect so they do not leak. Reborn state, timers and Growth Spurt behavior otherwise unchanged.
+- Messages: whenever feeding a Reborn player fails, the feeder gets a clear player-facing refusal message (action bar, the same channel as PT21's "Baby is full." and too-far refusals), in American spelling (PT47), covering every refusal reason, including the player not being Reborn or the Reborn state not running, which may be silent today (check at build time). The use is still consumed so the feeder does not eat the food (PT21).
+- Test: a unit test where a player dies twice (respawn copy before id change) and Reborn.running() stays true; feeding works after the second death; refusal messages exist for each failure reason and use American spelling (AmericanSpellingTest).
+- In-game check (Jayden): die twice, then feed the baby after the second death: it works. Feed a baby who is full, too far, or not Reborn: a clear message.
+
+## PT58 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden, NOT BUILT, locked for 0.4.22 — Inventorio shift-click from crafting results fills the hotbar first, like vanilla
+- Problem: shift-clicking a crafting result with Inventorio puts the items into the main inventory first (quick-move runs with fromLast=false). Vanilla fills the hotbar first.
+- Fix: for quick-move from crafting result slots, fill the hotbar first and then the main inventory, as vanilla does (fromLast = true behavior for that move), without changing other Inventorio quick-move paths (utility belt, tool belt, armor, other screens).
+- Test: a unit/smoke check on the quick-move target order for a crafting result (hotbar, then main inventory) and that other containers' shift-click is unchanged.
+- In-game check (Jayden): shift-click a crafted item at a crafting table with the hotbar partly empty: it lands in the hotbar first.
+
+## PT59 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden, NOT BUILT, locked for 0.4.22 — swap hands from a non-Inventorio screen sends the item to the selected utility belt slot (extends PPM84)
+- Problem: pressing swap hands (F, SWAP button 40) in a non-Inventorio screen (for example a crafting table) sends the item to the hidden vanilla offhand slot 40 instead of Inventorio's selected utility belt slot.
+- Fix: a server-side mixin so that a swap from any non-Inventorio screen moves the item to Inventorio's selected utility belt slot rather than vanilla offhand slot 40. This builds on PPM84's InventorioSwapHandsMixin (which handles SWAP_ITEM_WITH_OFFHAND from the world) and must not lose or overwrite items (PPM84 was a critical item-loss bug). Inventorio's own screen behavior is unchanged.
+- Test: a unit test on the swap with a crafting-table screen (item lands in the selected belt slot, none in slot 40, nothing deleted when the belt slot is occupied), plus PPM84's tests unchanged.
+- In-game check (Jayden): open a crafting table, hover an item and press F: it goes to the selected utility belt slot and nothing is lost.
+
+## PT60 — LOCKED 2026-10-27 ~12:55 PM EDT by Jayden ("lock it"), NOT BUILT, locked for 0.4.22 — add BetterF3 7.0.2 as a client-only mod, no config
+- Add BetterF3 7.0.2 (Fabric 1.20.1) to the pack as a client-only mod: a pack/mods pw.toml with side=client and its pack/index.toml entry (packwiz refresh). No config file shipped; the server does not get it.
+- Tested on the box (on the box): it runs clean and keeps the Distant Horizons and Iris lines. Its "Chunk Sections" line is wrong with Sodium. That is cosmetic and accepted.
+- Credit: add to the mod credits as the pack does for other mods (license text per its repository).
+- Check: the client launches clean with it; F3 shows the BetterF3 screen; the dedicated server pack is unchanged.
+
+## PT61 — OPEN 2026-10-27 ~12:55 PM EDT, NOT LOCKED, NOT BUILT, ON HOLD per Jayden ("hold off for now") — adult-player feeding (relates to PM24a, PPM34, PT21)
+- Idea (open): let a player feed an adult (non-Reborn) player. Hunger and food effects only (no Growth Spurt), triggered by sneak + right-click.
+- Status: on hold per Jayden. Not approved, not for 0.4.22, no code. Do not build until Jayden locks it.
