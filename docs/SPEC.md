@@ -2234,3 +2234,24 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 - Known rare gap: recipe types that override the ingredient test themselves are not covered.
 - Everything else in PT67 stands (giveDeathCompass true; no HUD).
 - Test: a unit test that Ingredient.test refuses a compass with GraveMarker NBT and accepts a plain compass. In-game check (Jayden): a grave compass is refused in the Antique Atlas and recovery compass recipes, and a normal compass works.
+
+## PT70 — LOCKED 2026-10-27 ~2:16 PM EDT by Jayden ("swim anim while carrying: lock that change"), NOT BUILT, for 0.4.22 — no Punchy swim animation while carrying (relates to PT17, PPM35, PT54)
+- Problem: Punchy 2.8g's SwimmingStateMachine plays its swim clip, including the 'swiming_above' paddling (in water, no solid support, a movement key held), even when the player cannot sprint-swim because Carry On's overencumbered effect blocks sprinting.
+- Fix: a pinned client mixin at the start of SwimmingStateMachine.tick that skips the swim clip while Carry On reports that the local player is carrying (CarryOnDataManager.getCarryData(player).isCarrying()). Pinned to Punchy 2.8g and fail-safe like PT17 (applied only with Punchy 2.8g, skipped with a warning naming the broken behavior otherwise).
+- Do NOT change Punchy's enableSwimAnimation config (that would affect everyone, all the time).
+- Client update needed.
+- Test: a unit test of the gate (carrying skips the swim clip; not carrying leaves Punchy unchanged) and the version pin.
+- In-game check (Jayden): carrying a block or entity in water shows no Punchy swim strokes. Not carrying, swim animations are unchanged.
+
+## PT71 — LOCKED 2026-10-27 ~2:16 PM EDT by Jayden ("baby carry limits: lock scaled by growth"), NOT BUILT, for 0.4.22 — what a Reborn baby can carry scales with growth (relates to PT22, PM24a/PM24b; depends on PT57)
+- New pre-check, registered in the same early phase as BabyCarry (UseBlockCallback and UseEntityCallback, in the phase before Carry On) with the same gate (empty hands, the carry key held, not already carrying). When the baby is too small for the target it returns FAIL and shows the action-bar message "You are too small to pick that up." (new lang key, for example councilcraft.carry.too_small; American spelling, PT47).
+- Weight uses Carry On's own measures. Blocks: saved block-entity NBT length / 500, capped at 4 (an empty chest is 0). Entities: (int)(height * width).
+- Growth: RebornProgress.fraction (0 to 1 over REBORN_ACTIVE_MINUTES, 360).
+- Tiers:
+  - fraction below 1/3: level-0 blocks only, no entities.
+  - 1/3 up to 2/3: also level-0 entities (for example chicken, rabbit, cat, fox).
+  - 2/3 and above: blocks and entities up to level 1 (for example sheep, cow, villager).
+  - Fully grown (no longer Reborn): normal adult rules.
+- Priority: the PT22 BabyCarry "kids can't carry kids" refusal and its message still take priority. Carrying players is otherwise unchanged (see PT54, PT56).
+- Depends on PT57 (UUID-keyed Reborn state) for reliable growth reads.
+- Test: unit tests for the tier rules (each tier boundary, block and entity weights, empty chest is 0, the cap of 4, the BabyCarry message winning, adults unaffected). In-game check (Jayden): for each tier, try a level-0 block, a level-0 entity and a level-1 entity, and get the message where refused.
