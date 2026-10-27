@@ -2040,3 +2040,15 @@ Built: PT31 (fog fade, 5.0 s), PT32, PT33, PT34, PT35 + amendments 1–3, PT36 (
   - src/main/resources/META-INF/councilcraft-texture-credits.txt: change our own "colour"/"colours" to "color"/"colors". Keep license titles verbatim as their authors wrote them (e.g. "Open Government Licence").
 - Out of scope: other mods' config comments and their own text, and code comments and identifiers (e.g. Create/CEI class names like PrintingBehaviour).
 - Build check: a test scans player-facing CouncilCraft text (en_us.json, KubeJS string literals, generated advancement JSON, tips, credits excluding license titles) for common British spellings (colour, behaviour, centre/centred, armour, favour, grey, -ise/-isation forms, travelled, licence/defence as words, whilst, etc.) and fails with the file and line. Keep an allowlist for proper names and license titles.
+
+## PT48 — LOCKED 2026-10-26 ~11:58 PM EDT by Jayden ("Do 25% dimmer. And then lock this whole desaturated plan."), NOT BUILT, for the next build — muted inventory icons for all printed copies (extends S210)
+- Goal: every printed copy (any stack carrying the councilcraft:printed NBT flag / "Printed Copy" lore) gets a muted, faded inventory icon, like the existing printed enchanted book (S210), so copies read as copies at a glance. Albums keep their own album texture, just muted; nothing gets a generic book look.
+- Look (per the approved mockup /workspace/scratch/inkmock/printed_copy_icons_mockup.png):
+  - Enchanted book: unchanged, keeps the existing S210 printed texture.
+  - Signed/written book, signed album, album variants and any other printable item that carries the flag: the item's own texture at ~35% saturation, ~0.85 contrast, and a ~15% blend toward tan-gray (150,135,110).
+  - Exposure photograph (and stacked photographs): no desaturation or tint, just 25% dimmer (brightness x0.75), per Jayden; mockup /workspace/scratch/inkmock/photo_dim_mockup.png. It must not look like Exposure's aged photograph (no yellow/sepia).
+- Scope: inventory/hand item icons only. The photo image itself is never touched: not in item frames, the photograph view screen, the album view, or the lectern.
+- Method: add CIT Resewn rules to the existing resourcepacks/councilcraft-printed-copies.zip, matching nbt.councilcraft\:printed like printed_book_item.properties. The textures are derived by a pack/tools script from the vanilla/Exposure item textures at build time. Builder must confirm the derived-texture licensing (vanilla and Exposure) before shipping, and credit as needed. If CIT can't match an item's model (e.g. Exposure's custom photograph renderer), stop and report rather than adding code.
+- Builder enumerates every item the Printer can mark (written books, photographs, albums, etc.) and covers each.
+- Out of scope: hiding the vanilla/Exposure generation tooltip lines (separate proposal, not locked here).
+- In-game check (Jayden): originals vs printed copies side by side in inventory for each item; a printed photo in a frame and in an album still looks exactly like the original.
