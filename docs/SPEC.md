@@ -2172,3 +2172,23 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 - Refs: PT21, PT17, PPM70 (the feeding pose and animation batch). Symptom as Jayden sees it: in first person with Punchy, the feeder appears to eat the food.
 - Behavior check replaces the PT62 in-game check: feed a baby in first person with Punchy. The hand holds the food out steady, with no eat animation and no crumbs at the feeder. Third person is unchanged (FeedPoseMixin unchanged). Eating and drinking normally still show Punchy's animation.
 - LivingEntity.isBlocking is unaffected because the hook is on ItemStack.getUseAction, not Item.getUseAction.
+
+## PT63 — LOCKED 2026-10-27 ~1:28 PM EDT by Jayden ("just go with the cheap and easy fix"), NOT BUILT, for 0.4.22 — a carried Reborn baby takes no in-wall (suffocation) damage (relates to PT22)
+- Problem: Carry On positions a carried passenger 0.6 forward and 0.4 up (EntityMixin.onPositionPassenger). When the carrier faces a wall, the carried baby can sit inside blocks and take IN_WALL (suffocation) damage.
+- Fix (cheap fix only): cancel IN_WALL damage for a Reborn baby while it is being carried. Nothing else changes.
+- The vanilla in-wall overlay STAYS: the baby sees the block texture overlay when its eye is inside a block. That also prevents x-ray. Jayden floated blindness as an x-ray guard, but it is unnecessary because the overlay remains. No blindness effect.
+- DEFERRED to after launch (not locked, no code): the proper reposition fix (pull the baby back or raise it when blocked, a 1-high fallback, a client overlay).
+- Test: a unit test that IN_WALL damage is cancelled for a carried Reborn baby and not for other damage types or for a baby that is not carried.
+- In-game check (Jayden): carry a baby while facing a wall: no damage, and the screen shows the in-wall overlay.
+
+## PT64 — LOCKED 2026-10-27 ~1:28 PM EDT by Jayden (confirmed in game: "can confirm the dupe worked"), NOT BUILT, for 0.4.22 — fix the Inventorio 2x2 swap-hands duplication on crafting results (relates to PPM84, PT59)
+- Bug, CONFIRMED in game by Jayden on 0.4.21 (Inventorio 1.10.4, Fabric 1.20.1): put coal over a stick in the inventory 2x2 crafting grid, hover the torch result, and press F (swap offhand). It duplicates items. This matches RubixDev/Inventorio#352.
+- Fix: server side, block the SWAP (button 40, offhand swap) click on crafting result slots in Inventorio's player screen handler, and on any crafting result slot generally. Blocking is preferred. The alternative, if blocking is not workable, is to make it behave as a normal take that consumes the ingredients.
+- Coordinate with the PPM84 InventorioSwapHandsMixin and the PT59 swap-from-any-screen mixin, so the PT59 mapping of slot 40 to the utility belt never runs for a crafting result slot (the swap on a result slot is refused first), and no item is lost or overwritten (PPM84 was a critical item-loss bug).
+- Test: a unit or build check that a swap on a crafting result slot is refused and does not create items (ingredients and result unchanged), and that PPM84 and PT59 swaps on non-result slots still work.
+- In-game check (Jayden): repeat the repro (coal over a stick, hover the torch, press F): no duplication.
+
+## PT65 — LOCKED 2026-10-27 ~1:28 PM EDT by Jayden ("it worked, disable it by default"), NOT BUILT, for 0.4.22 — Sodium "Always Defer Chunk Updates" off by default
+- Setting: Sodium performance.always_defer_chunk_updates_v2 ships OFF (false) by default. Jayden confirmed in game that turning it off fixes the see-through sky flash when placing blocks while pillaring.
+- How: ship it through yosbr, using the pack's existing yosbr pattern (for example pack/config/yosbr/config/sodium-options.json). yosbr seeds new installs only, so existing players change it in Sodium's video settings (Performance). Players can still turn it on.
+- Check: the shipped yosbr file sets performance.always_defer_chunk_updates_v2 to false, changes no other Sodium setting, and a new install shows the option off. In-game check (Jayden): place blocks while pillaring: no see-through sky flash.
