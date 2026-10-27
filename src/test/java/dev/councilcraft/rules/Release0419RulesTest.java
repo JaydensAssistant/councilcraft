@@ -65,9 +65,9 @@ class Release0419RulesTest {
     }
 
     @Test
-    void versionIs0419() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.19"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.19\""));
+    void versionIsAtLeast0419() throws IOException {
+        // The exact version is asserted by the newest release test (Release0420RulesTest).
+        assertTrue(read("gradle.properties").matches("(?s).*mod_version=0\\.4\\.(19|[2-9]\\d).*"));
     }
 
     // ---- the round trip: flag in, flag out with identical NBT ----

@@ -2065,3 +2065,25 @@ Built: PT31 (fog fade, 5.0 s), PT32, PT33, PT34, PT35 + amendments 1–3, PT36 (
 - Why: its info panel lists raw criterion keys ("0", ids with underscores), which is useless to players. Jayden chose full removal over hiding the panel, accepting the loss of its advancement-screen search box and full-window view (back to vanilla's advancements screen).
 - Change: remove pack/mods/advancementinfo.pw.toml and its pack/index.toml entry (packwiz refresh). No config of ours references it. Keep Cloth Config (many other mods depend on it).
 - Check: the client launches clean, the vanilla advancements screen opens, and the custom advancements still show. The S244 removal note mentioning advancementinfo stays as history.
+
+## 0.4.20 BUILT NOTE — 2026-10-27 (Jayden: "yes, it meant the tool belt tip. build"; "no smoke test, just make sure it launches")
+Append-only. This marks PT44 to PT50 BUILT in 0.4.20. Verification for this build is unit tests, the build scans, and a clean launch of the client and the dedicated server with the 0.4.20 pack. No in-game smoke or scenario tests were run, so every "In-game check" listed above is still Jayden's to do.
+- PT44 BUILT (b3217b4): `const` to `let` in `ccSafeY` (below), `woodLookKey` (v), and the tooltip script (tag, ench). Regression tests run through the pack's own Rhino jar (pack/tools/rhino, KubeJsConstLoopTest), plus a scan that fails the build on any `const` inside a loop body under pack/kubejs.
+- PT45 BUILT (fd80f84):
+  - Shaders on: while Immersive Portals renders a portal view the Iris `dhRenderDistance` supplier returns V (`PortalFade.vanillaEdge()`, never above the real value). The optional camera-to-portal distance was NOT added.
+  - Crossing: no snap. Shaders on starts at V. Shaders off starts at vanilla's terrain fog (BackgroundRenderer.applyFog rules, 1.20.1: start and end in blocks, thick fog for the Nether), read from the live view distance at the crossing and converted to DH far-fog fractions of the LOD distance.
+  - The PT31 destination hold is deleted (PortalFadeLevels and the DH level load/unload bindings removed).
+  - Clear: T = 3.0 s, e = 0.2u + 0.8u^3 (a cubic ease-in with a small linear part, so it moves from the first frame), on both the shaders-on uniform path (log-scale distance) and the shaders-off PortalFadeDhFog path.
+  - Kept: IrisDhPortalDepthMixin, DhPortalDeferredFix, the IP changePlayerDimension hook, the end-tick backup, the pins, and fail-safe behavior.
+  - PT45 item 4 (Nether-to-Overworld shaders-off clamp) is NOT built, as locked.
+  - Open point: the portal-view V relies on Iris re-reading the per-frame uniform in the portal pass; only an in-game look proves it.
+- PT46 BUILT (bdd0d63): pack/tools/mkink.py writes process_ink_still.png and process_ink_flow.png (opaque, flat C/M/Y/K bands, seeded near-white grain, frame counts and .mcmeta unchanged); the fluid is on RenderLayer.getSolid().
+- PT47 BUILT (a5ab526): American spelling in the tips script, the tips doc and the credits file, plus AmericanSpellingTest, which scans player-facing text. Judgment call: the label "Licence:" in our own councilcraft-texture-credits.txt became "License:".
+- PT48 BUILT (5891cda), with limits. pack/tools/mkprintedicons.py rewrites councilcraft-printed-copies.zip and adds `type=item` CIT rules matching `nbt.councilcraft:printed`:
+  - Muted (saturation x0.35, contrast x0.85, 15% blend toward 150,135,110): written book, name tag, signed album. Dimmed only (brightness x0.75): photograph, aged photograph. The enchanted book rule is unchanged.
+  - Sources: the vanilla 1.20.1 client jar (Mojang textures, modified copies only) and Exposure 1.9.22 (MIT, credited in the zip's CREDITS.txt and councilcraft-texture-credits.txt).
+  - NOT covered, because CIT cannot restyle them cleanly: banners (built-in entity renderer), stacked photographs (the variant depends on an NBT count, not the stack size), Create packages and schematics (Create Mod License; modified redistribution not confirmed), and enchanted tools or armor marked by the Anvil, Smithing or Forger copy path.
+  - Only icons are touched. Photo rendering (frames, view screen, album view, lectern) is untouched.
+- PT49 BUILT (66de20e): PrintedTooltipFilter removes book.generation.* and Exposure's photograph generation lines on printed stacks only (tooltip only, NBT untouched), matched by translation key.
+- PT50 BUILT (a5ab526): pack/mods/advancementinfo.pw.toml and its index entry are removed; Cloth Config stays.
+- Version 0.4.20 (gradle.properties mod_version, pack/pack.toml). Release0420RulesTest covers the version, PT46, PT48, PT49, PT50 and PT45 rules.

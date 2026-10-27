@@ -318,7 +318,7 @@ hash = "fec6c7d0382cf85b9490cf8d7ddd15cee1bb6e9efb532ddff41e84254f0bcdf6"
 
 [[files]]
 file = "kubejs/client_scripts/councilcraft_tooltips.js"
-hash = "9d5322e0f8853e07ea7578d8168426daf43f3eb23da4b9d539083e925d161d2f"
+hash = "729c80f314d882c414ce24d34117962419b7d4dcf9718016399b5d27aaa27f59"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_end.js"
@@ -330,7 +330,7 @@ hash = "78bc3d691a3ea272da55e99a12bb8f81a1b814e4c2a5cfa9e429f591f17ace57"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
-hash = "6d7066e42683c0c8d8a651e2fc6528c437faf205256c48933770a0015fb660f5"
+hash = "9314d6480304fbf21d6b7e11053c079604602d7626fcc55918f5d619787c6262"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"
@@ -338,11 +338,11 @@ hash = "6c89779a9343b1536a1afe1fcaaa9456dfd95e6e04e56f3c7ee8112ae8b486c3"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_tips.js"
-hash = "904e7f24db87d999bcd5366fb5b2d12a028320f60df911dc1505e7505eb9e1f1"
+hash = "e6c6dd8cf521bb3b7e5fd69b7a31926451d0453e1a4e50cdc43deb0783d572d8"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_world.js"
-hash = "bd85f3b60237d9e1988552c5af769f39c97ef7da0a2cd8d39ca8c50d2bdaa9ff"
+hash = "8b74734ec8191fda08e70f9960fa9810da61fd8dd4631d9ad2c1c4c1b99e5387"
 
 [[files]]
 file = "kubejs/server_scripts/end_disable.js"
@@ -2074,7 +2074,7 @@ hash = "4efc78aa32cce9db3fa30f8eeb267eb7f2809618c02e7a900734b3a9e29b3319"
 
 [[files]]
 file = "resourcepacks/councilcraft-printed-copies.zip"
-hash = "ddbeb14cb9031b81a8e20d5d149b3c4e4686a3d41c7b9125267a611bb7ac37f3"
+hash = "38a743b6aae7c52e5a8b9a2296b6c76d007f856c06bd5fa5404602ed3501b463"
 
 [[files]]
 file = "resourcepacks/drigo-3d-lanterns-x-punchy.pw.toml"
