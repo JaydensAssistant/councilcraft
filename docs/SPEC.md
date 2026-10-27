@@ -2052,3 +2052,11 @@ Built: PT31 (fog fade, 5.0 s), PT32, PT33, PT34, PT35 + amendments 1–3, PT36 (
 - Builder enumerates every item the Printer can mark (written books, photographs, albums, etc.) and covers each.
 - Out of scope: hiding the vanilla/Exposure generation tooltip lines (separate proposal, not locked here).
 - In-game check (Jayden): originals vs printed copies side by side in inventory for each item; a printed photo in a frame and in an album still looks exactly like the original.
+
+## PT49 — LOCKED 2026-10-26 ~11:59 PM EDT by Jayden ("Also lock the removal of the generation line"), NOT BUILT, for the next build — printed copies show only "Printed Copy", no generation line
+- Problem (Jayden): printed copies show redundant generation text right above "Printed Copy". Exposure photographs say "Copy of Original", and printed signed books come out as generation 0, so vanilla labels them "Original", which is misleading.
+- Fix: on any stack carrying the councilcraft:printed flag ("Printed Copy" lore), hide every vanilla written-book generation line ("Original", "Copy of Original", "Copy of a Copy", "Tattered") and every Exposure generation/copy line on photographs, stacked photographs and albums. "Printed Copy" is the only copy marker shown.
+- Method: a client-side tooltip filter (Fabric ItemTooltipCallback or the existing client tooltip path) that removes lines matching those translation keys (book.generation.*, Exposure's own keys, found from its lang file, never hardcoded English) on printed stacks only. Change only the tooltip, never NBT/generation data, so copy rules (PM2/PPM51) and Exposure's copy limits are unchanged.
+- Originals and unprinted items keep their normal lines.
+- Test: tooltip unit/smoke checks for a printed signed book, printed photo and printed album (no generation line, "Printed Copy" present), plus an unprinted original (line still present).
+- In-game check (Jayden): hover a printed signed book, photo and album, and an original of each.
