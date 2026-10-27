@@ -216,7 +216,7 @@ class Release0419RulesTest {
         assertTrue(bannerable.contains("method = \"interactBanner\""));
         assertTrue(bannerable.contains("FlagBanners.toBanner") && bannerable.contains("FlagBanners.forHandBack"));
         String detach = read("src/main/java/dev/councilcraft/mixin/ShipDetachFlagMixin.java");
-        assertTrue(detach.contains("method = \"giveBack\"") && detach.contains("FlagBanners.restore"));
+        assertTrue(detach.contains("method = \"giveBack\"") && detach.contains("FlagBanners.handBack"));
         String dock = read("src/main/java/dev/councilcraft/mixin/DockyardFlagMixin.java");
         assertTrue(dock.contains("method = \"startModifyTask\"") && dock.contains("FlagBanners.toBanner"));
         assertTrue(dock.contains("method = \"finishModify\"") && dock.contains("FlagBanners.restore"));

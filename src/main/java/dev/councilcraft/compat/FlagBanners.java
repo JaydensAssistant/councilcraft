@@ -46,14 +46,34 @@ public final class FlagBanners {
         return rebuild(stack, Registries.ITEM.get(id), FlagBannerNbt.unmark(stack.getNbt()));
     }
 
-    /** The value a Small Ships banner data slot should hold: flags are converted, anything else is unchanged. */
-    public static Object forShipSlot(Object value) {
-        return value instanceof ItemStack stack ? toBanner(stack) : value;
+    /**
+     * PT53. A ship holds exactly one banner. Small Ships copies the player's whole held stack into the slot
+     * ({@code ship.setData(BANNER, held.copy())}) and hands the stored stack back as it is, so a stack of 16 flags put
+     * on a ship came back as 16. A non-empty stack comes back as a copy with count 1; an empty stack, a stack that
+     * already holds 1, or null comes back as the same instance. The input is never changed (it is the player's stack).
+     */
+    public static ItemStack single(ItemStack stack) {
+        if (stack == null || stack.isEmpty() || stack.getCount() == 1) {
+            return stack;
+        }
+        ItemStack one = stack.copy();
+        one.setCount(1);
+        return one;
     }
 
-    /** The value a Small Ships banner hand-back should give: marked banners are restored, anything else is unchanged. */
+    /** The value a Small Ships banner data slot should hold: flags are converted, one banner is stored, anything else is unchanged. */
+    public static Object forShipSlot(Object value) {
+        return value instanceof ItemStack stack ? single(toBanner(stack)) : value;
+    }
+
+    /** The value a Small Ships banner hand-back should give: marked banners are restored, exactly one is given. */
     public static Object forHandBack(Object value) {
-        return value instanceof ItemStack stack ? restore(stack) : value;
+        return value instanceof ItemStack stack ? handBack(stack) : value;
+    }
+
+    /** What a ship's banner or sail banner becomes when it is taken off: the identical original item, count 1. */
+    public static ItemStack handBack(ItemStack stack) {
+        return single(restore(stack));
     }
 
     private static ItemStack rebuild(ItemStack from, Item item, NbtCompound nbt) {

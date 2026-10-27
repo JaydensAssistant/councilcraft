@@ -16,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
  * Supplementaries flag by looking at its banner form; the flag itself is what is consumed from the player and
  * installed. Return ({@code finishModify}): every refund the Dockyard spawns passes through here, so a marked
  * banner (the old banner of a banner or sail banner swap or removal) comes out as the identical flag. Pinned to
- * Small Ships 2.0.1 and Supplementaries 1.20-3.1.44.
+ * Small Ships 2.0.1 and Supplementaries 1.20-3.1.44. PT53: no count fix is needed here; Small Ships itself costs
+ * and refunds {@code copyWithCount(1)} and installs a count-1 copy, and the ship slot funnel stores count 1.
  */
 @Mixin(value = DockyardBlockEntity.class, remap = false)
 public abstract class DockyardFlagMixin {

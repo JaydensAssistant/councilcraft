@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.At;
  * PT43. The one place a banner reaches a Small Ships 2.0.1 ship: {@code Ship.setData}. A Supplementaries flag
  * written to the BANNER or SAIL_BANNER slot is stored as the marked vanilla banner (same colour, same patterns), so
  * every Small Ships path that sets a banner (right-click, Dockyard, the Dockyard preview, loading saved data)
- * ends up with a banner it can render. Anything else is written unchanged. Pinned to Small Ships 2.0.1 and
+ * ends up with a banner it can render. PT53: a ship holds ONE banner, so any non-empty stack written to those slots
+ * (flag or vanilla banner) is stored with count 1 (Small Ships copies the whole held stack); an empty stack stays
+ * empty, and a ship saved with a bigger count is corrected as it loads. Other data is written unchanged. Pinned to Small Ships 2.0.1 and
  * Supplementaries 1.20-3.1.44.
  */
 @Mixin(value = Ship.class, remap = false)

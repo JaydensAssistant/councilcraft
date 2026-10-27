@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
  * Gate: only a vanilla BannerItem passes, so the held stack is shown to the check as its banner form when it is a
  * Supplementaries flag; the real flag is what gets copied onto the ship (and converted by
  * {@link ShipFlagBannerMixin}). Return: the banner already on the ship is dropped when it is replaced; a marked
- * banner is turned back into the identical flag first. Pinned to Small Ships 2.0.1 and Supplementaries 1.20-3.1.44.
+ * banner is turned back into the identical flag first, and exactly one is dropped (PT53). Pinned to Small Ships 2.0.1 and Supplementaries 1.20-3.1.44.
  */
 @Mixin(value = Bannerable.class, remap = false)
 public interface BannerableFlagMixin {
