@@ -2389,3 +2389,12 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 
 ## NOTE 2026-10-27 ~2:50 PM EDT — Supplementaries pancake AppleSkin tooltip: no change
 - Jayden dropped it; the pancake is not a food item. No code.
+
+## PT76 implementation note (not a new lock) — 2026-10-27 ~2:55 PM EDT
+- Note 1: IPN locked slots (lockSlots.txt) cannot replace the mixin. They only key vanilla PlayerInventory indices. Inventorio's DeepPocketsSlot and ToolBeltSlot live on PlayerInventoryAddon, and container-side sorts never check locks.
+- Note 2: the planned mixin target AreaTypes$disabled$1 only affects the player-side sort. The container-style sort path that InventorioScreen may take skips the disabled check, and ignoreCraftingGrid is read only inside that check. Re-plan before the build: likely AreaTypes.fillSlots or AreaTypes$sortableItemStorage$1 / AreaTypes$itemStorage$1, so the belts (and the 2x2 grid) are dropped from the container area itself.
+- Unverified: which sort path IPN takes on InventorioScreen.
+
+## PT83 slot-range check (not a new lock) — 2026-10-27 ~2:55 PM EDT — ranges confirmed, no correction
+- Checked against the Inventorio 1.10.4 source (InventorioScreenHandler, GeneralConstants; expandBy(start, n) = start until start+n). Slot order: 0 crafting result, 1–4 the 2x2 grid (craftingGridRange 0–4 includes the result), 5–8 armor, 9–44 main inventory (36–44 hotbar), 45–71 Deep Pockets (deepPocketsRange, 27 slots), 72–79 utility belt (utilityBeltRange), 80 onward tool belt (toolBeltRange, one slot per tool-belt template). PT83's "Deep Pockets 45–71, grid 1–4" is correct.
+- Build notes for the PT83 mixin: the utility belt slots are ALSO DeepPocketsSlot instances (same class as Deep Pockets), so filter by index range, not by slot class. Only getAvailableDeepPocketsRange() (45 up to 45 + rows × 9 − 1, by Deep Pockets level) holds usable slots; target that, not the full 45–71. When allow2x2CraftingGrid is off, slots 0–4 are BlockedSlot.
