@@ -2157,3 +2157,13 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 ## PT61 — OPEN 2026-10-27 ~12:55 PM EDT, NOT LOCKED, NOT BUILT, ON HOLD per Jayden ("hold off for now") — adult-player feeding (relates to PM24a, PPM34, PT21)
 - Idea (open): let a player feed an adult (non-Reborn) player. Hunger and food effects only (no Growth Spurt), triggered by sneak + right-click.
 - Status: on hold per Jayden. Not approved, not for 0.4.22, no code. Do not build until Jayden locks it.
+
+## PT62 — LOCKED 2026-10-27 ~12:57 PM EDT by Jayden ("Lock 13 btw"), NOT BUILT, locked for 0.4.22 — first-person feeding pose works with Punchy 2.8g (amends PT21; relates to PT17)
+- Problem: Punchy 2.8g takes over first-person hand rendering, and its ConsumeStateMachine.isConsumeStack reads ItemStack.getUseAction() (EAT or DRINK). So our FeedFirstPersonMixin (a redirect in vanilla HeldItemRenderer) is bypassed and the feeder's first-person hand does not show the feeding pose.
+- Fix: a client-only mixin on ItemStack.getUseAction that returns BLOCK when ALL of these hold: the local player is in RebornFeedingClient CLIENT_FEEDERS, the player is using an item, and the stack is the player's active item. Mixin ItemStack.getUseAction, NOT Item.getUseAction, so isBlocking is unaffected. FeedPoseMixin stays for the third-person pose. No new animation assets.
+- Fallback (only if the ItemStack mixin does not work): a pinned Punchy mixin that returns false from ConsumeStateMachine.isConsumeStack while the local player is feeding, gated and version-pinned the same way as PT17 (applied only with Punchy 2.8g, skipped with a warning on any other version).
+- Test: a unit test that getUseAction returns BLOCK only when all three conditions hold (otherwise the stack's own action, EAT or DRINK, is unchanged), and that a player who is not feeding is unaffected.
+- In-game check (Jayden): feed a Reborn player in first person: the hand shows the feeding pose, not the eat or drink animation. Eating and drinking normally still show Punchy's animation.
+
+## NOTE 2026-10-27 ~12:57 PM EDT — adult-player feeding is on hold (not a lock)
+- Adult-player feeding (hunger and food effects only, no Growth Spurt, triggered by sneak + right-click) is ON HOLD per Jayden 2026-10-27. It is recorded as open in PT61. It is not approved, not for 0.4.22, and has no code. Do not build until Jayden locks it.
