@@ -2204,3 +2204,18 @@ Append-only. This marks PT51, PT52 and PT53 BUILT in 0.4.21. Verification for th
 ## NOTE 2026-10-27 ~1:36 PM EDT — C2ME / Noisiumed dropped for now (not a lock)
 - C2ME and Noisiumed are DROPPED for now per Jayden 2026-10-27 ("drop c2me for now"). Not for 0.4.22, no code.
 - Correction to the earlier conflict concern: Immersive Portals 5.2.0's fabric.mod.json does NOT list C2ME in breaks or conflicts. The old Immersive Portals issue #1036, "Incompatible with c2me", is closed. The remaining concern is that C2ME for 1.20.1 is alpha.
+
+## PT67 — LOCKED 2026-10-27 ~1:36 PM EDT by Jayden ("Just do the compass, no additions"), NOT BUILT, for 0.4.22 — Forgotten Graves Death Compass on
+- Change: in Forgotten Graves 3.2.26, set giveDeathCompass to true in pack/config/forgottengraves.json (it is false today). NO additions: no HUD, no recipe guard, no other Forgotten Graves setting changes.
+- How it works (from the mod): the Death Compass is a real minecraft:compass with GraveMarker and LodestonePos NBT that points at the latest grave. One is given per death when a grave is created, and it is removed on retrieval (RetrieveGrave calls DeathCompass.removeCompassFromInventory).
+- Crafting and farming: it is usable as a crafting compass. Jayden asked whether that makes a compass farm. Judged negligible: a compass costs 4 iron + 1 redstone, and each Death Compass costs a death. No recipe guard.
+- Test: a config test that giveDeathCompass is true and the file is otherwise unchanged.
+- In-game check (Jayden): die, respawn holding a Death Compass that points at the grave. Retrieving the grave removes the compass. Repeat across an Immersive Portals dimension change.
+
+## PT68 — LOCKED 2026-10-27 ~1:36 PM EDT by Jayden ("set the high DH preset to 512 chunk render, medium to 256, and low to 128"), NOT BUILT, for 0.4.22 — Distant Horizons graphics preset radii: High 512, Medium 256, Low 128 (supersedes the earlier preset radii)
+- Change: in GraphicsPreset.java the DH chunk radius (lodChunkRenderDistanceRadius, applied by DhPresetApplier) becomes HIGH 256 -> 512, MEDIUM 186 -> 256, LOW stays 128. DH quality levels are unchanged (High preset DH Medium per PT11, Medium preset DH Medium, Low preset DH Low).
+- Also update: the GraphicsPreset Javadoc, the Release0415RulesTest assertions, and the first-launch default lodChunkRenderDistanceRadius in pack/config/DistantHorizons.toml so it matches the first-run Medium preset. That file already reads 256, so it needs no change unless it differs at build time.
+- Supersedes these earlier preset radii, which stay as written above (append-only): S263 (~line 848, "Distant Horizons ~512" intent for High), the Medium line at ~1171 ("DH render distance 186"), PPM61 at ~1194 (DH 186 / MEDIUM), and PT11 at ~1518 (High, "DH render distance 256").
+- Limits: DH 3.3.3 allows a maximum of 4096. The server's maxSyncOnLoadRequestDistance and maxGenerationRequestDistance of 640 cover 512. High is a strong-PC preset.
+- Test: update the Release0415RulesTest assertions to 512 / 256 / 128 and check the Javadoc and DhPresetApplier use the same values.
+- In-game check (Jayden): pick each preset in the graphics picker and confirm DH's render distance is 512 (High), 256 (Medium) and 128 (Low).
