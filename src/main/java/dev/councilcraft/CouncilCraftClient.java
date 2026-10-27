@@ -20,7 +20,7 @@ public final class CouncilCraftClient implements ClientModInitializer {
         dev.councilcraft.print.CopyCostTooltip.register();
         // PT49. Printed copies show only "Printed Copy", no generation line.
         dev.councilcraft.print.PrintedTooltipFilter.register();
-        // PT36. CMYK Ink: its own still/flowing CMYK-band textures, untinted, translucent like water. The bucket has
+        // PT36/PT46. CMYK Ink: its own still/flowing CMYK-band textures, untinted, flat and fully opaque (solid layer). The bucket has
         // its own CMYK texture (no tint).
         net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry.INSTANCE.register(
             dev.councilcraft.print.ProcessInk.STILL,
@@ -30,7 +30,7 @@ public final class CouncilCraftClient implements ClientModInitializer {
                 new net.minecraft.util.Identifier("councilcraft", "block/process_ink_flow"))
         );
         net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap.INSTANCE.putFluids(
-            net.minecraft.client.render.RenderLayer.getTranslucent(),
+            net.minecraft.client.render.RenderLayer.getSolid(),
             dev.councilcraft.print.ProcessInk.STILL, dev.councilcraft.print.ProcessInk.FLOWING);
         // PPPM3. Zebras render horse armor.
         dev.councilcraft.compat.client.ZebraArmorFeatureRenderer.register();
