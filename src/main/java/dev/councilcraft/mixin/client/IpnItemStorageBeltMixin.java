@@ -1,27 +1,33 @@
 package dev.councilcraft.mixin.client;
 
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.councilcraft.compat.InventorioBeltSlots;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * PT76 / PT85. After AreaTypes.fillSlots builds the container-area index list (every slot whose
+ * PT76 / PT85 / PT88. After AreaTypes.fillSlots builds the container-area index list (every slot whose
  * inventory is not PlayerInventory), drop Inventorio tool/utility belt and crafting indices so
- * container-style sort never touches them. Targets fillSlots at RETURN (not the itemStorage nested class loaded during AreaTypes clinit),
- * because a mid-clinit mixin on that nested class caused NoClassDefFoundError on every IPN button
- * under IPN 1.10.20.
+ * container-style sort never touches them.
+ *
+ * <p>PT85 targeted fillSlots at RETURN, but IPN 1.10.20's compiled fillSlots reuses parameter slots
+ * (local 1 becomes an int, local 2 an Iterator), so a RETURN injector that reloads args from locals
+ * 1–3 fails verification with "Bad local variable type". PT88 replaces that with MixinExtras
+ * {@code @WrapMethod}: the wrapper receives the original Java args, calls {@code original.call}, then
+ * filters {@code out}. Targets fillSlots (not the itemStorage nested class loaded during AreaTypes
+ * clinit), because a mid-clinit mixin on that nested class caused NoClassDefFoundError on every IPN
+ * button under IPN 1.10.20.
  */
 @Pseudo
 @Mixin(targets = "org.anti_ad.mc.ipnext.inventory.AreaTypes", remap = false)
 public class IpnItemStorageBeltMixin {
-    @Inject(method = "fillSlots", at = @At("RETURN"), remap = false, require = 0)
-    private void councilcraft$filterBelts(Set<?> types, List<?> slots, List<?> out, CallbackInfo ci) {
+    @WrapMethod(method = "fillSlots", remap = false, require = 0)
+    private void councilcraft$filterBelts(Set<?> types, List<?> slots, List<?> out, Operation<Void> original) {
+        original.call(types, slots, out);
         if (slots == null || out == null || out.isEmpty()) {
             return;
         }
