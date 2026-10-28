@@ -35,4 +35,3 @@ libIPN by mirinimi / blackd (AGPL-3.0-or-later): https://modrinth.com/mod/libipn
 Mouse Tweaks by YaLTeR (BSD-3-Clause): https://modrinth.com/mod/mouse-tweaks
 InvMove by NotRyken (LGPL-3.0-only): https://modrinth.com/mod/invmove
 InvMoveCompats by NotRyken (LGPL-3.0-only): https://modrinth.com/mod/invmovecompats
-Concurrent Chunk Management Engine (C2ME) by DreamingCodes / ishland (MIT), downloaded from Modrinth on install: https://modrinth.com/mod/c2me-fabric

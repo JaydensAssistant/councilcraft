@@ -261,11 +261,14 @@ class Release0422RulesTest {
         assertTrue(ff.contains("\"maulerSavannaSpawnWeight\": 8"));
     }
 
-    // PT79 -------------------------------------------------------------------------------------------------------
+    // PT79 (reversed by PT91 in 0.4.26) --------------------------------------------------------------------------
 
     @Test
-    void c2meIsInThePack() {
-        assertTrue(exists("pack/mods/c2me.pw.toml"));
+    void c2meIsNotInThePack() throws IOException {
+        // PT91 removes C2ME (portals stuck loading with it; no pregen benefit on Jayden's setup).
+        assertFalse(exists("pack/mods/c2me.pw.toml"));
+        assertFalse(read("pack/index.toml").toLowerCase().contains("c2me"));
+        assertFalse(read("pack/credits.txt").toLowerCase().contains("c2me"));
     }
 
     // PT80 + amendments ------------------------------------------------------------------------------------------

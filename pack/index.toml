@@ -258,7 +258,7 @@ hash = "2d56d1470cc28cb17718dcef86b01e3f5ee382df700a3c63a76c2f1d4928670a"
 
 [[files]]
 file = "credits.txt"
-hash = "56fde87229720dfba795b8a72d72209d695e5f24ed8a7727a638990db97cab5a"
+hash = "96dcb1f4bf72c09bdb3ff6b583d40444db4a53a0ee53157b0f4d81853d7ca378"
 
 [[files]]
 file = "kubejs/assets/ambientsounds/basic/regions/grass.json"
@@ -454,11 +454,6 @@ metafile = true
 [[files]]
 file = "mods/borderless-mining.pw.toml"
 hash = "b7ad39c3b4094f76d4e31899c662a0295c851a89819fce7f47afbab5257b39d7"
-metafile = true
-
-[[files]]
-file = "mods/c2me.pw.toml"
-hash = "6cd9897e7bedb0f1d53ff765f4af6672703bcbc567742bd8cdc38c9f7734fe0b"
 metafile = true
 
 [[files]]

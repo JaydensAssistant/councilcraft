@@ -19,9 +19,9 @@ class Release0425RulesTest {
     }
 
     @Test
-    void versionIs0425() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.25"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.25\""));
+    void versionIs0425OrLater() throws IOException {
+        assertTrue(read("gradle.properties").matches("(?s).*mod_version=0\\.4\\.(2[5-9]|[3-9]\\d).*"));
+        assertTrue(read("pack/pack.toml").matches("(?s).*version = \"0\\.4\\.(2[5-9]|[3-9]\\d)\".*"));
     }
 
     // PT90 -------------------------------------------------------------------------------------------------------
