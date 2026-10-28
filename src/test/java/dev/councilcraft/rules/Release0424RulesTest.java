@@ -8,7 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 
-/** 0.4.24: unit-testable locks PT87–PT88 without a world. */
+/** 0.4.24: unit-testable locks PT87–PT89 without a world. */
 class Release0424RulesTest {
     private static String read(String p) throws IOException {
         return Files.readString(Path.of(p));
@@ -58,5 +58,27 @@ class Release0424RulesTest {
         assertTrue(plugin.contains("IpnItemStorageBeltMixin"));
         assertTrue(plugin.contains("IpnDisabledBeltMixin"));
         assertTrue(plugin.contains("\"1.10.20\""));
+    }
+
+    // PT89 -------------------------------------------------------------------------------------------------------
+
+    @Test
+    void inventorioMoveToPlayerIsHidden() throws IOException {
+        String hints = read(
+            "pack/config/yosbr/config/inventoryprofilesnext/integrationHints/councilcraft.json");
+        assertTrue(hints.contains("de.rubixdev.inventorio.client.ui.InventorioScreen"));
+        assertTrue(hints.contains("MOVE_TO_PLAYER"));
+        assertTrue(hints.contains("MOVE_TO_CONTAINER"));
+        // Both move buttons hidden; SORT offset kept.
+        assertTrue(hints.contains("\"hide\": true") || hints.contains("\"hide\":true"));
+        assertTrue(hints.contains("\"horizontalOffset\": 10") || hints.contains("\"horizontalOffset\":10"));
+        assertTrue(hints.contains("\"bottom\": 2") || hints.contains("\"bottom\":2"));
+        assertTrue(hints.contains("SORT"));
+        // Existing honor-hide mixin already covers moveAllToPlayer — no new mixin.
+        String mixin = read("src/main/java/dev/councilcraft/mixin/client/IpnHonorHideMixin.java");
+        assertTrue(mixin.contains("moveAllToPlayer"));
+        assertTrue(mixin.contains("moveAllToContainer"));
+        assertTrue(mixin.contains("getHide"));
+        assertTrue(mixin.contains("setVisible"));
     }
 }
