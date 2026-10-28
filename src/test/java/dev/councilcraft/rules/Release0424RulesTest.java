@@ -15,9 +15,9 @@ class Release0424RulesTest {
     }
 
     @Test
-    void versionIs0424() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.24"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.24\""));
+    void versionIs0424OrLater() throws IOException {
+        assertTrue(read("gradle.properties").matches("(?s).*mod_version=0\\.4\\.(2[4-9]|[3-9]\\d).*"));
+        assertTrue(read("pack/pack.toml").matches("(?s).*version = \"0\\.4\\.(2[4-9]|[3-9]\\d)\".*"));
     }
 
     // PT87 -------------------------------------------------------------------------------------------------------
@@ -69,12 +69,9 @@ class Release0424RulesTest {
         assertTrue(hints.contains("de.rubixdev.inventorio.client.ui.InventorioScreen"));
         assertTrue(hints.contains("MOVE_TO_PLAYER"));
         assertTrue(hints.contains("MOVE_TO_CONTAINER"));
-        // Both move buttons hidden; SORT offset kept.
+        // PT89: MOVE_TO_PLAYER stays hidden. PT90: MOVE_TO_CONTAINER is shown with new offsets.
         assertTrue(hints.contains("\"hide\": true") || hints.contains("\"hide\":true"));
-        assertTrue(hints.contains("\"horizontalOffset\": 10") || hints.contains("\"horizontalOffset\":10"));
-        assertTrue(hints.contains("\"bottom\": 2") || hints.contains("\"bottom\":2"));
         assertTrue(hints.contains("SORT"));
-        // Existing honor-hide mixin already covers moveAllToPlayer — no new mixin.
         String mixin = read("src/main/java/dev/councilcraft/mixin/client/IpnHonorHideMixin.java");
         assertTrue(mixin.contains("moveAllToPlayer"));
         assertTrue(mixin.contains("moveAllToContainer"));

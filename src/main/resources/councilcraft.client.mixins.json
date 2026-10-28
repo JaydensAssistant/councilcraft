@@ -30,6 +30,7 @@
     "IpDimensionChangeFadeMixin",
     "IpnDisabledBeltMixin",
     "IpnHonorHideMixin",
+    "IpnInventorioMovePlacementMixin",
     "IpnItemStorageBeltMixin",
     "IrisDhPortalDepthMixin",
     "IrisPortalFadeUniformMixin",

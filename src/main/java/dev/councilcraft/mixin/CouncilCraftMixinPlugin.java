@@ -85,6 +85,7 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.IpnDisabledBeltMixin", "inventoryprofilesnext", "inventorio"},
         {"dev.councilcraft.mixin.client.IpnItemStorageBeltMixin", "inventoryprofilesnext", "inventorio"},
         {"dev.councilcraft.mixin.client.IpnHonorHideMixin", "inventoryprofilesnext"},
+        {"dev.councilcraft.mixin.client.IpnInventorioMovePlacementMixin", "inventoryprofilesnext", "inventorio"},
         {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "inventorio"},
         {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships"}
     };
@@ -159,6 +160,11 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         // PT86. InitWidgets honors ButtonPositionHint.hide for move-all.
         {"dev.councilcraft.mixin.client.IpnHonorHideMixin", "inventoryprofilesnext", "1.10.20",
             "IPN honors hide for move-all buttons (PT86); Inventorio may show orphan move-matching"},
+        // PT90. InitWidgets.reHint pins MOVE_TO_CONTAINER beside Sort on InventorioScreen.
+        {"dev.councilcraft.mixin.client.IpnInventorioMovePlacementMixin", "inventoryprofilesnext", "1.10.20",
+            "IPN Inventorio Sort+Move side by side (PT90); Move Matching may drift over Deep Pockets"},
+        {"dev.councilcraft.mixin.client.IpnInventorioMovePlacementMixin", "inventorio", "1.10.4",
+            "IPN Inventorio Sort+Move side by side (PT90); Move Matching may drift over Deep Pockets"},
         // PT83. Mouse Tweaks findPushSlots / findPullSlot Deep Pockets filter.
         {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "2.26",
             "Mouse Tweaks Deep Pockets scroll (PT83); scroll may miss Deep Pockets"},

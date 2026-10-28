@@ -5,11 +5,12 @@
   "de.rubixdev.inventorio.client.ui.InventorioScreen": {
     "buttonHints": {
       "SORT": {
-        "horizontalOffset": 10
+        "horizontalOffset": 22,
+        "top": 66
       },
       "MOVE_TO_CONTAINER": {
-        "bottom": 2,
-        "hide": true
+        "horizontalOffset": 22,
+        "bottom": 0
       },
       "MOVE_TO_PLAYER": {
         "hide": true

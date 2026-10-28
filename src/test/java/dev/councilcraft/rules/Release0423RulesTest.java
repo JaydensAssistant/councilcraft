@@ -66,14 +66,13 @@ class Release0423RulesTest {
     // PT86 -------------------------------------------------------------------------------------------------------
 
     @Test
-    void inventorioMoveToContainerIsHiddenAndMixinHonorsHide() throws IOException {
+    void inventorioHonorHideMixinStillPresentAndGlobalMoveAllOn() throws IOException {
+        // PT86 mixin kept; PT90 un-hides MOVE_TO_CONTAINER on Inventorio (MOVE_TO_PLAYER stays hidden).
         String hints = read(
             "pack/config/yosbr/config/inventoryprofilesnext/integrationHints/councilcraft.json");
         assertTrue(hints.contains("de.rubixdev.inventorio.client.ui.InventorioScreen"));
         assertTrue(hints.contains("MOVE_TO_CONTAINER"));
-        assertTrue(hints.contains("\"hide\": true") || hints.contains("\"hide\":true"));
-        // Offsets kept.
-        assertTrue(hints.contains("\"bottom\": 2") || hints.contains("\"bottom\":2"));
+        assertTrue(hints.contains("MOVE_TO_PLAYER"));
         assertTrue(hints.contains("SORT"));
         String mixin = read("src/main/java/dev/councilcraft/mixin/client/IpnHonorHideMixin.java");
         assertTrue(mixin.contains("SortingButtonCollectionWidget$InitWidgets"));
