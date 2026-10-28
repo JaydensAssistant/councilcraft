@@ -6,7 +6,9 @@ compounds {name, ip}. client-overrides/ is installed on clients only (mrpack for
 The file is written here rather than kept in pack/ because packwiz exports pack/ files to overrides/ (both sides).
 Every pack update replaces the player's list with this one entry (accepted in the SPEC).
 
-Usage: servers_dat.py PACK.mrpack [...]   (rewrites each pack in place; idempotent)
+Usage:
+  servers_dat.py PACK.mrpack [...]            rewrite each pack in place (idempotent)
+  servers_dat.py --verify PACK.mrpack [...]   exit 0 iff each pack has the expected entry; else exit 1
 """
 import os
 import struct
@@ -45,8 +47,34 @@ def add(path, data):
     os.replace(tmp, path)
 
 
+def verify(path, data):
+    with zipfile.ZipFile(path) as z:
+        try:
+            actual = z.read(ENTRY)
+        except KeyError:
+            print(f"{path}: missing {ENTRY}", file=sys.stderr)
+            return False
+    if actual != data:
+        print(f"{path}: {ENTRY} content mismatch ({len(actual)} bytes, expected {len(data)})", file=sys.stderr)
+        return False
+    print(f"{path}: OK {ENTRY} ({NAME} / {ADDRESS})")
+    return True
+
+
 if __name__ == "__main__":
+    args = sys.argv[1:]
+    if not args:
+        print(__doc__.strip(), file=sys.stderr)
+        sys.exit(2)
+    do_verify = args[0] == "--verify"
+    paths = args[1:] if do_verify else args
+    if not paths:
+        print(__doc__.strip(), file=sys.stderr)
+        sys.exit(2)
     blob = servers_dat([(NAME, ADDRESS)])
-    for p in sys.argv[1:]:
+    if do_verify:
+        ok = all(verify(p, blob) for p in paths)
+        sys.exit(0 if ok else 1)
+    for p in paths:
         add(p, blob)
         print(p, "+", ENTRY, len(blob), "bytes")
