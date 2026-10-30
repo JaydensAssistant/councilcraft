@@ -21,3 +21,9 @@ start). Set port= to the host's voice chat allocation once; pack updates no long
 
 Immersive Portals (PT2): config/immersive_portals.json ships as a direct override for both sides (no yosbr copy, no
 server-only copy).
+
+Pre-launch lobby (CC-78/CC-79, 2026-10-30): world/datapacks/cc_lobby/ is the source of the live server's
+world/datapacks/cc_lobby.zip (zip this folder's contents with pack.mcmeta at the zip root). Setup was run once with
+`execute positioned 0 0 0 run function cc_lobby:setup` (Peaceful kept). Launch is the single console command
+`function cc_lobby:launch` (take a panel backup first). Pre-launch players who were offline at launch are put on the
+ground at spawn and reset on their next login. Server-only changes are tagged server-YYYY-MM-DD (CC-80).
