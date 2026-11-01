@@ -29,7 +29,7 @@ import java.util.UUID;
 public abstract class AbstractDrawnNoAutoUnhitchMixin {
     @Unique
     private static final UUID CC_HOLD_BACK_UUID =
-        UUID.fromString("c0a7cba5-142a-4cc4-9f01-councilcraft01");
+        UUID.nameUUIDFromBytes("councilcraft:cc142a_hold_back".getBytes(java.nio.charset.StandardCharsets.UTF_8));
 
     @Inject(method = "shouldRemovePulling", at = @At("HEAD"), cancellable = true, remap = false, require = 0)
     private void councilcraft$noCollisionDetach(CallbackInfoReturnable<Boolean> cir) {

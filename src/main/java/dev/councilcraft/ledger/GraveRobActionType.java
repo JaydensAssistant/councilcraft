@@ -23,6 +23,16 @@ public final class GraveRobActionType extends AbstractActionType {
     }
 
     /**
+     * Ledger 1.3.18 ActionType requires this; AbstractActionType.getObjectMessage
+     * calls it to build translation keys ({@code item.<ns>.<path>}).
+     */
+    @NotNull
+    @Override
+    public String getTranslationType() {
+        return "item";
+    }
+
+    /**
      * Build one action summarizing the loot. Extra data = owner name;
      * source = looter; object = first item id; objectState = total item count.
      */

@@ -234,6 +234,16 @@ tasks.named("compileJava") {
     classpath += sourceSets.stubs.output
 }
 
+tasks.named("compileTestJava") {
+    dependsOn tasks.named("compileStubsJava")
+    classpath += sourceSets.stubs.output
+}
+
+tasks.named("test") {
+    dependsOn tasks.named("compileStubsJava")
+    classpath += sourceSets.stubs.output
+}
+
 tasks.withType(JavaCompile).configureEach {
     // The pack runs Java 17. JDK 21 may run Gradle, but the class files must be 17.
     it.options.release = 17
