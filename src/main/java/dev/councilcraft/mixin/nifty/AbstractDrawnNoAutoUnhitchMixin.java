@@ -23,6 +23,10 @@ import java.util.UUID;
  * CC-142A. Hitched Nifty carts keep collision and never auto-unhitch on
  * distance or collision. A lagging cart slows the puller. Manual unhitch
  * ({@code setPulling(null)} from player action) is unchanged.
+ *
+ * <p>{@code @At(remap = true)} is required for the {@code Entity} parameter in
+ * {@code setPulling} targets so intermediary {@code class_1297} matches at
+ * runtime. Method names stay {@code remap = false} (NiftyCarts own members).
  */
 @Pseudo
 @Mixin(value = AbstractDrawnEntity.class, remap = false)
@@ -31,7 +35,7 @@ public abstract class AbstractDrawnNoAutoUnhitchMixin {
     private static final UUID CC_HOLD_BACK_UUID =
         UUID.nameUUIDFromBytes("councilcraft:cc142a_hold_back".getBytes(java.nio.charset.StandardCharsets.UTF_8));
 
-    @Inject(method = "shouldRemovePulling", at = @At("HEAD"), cancellable = true, remap = false, require = 0)
+    @Inject(method = "shouldRemovePulling", at = @At("HEAD"), cancellable = true, remap = false, require = 1)
     private void councilcraft$noCollisionDetach(CallbackInfoReturnable<Boolean> cir) {
         if (!CartDetachRules.allowCollisionDetach()) {
             cir.setReturnValue(false);
@@ -47,10 +51,10 @@ public abstract class AbstractDrawnNoAutoUnhitchMixin {
         at = @At(
             value = "INVOKE",
             target = "Lnet/jmb19905/niftycarts/entity/AbstractDrawnEntity;setPulling(Lnet/minecraft/entity/Entity;)V",
-            remap = false
+            remap = true
         ),
         remap = false,
-        require = 0
+        require = 1
     )
     private void councilcraft$noDistanceDetach(AbstractDrawnEntity self, Entity entity) {
         if (entity == null) {
@@ -61,17 +65,20 @@ public abstract class AbstractDrawnNoAutoUnhitchMixin {
     }
 
     /**
-     * Also suppress collision-detach unhitch inside shouldStopPulledTick.
+     * Suppress both {@code setPulling(null)} sites in {@code shouldStopPulledTick}
+     * (dead/vehicle early-out and collision detach). Still allow null when the
+     * puller is gone, dead, or mounted.
      */
     @Redirect(
         method = "shouldStopPulledTick",
         at = @At(
             value = "INVOKE",
             target = "Lnet/jmb19905/niftycarts/entity/AbstractDrawnEntity;setPulling(Lnet/minecraft/entity/Entity;)V",
-            remap = false
+            remap = true
         ),
         remap = false,
-        require = 0
+        require = 1,
+        expect = 2
     )
     private void councilcraft$noStopDetach(AbstractDrawnEntity self, Entity entity) {
         if (entity == null) {
@@ -85,7 +92,7 @@ public abstract class AbstractDrawnNoAutoUnhitchMixin {
         self.setPulling(entity);
     }
 
-    @Inject(method = "pulledTick", at = @At("TAIL"), remap = false, require = 0)
+    @Inject(method = "pulledTick", at = @At("TAIL"), remap = false, require = 1)
     private void councilcraft$holdPullerBack(CallbackInfo ci) {
         AbstractDrawnEntity self = (AbstractDrawnEntity) (Object) this;
         Entity pulling = self.getPulling();
