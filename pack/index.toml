@@ -21,6 +21,10 @@ file = "config/bclib/server.json"
 hash = "f20fc7d76f396f38d2339529e64c3f11a6f2a15aeaa560d4e09c5a9f57dacbb3"
 
 [[files]]
+file = "config/bettercombat/server.json5"
+hash = "739282805150a2518a6a18ba0731736c1a73d8efbd44772b53d645c82d996c70"
+
+[[files]]
 file = "config/betterend/enchantments.json"
 hash = "c067d9902d1e1124d1c854dcbe4cd69bd77bc5f520d11cf4be68c2b92e20d869"
 
@@ -74,7 +78,7 @@ hash = "0e1770112c2ccf1335ce2c99464204f293add9c2a45263cc6988466861233887"
 
 [[files]]
 file = "config/horseman-common.toml"
-hash = "4a76f6089898efbbe337abd1e913d6f708e148cb77e7935d84696d61dba086a1"
+hash = "8cdc28ca2c23de4d884170b61e4802a2ea7f865d8611ab82e3bd62b492c636e6"
 
 [[files]]
 file = "config/illagerinvasion-server.toml"
@@ -90,7 +94,7 @@ hash = "ca014144818d5ce9e66a9dcae1cf1414e1002747d9781616148311e682a2649f"
 
 [[files]]
 file = "config/improvedmobs/common.json"
-hash = "838c0e0d7af7e59da38c7851f9e6afb1099acb6da6289aa49d03373e4d327c71"
+hash = "f11f228ac8b7414e1b0ff107a12a028b0eb2977d4508d2367c9225353c52a231"
 
 [[files]]
 file = "config/mod_whitelist-config.json"
@@ -138,7 +142,11 @@ hash = "418a28b875a3e94e9ae33784be9fd6907b242814ebb678d207a06b944fa5d33a"
 
 [[files]]
 file = "config/rpgdifficulty.json"
-hash = "74030cc5fa8ac1e59f065f5cfd6b44b14f43d217342de5a4e3a3d4c37ce7a580"
+hash = "516559a23393dcfb7890caa397ef5fe9246041018a8220abbc24a58af46ce656"
+
+[[files]]
+file = "config/sleepwarp-server.json"
+hash = "44a4aed278bcb7e73b9baf58cad4212b189e68db2c66045243e92e885658767c"
 
 [[files]]
 file = "config/smallships-client.toml"
@@ -166,7 +174,7 @@ hash = "c22e94da6ffd082603ed0204bc5c7482d736494ed4f36353166cfd010060faaf"
 
 [[files]]
 file = "config/vanillabackport-common.toml"
-hash = "4eff02df48ed6d54156104fc84489016285d79b611cb744e33444c7ec67a5cd8"
+hash = "5227828d42251b06622f3b6a9530ee0b6ba64fd41f429083338779f90451b475"
 
 [[files]]
 file = "config/watut-server.toml"
@@ -190,7 +198,7 @@ hash = "b2fefce8b997851759990d1ec0c71d4be631e435857eb7b19516e4806986ac34"
 
 [[files]]
 file = "config/yosbr/config/enhanced_bes.properties"
-hash = "fe464e53b09693cbae398ec9585f056c00fcbe36a65c2b8ddb7b6f5edb5067d0"
+hash = "0da0855d5ba0dace4c5871280cd8e593c0c74e117b121c62d79f01361c96c893"
 
 [[files]]
 file = "config/yosbr/config/entity_model_features.json"
@@ -222,7 +230,7 @@ hash = "9c9423fde3a41183675a737fa0116907dd0f53ce152247fad1aad04ab69ec041"
 
 [[files]]
 file = "config/yosbr/config/inventoryprofilesnext/inventoryprofiles.json"
-hash = "6836681a08fb3642bc398f48347d1426551871efcffd8a7498d14a05ee0d9169"
+hash = "ca13b5fe301026cdddc3ac1ca76bceec9c99f4d4690bc07acc5ec3aec4c01664"
 
 [[files]]
 file = "config/yosbr/config/invmove/unrecognized.json"
@@ -231,6 +239,10 @@ hash = "c02509d310a9ec6d004d5d4dbad2be164d5c9f11a2f581d37807c9e68a860367"
 [[files]]
 file = "config/yosbr/config/iris.properties"
 hash = "173e8a65bfadf40a2e4ad414f9f4a0c3d1000dbe43f8f7255ecdcb7fb50df2b5"
+
+[[files]]
+file = "config/yosbr/config/lambdynlights.toml"
+hash = "a85c448fcb887bd3ca8d5defb0879d3c874919b9ab4669e677b58558c894484f"
 
 [[files]]
 file = "config/yosbr/config/punchy/triggerable-keybindings.json"
@@ -355,6 +367,10 @@ hash = "78bc3d691a3ea272da55e99a12bb8f81a1b814e4c2a5cfa9e429f591f17ace57"
 [[files]]
 file = "kubejs/server_scripts/councilcraft_recipes.js"
 hash = "9314d6480304fbf21d6b7e11053c079604602d7626fcc55918f5d619787c6262"
+
+[[files]]
+file = "kubejs/server_scripts/councilcraft_ru_axe.js"
+hash = "f6838c605fa469364ce33ca0a249c636e48795c6faf8cbe1cfad8e999e60e0f9"
 
 [[files]]
 file = "kubejs/server_scripts/councilcraft_sulfur_cubes.js"
@@ -757,6 +773,11 @@ hash = "e9a8feb043bb0071198f4170d6484f30a6465ed73b2f2083549642e2ce7c4707"
 metafile = true
 
 [[files]]
+file = "mods/invview.pw.toml"
+hash = "b6d72b9204f934ce786ce1a6daf2c77c1dbfa91e31e48fcd0b52856f96e918de"
+metafile = true
+
+[[files]]
 file = "mods/iris.pw.toml"
 hash = "99efc9e805ce2888680d3cacb9be65733c6d4a8cfcb77e1976205f758db24346"
 metafile = true
@@ -1064,6 +1085,11 @@ metafile = true
 [[files]]
 file = "mods/simple-voice-chat.pw.toml"
 hash = "ee81df4f93bccdba87d88395d9082cc8c3c11abd30924163efb99f520aa7a6dd"
+metafile = true
+
+[[files]]
+file = "mods/sleep-warp.pw.toml"
+hash = "5e82bea9bdad60e2a41ed8d16d71bc47978d8d25e3f84e134d05d4b6cb1613ac"
 metafile = true
 
 [[files]]

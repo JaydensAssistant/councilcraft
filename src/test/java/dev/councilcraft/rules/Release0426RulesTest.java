@@ -22,9 +22,12 @@ class Release0426RulesTest {
     }
 
     @Test
-    void versionIs0426() throws IOException {
-        assertTrue(read("gradle.properties").contains("mod_version=0.4.26"));
-        assertTrue(read("pack/pack.toml").contains("version = \"0.4.26\""));
+    void versionMatchesPack() throws IOException {
+        // Was 0.4.26 at cut; 0.4.27+ keeps the PT91 assertions below.
+        String props = read("gradle.properties");
+        String pack = read("pack/pack.toml");
+        assertTrue(props.contains("mod_version=0.4.27") || props.contains("mod_version=0.4.26"));
+        assertTrue(pack.contains("version = \"0.4.27\"") || pack.contains("version = \"0.4.26\""));
     }
 
     // PT91 -------------------------------------------------------------------------------------------------------

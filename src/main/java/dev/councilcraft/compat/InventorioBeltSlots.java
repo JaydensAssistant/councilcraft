@@ -28,10 +28,19 @@ public final class InventorioBeltSlots {
         if (slot instanceof ToolBeltSlot) {
             return true;
         }
-        if (slot instanceof DeepPocketsSlot) {
+        if (slot instanceof DeepPocketsSlot deep) {
             int idx = slot.getIndex();
             IntRange util = GeneralConstants.INVENTORY_ADDON_UTILITY_BELT_RANGE;
-            return idx >= util.getFirst() && idx <= util.getLast();
+            if (idx >= util.getFirst() && idx <= util.getLast()) {
+                return true;
+            }
+            // CC-92: locked Deep Pockets rows are empty disabled slots that IPN
+            // treats as the "container" area on Inventorio's own screen. Drop
+            // them so Sort falls back to the player inventory. Unlocked rows
+            // stay sortable (PT76).
+            if (!deep.isEnabled() || !deep.canTakeItems) {
+                return true;
+            }
         }
         return false;
     }

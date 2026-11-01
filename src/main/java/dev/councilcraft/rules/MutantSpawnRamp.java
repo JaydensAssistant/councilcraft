@@ -3,10 +3,9 @@ package dev.councilcraft.rules;
 import dev.councilcraft.CouncilCraftRules;
 
 /**
- * PM45. Share of natural hostile spawns that are Mutant Monsters, by straight-line distance from 0,0.
- * 0 within 2,500 blocks; then +0.3% for every full 250 blocks past 2,500; capped at 7.5% (reached at
- * 8,750 and kept beyond it). At the starting +-5k border that is 3% at the middle of an edge and 5.4%
- * in the corners.
+ * PM45 / CC-159. Share of natural hostile spawns that are Mutant Monsters, by straight-line distance
+ * from 0,0. 0 within 2,500 blocks; then +0.000012 share per block beyond that, continuous, with no
+ * cap (~3% at 5,000, 7.5% at 8,750, and higher farther out).
  *
  * <p>A spawn attempt picks one entry, then spawns a pack of that entry. The share is of mobs, so the
  * chance to pick the mutant pool is corrected for the mean pack size of each pool.
@@ -17,11 +16,10 @@ public final class MutantSpawnRamp {
 
     public static double share(double x, double z) {
         double distance = Math.sqrt(x * x + z * z);
-        if (distance < CouncilCraftRules.MUTANT_FREE_RADIUS) {
+        if (distance <= CouncilCraftRules.MUTANT_FREE_RADIUS) {
             return 0.0;
         }
-        long steps = (long) Math.floor((distance - CouncilCraftRules.MUTANT_FREE_RADIUS) / CouncilCraftRules.MUTANT_STEP_BLOCKS);
-        return Math.min(CouncilCraftRules.MUTANT_MAX_SHARE, steps * CouncilCraftRules.MUTANT_STEP_SHARE);
+        return (distance - CouncilCraftRules.MUTANT_FREE_RADIUS) * CouncilCraftRules.MUTANT_PER_BLOCK_SHARE;
     }
 
     /**

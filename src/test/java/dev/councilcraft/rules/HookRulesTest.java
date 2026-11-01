@@ -73,9 +73,11 @@ class HookRulesTest {
 
     @Test
     void handshakeRequiresTheSameVersion() {
-        assertTrue(HandshakeRule.versionsMatch("0.1.0", "0.1.0"));
-        assertFalse(HandshakeRule.versionsMatch("0.1.0", "0.2.0"));
-        assertFalse(HandshakeRule.versionsMatch("0.1.0", null));
+        // CC-125: server accepts listed client versions (0.4.26 + 0.4.27), not exact match.
+        assertTrue(HandshakeRule.versionsMatch("0.4.27", "0.4.26"));
+        assertTrue(HandshakeRule.versionsMatch("0.4.27", "0.4.27"));
+        assertFalse(HandshakeRule.versionsMatch("0.4.27", "0.4.25"));
+        assertFalse(HandshakeRule.versionsMatch("0.4.27", null));
         assertFalse(HandshakeRule.versionsMatch(null, "0.1.0"));
         assertEquals(
             "This server requires the CouncilCraft mod. Install the CouncilCraft modpack.",

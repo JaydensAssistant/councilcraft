@@ -1,0 +1,13 @@
+name = "SleepWarp"
+filename = "sleepwarp-2.2.0_rc1+1.20.1.jar"
+side = "server"
+
+[download]
+url = "https://cdn.modrinth.com/data/OPvzuqtZ/versions/l4cnghUz/sleepwarp-2.2.0_rc1%2B1.20.1.jar"
+hash-format = "sha512"
+hash = "c9a007396eedd617b0d72d982ab0bfffaa75692a3b48fb34efe8afe5e157468ed43a68e0e29d242fcb26f47f8713595e52b449ca5450251d71938a54edcb1b40"
+
+[update]
+[update.modrinth]
+mod-id = "OPvzuqtZ"
+version = "l4cnghUz"

@@ -103,6 +103,18 @@ public final class RebornStatusEffect extends StatusEffect {
         // PM24: size, speed, strength and HP stay nerfed; jump apex and step height stay vanilla.
         set(ScaleTypes.JUMP_HEIGHT.getScaleData(player), RebornJump.jumpScale(scale));
         set(ScaleTypes.STEP_HEIGHT.getScaleData(player), RebornJump.stepScale(scale));
+        // CC-139: Pehkui REACH scales both attack and block reach with BASE. Better Combat reads
+        // attack range through it, so set REACH to 1/size to keep adult attack range while BASE
+        // stays small. Block reach is unchanged for a Reborn player (vanilla uses a separate path).
+        set(ScaleTypes.REACH.getScaleData(player), reachScale(scale));
+    }
+
+    /** CC-139. REACH multiplier that restores full attack range at this BASE scale. */
+    public static float reachScale(float baseScale) {
+        if (!(baseScale > 0f)) {
+            return 1f;
+        }
+        return 1f / baseScale;
     }
 
     private static void set(virtuoel.pehkui.api.ScaleData data, float scale) {

@@ -13,17 +13,19 @@ class PostMvpRulesTest {
 
     @Test
     void mutantShareFollowsTheLockedRamp() {
+        // CC-159: continuous uncapped ramp, 0.0012% per block past 2,500.
         assertEquals(0.0, MutantSpawnRamp.share(0, 0), EPS);
         assertEquals(0.0, MutantSpawnRamp.share(2499, 0), EPS);
         assertEquals(0.0, MutantSpawnRamp.share(2500, 0), EPS);
-        assertEquals(0.0, MutantSpawnRamp.share(2749, 0), EPS);
+        assertEquals(0.002988, MutantSpawnRamp.share(2749, 0), EPS);
         assertEquals(0.003, MutantSpawnRamp.share(2750, 0), EPS);
         assertEquals(0.03, MutantSpawnRamp.share(5000, 0), EPS);
-        assertEquals(0.054, MutantSpawnRamp.share(5000, 5000), EPS);
-        assertEquals(0.072, MutantSpawnRamp.share(0, -8749), EPS);
+        assertEquals(0.0548528137423857, MutantSpawnRamp.share(5000, 5000), EPS); // continuous hypot
+        assertEquals(0.074988, MutantSpawnRamp.share(0, -8749), EPS);
         assertEquals(0.075, MutantSpawnRamp.share(8750, 0), EPS);
-        assertEquals(0.075, MutantSpawnRamp.share(8750, 8750), EPS);
-        assertEquals(0.075, MutantSpawnRamp.share(-100000, 3), EPS);
+        // No cap beyond 8,750.
+        assertTrue(MutantSpawnRamp.share(8750, 8750) > 0.075);
+        assertTrue(MutantSpawnRamp.share(-100000, 3) > 0.075);
     }
 
     @Test

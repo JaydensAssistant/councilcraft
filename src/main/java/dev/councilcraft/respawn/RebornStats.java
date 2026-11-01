@@ -6,7 +6,7 @@ import dev.councilcraft.CouncilCraftRules;
  * S80 / S258. The numbers for one moment of a reborn penalty.
  * {@code activeMinutes} is credited play time, not wall time.
  * Size, speed, strength and hunger read {@link RebornProgress#fraction}.
- * Max health does not: it steps by one hit point every 45 minutes.
+ * Max health does not: it steps by one hit point every REBORN_HEART_MINUTES.
  */
 public final class RebornStats {
     public final float scale;
@@ -19,6 +19,8 @@ public final class RebornStats {
     /** Exhaustion multiplier. 1.5 at rebirth, 1 when recovery is finished. */
     public final float hunger;
     public final float progress;
+    /** Credited active-play minutes for tooltip remaining-time (CC-128). */
+    public final long activeMinutes;
 
     private RebornStats(
         float scale,
@@ -27,7 +29,8 @@ public final class RebornStats {
         float speed,
         float melee,
         float hunger,
-        float progress
+        float progress,
+        long activeMinutes
     ) {
         this.scale = scale;
         this.hearts = hearts;
@@ -36,6 +39,7 @@ public final class RebornStats {
         this.melee = melee;
         this.hunger = hunger;
         this.progress = progress;
+        this.activeMinutes = activeMinutes;
     }
 
     public static RebornStats at(long activeMinutes) {
@@ -48,11 +52,12 @@ public final class RebornStats {
             CouncilCraftRules.REBORN_SPEED + (1f - CouncilCraftRules.REBORN_SPEED) * progress,
             CouncilCraftRules.REBORN_MELEE + (1f - CouncilCraftRules.REBORN_MELEE) * progress,
             CouncilCraftRules.REBORN_HUNGER + (1f - CouncilCraftRules.REBORN_HUNGER) * progress,
-            progress
+            progress,
+            Math.max(0L, activeMinutes)
         );
     }
 
-    /** 12 HP plus one point per 45 credited minutes, capped at 20. */
+    /** 12 HP plus one point per REBORN_HEART_MINUTES, capped at 20. */
     public static int hitPoints(long activeMinutes) {
         long minutes = Math.max(0L, activeMinutes);
         int gained = (int) Math.min(

@@ -39,28 +39,29 @@ class RespawnRulesTest {
     }
 
     @Test
-    void heartsStepByOnePointEveryFortyFiveMinutes() {
-        assertEquals(45, CouncilCraftRules.REBORN_HEART_MINUTES);
+    void heartsStepByOnePointEveryFifteenMinutes() {
+        // CC-113: 2h active → +1 HP every 15 credited minutes (12→20).
+        assertEquals(15, CouncilCraftRules.REBORN_HEART_MINUTES);
         assertEquals(12, RebornStats.hitPoints(0L));
-        assertEquals(12, RebornStats.at(44L).hitPoints);
-        assertEquals(13, RebornStats.at(45L).hitPoints);
-        assertEquals(13, RebornStats.at(89L).hitPoints);
-        assertEquals(14, RebornStats.at(90L).hitPoints);
-        assertEquals(16, RebornStats.at(180L).hitPoints);
-        assertEquals(18, RebornStats.at(270L).hitPoints);
-        assertEquals(20, RebornStats.at(360L).hitPoints);
-        assertEquals(20, RebornStats.at(400L).hitPoints);
+        assertEquals(12, RebornStats.at(14L).hitPoints);
+        assertEquals(13, RebornStats.at(15L).hitPoints);
+        assertEquals(13, RebornStats.at(29L).hitPoints);
+        assertEquals(14, RebornStats.at(30L).hitPoints);
+        assertEquals(16, RebornStats.at(60L).hitPoints);
+        assertEquals(18, RebornStats.at(90L).hitPoints);
+        assertEquals(20, RebornStats.at(120L).hitPoints);
+        assertEquals(20, RebornStats.at(200L).hitPoints);
         assertEquals(6f, RebornStats.at(0L).hearts, 0.0001f);
-        assertEquals(6.5f, RebornStats.at(45L).hearts, 0.0001f);
-        assertEquals(7f, RebornStats.at(90L).hearts, 0.0001f);
-        assertEquals(60, RebornText.hpPercent(RebornStats.at(44L).hitPoints));
-        assertEquals(65, RebornText.hpPercent(RebornStats.at(45L).hitPoints));
-        assertEquals(80, RebornText.hpPercent(RebornStats.at(180L).hitPoints));
+        assertEquals(6.5f, RebornStats.at(15L).hearts, 0.0001f);
+        assertEquals(7f, RebornStats.at(30L).hearts, 0.0001f);
+        assertEquals(60, RebornText.hpPercent(RebornStats.at(14L).hitPoints));
+        assertEquals(65, RebornText.hpPercent(RebornStats.at(15L).hitPoints));
+        assertEquals(80, RebornText.hpPercent(RebornStats.at(60L).hitPoints));
         // Size has moved. The stepped HP percent has not.
-        int[] atFortyFour = RebornText.nowPercents(RebornStats.at(44L));
-        assertEquals(65, atFortyFour[0]);
-        assertEquals(60, atFortyFour[3]);
-        assertEquals(1.4375f, RebornStats.at(45L).hunger, 0.0001f);
+        int[] atFourteen = RebornText.nowPercents(RebornStats.at(14L));
+        assertEquals(65, atFourteen[0]); // ~14/120 of the 0.6→1.0 size curve rounds to 65
+        assertEquals(60, atFourteen[3]);
+        assertEquals(1.4375f, RebornStats.at(15L).hunger, 0.0001f);
     }
 
     @Test
@@ -96,7 +97,7 @@ class RespawnRulesTest {
     @Test
     void hoverIsTheSentenceAndTheLiveLine() throws Exception {
         String lang = Files.readString(Path.of("src/main/resources/assets/councilcraft/lang/en_us.json"));
-        assertTrue(lang.contains("Grows up after 6 hours of active play."));
+        assertTrue(lang.contains("Grows up after 2 hours of active play."));
         assertFalse(lang.contains("on or offline"));
         assertTrue(lang.contains("Now: %s%% size, %s%% speed, %s%% strength, %s%% HP"));
         assertFalse(lang.contains("effect.councilcraft.reborn.line2"));
@@ -148,7 +149,7 @@ class RespawnRulesTest {
     void displayedTimeHoldsUntilAWindowCounts() {
         long minutes = 0L;
         assertEquals(CouncilCraftRules.REBORN_ACTIVE_MINUTES, RebornProgress.remaining(minutes));
-        assertEquals(360L * 60L * 20L, RebornProgress.durationTicks(minutes));
+        assertEquals(120L * 60L * 20L, RebornProgress.durationTicks(minutes));
         minutes = RebornProgress.credit(minutes, false);
         assertEquals(CouncilCraftRules.REBORN_ACTIVE_MINUTES, RebornProgress.remaining(minutes));
         minutes = RebornProgress.credit(minutes, true);
@@ -156,8 +157,8 @@ class RespawnRulesTest {
             CouncilCraftRules.REBORN_ACTIVE_MINUTES - CouncilCraftRules.REBORN_WINDOW_MINUTES,
             RebornProgress.remaining(minutes)
         );
-        assertEquals(355L * 60L * 20L, RebornProgress.durationTicks(minutes));
-        assertEquals(360L * 60L * 20L, RebornProgress.displayTicks(0L));
+        assertEquals(115L * 60L * 20L, RebornProgress.durationTicks(minutes));
+        assertEquals(120L * 60L * 20L, RebornProgress.displayTicks(0L));
         long nearEnd = CouncilCraftRules.REBORN_ACTIVE_MINUTES - 1L;
         assertEquals(
             CouncilCraftRules.REBORN_WINDOW_TICKS + CouncilCraftRules.REBORN_DURATION_PAD_TICKS,

@@ -1,0 +1,13 @@
+# CC-82: Fast mode, entity lighting off (YOSBR default)
+mode = "fast"
+
+[light_sources]
+	entities = false
+	self = true
+	water_sensitive_check = true
+	creeper = "simple"
+	tnt = "off"
+	beam = true
+	guardian_laser = true
+	sonic_boom = true
+	glowing_effect = true

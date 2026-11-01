@@ -159,7 +159,7 @@ public final class CouncilCraftRules {
 
     /**
      * S80 / S84 / S169. Penalty after death, shown as the Reborn status effect.
-     * It lasts {@code REBORN_ACTIVE_MINUTES} of active play (six hours), not wall
+     * It lasts {@code REBORN_ACTIVE_MINUTES} of active play (two hours), not wall
      * time. Idle time and offline time add nothing. Size, speed, strength and
      * hunger ease in a straight line on that fraction. Max health is 12 points
      * plus one point per {@code REBORN_HEART_MINUTES}, capped at 20. Dying again
@@ -175,14 +175,14 @@ public final class CouncilCraftRules {
      * last {@code REBORN_SELF_MOVE_TICKS}. Chat, eating, drinking, a held button
      * and a steady macro do not count. A logout drops the unfinished window.
      */
-    public static final int REBORN_ACTIVE_MINUTES = 6 * 60;
+    public static final int REBORN_ACTIVE_MINUTES = 2 * 60;
     /** Five minutes. The activity check runs once per window, at the end. */
     public static final int REBORN_WINDOW_MINUTES = 5;
     /** Online ticks in one window. Not stored. Logout discards whatever is left. */
     public static final long REBORN_WINDOW_TICKS = REBORN_WINDOW_MINUTES * 60L * 20L;
     /**
      * Extra ticks past one window so the icon cannot hit zero before the next
-     * boundary rewrite, while credited minutes are still under six hours.
+     * boundary rewrite, while credited minutes are still under two hours.
      */
     public static final int REBORN_DURATION_PAD_TICKS = 20;
     public static final float REBORN_SCALE = 0.6f;
@@ -194,7 +194,7 @@ public final class CouncilCraftRules {
     public static final int VANILLA_HP = VANILLA_HEARTS * 2;
     /**
      * S258. Minutes per extra hit point. Eight steps from 12 to 20, so one point
-     * every 45 credited minutes: 12, 13, 14, … 20.
+     * every REBORN_HEART_MINUTES credited minutes: 12, 13, 14, … 20.
      */
     public static final int REBORN_HEART_MINUTES =
         REBORN_ACTIVE_MINUTES / (VANILLA_HP - REBORN_BASE_HP);
@@ -269,13 +269,13 @@ public final class CouncilCraftRules {
     public static final float ELEVATOR_SPEED_MULTIPLIER = 2.0f;
 
     /**
-     * PM35 / PM41 / PM45. Natural Mutant Monsters spawns as a share of hostile spawns, by straight-line
-     * distance from 0,0: none within 2,500 blocks, then +0.3% per full 250 blocks, capped at 7.5% (8,750 out).
+     * PM35 / PM41 / PM45 / CC-159. Natural Mutant Monsters spawns as a share of hostile spawns, by
+     * straight-line distance from 0,0: none within 2,500 blocks, then +0.0012 percentage points
+     * (0.000012 share) per block beyond that, continuous, with no cap (~3% at 5,000, 7.5% at 8,750).
      */
     public static final double MUTANT_FREE_RADIUS = 2500.0;
-    public static final double MUTANT_STEP_BLOCKS = 250.0;
-    public static final double MUTANT_STEP_SHARE = 0.003;
-    public static final double MUTANT_MAX_SHARE = 0.075;
+    /** Share added per block past {@link #MUTANT_FREE_RADIUS}. 0.0012% = 0.000012. */
+    public static final double MUTANT_PER_BLOCK_SHARE = 0.000012;
     public static final String MUTANT_NAMESPACE = "mutantmonsters";
 
     private CouncilCraftRules() {

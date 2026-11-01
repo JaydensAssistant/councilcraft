@@ -17,6 +17,7 @@ import net.minecraft.text.Text;
 public final class RebornText {
     public static final String LINE1 = "effect.councilcraft.reborn.line1";
     public static final String NOW = "effect.councilcraft.reborn.now";
+    public static final String TIME_LEFT = "effect.councilcraft.reborn.time_left";
     public static final String NAME = "effect.councilcraft.reborn";
     public static final String SPURT_NAME = "effect.councilcraft.growth_spurt";
     public static final String SPURT_DESC = "effect.councilcraft.growth_spurt.desc";
@@ -73,7 +74,15 @@ public final class RebornText {
     }
 
     public static List<Text> hover(RebornStats stats) {
-        return List.of(line1(), now(stats));
+        return List.of(line1(), now(stats), timeLeft(stats));
+    }
+
+    /** CC-128. Remaining active-play time for the Reborn tooltip. */
+    public static Text timeLeft(RebornStats stats) {
+        long remaining = RebornProgress.remaining(stats.activeMinutes);
+        long hours = remaining / 60L;
+        long minutes = remaining % 60L;
+        return Text.translatable(TIME_LEFT, hours, minutes);
     }
 
     /** True when this tooltip line is the Growth Spurt effect's own name. */

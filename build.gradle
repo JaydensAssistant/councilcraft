@@ -117,6 +117,13 @@ dependencies {
     // IP's MyRenderHelper and PortalRendering live in a nested jar, so they are stubs in src/stubs.
     modCompileOnly("maven.modrinth:carry-on:Mkla4B3q") { transitive = false }
 
+    // Forgotten Graves: CC-155/156 grave-rob mixin (soft-depend). Ledger = stubs.
+    // Ledger: stubs in src/stubs (jar is Java 21; Loom/JDK17 cannot compile against it)
+    modCompileOnly files(".gradle/compile-only/forgottengraves-3.2.26+1.20.1.jar")
+    // NiftyCarts 20.1.5: CC-142A no auto-unhitch / hold-back (soft-depend).
+    modCompileOnly files(".gradle/compile-only/niftycarts-20.1.5.jar")
+
+
     // 0.4.6 compat targets, compile only (not packed into our jar).
     // Iris 1.7.6+mc1.20.1 (YL57xq9U / s5eFLITc): PPM61 graphics presets write the shader choice through IrisConfig.
     // That jar was built with a newer Loom than ours, so Iris and IrisConfig are stubs in src/stubs (their methods

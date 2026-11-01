@@ -1,7 +1,13 @@
 {
   "ModSettings": {
     "sort_order": "ACCUMULATED_COUNT_DESCENDING",
-    "highlight_foused_items": false
+    "highlight_foused_items": false,
+    "ENABLE_AUTO_REFILL": {
+      "value": false,
+      "main": {
+        "keys": ""
+      }
+    }
   },
   "GuiSettings": {
     "show_sort_in_rows_button": false,
@@ -14,6 +20,25 @@
       }
     },
     "scroll_to_inventory": {
+      "main": {
+        "keys": ""
+      }
+    },
+    "SORT_INVENTORY": {
+      "main": {
+        "keys": ""
+      }
+    }
+  },
+  "AutoRefillSettings": {
+    "REFILL_ARMOR": {
+      "value": false,
+      "main": {
+        "keys": ""
+      }
+    },
+    "REFILL_BEFORE_TOOL_BREAK": {
+      "value": false,
       "main": {
         "keys": ""
       }

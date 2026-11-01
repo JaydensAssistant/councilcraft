@@ -83,7 +83,7 @@
 	#allow Potent Sulfur Blocks to generate Geysers
 	do_geysers_erupt = true
 	#allow Sulfur Cubes to spawn on Sulfur Caves
-	has_sulfur_cubes = true
+	has_sulfur_cubes = false
 	#allow Sulfur Cubes with exploding archetypes to explode
 	do_sulfur_cubes_explode = false
 	#allow Sulfur Cubes with damaging archetypes to deal damage

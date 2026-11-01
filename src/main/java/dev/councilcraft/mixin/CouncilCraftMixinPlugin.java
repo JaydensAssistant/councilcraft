@@ -87,6 +87,9 @@ public final class CouncilCraftMixinPlugin implements IMixinConfigPlugin {
         {"dev.councilcraft.mixin.client.IpnHonorHideMixin", "inventoryprofilesnext"},
         {"dev.councilcraft.mixin.client.IpnInventorioMovePlacementMixin", "inventoryprofilesnext", "inventorio"},
         {"dev.councilcraft.mixin.client.MouseTweaksDeepPocketsMixin", "mousetweaks", "inventorio"},
+                {"dev.councilcraft.mixin.ledger.RetrieveGraveMixin", "forgottengraves"},
+        {"dev.councilcraft.mixin.nifty.AbstractDrawnNoAutoUnhitchMixin", "niftycarts"},
+        {"dev.councilcraft.mixin.client.InventorioKnockoutOpenMixin", "inventorio", "hardcorerevival"},
         {"dev.councilcraft.mixin.client.DockyardScreenFlagMixin", "smallships"}
     };
 

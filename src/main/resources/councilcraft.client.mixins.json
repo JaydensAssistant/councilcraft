@@ -27,6 +27,7 @@
     "FeedUseActionMixin",
     "GeoNameplateMixin",
     "HandledScreenAccess",
+    "InventorioKnockoutOpenMixin",
     "IpDimensionChangeFadeMixin",
     "IpnDisabledBeltMixin",
     "IpnHonorHideMixin",

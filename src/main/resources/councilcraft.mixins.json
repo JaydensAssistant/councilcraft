@@ -79,7 +79,9 @@
     "UtilityBeltSwapMixin",
     "ZebraInventoryMixin",
     "ZebraParityMixin",
-    "ZebraScreenHandlerMixin"
+    "ZebraScreenHandlerMixin",
+    "ledger.RetrieveGraveMixin",
+    "nifty.AbstractDrawnNoAutoUnhitchMixin"
   ],
   "injectors": {
     "defaultRequire": 1

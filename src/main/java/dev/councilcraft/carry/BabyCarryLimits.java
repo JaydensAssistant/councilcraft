@@ -16,6 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import tschipp.carryon.common.carry.CarryOnData;
 import tschipp.carryon.common.carry.CarryOnDataManager;
+import tschipp.carryon.common.config.ListHandler;
 
 /**
  * PT71. What a Reborn baby can carry scales with growth. Runs in the same early phase as
@@ -43,6 +44,10 @@ public final class BabyCarryLimits {
             if (allowed(fraction, level, false)) {
                 return ActionResult.PASS;
             }
+            // CC-103: Carry On would refuse this block anyway — pass silently so interact opens.
+            if (!ListHandler.isPermitted(world.getBlockState(hit.getBlockPos()).getBlock())) {
+                return ActionResult.PASS;
+            }
             carrier.sendMessage(Text.translatable(TOO_SMALL), true);
             return ActionResult.FAIL;
         });
@@ -60,6 +65,10 @@ public final class BabyCarryLimits {
             float fraction = RebornProgress.fraction(Reborn.minutes(carrier));
             int level = entityLevel(entity);
             if (allowed(fraction, level, true)) {
+                return ActionResult.PASS;
+            }
+            // CC-103: Carry On would refuse this entity (e.g. niftycarts:*) — pass silently.
+            if (!ListHandler.isPermitted(entity)) {
                 return ActionResult.PASS;
             }
             carrier.sendMessage(Text.translatable(TOO_SMALL), true);

@@ -8,6 +8,7 @@ import dev.councilcraft.world.DifficultyLock;
 import dev.councilcraft.world.VillagerRemoval;
 import dev.councilcraft.compat.CarryOnWeight;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -119,6 +120,14 @@ public final class CouncilCraft implements ModInitializer {
             dev.councilcraft.compat.SurveyorPortalExploration.register();
         }
         // PT42. councilcraft:milestone criterion and its once-a-second poll (Here Be Mutants, Double Saddle).
+        
+        if (FabricLoader.getInstance().isModLoaded("ledger")) {
+            requireClass(
+                "com.github.quiltservertools.ledger.registry.ActionRegistry",
+                "Ledger grave-rob action (CC-155)"
+            );
+        }
+
         dev.councilcraft.advancement.Milestones.register();
         if (FabricLoader.getInstance().isModLoaded("surveyor")) {
             requireClass("folk.sisby.surveyor.ServerSummary", "Shared Horizons advancement (PT42)");
@@ -135,6 +144,8 @@ public final class CouncilCraft implements ModInitializer {
         dev.councilcraft.print.CouncilCraftPrinting.register();
         // PPM102. Donor badges and government roles (server side; the client needs nothing).
         dev.councilcraft.supporter.Supporters.register();
+        // CC-155: register after Ledger's server field is set (avoids UninitializedPropertyAccessException).
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> dev.councilcraft.ledger.GraveRobLedger.register());
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 

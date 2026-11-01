@@ -44,8 +44,14 @@ public final class BabyCarry {
     public static void register() {
         UseEntityCallback.EVENT.addPhaseOrdering(BEFORE_CARRY_ON, Event.DEFAULT_PHASE);
         UseEntityCallback.EVENT.register(BEFORE_CARRY_ON, (player, world, hand, entity, hit) -> {
-            if (world.isClient || !(player instanceof ServerPlayerEntity carrier)
-                || !(entity instanceof ServerPlayerEntity baby)) {
+            if (world.isClient || !(player instanceof ServerPlayerEntity carrier)) {
+                return ActionResult.PASS;
+            }
+            // CC-123: ridden mounts (or any entity with passengers) cannot be picked up.
+            if (entity.hasPassengers() && wouldCarryOnPickup(carrier)) {
+                return ActionResult.FAIL;
+            }
+            if (!(entity instanceof ServerPlayerEntity baby)) {
                 return ActionResult.PASS;
             }
             return pickup(carrier, baby);
@@ -62,12 +68,17 @@ public final class BabyCarry {
         ServerTickEvents.END_SERVER_TICK.register(BabyCarry::tick);
     }
 
-    private static ActionResult pickup(ServerPlayerEntity carrier, ServerPlayerEntity baby) {
+    /** True when Carry On would attempt a pickup (empty hands, key held, not already carrying). */
+    static boolean wouldCarryOnPickup(ServerPlayerEntity carrier) {
         if (!carrier.getMainHandStack().isEmpty() || !carrier.getOffHandStack().isEmpty()) {
-            return ActionResult.PASS;
+            return false;
         }
         CarryOnData carry = CarryOnDataManager.getCarryData(carrier);
-        if (carry.isCarrying() || !carry.isKeyPressed()) {
+        return !carry.isCarrying() && carry.isKeyPressed();
+    }
+
+    private static ActionResult pickup(ServerPlayerEntity carrier, ServerPlayerEntity baby) {
+        if (!wouldCarryOnPickup(carrier)) {
             return ActionResult.PASS;
         }
         // Kids can't carry kids; adults can carry Reborn players only.
