@@ -58,14 +58,18 @@ public class Release0427RulesTest {
     }
 
     @Test
-    void cartNeverAutoUnhitchesAndHoldsPuller() {
+    void cartNeverAutoUnhitchesAndUsesHitchRope() {
         assertFalse(CartDetachRules.allowCollisionDetach());
         assertFalse(CartDetachRules.allowDistanceDetach(10.0, 2.0));
-        assertFalse(CartDetachRules.shouldHoldPullerBack(2.0, 2.0));
-        assertTrue(CartDetachRules.shouldHoldPullerBack(3.0, 2.0));
-        assertEquals(1f, CartDetachRules.pullerSlowFactor(2.0, 2.0), 1e-6f);
-        assertTrue(CartDetachRules.pullerSlowFactor(5.0, 2.0) < 1f);
-        assertTrue(CartDetachRules.pullerSlowFactor(100.0, 2.0) >= 0.2f);
+        assertFalse(CartDetachRules.isRopeTaut(2.0, 2.0));
+        assertTrue(CartDetachRules.isRopeTaut(3.0, 2.0));
+        assertEquals(2.5, CartDetachRules.hitchMaxDistance(2.0), EPS);
+        assertEquals(1.0, CartDetachRules.clampHorizontalScale(2.0, 2.0), EPS);
+        assertEquals(2.5 / 5.0, CartDetachRules.clampHorizontalScale(5.0, 2.0), EPS);
+        // Outward cancel at/past hitch; inward free.
+        assertEquals(0.0, CartDetachRules.outwardSpeedToCancel(2.0, 2.0, 1, 0, 1, 0), EPS);
+        assertEquals(1.0, CartDetachRules.outwardSpeedToCancel(2.5, 2.0, 1, 0, 1, 0), EPS);
+        assertEquals(0.0, CartDetachRules.outwardSpeedToCancel(2.5, 2.0, 1, 0, -1, 0), EPS);
     }
 
     @Test
