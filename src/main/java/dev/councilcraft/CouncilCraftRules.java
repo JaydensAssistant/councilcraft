@@ -278,6 +278,14 @@ public final class CouncilCraftRules {
     public static final double MUTANT_PER_BLOCK_SHARE = 0.000012;
     public static final String MUTANT_NAMESPACE = "mutantmonsters";
 
+    /**
+     * CC-173A. Improved Mobs phantom/guardian rider chance: floor(dist/250) * (0.075/28)
+     * from 0,0, no cap. 0 within 249 blocks; 7.5% at 7,000; ~13.1% at 12,374.
+     */
+    public static final double RIDER_STEP_BLOCKS = 250.0;
+    /** Chance added per full 250-block step from spawn. 0.075/28 ≈ 0.00267857. */
+    public static final double RIDER_PER_STEP = 0.075 / 28.0;
+
     private CouncilCraftRules() {
     }
 }

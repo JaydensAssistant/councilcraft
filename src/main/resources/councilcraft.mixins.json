@@ -67,6 +67,7 @@
     "RebornPushMixin",
     "RebornTradeMixin",
     "RespawnLockdownMixin",
+    "RiderChanceMixin",
     "SackEncumbranceMixin",
     "SackNestingMixin",
     "ShipDetachFlagMixin",

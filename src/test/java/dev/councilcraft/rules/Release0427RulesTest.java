@@ -11,7 +11,7 @@ import dev.councilcraft.respawn.RebornStatusEffect;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-/** CC-125 / CC-139 / CC-142A / CC-155 / CC-159 unit coverage for 0.4.27. */
+/** CC-125 / CC-139 / CC-142A / CC-155 / CC-159 / CC-173A unit coverage for 0.4.27. */
 public class Release0427RulesTest {
     private static final double EPS = 1e-9;
 
@@ -72,4 +72,27 @@ public class Release0427RulesTest {
     void rebornActiveIsTwoHours() {
         assertEquals(2 * 60, CouncilCraftRules.REBORN_ACTIVE_MINUTES);
     }
+
+    @Test
+    void riderChanceStepsFromSpawn() {
+        // CC-173A: floor(dist/250)*(0.075/28); 0 within 249; 7.5% at 7,000; ~13.1% at 12,374; no cap.
+        assertEquals(0.0, RiderChance.chance(249, 0), EPS);
+        assertEquals(0.0, RiderChance.chance(0, 0), EPS);
+        assertEquals(CouncilCraftRules.RIDER_PER_STEP, RiderChance.chance(250, 0), EPS);
+        assertEquals(0.075, RiderChance.chance(7000, 0), EPS);
+        assertEquals(Math.floor(12374 / 250.0) * CouncilCraftRules.RIDER_PER_STEP, RiderChance.chance(12374, 0), EPS);
+        assertTrue(RiderChance.chance(12374, 0) > 0.13);
+        assertTrue(RiderChance.chance(20000, 0) > RiderChance.chance(12374, 0));
+        assertEquals(
+            Math.floor(2500 / 250.0) * CouncilCraftRules.RIDER_PER_STEP,
+            RiderChance.chance(2500, 0),
+            EPS
+        );
+        assertEquals(
+            Math.floor(5000 / 250.0) * CouncilCraftRules.RIDER_PER_STEP,
+            RiderChance.chance(5000, 0),
+            EPS
+        );
+    }
+
 }
