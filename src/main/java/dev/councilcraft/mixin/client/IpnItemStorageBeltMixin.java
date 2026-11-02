@@ -3,6 +3,7 @@ package dev.councilcraft.mixin.client;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.councilcraft.compat.InventorioBeltSlots;
+import dev.councilcraft.compat.client.IpnInventorioSortMerge;
 import java.util.List;
 import java.util.Set;
 import net.minecraft.screen.slot.Slot;
@@ -21,6 +22,9 @@ import org.spongepowered.asm.mixin.Pseudo;
  * filters {@code out}. Targets fillSlots (not the itemStorage nested class loaded during AreaTypes
  * clinit), because a mid-clinit mixin on that nested class caused NoClassDefFoundError on every IPN
  * button under IPN 1.10.20.
+ *
+ * <p>CC-B23: while an Inventorio Sort is running, also append player main-storage indices so unlocked
+ * Deep Pockets do not starve the survival inventory (IPN picks only sortableItemStorage when non-empty).
  */
 @Pseudo
 @Mixin(targets = "org.anti_ad.mc.ipnext.inventory.AreaTypes", remap = false)
@@ -28,23 +32,26 @@ public class IpnItemStorageBeltMixin {
     @WrapMethod(method = "fillSlots", remap = false, require = 0)
     private void councilcraft$filterBelts(Set<?> types, List<?> slots, List<?> out, Operation<Void> original) {
         original.call(types, slots, out);
-        if (slots == null || out == null || out.isEmpty()) {
+        if (slots == null || out == null) {
             return;
         }
-        int size = slots.size();
-        for (int i = out.size() - 1; i >= 0; i--) {
-            Object raw = out.get(i);
-            if (!(raw instanceof Number)) {
-                continue;
-            }
-            int idx = ((Number) raw).intValue();
-            if (idx < 0 || idx >= size) {
-                continue;
-            }
-            Object slot = slots.get(idx);
-            if (slot instanceof Slot && InventorioBeltSlots.isExcludedFromContainerSort((Slot) slot)) {
-                out.remove(i);
+        if (!out.isEmpty()) {
+            int size = slots.size();
+            for (int i = out.size() - 1; i >= 0; i--) {
+                Object raw = out.get(i);
+                if (!(raw instanceof Number)) {
+                    continue;
+                }
+                int idx = ((Number) raw).intValue();
+                if (idx < 0 || idx >= size) {
+                    continue;
+                }
+                Object slot = slots.get(idx);
+                if (slot instanceof Slot && InventorioBeltSlots.isExcludedFromContainerSort((Slot) slot)) {
+                    out.remove(i);
+                }
             }
         }
+        IpnInventorioSortMerge.appendPlayerStorageIfMerging(slots, out);
     }
 }
