@@ -230,7 +230,7 @@ hash = "9c9423fde3a41183675a737fa0116907dd0f53ce152247fad1aad04ab69ec041"
 
 [[files]]
 file = "config/yosbr/config/inventoryprofilesnext/inventoryprofiles.json"
-hash = "ca13b5fe301026cdddc3ac1ca76bceec9c99f4d4690bc07acc5ec3aec4c01664"
+hash = "565c39abef5d788d3aca46919380a7d365003fb0bc5e3e000eb90801b305f9d4"
 
 [[files]]
 file = "config/yosbr/config/invmove/unrecognized.json"
