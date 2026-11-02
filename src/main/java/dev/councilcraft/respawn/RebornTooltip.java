@@ -16,12 +16,14 @@ import net.minecraft.text.Text;
 /**
  * Client only. Jayden: this is one of the client tooltip files.
  *
- * <p>The hover is two lines: the sentence and the live "Now" line (PPM97 dropped the hunger line).
- * A Growth Spurt tooltip keeps its lines and gets a description line (PPM67).
- * An existing effect tooltip whose first line is the Reborn name is replaced
- * with those two lines, so a second tooltip is not drawn on top.
- * EMI's single-effect bar draws the name and the time in the bar and opens
- * no tooltip, so that one case draws the two lines itself.
+ * <p>CC-128AA. Shared ours lines are the sentence and the live Now line.
+ * When the effect card or EMI's single-effect bar already shows the timer,
+ * {@link RebornText#hover} is just those two lines. Icon-only lists (vanilla
+ * narrow drawTooltip / EMI multi-effect row) keep vanilla's name + duration
+ * via {@link RebornText#hoverKeepingVanillaTimer}, then ours. Deduping there
+ * stops the two hooks from doubling lines. Growth Spurt still keeps its lines
+ * and gains a description (PPM67). EMI's single-effect bar has no tooltip, so
+ * {@link #hoverSingle} draws the two ours lines itself.
  */
 @Environment(EnvType.CLIENT)
 public final class RebornTooltip {
@@ -33,7 +35,8 @@ public final class RebornTooltip {
             return existing;
         }
         if (RebornText.isRebornName(existing.get(0))) {
-            return RebornText.hover(RebornClient.current());
+            // Icon-only path: keep vanilla name + h:mm:ss, then sentence + Now.
+            return RebornText.hoverKeepingVanillaTimer(existing, RebornClient.current());
         }
         if (RebornText.isGrowthSpurtName(existing.get(0))) {
             // PPM67. Growth Spurt keeps its name and time and gains one description line.

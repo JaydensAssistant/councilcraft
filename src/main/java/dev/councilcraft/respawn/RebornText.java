@@ -5,14 +5,17 @@ import java.util.List;
 import net.minecraft.text.Text;
 
 /**
- * The Reborn hover is two lines. The first is a fixed sentence. The second is
- * the live size, speed, strength, HP and hunger (PPM67 added hunger there). PPM97
- * removed PPM67's separate explanatory hunger line; the short "150% hunger" in the
- * Now line is the only hunger text, like the other stats.
+ * Reborn hover text (CC-128 / CC-128AA). The shared "ours" lines are the fixed
+ * sentence and the live Now line (size, speed, strength, HP, hunger). CC-128AA
+ * drops our separate "Time left: X h Y m" line: when the effect card or EMI's
+ * single-effect bar already shows the timer, {@link #hover} is just those two
+ * lines; when effects are icon-only, {@link #hoverKeepingVanillaTimer} keeps
+ * vanilla's name + duration on top, then ours.
  *
- * <p>Order is size, speed, strength, HP, hunger. Strength is the melee multiplier.
- * HP is the stepped hit points over a vanilla 20, so 12 points is 60% HP. Hunger is
- * the exhaustion multiplier, so 150% means food drains half again as fast.
+ * <p>Order in the Now line is size, speed, strength, HP, hunger. Strength is the
+ * melee multiplier. HP is the stepped hit points over a vanilla 20, so 12 points
+ * is 60% HP. Hunger is the exhaustion multiplier, so 150% means food drains half
+ * again as fast.
  */
 public final class RebornText {
     public static final String LINE1 = "effect.councilcraft.reborn.line1";
@@ -73,11 +76,36 @@ public final class RebornText {
         return Text.translatable(NOW, percents[0], percents[1], percents[2], percents[3], hungerPercent(stats));
     }
 
+    /**
+     * CC-128AA. Sentence + Now only. Used when the UI already shows remaining
+     * time (effect card body or EMI single-effect bar).
+     */
     public static List<Text> hover(RebornStats stats) {
-        return List.of(line1(), now(stats), timeLeft(stats));
+        return List.of(line1(), now(stats));
     }
 
-    /** CC-128. Remaining active-play time for the Reborn tooltip. */
+    /**
+     * CC-128AA. Icon-only effects: keep vanilla's name + duration lines, then
+     * append sentence + Now. Dedupes if our sentence is already present so the
+     * two tooltip hooks never double the lines.
+     */
+    public static List<Text> hoverKeepingVanillaTimer(List<Text> existing, RebornStats stats) {
+        String sentence = line1().getString();
+        for (Text line : existing) {
+            if (line.getString().equals(sentence)) {
+                return existing;
+            }
+        }
+        java.util.ArrayList<Text> lines = new java.util.ArrayList<>(existing);
+        lines.add(line1());
+        lines.add(now(stats));
+        return lines;
+    }
+
+    /**
+     * CC-128 legacy helper for the old "Time left: X h Y m" line. Kept for lang
+     * key stability; hover no longer appends it (CC-128AA).
+     */
     public static Text timeLeft(RebornStats stats) {
         long remaining = RebornProgress.remaining(stats.activeMinutes);
         long hours = remaining / 60L;
