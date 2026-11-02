@@ -2,7 +2,7 @@
   "ModSettings": {
     "sort_order": "ACCUMULATED_COUNT_DESCENDING",
     "highlight_foused_items": false,
-    "ENABLE_AUTO_REFILL": {
+    "enable_auto_refill": {
       "value": false,
       "main": {
         "keys": ""
@@ -24,20 +24,20 @@
         "keys": ""
       }
     },
-    "SORT_INVENTORY": {
+    "sort_inventory": {
       "main": {
         "keys": ""
       }
     }
   },
   "AutoRefillSettings": {
-    "REFILL_ARMOR": {
+    "refill_armor": {
       "value": false,
       "main": {
         "keys": ""
       }
     },
-    "REFILL_BEFORE_TOOL_BREAK": {
+    "refill_before_tool_break": {
       "value": false,
       "main": {
         "keys": ""
