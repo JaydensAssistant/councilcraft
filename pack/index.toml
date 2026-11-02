@@ -78,7 +78,7 @@ hash = "0e1770112c2ccf1335ce2c99464204f293add9c2a45263cc6988466861233887"
 
 [[files]]
 file = "config/horseman-common.toml"
-hash = "8cdc28ca2c23de4d884170b61e4802a2ea7f865d8611ab82e3bd62b492c636e6"
+hash = "0f6c12d4cd00e2a0a3d3ba81f578ffed8ca799dc6cf4e4bb3e8e8dfa234726b8"
 
 [[files]]
 file = "config/illagerinvasion-server.toml"
