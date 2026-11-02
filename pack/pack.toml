@@ -1,12 +1,12 @@
 name = "CouncilCraft"
 author = "Jayden Prue"
-version = "0.4.27"
+version = "0.4.28"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "27c3f317b128b89f894c06b675961c3feb6cbee88b7347c7d55a00a65fe27e3f"
+hash = "5c7c820cf9e11d3995ec67801dc6063f09af94d0fedab4ab64ebb71c3efd4a0a"
 
 [versions]
 fabric = "0.19.5"

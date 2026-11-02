@@ -15,7 +15,7 @@ public final class HandshakeRule {
      * Client versions that may join this server jar. Includes the prior release so players are
      * not forced to update the client when only the server jar moves (CC-125).
      */
-    public static final List<String> COMPATIBLE_CLIENT_VERSIONS = List.of("0.4.26", "0.4.27");
+    public static final List<String> COMPATIBLE_CLIENT_VERSIONS = List.of("0.4.26", "0.4.27", "0.4.28");
 
     private HandshakeRule() {
     }

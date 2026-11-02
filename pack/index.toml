@@ -245,6 +245,10 @@ file = "config/yosbr/config/lambdynlights.toml"
 hash = "4564b8ab1f324fec38d3f640f8fe1e90b0194d07e5bf546e6e3f6559ca02f32c"
 
 [[files]]
+file = "config/yosbr/config/punchy/punchy_config.json"
+hash = "630b9ba02199dcf9f557ea7d2dd31b9bd024f67a3e9fd26d044fe0eb29224403"
+
+[[files]]
 file = "config/yosbr/config/punchy/triggerable-keybindings.json"
 hash = "d15a5e97d4ca3a189c6eb67f77a3d449d8ea6621930f3b4337d80213d0abd961"
 

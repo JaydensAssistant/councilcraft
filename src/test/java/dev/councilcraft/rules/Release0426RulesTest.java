@@ -26,8 +26,8 @@ class Release0426RulesTest {
         // Was 0.4.26 at cut; 0.4.27+ keeps the PT91 assertions below.
         String props = read("gradle.properties");
         String pack = read("pack/pack.toml");
-        assertTrue(props.contains("mod_version=0.4.27") || props.contains("mod_version=0.4.26"));
-        assertTrue(pack.contains("version = \"0.4.27\"") || pack.contains("version = \"0.4.26\""));
+        assertTrue(props.contains("mod_version=0.4.28") || props.contains("mod_version=0.4.27") || props.contains("mod_version=0.4.26"));
+        assertTrue(pack.contains("version = \"0.4.28\"") || pack.contains("version = \"0.4.27\"") || pack.contains("version = \"0.4.26\""));
     }
 
     // PT91 -------------------------------------------------------------------------------------------------------

@@ -78,6 +78,8 @@ class HookRulesTest {
         assertTrue(HandshakeRule.versionsMatch("0.4.27", "0.4.27"));
         assertFalse(HandshakeRule.versionsMatch("0.4.27", "0.4.25"));
         assertFalse(HandshakeRule.versionsMatch("0.4.27", null));
+        assertTrue(HandshakeRule.versionsMatch("0.4.28", "0.4.28"));
+        assertTrue(HandshakeRule.COMPATIBLE_CLIENT_VERSIONS.contains("0.4.28"));
         assertFalse(HandshakeRule.versionsMatch(null, "0.1.0"));
         assertEquals(
             "This server requires the CouncilCraft mod. Install the CouncilCraft modpack.",
