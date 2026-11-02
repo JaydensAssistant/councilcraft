@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.Pseudo;
  * clinit), because a mid-clinit mixin on that nested class caused NoClassDefFoundError on every IPN
  * button under IPN 1.10.20.
  *
- * <p>CC-B23: while an Inventorio Sort is running, also append player main-storage indices so unlocked
- * Deep Pockets do not starve the survival inventory (IPN picks only sortableItemStorage when non-empty).
+ * <p>CC-B23A / CC-B23AA: while an Inventorio Sort pass is running, adjust the index list so Deep
+ * Pockets and main inventory (9–35) are sorted in separate passes (no cross-moving).
  */
 @Pseudo
 @Mixin(targets = "org.anti_ad.mc.ipnext.inventory.AreaTypes", remap = false)
@@ -52,6 +52,6 @@ public class IpnItemStorageBeltMixin {
                 }
             }
         }
-        IpnInventorioSortMerge.appendPlayerStorageIfMerging(slots, out);
+        IpnInventorioSortMerge.applySortPassSlotFilter(slots, out);
     }
 }

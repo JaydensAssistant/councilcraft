@@ -329,6 +329,11 @@ _version = 5
 
 [client]
 	#
+	# CC-10A: CPU Load Aggressive is injected client-only as
+	# client-overrides/config/DistantHorizons.toml (tools/cc10a_dh_client_preset.py)
+	# so this shared overrides/ file keeps numberOfThreads=4 for the dedicated server.
+	# Do not set threadPresetSetting=AGGRESSIVE here — DH 3.3.3 would rewrite server threads.
+	#
 	# Should Distant Horizon's config button appear in Minecraft's options screen next to the fov slider?
 	showDhOptionsButtonInMinecraftUi = true
 

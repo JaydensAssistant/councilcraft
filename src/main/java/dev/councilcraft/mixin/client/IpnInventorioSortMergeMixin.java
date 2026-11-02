@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 
 /**
- * CC-B23. Wrap IPN sort entry points so Inventorio screens merge player main storage into the
- * container sort area (see {@link IpnInventorioSortMerge} + {@code IpnItemStorageBeltMixin}).
+ * CC-B23A / CC-B23AA. Wrap IPN sort entry points so Inventorio screens run Deep Pockets then main
+ * inventory sorts separately (see {@link IpnInventorioSortMerge} + {@code IpnItemStorageBeltMixin}).
  *
  * <p>Targets GeneralInventoryActions (not AreaTypes nested AreaType classes) to avoid the
  * clinit/NoClassDefFound failure documented for PT88.
@@ -18,17 +18,17 @@ import org.spongepowered.asm.mixin.Pseudo;
 @Mixin(targets = "org.anti_ad.mc.ipnext.inventory.GeneralInventoryActions", remap = false)
 public class IpnInventorioSortMergeMixin {
     @WrapMethod(method = "doSort", remap = false, require = 0)
-    private void councilcraft$mergeSort(ScreenHandler handler, boolean chat, Operation<Void> original) {
-        IpnInventorioSortMerge.runMergingPlayerStorage(handler, () -> original.call(handler, chat));
+    private void councilcraft$separateSort(ScreenHandler handler, boolean chat, Operation<Void> original) {
+        IpnInventorioSortMerge.runSeparatePlayerSorts(handler, () -> original.call(handler, chat));
     }
 
     @WrapMethod(method = "doSortInColumns", remap = false, require = 0)
-    private void councilcraft$mergeSortColumns(ScreenHandler handler, boolean chat, Operation<Void> original) {
-        IpnInventorioSortMerge.runMergingPlayerStorage(handler, () -> original.call(handler, chat));
+    private void councilcraft$separateSortColumns(ScreenHandler handler, boolean chat, Operation<Void> original) {
+        IpnInventorioSortMerge.runSeparatePlayerSorts(handler, () -> original.call(handler, chat));
     }
 
     @WrapMethod(method = "doSortInRows", remap = false, require = 0)
-    private void councilcraft$mergeSortRows(ScreenHandler handler, boolean chat, Operation<Void> original) {
-        IpnInventorioSortMerge.runMergingPlayerStorage(handler, () -> original.call(handler, chat));
+    private void councilcraft$separateSortRows(ScreenHandler handler, boolean chat, Operation<Void> original) {
+        IpnInventorioSortMerge.runSeparatePlayerSorts(handler, () -> original.call(handler, chat));
     }
 }

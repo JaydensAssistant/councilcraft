@@ -93,5 +93,9 @@ python3 "$ROOT/tools/servers_dat.py" "$NOCC" "$FULL"
 echo "==> verify PT20 servers.dat"
 python3 "$ROOT/tools/servers_dat.py" --verify "$NOCC" "$FULL"
 
+echo "==> CC-10A DH client CPU Load Aggressive (client-overrides only)"
+python3 "$ROOT/tools/cc10a_dh_client_preset.py" "$NOCC" "$FULL"
+python3 "$ROOT/tools/cc10a_dh_client_preset.py" --verify "$NOCC" "$FULL"
+
 echo "OK: $OUT"
 ls -la "$NOCC" "$FULL" "$OUT/$JAR_NAME"

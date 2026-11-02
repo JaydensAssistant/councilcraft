@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-/** CC-B23: player main-storage index helpers used when merging Inventorio Sort areas. */
+/** CC-B23A/AA: player main-storage index helpers used for the Inventorio MAIN sort pass. */
 class InventorioBeltSlotsMergeTest {
     @Test
     void playerMainStorageIsNineThroughThirtyFive() {

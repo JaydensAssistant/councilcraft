@@ -73,7 +73,7 @@ public final class InventorioBeltSlots {
 
     /**
      * Append handler indices whose slot is vanilla main inventory (PlayerInventory 9–35).
-     * Used by CC-B23 so Inventorio Sort covers main + unlocked Deep Pockets together.
+     * Used by CC-B23A/AA MAIN sort pass so Inventorio Sort covers PlayerInventory 9–35 only.
      */
     public static void appendPlayerMainStorageIndices(List<?> slots, List<?> out) {
         if (slots == null || out == null) {

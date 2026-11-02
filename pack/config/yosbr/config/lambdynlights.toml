@@ -1,5 +1,5 @@
-# CC-82: Fast mode, entity lighting off (YOSBR default)
-mode = "fast"
+# CC-82A: Fastest mode, entity lighting off (YOSBR default; existing profiles keep their own file)
+mode = "fastest"
 
 [light_sources]
 	entities = false
