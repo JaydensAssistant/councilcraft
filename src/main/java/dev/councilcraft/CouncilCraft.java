@@ -144,8 +144,12 @@ public final class CouncilCraft implements ModInitializer {
         dev.councilcraft.print.CouncilCraftPrinting.register();
         // PPM102. Donor badges and government roles (server side; the client needs nothing).
         dev.councilcraft.supporter.Supporters.register();
-        // CC-155: register after Ledger's server field is set (avoids UninitializedPropertyAccessException).
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> dev.councilcraft.ledger.GraveRobLedger.register());
+        // CC-155 / CC-B22: register after Ledger's server field is set. Ledger is server-only;
+        // only create the lambda (which refs GraveRobLedger) when Ledger is present so singleplayer
+        // never class-loads ActionType / NoClassDefFoundError.
+        if (FabricLoader.getInstance().isModLoaded("ledger")) {
+            ServerLifecycleEvents.SERVER_STARTED.register(server -> dev.councilcraft.ledger.GraveRobLedger.register());
+        }
         LOGGER.info("CouncilCraft {} loaded (client and server).", version());
     }
 
