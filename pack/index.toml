@@ -2,7 +2,7 @@ hash-format = "sha256"
 
 [[files]]
 file = "config/DistantHorizons.toml"
-hash = "91c72caa846611a6f4eed035786dc376f76e2741a5e3266a1d29f655e3ffa39c"
+hash = "34334e91e40582f626f9181aaf69a8862db1cb713019a68b173dfa206288b887"
 
 [[files]]
 file = "config/amendments-common.json"
@@ -242,7 +242,7 @@ hash = "173e8a65bfadf40a2e4ad414f9f4a0c3d1000dbe43f8f7255ecdcb7fb50df2b5"
 
 [[files]]
 file = "config/yosbr/config/lambdynlights.toml"
-hash = "a85c448fcb887bd3ca8d5defb0879d3c874919b9ab4669e677b58558c894484f"
+hash = "4564b8ab1f324fec38d3f640f8fe1e90b0194d07e5bf546e6e3f6559ca02f32c"
 
 [[files]]
 file = "config/yosbr/config/punchy/triggerable-keybindings.json"
