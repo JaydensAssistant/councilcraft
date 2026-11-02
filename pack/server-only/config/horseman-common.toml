@@ -11,7 +11,7 @@
 	#Makes fast step down work better for steep staircases, but may introduce some unwanted behavior elsewhere. Default: false
 	horse_fast_step_down_two_blocks = false
 	#Make horse airborne speed faster. Improves jumping distance (horizontal) and speed walking off heights. Default: true
-	increase_horse_airborne_speed = true
+	increase_horse_airborne_speed = false
 	#Controls how much 'increase_horse_airborne_speed' increases over vanilla.
 	#0 - vanilla speed
 	#1 - full speed (same as running on the ground)
@@ -35,7 +35,7 @@
 	requires_lead = true
 	#Slot for a lead will be added to horse inventory menu. Default: true
 	#If disabled, Lead should be added by Sneak+Right-Clicking a Horse with an item. Default: true
-	lead_slot = true
+	lead_slot = false
 [free_camera]
 	#While horse is stationary - allow moving camera freely, without rotating the horse. Default: true
 	enabled = true
